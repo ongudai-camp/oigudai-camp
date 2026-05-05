@@ -8,7 +8,7 @@ import { ru } from "date-fns/locale";
 export default async function AdminBookingsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string }>;
+  searchParams: { status?: string; page?: string };
 }) {
   const session = await auth();
 
@@ -16,139 +16,170 @@ export default async function AdminBookingsPage({
     redirect("/dashboard");
   }
 
-  const statusFilter = (await searchParams).status;
+  const status = searchParams.status || "all";
+  const page = parseInt(searchParams.page || "1");
+  const limit = 10;
+  const skip = (page - 1) * limit;
 
-  const bookings = await prisma.booking.findMany({
-    where: statusFilter ? { status: statusFilter } : {},
-    orderBy: { createdAt: "desc" },
-    include: { post: true, user: true, room: true },
-  });
+  const where: any = {};
+  if (status !== "all") {
+    where.status = status;
+  }
+
+  const [bookings, total] = await Promise.all([
+    prisma.booking.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      include: {
+        post: true,
+        user: true,
+        room: true,
+      },
+      skip,
+      take: limit,
+    }),
+    prisma.booking.count({ where }),
+  ]);
+
+  const totalPages = Math.ceil(total / limit);
+
+  const getStatusBadge = (status: string) => {
+    const styles: any = {
+      confirmed: "bg-green-100 text-green-800",
+      pending: "bg-yellow-100 text-yellow-800",
+      cancelled: "bg-red-100 text-red-800",
+      completed: "bg-blue-100 text-blue-800",
+    };
+    return (
+      <span className={`px-3 py-1 text-xs rounded-full ${styles[status] || "bg-gray-100 text-gray-800"}`}>
+        {status}
+      </span>
+    );
+  };
+
+  const getPaymentBadge = (status: string) => {
+    const styles: any = {
+      paid: "bg-green-100 text-green-800",
+      unpaid: "bg-red-100 text-red-800",
+      refunded: "bg-gray-100 text-gray-800",
+    };
+    return (
+      <span className={`px-3 py-1 text-xs rounded-full ${styles[status] || "bg-gray-100 text-gray-800"}`}>
+        {status}
+      </span>
+    );
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row gap-8">
-          <aside className="md:w-64 bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold mb-6">Админ панель</h2>
-            <nav className="space-y-2">
-              <Link href="/admin" className="block px-4 py-2 rounded hover:bg-gray-50">
-                Дашборд
-              </Link>
-              <Link href="/admin/hotels" className="block px-4 py-2 rounded hover:bg-gray-50">
-                Отели
-              </Link>
-              <Link href="/admin/bookings" className="block px-4 py-2 rounded bg-blue-50 text-blue-600">
-                Бронирования
-              </Link>
-              <Link href="/admin/users" className="block px-4 py-2 rounded hover:bg-gray-50">
-                Пользователи
-              </Link>
-              <Link href="/admin/packages" className="block px-4 py-2 rounded hover:bg-gray-50">
-                Пакеты
-              </Link>
-            </nav>
-          </aside>
+    <div>
+      <h1 className="text-2xl font-bold mb-6">Управление бронированиями</h1>
 
-          <main className="flex-1">
-            <h1 className="text-2xl font-bold mb-6">Управление бронированиями</h1>
-
-            {/* Status Filter */}
-            <div className="bg-white rounded-lg shadow p-4 mb-6">
-              <div className="flex gap-2">
-                <Link
-                  href="/admin/bookings"
-                  className={`px-4 py-2 rounded ${!statusFilter ? "bg-blue-600 text-white" : "bg-gray-100"}`}
-                >
-                  Все
-                </Link>
-                <Link
-                  href="/admin/bookings?status=pending"
-                  className={`px-4 py-2 rounded ${statusFilter === "pending" ? "bg-yellow-500 text-white" : "bg-gray-100"}`}
-                >
-                  Ожидающие
-                </Link>
-                <Link
-                  href="/admin/bookings?status=confirmed"
-                  className={`px-4 py-2 rounded ${statusFilter === "confirmed" ? "bg-green-500 text-white" : "bg-gray-100"}`}
-                >
-                  Подтвержденные
-                </Link>
-                <Link
-                  href="/admin/bookings?status=cancelled"
-                  className={`px-4 py-2 rounded ${statusFilter === "cancelled" ? "bg-red-500 text-white" : "bg-gray-100"}`}
-                >
-                  Отмененные
-                </Link>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-              <table className="w-full">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      ID
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Объект
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Клиент
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Даты
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Сумма
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Статус
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {bookings.map((booking: any) => (
-                    <tr key={booking.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm font-mono">{booking.bookingId}</td>
-                      <td className="px-6 py-4">
-                        <div className="font-medium">{booking.post.title}</div>
-                        {booking.room && (
-                          <div className="text-sm text-gray-500">{booking.room.title}</div>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 text-sm">
-                        {booking.user.name || booking.user.email}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-500">
-                        {format(new Date(booking.checkIn), "dd.MM.yyyy")}
-                        {booking.checkOut && (
-                          <span> - {format(new Date(booking.checkOut), "dd.MM.yyyy")}</span>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 font-medium">
-                        {booking.totalPrice} ₽
-                      </td>
-                      <td className="px-6 py-4">
-                        <span
-                          className={`px-2 py-1 text-xs rounded ${
-                            booking.status === "confirmed"
-                              ? "bg-green-100 text-green-800"
-                              : booking.status === "pending"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {booking.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </main>
+      {/* Filters */}
+      <div className="bg-white rounded-xl shadow-lg p-4 mb-6">
+        <div className="flex gap-2">
+          {["all", "pending", "confirmed", "completed", "cancelled"].map((s) => (
+            <Link
+              key={s}
+              href={`/admin/bookings?status=${s}`}
+              className={`px-4 py-2 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 ${
+                status === s
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              {s === "all" ? "Все" : s}
+            </Link>
+          ))}
         </div>
       </div>
+
+      {/* Bookings Table */}
+      <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+        <table className="w-full">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                ID
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Объект
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Гость
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Заезд — Выезд
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Сумма
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Статус
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Оплата
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {bookings.map((booking: any) => (
+              <tr key={booking.id} className="hover:bg-gray-50 cursor-pointer transition-colors duration-200">
+                <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                  {booking.bookingId}
+                </td>
+                <td className="px-6 py-4">
+                  <div className="font-medium text-gray-900">{booking.post.title}</div>
+                  {booking.room && (
+                    <div className="text-sm text-gray-500">{booking.room.title}</div>
+                  )}
+                </td>
+                <td className="px-6 py-4">
+                  <div className="text-sm font-medium text-gray-900">
+                    {booking.user.name || "Гость"}
+                  </div>
+                  <div className="text-sm text-gray-500">{booking.user.email}</div>
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-600">
+                  {format(new Date(booking.checkIn), "dd MMM", { locale: ru })} — {" "}
+                  {booking.checkOut
+                    ? format(new Date(booking.checkOut), "dd MMM yyyy", { locale: ru })
+                    : "..."}
+                </td>
+                <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+                  {booking.totalPrice} ₽
+                </td>
+                <td className="px-6 py-4">{getStatusBadge(booking.status)}</td>
+                <td className="px-6 py-4">{getPaymentBadge(booking.paymentStatus)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {bookings.length === 0 && (
+          <div className="text-center py-8 text-gray-500">
+            Бронирования не найдены
+          </div>
+        )}
+      </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="mt-6 flex justify-center gap-2">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+            <Link
+              key={p}
+              href={`/admin/bookings?status=${status}&page=${p}`}
+              className={`px-4 py-2 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 ${
+                page === p
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-50"
+              }`}
+            >
+              {p}
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
