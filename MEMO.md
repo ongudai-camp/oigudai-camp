@@ -105,3 +105,21 @@ sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
 - **Buttons**: `cursor-pointer transition-colors duration-200`
 - **Badges**: `rounded-full` for status badges
 - **Background**: Consistent `#f8fafc` (slate-50) across admin pages
+
+### Wizards for Content Creation
+- **HotelWizard**: 4 steps (Info → Rooms → Gallery → Review)
+- **TourWizard**: 4 steps (Info → Details → Gallery → Review)
+- **ActivityWizard**: 4 steps (Info → Details → Gallery → Review)
+
+### Categories System
+- **Storage**: Using `PostMeta` model with key "category"
+- **Activity Categories**: excursion, rafting, hiking, horseback, fishing, skiing, other
+- **API**: `/api/admin/categories` for managing categories
+
+### Next Steps
+1. Add image upload functionality to all wizards
+2. Create edit pages for hotels/tours/activities
+3. Add category filter to listing pages
+4. Implement full booking system on frontend
+5. Add user dashboard with booking history
+6. Create package management system
