@@ -12,6 +12,8 @@ model User {
   name          String?
   email         String?       @unique
   emailVerified DateTime?
+  phone         String?       @unique
+  phoneVerified Boolean       @default(false)
   image         String?
   password      String?
   role          String        @default("subscriber")
@@ -23,6 +25,19 @@ model User {
   reviews       Review[]
   sessions      Session[]
   packages      UserPackage[]
+  chatMessages  ChatMessage[]
+}
+
+model ChatMessage {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  isFromUser Boolean  @default(true)
+  content   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
 }
 
 model Package {

@@ -1,27 +1,36 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, password } = body;
+    const { name, phone, email, password } = body;
 
-    if (!email || !password) {
+    if (!phone || !password) {
       return NextResponse.json(
-        { message: "Email и пароль обязательны" },
+        { error: "Phone and password are required" },
         { status: 400 }
       );
     }
 
+    // Format phone
+    const digits = phone.replace(/\D/g, "");
+    const formattedPhone = digits.startsWith("7") ? "+" + digits : "+7" + digits;
+
     // Check if user exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { phone: formattedPhone },
+          ...(email ? [{ email }] : []),
+        ],
+      },
     });
 
     if (existingUser) {
       return NextResponse.json(
-        { message: "Пользователь с таким email уже существует" },
+        { error: "User with this phone or email already exists" },
         { status: 400 }
       );
     }
@@ -33,20 +42,22 @@ export async function POST(request: Request) {
     const user = await prisma.user.create({
       data: {
         name,
-        email,
+        phone: formattedPhone,
+        phoneVerified: true, // Already verified via SMS
+        email: email || null,
         password: hashedPassword,
         role: "subscriber",
       },
     });
 
-    return NextResponse.json(
-      { message: "Пользователь создан", userId: user.id },
-      { status: 201 }
-    );
-  } catch (error) {
+    return NextResponse.json({
+      success: true,
+      userId: user.id,
+    });
+  } catch (error: any) {
     console.error("Registration error:", error);
     return NextResponse.json(
-      { message: "Ошибка сервера" },
+      { error: error.message || "Registration failed" },
       { status: 500 }
     );
   }

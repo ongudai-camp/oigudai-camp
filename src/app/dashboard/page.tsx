@@ -2,6 +2,8 @@ import { auth } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -17,9 +19,9 @@ export default async function DashboardPage() {
     where: { id: userId },
     include: {
       bookings: {
-        include: { post: true },
+        include: { post: true, room: true },
         orderBy: { createdAt: "desc" },
-        take: 5,
+        take: 10,
       },
     },
   });
@@ -28,20 +30,42 @@ export default async function DashboardPage() {
     redirect("/auth/signin");
   }
 
+  // Stats
+  const stats = {
+    totalBookings: user.bookings.length,
+    confirmed: user.bookings.filter((b: any) => b.status === "confirmed").length,
+    pending: user.bookings.filter((b: any) => b.status === "pending").length,
+    totalSpent: user.bookings.reduce((sum: number, b: any) => sum + b.totalPrice, 0),
+  };
+
+  const getStatusBadge = (status: string) => {
+    const styles: any = {
+      confirmed: "bg-green-100 text-green-800",
+      pending: "bg-yellow-100 text-yellow-800",
+      cancelled: "bg-red-100 text-red-800",
+      completed: "bg-blue-100 text-blue-800",
+    };
+    return (
+      <span className={`px-3 py-1 text-xs rounded-full ${styles[status] || "bg-gray-100 text-gray-800"}`}>
+        {status}
+      </span>
+    );
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-[#f8fafc] py-8">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row gap-8">
           {/* Sidebar */}
-          <aside className="md:w-64 bg-white rounded-lg shadow p-6">
+          <aside className="md:w-64 bg-white rounded-xl shadow-lg p-6 sticky top-24">
             <div className="text-center mb-6">
               <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <span className="text-2xl text-blue-600 font-bold">
                   {user.name?.[0] || "U"}
                 </span>
               </div>
-              <h3 className="font-semibold">{user.name || "Пользователь"}</h3>
-              <p className="text-sm text-gray-500">{user.email}</p>
+              <h3 className="font-semibold text-lg">{user.name || "Пользователь"}</h3>
+              <p className="text-sm text-gray-500">{user.phone || user.email}</p>
               <span className="inline-block mt-2 px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
                 {user.role}
               </span>
@@ -50,28 +74,39 @@ export default async function DashboardPage() {
             <nav className="space-y-2">
               <Link
                 href="/dashboard"
-                className="block px-4 py-2 rounded bg-blue-50 text-blue-600"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-50 text-blue-600 cursor-pointer transition-all duration-200"
               >
-                Мои бронирования
+                <span>📋</span>
+                <span className="font-medium">Мои бронирования</span>
               </Link>
               <Link
                 href="/dashboard/profile"
-                className="block px-4 py-2 rounded hover:bg-gray-50"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 cursor-pointer transition-all duration-200"
               >
-                Профиль
+                <span>👤</span>
+                <span className="font-medium">Профиль</span>
               </Link>
               <Link
                 href="/dashboard/wishlist"
-                className="block px-4 py-2 rounded hover:bg-gray-50"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 cursor-pointer transition-all duration-200"
               >
-                Избранное
+                <span>❤️</span>
+                <span className="font-medium">Избранное</span>
+              </Link>
+              <Link
+                href="/dashboard/chat"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 cursor-pointer transition-all duration-200"
+              >
+                <span>💬</span>
+                <span className="font-medium">Чат поддержки</span>
               </Link>
               {user.role === "admin" && (
                 <Link
                   href="/admin"
-                  className="block px-4 py-2 rounded hover:bg-gray-50 text-red-600"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 cursor-pointer transition-all duration-200"
                 >
-                  Админ панель
+                  <span>⚙️</span>
+                  <span className="font-medium">Админ панель</span>
                 </Link>
               )}
             </nav>
@@ -79,14 +114,47 @@ export default async function DashboardPage() {
 
           {/* Main Content */}
           <main className="flex-1">
-            <div className="bg-white rounded-lg shadow p-6 mb-6">
-              <h1 className="text-2xl font-bold mb-4">Добро пожаловать, {user.name}!</h1>
+            <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8 mb-6">
+              <h1 className="text-2xl font-bold mb-2">Добро пожаловать, {user.name}!</h1>
               <p className="text-gray-600">
                 Здесь вы можете управлять своими бронированиями и просматривать историю поездок.
               </p>
             </div>
 
-            <div className="bg-white rounded-lg shadow p-6">
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+              <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 cursor-pointer">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-2xl">📋</span>
+                  <span className="text-3xl font-bold text-blue-600">{stats.totalBookings}</span>
+                </div>
+                <h3 className="text-gray-500 text-sm font-medium">Всего бронирований</h3>
+              </div>
+              <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 cursor-pointer">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-2xl">✅</span>
+                  <span className="text-3xl font-bold text-green-600">{stats.confirmed}</span>
+                </div>
+                <h3 className="text-gray-500 text-sm font-medium">Подтверждено</h3>
+              </div>
+              <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 cursor-pointer">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-2xl">⏳</span>
+                  <span className="text-3xl font-bold text-yellow-600">{stats.pending}</span>
+                </div>
+                <h3 className="text-gray-500 text-sm font-medium">Ожидают</h3>
+              </div>
+              <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 cursor-pointer">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-2xl">₽</span>
+                  <span className="text-3xl font-bold text-purple-600">{stats.totalSpent}</span>
+                </div>
+                <h3 className="text-gray-500 text-sm font-medium">Потрачено</h3>
+              </div>
+            </div>
+
+            {/* Recent Bookings */}
+            <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6">
               <h2 className="text-xl font-semibold mb-4">Последние бронирования</h2>
 
               {user.bookings.length === 0 ? (
@@ -101,31 +169,26 @@ export default async function DashboardPage() {
                   {user.bookings.map((booking: any) => (
                     <div
                       key={booking.id}
-                      className="border border-gray-200 rounded-lg p-4 flex justify-between items-center"
+                      className="border border-gray-100 rounded-lg p-4 hover:bg-gray-50 cursor-pointer transition-colors duration-200"
                     >
-                      <div>
-                        <h3 className="font-semibold">{booking.post.title}</h3>
-                        <p className="text-sm text-gray-500">
-                          {new Date(booking.checkIn).toLocaleDateString("ru-RU")} -
-                          {booking.checkOut
-                            ? new Date(booking.checkOut).toLocaleDateString("ru-RU")
-                            : "не указано"}
-                        </p>
-                        <span
-                          className={`inline-block px-2 py-1 text-xs rounded ${
-                            booking.status === "confirmed"
-                              ? "bg-green-100 text-green-800"
-                              : booking.status === "pending"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-gray-100 text-gray-800"
-                          }`}
-                        >
-                          {booking.status}
-                        </span>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold text-lg">{booking.totalPrice} ₽</p>
-                        <p className="text-sm text-gray-500">{booking.bookingId}</p>
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <h3 className="font-semibold text-gray-900">{booking.post.title}</h3>
+                          {booking.room && (
+                            <p className="text-sm text-gray-600">{booking.room.title}</p>
+                          )}
+                          <p className="text-sm text-gray-500">
+                            {format(new Date(booking.checkIn), "dd MMM yyyy", { locale: ru })}
+                            {booking.checkOut && (
+                              <> — {format(new Date(booking.checkOut), "dd MMM yyyy", { locale: ru })}</>
+                            )}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-bold text-lg text-gray-900">{booking.totalPrice} ₽</p>
+                          {getStatusBadge(booking.status)}
+                          <p className="text-xs text-gray-500 mt-1">{booking.bookingId}</p>
+                        </div>
                       </div>
                     </div>
                   ))}
