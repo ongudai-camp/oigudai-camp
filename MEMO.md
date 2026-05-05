@@ -72,4 +72,19 @@ sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
 
 ### Git History
 - `1bdd24a` - Initial commit with fixes (image paths, sizes prop, MEMO)
-- `HEAD` - UI/UX improvements (globals.css updates per SaaS UI Master)
+- `3cfe261` - UI/UX improvements (globals.css updates per SaaS UI Master)
+- `f6bf8c0` - Fix hydration error from browser extensions
+- `775a103` - Add social login buttons (VK, Telegram, Yandex) to signin page
+
+### Social Login Implementation
+- **Signin Page**: Updated with VK, Telegram, Yandex buttons (SVG icons)
+- **OAuth Callbacks**: Created `/api/auth/callback/{vk,telegram,yandex}/route.ts`
+- **Env Variables**: Added VK_CLIENT_ID, TELEGRAM_BOT_ID, YANDEX_CLIENT_ID
+- **Status**: Buttons visible, need real OAuth app credentials for full functionality
+
+### Navbar Improvements (Latest)
+- **Sticky Position**: Added `sticky top-0 z-50` for persistent navigation
+- **Glass Effect**: Added `backdrop-blur-md bg-white/90` for modern look
+- **Better Shadows**: Replaced `shadow-sm` with `shadow-sm border-b border-gray-100`
+- **Transitions**: Added `transition-all duration-300` for smooth effects
+- **SaaS UI**: All interactive elements have `cursor-pointer`, proper hover states
