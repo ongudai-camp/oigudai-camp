@@ -1,0 +1,202 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int           @id @default(autoincrement())
+  name          String?
+  email         String?       @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String        @default("subscriber")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  accounts      Account[]
+  bookings      Booking[]
+  posts         Post[]
+  reviews       Review[]
+  sessions      Session[]
+  packages      UserPackage[]
+}
+
+model Package {
+  id         Int           @id @default(autoincrement())
+  name       String        @unique
+  price      Float
+  duration   Int
+  postsLimit Int           @default(0)
+  featured   Boolean       @default(false)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  users      UserPackage[]
+
+  @@unique([id, name])
+}
+
+model UserPackage {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  packageId Int
+  startDate DateTime  @default(now())
+  endDate   DateTime?
+  status    String    @default("active")
+  createdAt DateTime  @default(now())
+  package   Package   @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, packageId])
+}
+
+model Post {
+  id            Int            @id @default(autoincrement())
+  title         String
+  slug          String         @unique
+  type          String
+  content       String?
+  excerpt       String?
+  status        String         @default("publish")
+  authorId      Int?
+  featuredImage String?
+  gallery       String?
+  address       String?
+  latitude      Float?
+  longitude     Float?
+  price         Float          @default(0)
+  salePrice     Float?
+  currency      String         @default("RUB")
+  rating        Float          @default(0)
+  reviewCount   Int            @default(0)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  availability  Availability[]
+  bookings      Booking[]
+  author        User?          @relation(fields: [authorId], references: [id])
+  meta          PostMeta[]
+  reviews       Review[]
+  rooms         Room[]
+}
+
+model PostMeta {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  key       String
+  value     String?
+  createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId, key])
+}
+
+model Room {
+  id           Int            @id @default(autoincrement())
+  postId       Int
+  title        String
+  description  String?
+  price        Float          @default(0)
+  salePrice    Float?
+  guests       Int            @default(1)
+  beds         Int            @default(1)
+  bathrooms    Int            @default(1)
+  gallery      String?
+  amenities    String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  availability Availability[]
+  bookings     Booking[]
+  hotel        Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Availability {
+  id        Int      @id @default(autoincrement())
+  postId    Int?
+  roomId    Int?
+  date      DateTime
+  status    String   @default("available")
+  price     Float?
+  createdAt DateTime @default(now())
+  room      Room?    @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId, date])
+  @@index([roomId, date])
+}
+
+model Booking {
+  id            Int       @id @default(autoincrement())
+  bookingId     String    @unique
+  userId        Int
+  postId        Int
+  roomId        Int?
+  checkIn       DateTime
+  checkOut      DateTime?
+  guests        Int       @default(1)
+  totalPrice    Float
+  currency      String    @default("RUB")
+  status        String    @default("pending")
+  paymentStatus String    @default("unpaid")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  room          Room?     @relation(fields: [roomId], references: [id])
+  post          Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([postId])
+  @@index([status])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  rating    Int
+  title     String?
+  content   String?
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+  @@index([userId])
+}
+
+model Account {
+  id                Int     @id @default(autoincrement())
+  userId            Int
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           Int      @id @default(autoincrement())
+  sessionToken String   @unique
+  userId       Int
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}

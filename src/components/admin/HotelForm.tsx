@@ -1,0 +1,218 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+interface HotelFormProps {
+  users: { id: number; name: string | null; email: string }[];
+  hotel?: any;
+}
+
+export default function HotelForm({ users, hotel }: HotelFormProps) {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    title: hotel?.title || "",
+    content: hotel?.content || "",
+    address: hotel?.address || "",
+    price: hotel?.price || 0,
+    salePrice: hotel?.salePrice || "",
+    latitude: hotel?.latitude || "",
+    longitude: hotel?.longitude || "",
+    authorId: hotel?.authorId || "",
+    status: hotel?.status || "publish",
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const url = hotel
+        ? `/api/admin/hotels/${hotel.id}`
+        : "/api/admin/hotels";
+
+      const method = hotel ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          authorId: formData.authorId ? parseInt(formData.authorId as any) : null,
+          price: parseFloat(formData.price as any),
+          salePrice: formData.salePrice ? parseFloat(formData.salePrice as any) : null,
+          latitude: formData.latitude ? parseFloat(formData.latitude as any) : null,
+          longitude: formData.longitude ? parseFloat(formData.longitude as any) : null,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Ошибка сохранения");
+      }
+
+      router.push("/admin/hotels");
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+          {error}
+        </div>
+      )}
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Название отеля *
+        </label>
+        <input
+          type="text"
+          required
+          value={formData.title}
+          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Описание
+        </label>
+        <textarea
+          rows={6}
+          value={formData.content}
+          onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Адрес
+          </label>
+          <input
+            type="text"
+            value={formData.address}
+            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Автор
+          </label>
+          <select
+            value={formData.authorId}
+            onChange={(e) => setFormData({ ...formData, authorId: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="">Выберите автора</option>
+            {users.map((user) => (
+              <option key={user.id} value={user.id}>
+                {user.name || user.email}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Цена (₽/ночь) *
+          </label>
+          <input
+            type="number"
+            required
+            min="0"
+            step="0.01"
+            value={formData.price}
+            onChange={(e) => setFormData({ ...formData, price: e.target.value as any })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Цена со скидкой
+          </label>
+          <input
+            type="number"
+            min="0"
+            step="0.01"
+            value={formData.salePrice}
+            onChange={(e) => setFormData({ ...formData, salePrice: e.target.value as any })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Широта
+          </label>
+          <input
+            type="number"
+            step="0.000001"
+            value={formData.latitude}
+            onChange={(e) => setFormData({ ...formData, latitude: e.target.value as any })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Долгота
+          </label>
+          <input
+            type="number"
+            step="0.000001"
+            value={formData.longitude}
+            onChange={(e) => setFormData({ ...formData, longitude: e.target.value as any })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Статус
+        </label>
+        <select
+          value={formData.status}
+          onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+        >
+          <option value="publish">Опубликовано</option>
+          <option value="draft">Черновик</option>
+          <option value="pending">На модерации</option>
+        </select>
+      </div>
+
+      <div className="flex gap-4">
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+        >
+          {loading ? "Сохранение..." : "Сохранить"}
+        </button>
+        <button
+          type="button"
+          onClick={() => router.push("/admin/hotels")}
+          className="bg-gray-200 text-gray-700 px-6 py-2 rounded hover:bg-gray-300"
+        >
+          Отмена
+        </button>
+      </div>
+    </form>
+  );
+}
