@@ -16,6 +16,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     { href: "/admin/tours", label: "Туры", icon: "🗺️" },
     { href: "/admin/activities", label: "Активности", icon: "🎯" },
     { href: "/admin/bookings", label: "Бронирования", icon: "📋" },
+    { href: "/admin/showcase", label: "Шоукейс", icon: "🎬" },
     { href: "/admin/users", label: "Пользователи", icon: "👥" },
     { href: "/admin/packages", label: "Пакеты", icon: "📦" },
   ];
