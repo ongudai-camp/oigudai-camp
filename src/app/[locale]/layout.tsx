@@ -3,7 +3,8 @@ import { Inter } from "next/font/google";
 import "@/app/globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getMessages } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
 import Providers from "@/providers/TanstackProvider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -33,15 +34,18 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
+  const messages = await getMessages();
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
-        <Providers>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-        </Providers>
+        <NextIntlClientProvider messages={messages} locale={locale}>
+          <Providers>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
