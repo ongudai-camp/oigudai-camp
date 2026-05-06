@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { getTranslations } from "next-intl/server";
+import Providers from "@/providers/TanstackProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,9 +37,11 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <Providers>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

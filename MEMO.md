@@ -54,6 +54,7 @@ sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
   - ⏳ Navigation consolidation (Account Popover for admin/user links)
   - ⏳ Table row actions in ellipsis menu
   - ⏳ Dark mode contrast (double distance rule)
+  - ⏳ **Remotion Integration**: Programmatic video generators for hotels/tours and high-end animated UI elements.
 
 ### Next Steps
 1. ~~Apply SaaS UI Master design system~~ (partially done)
@@ -64,6 +65,8 @@ sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
 6. Add SVG icon system (Lucide/Heroicons)
 7. Consolidate navigation (Account Popover)
 8. Test dark mode with proper contrast ratios
+9. **Setup Remotion**: Create foundational video templates for property showcases and interactive marketing elements.
+10. **Implement TanStack Query**: Refactor data fetching for better caching and sync across the application.
 
 ### Server
 - **Port**: 3001 (3000 was occupied)

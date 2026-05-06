@@ -7,65 +7,87 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id            Int           @id @default(autoincrement())
-  name          String?
-  email         String?       @unique
-  emailVerified DateTime?
-  phone         String?       @unique
-  phoneVerified Boolean       @default(false)
-  image         String?
-  password      String?
-  role          String        @default("subscriber")
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  accounts      Account[]
-  bookings      Booking[]
-  posts         Post[]
-  reviews       Review[]
-  sessions      Session[]
-  packages      UserPackage[]
-  chatMessages  ChatMessage[]
+model Account {
+  id                Int     @id @default(autoincrement())
+  userId            Int
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  User              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Availability {
+  id        Int      @id @default(autoincrement())
+  postId    Int?
+  roomId    Int?
+  date      DateTime
+  status    String   @default("available")
+  price     Float?
+  createdAt DateTime @default(now())
+  Room      Room?    @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  Post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([roomId, date])
+  @@index([postId, date])
+}
+
+model Booking {
+  id            Int       @id @default(autoincrement())
+  bookingId     String    @unique
+  userId        Int
+  postId        Int
+  roomId        Int?
+  checkIn       DateTime
+  checkOut      DateTime?
+  guests        Int       @default(1)
+  totalPrice    Float
+  currency      String    @default("RUB")
+  status        String    @default("pending")
+  paymentStatus String    @default("unpaid")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime
+  Room          Room?     @relation(fields: [roomId], references: [id])
+  Post          Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  User          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@index([postId])
+  @@index([userId])
 }
 
 model ChatMessage {
-  id        Int      @id @default(autoincrement())
-  userId    Int
+  id         Int      @id @default(autoincrement())
+  userId     Int
   isFromUser Boolean  @default(true)
-  content   String
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content    String
+  createdAt  DateTime @default(now())
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([userId])
   @@index([createdAt])
+  @@index([userId])
 }
 
 model Package {
-  id         Int           @id @default(autoincrement())
-  name       String        @unique
-  price      Float
-  duration   Int
-  postsLimit Int           @default(0)
-  featured   Boolean       @default(false)
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
-  users      UserPackage[]
+  id          Int           @id @default(autoincrement())
+  name        String        @unique
+  price       Float
+  duration    Int
+  postsLimit  Int           @default(0)
+  featured    Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime
+  UserPackage UserPackage[]
 
   @@unique([id, name])
-}
-
-model UserPackage {
-  id        Int       @id @default(autoincrement())
-  userId    Int
-  packageId Int
-  startDate DateTime  @default(now())
-  endDate   DateTime?
-  status    String    @default("active")
-  createdAt DateTime  @default(now())
-  package   Package   @relation(fields: [packageId], references: [id], onDelete: Cascade)
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, packageId])
 }
 
 model Post {
@@ -88,13 +110,13 @@ model Post {
   rating        Float          @default(0)
   reviewCount   Int            @default(0)
   createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  availability  Availability[]
-  bookings      Booking[]
-  author        User?          @relation(fields: [authorId], references: [id])
-  meta          PostMeta[]
-  reviews       Review[]
-  rooms         Room[]
+  updatedAt     DateTime
+  Availability  Availability[]
+  Booking       Booking[]
+  User          User?          @relation(fields: [authorId], references: [id])
+  PostMeta      PostMeta[]
+  Review        Review[]
+  Room          Room[]
 }
 
 model PostMeta {
@@ -103,9 +125,25 @@ model PostMeta {
   key       String
   value     String?
   createdAt DateTime @default(now())
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  Post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@index([postId, key])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  rating    Int
+  title     String?
+  content   String?
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([postId])
 }
 
 model Room {
@@ -121,83 +159,10 @@ model Room {
   gallery      String?
   amenities    String?
   createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  availability Availability[]
-  bookings     Booking[]
-  hotel        Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
-}
-
-model Availability {
-  id        Int      @id @default(autoincrement())
-  postId    Int?
-  roomId    Int?
-  date      DateTime
-  status    String   @default("available")
-  price     Float?
-  createdAt DateTime @default(now())
-  room      Room?    @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
-
-  @@index([postId, date])
-  @@index([roomId, date])
-}
-
-model Booking {
-  id            Int       @id @default(autoincrement())
-  bookingId     String    @unique
-  userId        Int
-  postId        Int
-  roomId        Int?
-  checkIn       DateTime
-  checkOut      DateTime?
-  guests        Int       @default(1)
-  totalPrice    Float
-  currency      String    @default("RUB")
-  status        String    @default("pending")
-  paymentStatus String    @default("unpaid")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  room          Room?     @relation(fields: [roomId], references: [id])
-  post          Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([postId])
-  @@index([status])
-}
-
-model Review {
-  id        Int      @id @default(autoincrement())
-  postId    Int
-  userId    Int
-  rating    Int
-  title     String?
-  content   String?
-  status    String   @default("pending")
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-
-  @@index([postId])
-  @@index([userId])
-}
-
-model Account {
-  id                Int     @id @default(autoincrement())
-  userId            Int
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
+  updatedAt    DateTime
+  Availability Availability[]
+  Booking      Booking[]
+  Post         Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 model Session {
@@ -205,7 +170,42 @@ model Session {
   sessionToken String   @unique
   userId       Int
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            Int           @id @default(autoincrement())
+  name          String?
+  email         String?       @unique
+  emailVerified DateTime?
+  phone         String?       @unique
+  phoneVerified Boolean       @default(false)
+  image         String?
+  password      String?
+  role          String        @default("subscriber")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime
+  Account       Account[]
+  Booking       Booking[]
+  ChatMessage   ChatMessage[]
+  Post          Post[]
+  Review        Review[]
+  Session       Session[]
+  UserPackage   UserPackage[]
+}
+
+model UserPackage {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  packageId Int
+  startDate DateTime  @default(now())
+  endDate   DateTime?
+  status    String    @default("active")
+  createdAt DateTime  @default(now())
+  Package   Package   @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  User      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, packageId])
 }
 
 model VerificationToken {
