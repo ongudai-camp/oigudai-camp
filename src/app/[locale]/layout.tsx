@@ -11,30 +11,31 @@ export function generateStaticParams() {
   return ["ru", "en", "tr"].map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({
-  params,
-}: any): Promise<Metadata> {
-  const t = await getTranslations({ locale: params.locale });
+export async function generateMetadata({ 
+  params 
+}: { 
+  params: Promise<{ locale: string }> 
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale });
   return {
     title: `Ongudai Camp - ${t("nav.home")}`,
     description: t("common.welcome"),
   };
 }
 
-export default async function LocaleLayout({
-  children,
-  params,
-}: any) {
-  const { locale } = params;
-
-  if (!["ru", "en", "tr"].includes(locale)) {
-    const { notFound } = await import("next/navigation");
-    notFound();
-  }
+export default async function LocaleLayout({ 
+  children, 
+  params 
+}: Readonly<{
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}>) {
+  const { locale } = await params;
 
   return (
-    <html lang={locale}>
-      <body className={inter.className}>
+    <html lang={locale} suppressHydrationWarning>
+      <body className={inter.className} suppressHydrationWarning>
         <Navbar />
         <main>{children}</main>
         <Footer />
