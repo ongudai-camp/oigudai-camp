@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "home": "Home",
+    "hotels": "Hotels",
+    "tours": "Tours",
+    "activities": "Activities",
+    "about": "About",
+    "login": "Login",
+    "register": "Register",
+    "dashboard": "Dashboard",
+    "admin": "Admin Panel"
+  },
+  "auth": {
+    "signin": "Sign In",
+    "register": "Register",
+    "phone": "Phone",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "getCode": "Get SMS Code",
+    "verifyCode": "Verify Code",
+    "orSignInWith": "Or sign in with",
+    "orRegister": "Or register",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?"
+  },
+  "common": {
+    "search": "Search",
+    "book": "Book Now",
+    "price": "Price",
+    "perNight": "per night",
+    "details": "Details",
+    "back": "Back to list",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "privacy": {
+    "title": "Personal Data Processing Agreement",
+    "accept": "I accept the processing of personal data",
+    "link": "Privacy Policy",
+    "required": "Required by Russian Federation law"
+  }
+}

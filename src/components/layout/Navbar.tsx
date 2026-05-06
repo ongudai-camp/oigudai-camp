@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import { LogoutButton } from "./LogoutButton";
+import LocaleSwitcher from "./LocaleSwitcher";
 
 export default async function Navbar() {
   const session = await auth();
@@ -32,6 +33,8 @@ export default async function Navbar() {
           </div>
 
           <div className="flex items-center space-x-4">
+            <LocaleSwitcher />
+            
             {session ? (
               <>
                 <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 cursor-pointer transition-colors duration-200">

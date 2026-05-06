@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "home": "Ana Sayfa",
+    "hotels": "Oteller",
+    "tours": "Turlar",
+    "activities": "Aktiviteler",
+    "about": "Hakkında",
+    "login": "Giriş",
+    "register": "Kayıt Ol",
+    "dashboard": "Panel",
+    "admin": "Yönetici Paneli"
+  },
+  "auth": {
+    "signin": "Giriş Yap",
+    "register": "Kayıt Ol",
+    "phone": "Telefon",
+    "email": "E-posta",
+    "password": "Şifre",
+    "confirmPassword": "Şifre Tekrarı",
+    "getCode": "SMS Kodu Al",
+    "verifyCode": "Kodu Doğrula",
+    "orSignInWith": "Veya şununla giriş yapın",
+    "orRegister": "Veya kayıt olun",
+    "noAccount": "Hesabınız yok mu?",
+    "hasAccount": "Zaten hesabınız var mı?"
+  },
+  "common": {
+    "search": "Ara",
+    "book": "Şimdi Rezerve Et",
+    "price": "Fiyat",
+    "perNight": "gecelik",
+    "details": "Detaylar",
+    "back": "Listeye dön",
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "success": "Başarılı"
+  },
+  "privacy": {
+    "title": "Kişisel Verilerin İşlenmesi Sözleşmesi",
+    "accept": "Kişisel verilerin işlenmesini kabul ediyorum",
+    "link": "Gizlilik Politikası",
+    "required": "RF yasaları gereği zorunlu"
+  }
+}

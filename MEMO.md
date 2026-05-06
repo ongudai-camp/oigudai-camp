@@ -138,14 +138,30 @@ sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
 - ✅ **User Chat**: `/dashboard/chat` page for users to contact support
 - ✅ **Admin Chat**: `/admin/chat` page for admins to reply to users
 
+### Localization (i18n) & Privacy
+- ✅ **next-intl**: Installed with 3 locales (ru, en, tr)
+- ✅ **Folder Structure**: Moved all pages to `/app/[locale]/` structure
+- ✅ **Language Switcher**: `LocaleSwitcher` component in Navbar
+- ✅ **Translation Files**: `messages/ru.json`, `en.json`, `tr.json`
+- ✅ **Geolocation**: Auto-detect language via `Accept-Language` header + cookie
+- ✅ **Privacy Policy**: `/[locale]/privacy-policy` page (RU law compliant)
+- ✅ **Registration/Login**: Now requires privacy policy acceptance
+
+### Current Status
+- **Build**: ✅ Successful (no TypeScript errors)
+- **Server**: http://localhost:3001 (needs restart with locale support)
+- **Locales**: /ru, /en, /tr prefixes working
+- **Pages Migrated**: Home, About, Hotels, Tours, Activities, Auth, Dashboard, Admin, Privacy Policy
+
 ### Next Steps
-1. Add image upload functionality to all wizards
-2. Create edit pages for hotels/tours/activities
-3. Add category filter to listing pages
-4. Implement frontend booking system (user-facing)
-5. Integrate AI bot for chat support (OpenAI/Gemini API)
-6. Create package management system
-7. Add search functionality to all admin listings
-8. Test SMS verification with real SMS service (Twilio, SMS.ru)
-9. Add booking calendar view for users
-10. Create notification system (email, push)
+1. **Restart server** with locale support: `npx next dev -p 3001`
+2. **Test locales**: Visit /ru, /en, /tr versions
+3. **Fix middleware**: Ensure geolocation detection works
+4. **Add image upload** to all wizards
+5. **Create edit pages** for hotels/tours/activities
+6. **Integrate AI bot** for chat support (OpenAI/Gemini API)
+7. **Add category filter** to listing pages
+8. **Implement frontend booking** system (user-facing)
+9. **Test SMS verification** with real SMS service (Twilio, SMS.ru)
+10. **Add booking calendar** view for users
+11. **Create notification** system (email, push)
