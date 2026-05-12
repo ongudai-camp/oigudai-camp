@@ -35,29 +35,29 @@ export default async function AdminToursPage({
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 {t('tours.columns.title')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 {t('tours.columns.author')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 {t('tours.columns.price')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 {t('tours.columns.bookings')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 {t('tours.columns.status')}
               </th>
-              <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 {t('tours.columns.actions')}
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {// eslint-disable-next-line @typescript-eslint/no-explicit-any
-            tours.map((tour: any) => (
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {tours.map((tour: any) => (
               <tr key={tour.id} className="hover:bg-gray-50 cursor-pointer transition-colors duration-200">
                 <td className="px-6 py-4">
                   <div className="font-medium text-gray-900">{tour.title}</div>

@@ -49,10 +49,10 @@ export default function StatsCards() {
       {stats.map((stat) => (
         <div 
           key={stat.label} 
-          className='bg-white rounded-xl shadow-sm border border-sky-100 hover:border-sky-300 hover:shadow-md transition-all duration-300 p-6 cursor-pointer group'
+          className='bg-white rounded-xl shadow-sm border border-sky-100 hover:border-sky-300 hover:shadow-md transition-shadow duration-300 p-6 cursor-pointer group'
         >
           <div className='flex items-center justify-between mb-4'>
-            <span className='text-2xl group-hover:scale-110 transition-transform duration-300'>{stat.icon}</span>
+            <span className='text-2xl group-hover:scale-110 transition-transform duration-300' aria-hidden="true">{stat.icon}</span>
             <span className={`text-3xl font-bold text-sky-600`}>{stat.value}</span>
           </div>
           <h3 className='text-gray-500 text-sm font-medium'>{stat.label}</h3>

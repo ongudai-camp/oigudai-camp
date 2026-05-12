@@ -88,7 +88,7 @@ export default function ImageUploader({ images, onChange, maxFiles = 10 }: Image
                     type="button"
                     onClick={() => handleReorder(idx, -1)}
                     className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors cursor-pointer"
-                    title="Переместить влево"
+                    aria-label="Переместить влево"
                   >
                     ←
                   </button>
@@ -98,7 +98,7 @@ export default function ImageUploader({ images, onChange, maxFiles = 10 }: Image
                     type="button"
                     onClick={() => handleReorder(idx, 1)}
                     className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors cursor-pointer"
-                    title="Переместить вправо"
+                    aria-label="Переместить вправо"
                   >
                     →
                   </button>
@@ -107,7 +107,7 @@ export default function ImageUploader({ images, onChange, maxFiles = 10 }: Image
                   type="button"
                   onClick={() => handleRemove(url)}
                   className="w-8 h-8 bg-red-500/90 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition-colors cursor-pointer"
-                  title="Удалить"
+                  aria-label="Удалить"
                 >
                   ×
                 </button>
@@ -119,9 +119,11 @@ export default function ImageUploader({ images, onChange, maxFiles = 10 }: Image
 
       {/* Dropzone */}
       {images.length < maxFiles && (
-        <div
+        <button
+          type="button"
           onClick={handleSelect}
-          className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 hover:bg-blue-50/30 transition-colors cursor-pointer"
+          className="w-full border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 hover:bg-blue-50/30 transition-colors cursor-pointer"
+          aria-label="Выбрать изображения"
         >
           <input
             ref={inputRef}
@@ -132,14 +134,14 @@ export default function ImageUploader({ images, onChange, maxFiles = 10 }: Image
             className="hidden"
           />
           <p className="text-gray-500">
-            {uploading ? "Загрузка..." : "Перетащите изображения сюда или нажмите для выбора"}
+            {uploading ? "Загрузка…" : "Перетащите изображения сюда или нажмите для выбора"}
           </p>
-          <p className="text-xs text-gray-400 mt-1">
+          <p className="text-xs text-gray-500 mt-1">
             {maxFiles - images.length > 0
               ? `Можно загрузить еще ${maxFiles - images.length}`
               : "Лимит исчерпан"}
           </p>
-        </div>
+        </button>
       )}
 
       {error && (

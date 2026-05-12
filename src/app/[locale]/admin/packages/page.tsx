@@ -52,8 +52,8 @@ export default async function AdminPackagesPage({
             </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {// eslint-disable-next-line @typescript-eslint/no-explicit-any
-              packages.map((pkg: any) => (
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+              {packages.map((pkg: any) => (
                 <div key={pkg.id} className="bg-white rounded-lg shadow p-6 relative">
                   {pkg.featured && (
                     <span className="absolute top-4 right-4 bg-yellow-400 text-yellow-900 px-2 py-1 text-xs rounded">

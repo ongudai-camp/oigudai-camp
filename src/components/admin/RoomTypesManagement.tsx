@@ -41,17 +41,17 @@ export default function RoomTypesManagement() {
           <tbody className="divide-y divide-sky-50">
             {loading ? (
               <tr>
-                <td colSpan={4} className="px-6 py-8 text-center text-sky-400">Загрузка...</td>
+                <td colSpan={4} className="px-6 py-8 text-center text-sky-600">Загрузка...</td>
               </tr>
             ) : types.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-6 py-8 text-center text-sky-400">Типы не найдены</td>
+                <td colSpan={4} className="px-6 py-8 text-center text-sky-600">Типы не найдены</td>
               </tr>
             ) : (
               types.map((t) => (
                 <tr key={t.id} className="hover:bg-sky-50/50 transition-colors">
                   <td className="px-6 py-4 font-medium text-sky-950">{t.name}</td>
-                  <td className="px-6 py-4 text-sky-400 font-mono text-sm">{t.slug}</td>
+                  <td className="px-6 py-4 text-sky-600 font-mono text-sm">{t.slug}</td>
                   <td className="px-6 py-4 text-gray-500 max-w-xs truncate">{t.description}</td>
                   <td className="px-6 py-4">
                     <div className="flex gap-2">

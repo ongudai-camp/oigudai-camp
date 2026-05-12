@@ -36,7 +36,7 @@ export default function DeleteButton({ id, type, label = "Удалить" }: Del
           disabled={deleting}
           className="text-red-700 text-sm font-medium px-2 py-1 bg-red-50 rounded hover:bg-red-100 cursor-pointer transition-colors duration-200 disabled:opacity-50"
         >
-          {deleting ? "..." : "Да, удалить"}
+          {deleting ? "…" : "Да, удалить"}
         </button>
         <button
           onClick={() => setConfirming(false)}

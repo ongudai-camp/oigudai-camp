@@ -150,14 +150,14 @@ export default function AdminBookingsPage() {
               <table className="w-full">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('admin.bookings.table.id')}</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('admin.bookings.table.object')}</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('admin.bookings.table.guest')}</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('admin.bookings.table.checkInOut')}</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('admin.bookings.table.amount')}</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('admin.bookings.table.status')}</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('admin.bookings.table.payment')}</th>
-                    <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{t('admin.bookings.table.actions')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.id')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.object')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.guest')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.checkInOut')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.amount')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.status')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.payment')}</th>
+                    <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.actions')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -197,7 +197,7 @@ export default function AdminBookingsPage() {
                        </td>
                       <td className="px-6 py-4 text-right">
                         {updatingId === booking.id ? (
-                          <span className="text-sm text-gray-400">...</span>
+                          <span className="text-sm text-gray-500">…</span>
                         ) : (
                           <div className="flex gap-1 justify-end">
                             <select

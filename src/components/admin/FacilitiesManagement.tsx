@@ -42,11 +42,11 @@ export default function FacilitiesManagement() {
           <tbody className="divide-y divide-sky-50">
             {loading ? (
               <tr>
-                <td colSpan={4} className="px-6 py-8 text-center text-sky-400">Загрузка...</td>
+                <td colSpan={4} className="px-6 py-8 text-center text-sky-600">Загрузка...</td>
               </tr>
             ) : facilities.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-6 py-8 text-center text-sky-400">Удобства не найдены</td>
+                <td colSpan={4} className="px-6 py-8 text-center text-sky-600">Удобства не найдены</td>
               </tr>
             ) : (
               facilities.map((f) => (
@@ -57,7 +57,7 @@ export default function FacilitiesManagement() {
                     </div>
                   </td>
                   <td className="px-6 py-4 font-medium text-sky-950">{f.name}</td>
-                  <td className="px-6 py-4 text-sky-400 font-mono text-sm">{f.slug}</td>
+                  <td className="px-6 py-4 text-sky-600 font-mono text-sm">{f.slug}</td>
                   <td className="px-6 py-4">
                     <div className="flex gap-2">
                       <button className="text-sky-600 hover:text-sky-800 transition-colors">Изменить</button>
