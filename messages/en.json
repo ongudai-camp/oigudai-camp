@@ -117,6 +117,17 @@
     "optional": "optional",
     "required": "required"
   },
+  "terms": {
+    "title": "Terms of Use",
+    "content": {
+      "p1_title": "General Provisions",
+      "p1_text": "By using the Ongudai Camp website and services, you agree to these Terms of Use. If you do not agree with any part of these terms, you should not use our services.",
+      "p2_title": "Booking and Payment",
+      "p2_text": "All booking requests are subject to availability. Prices are indicated in Russian Rubles (RUB) and may change without prior notice. Payment is made through the methods specified on the website.",
+      "p3_title": "Cancellation Policy",
+      "p3_text": "Cancellation terms depend on the specific accommodation or tour. You can cancel a booking through your personal account. Refunds are processed according to the policy of the specific service provider."
+    }
+  },
   "privacy": {
     "title": "Personal Data Processing Agreement",
     "accept": "I accept the processing of personal data",
@@ -177,6 +188,27 @@
     "role": "Role",
     "memberSince": "Member since",
     "language": "Language",
+    "wishlistCount": "items saved",
+    "wishlistEmpty": "Your wishlist is empty",
+    "wishlistEmptyHint": "Save hotels, tours, and activities you like to plan your perfect trip.",
+    "wishlistRemove": "Remove from wishlist",
+    "wishlistType_hotel": "Hotel",
+    "wishlistType_tour": "Tour",
+    "wishlistType_activity": "Activity",
+    "findTour": "Browse Tours",
+    "bookingsDescription": "Browse all your bookings, filter by status, and manage reservations.",
+    "filters": {
+      "all": "All",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "paymentStatus": {
+      "paid": "Paid",
+      "unpaid": "Unpaid",
+      "refunded": "Refunded"
+    },
     "backToDashboard": "← Back to site"
   },
   "listing": {

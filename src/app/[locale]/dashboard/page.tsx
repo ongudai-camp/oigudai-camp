@@ -87,7 +87,7 @@ export default async function DashboardPage({
 
             <nav className="space-y-2">
               <Link
-                href={`/${locale}/dashboard`}
+                href={`/${locale}/dashboard/bookings`}
                 className="flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-50 text-blue-600 cursor-pointer transition-all duration-200"
               >
                 <span>📋</span>

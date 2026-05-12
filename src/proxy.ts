@@ -1,5 +1,6 @@
 import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
 
 const intlMiddleware = createMiddleware({
   locales: ["ru", "en", "kk"],
@@ -7,9 +8,29 @@ const intlMiddleware = createMiddleware({
   localePrefix: "always",
 });
 
-export default function middleware(request: NextRequest) {
+const protectedRoutes = ["/dashboard", "/dashboard/profile", "/dashboard/settings", "/dashboard/chat", "/dashboard/wishlist"];
+const adminRoutes = ["/admin"];
+
+function getPathAfterLocale(pathname: string): string {
+  return pathname.replace(/^\/(ru|en|kk)/, "") || "/";
+}
+
+function getLocaleFromPath(pathname: string): string {
+  const match = pathname.match(/^\/(ru|en|kk)/);
+  return match?.[1] || "ru";
+}
+
+function isProtected(pathAfterLocale: string): boolean {
+  return protectedRoutes.some((route) => pathAfterLocale === route || pathAfterLocale.startsWith(route + "/"));
+}
+
+function isAdminRoute(pathAfterLocale: string): boolean {
+  return adminRoutes.some((route) => pathAfterLocale === route || pathAfterLocale.startsWith(route + "/"));
+}
+
+export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  
+
   // Handle CORS preflight
   if (request.method === "OPTIONS") {
     const preflight = new NextResponse(null, { status: 204 });
@@ -22,7 +43,7 @@ export default function middleware(request: NextRequest) {
 
   let response: NextResponse;
 
-  // 1. Skip middleware for API routes and static files
+  // Skip proxy for API routes and static files
   if (
     pathname.startsWith("/api") ||
     pathname.includes(".") ||
@@ -34,12 +55,25 @@ export default function middleware(request: NextRequest) {
     return response;
   }
 
-  console.log(`[Middleware] Path: ${pathname}`);
-
   // Check if locale is in pathname
   const pathnameHasLocale = /^\/(ru|en|kk)(\/|$)/.test(pathname);
 
   if (pathnameHasLocale) {
+    const pathAfterLocale = getPathAfterLocale(pathname);
+    const locale = getLocaleFromPath(pathname);
+
+    if (isProtected(pathAfterLocale) || isAdminRoute(pathAfterLocale)) {
+      const session = await auth();
+      
+      if (!session?.user) {
+        return NextResponse.redirect(new URL(`/${locale}/auth/signin`, request.url));
+      }
+
+      if (isAdminRoute(pathAfterLocale) && session.user.role !== "admin" && session.user.role !== "superadmin") {
+        return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url));
+      }
+    }
+
     response = intlMiddleware(request);
     addCorsHeaders(response);
     return response;
