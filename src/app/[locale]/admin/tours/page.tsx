@@ -66,10 +66,10 @@ export default async function AdminToursPage({
                 <td className="px-6 py-4 text-sm text-gray-600">
                   {tour.author?.name || '—'}
                 </td>
-                <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                <td className="px-6 py-4 text-sm font-medium text-gray-900 tabular-nums">
                   {tour.price} ₽
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-600">
+                <td className="px-6 py-4 text-sm text-gray-600 tabular-nums">
                   {tour._count.bookings}
                 </td>
                 <td className="px-6 py-4">

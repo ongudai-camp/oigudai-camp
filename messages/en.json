@@ -1,9 +1,9 @@
 {
   "nav": {
     "home": "Home",
-    "hotels": "Hotels",
+    "accommodation": "Accommodation",
     "tours": "Tours",
-    "activities": "Activities",
+    "experiences": "Experiences",
     "about": "About",
     "login": "Login",
     "register": "Register",
@@ -11,39 +11,39 @@
     "admin": "Admin Panel"
   },
   "mega": {
-    "hotels": {
-      "luxury": "Luxury Hotels",
-      "luxury_desc": "Premium relaxation with mountain views",
-      "eco_hotels": "Eco Hotels",
-      "eco_hotels_desc": "Eco-friendly hotels in the heart of nature",
-      "camping": "Camping",
-      "camping_desc": "Cozy camping under the open sky",
-      "guest_houses": "Guest Houses",
-      "guest_houses_desc": "Home comfort and hospitality",
-      "hotel_of_the_month": "Hotel of the Month",
-      "hotel_of_the_month_desc": "Ongudai Resort - best choice by guests 2026"
+    "accommodation": {
+      "cottages": "Cottages",
+      "cottages_desc": "Cozy houses for families and companies",
+      "hotel_rooms": "Hotel Rooms",
+      "hotel_rooms_desc": "Comfortable rooms in the main building",
+      "altai_ails": "Altai Ails",
+      "altai_ails_desc": "Traditional nomadic dwellings",
+      "eco_village": "Eco Village",
+      "eco_village_desc": "Complete unity with nature",
+      "new_opening": "Season Opening",
+      "new_opening_desc": "Ongudai Camp — renewed 2026 format"
     },
     "tours": {
-      "adventure": "Adventure",
-      "adventure_desc": "Active adventures and drive",
-      "cultural": "Cultural",
-      "cultural_desc": "Immersion in Altai traditions",
-      "sightseeing": "Sightseeing",
-      "sightseeing_desc": "Main attractions and landmarks",
-      "custom": "Custom Tours",
-      "custom_desc": "Tailor-made individual routes",
+      "altai_ring": "Altai Ring",
+      "altai_ring_desc": "All of Altai in one week",
+      "horse_tours": "Horse Tours",
+      "horse_tours_desc": "Mountain horseback journeys",
+      "winter_magic": "Winter Magic",
+      "winter_magic_desc": "Frozen waterfalls and coziness",
+      "custom_routes": "Custom Routes",
+      "custom_routes_desc": "Tailor-made individual programs",
       "popular_tour": "Popular Tour",
-      "popular_tour_desc": "Golden Ring of Altai - 5 days of magic"
+      "popular_tour_desc": "Golden Ring of Altai - magic of the mountains"
     },
-    "activities": {
-      "hiking": "Hiking",
-      "hiking_desc": "Hiking through mountain passes",
+    "experiences": {
       "rafting": "Rafting",
       "rafting_desc": "Rafting on the mountain Katun river",
-      "horse_riding": "Horse Riding",
-      "horse_riding_desc": "Horseback riding in the mountains",
-      "photography": "Photography",
-      "photography_desc": "Photo tours of the best locations"
+      "trekking": "Trekking",
+      "trekking_desc": "Hiking routes to the peaks",
+      "shaman_rituals": "Shaman Rituals",
+      "shaman_rituals_desc": "Mystical culture of Altai",
+      "photo_expeditions": "Photo Expeditions",
+      "photo_expeditions_desc": "Hunting for the best shots"
     }
   },
   "hero": {
@@ -176,7 +176,8 @@
     "phone": "Phone",
     "role": "Role",
     "memberSince": "Member since",
-    "language": "Language"
+    "language": "Language",
+    "backToDashboard": "← Back to site"
   },
   "listing": {
     "hotelsTitle": "Ongudai Hotels",
@@ -395,6 +396,8 @@
       "showcase": "Showcase",
       "users": "Users",
       "packages": "Packages",
+      "chat": "Support Chat",
+      "settings": "Settings",
       "backToDashboard": "← Back to site"
     },
     "bookings": {

@@ -176,7 +176,8 @@
     "phone": "Телефон",
     "role": "Роль",
     "memberSince": "На сайте с",
-    "language": "Язык"
+    "language": "Язык",
+    "backToDashboard": "← На сайт"
   },
   "listing": {
     "hotelsTitle": "Отели Онгудая",
@@ -395,6 +396,8 @@
       "showcase": "Шоукес",
       "users": "Пользователи",
       "packages": "Пакеты",
+      "chat": "Чат поддержки",
+      "settings": "Настройки",
       "backToDashboard": "← На сайт"
     },
     "dashboard": {

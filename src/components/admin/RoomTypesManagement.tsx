@@ -23,12 +23,12 @@ export default function RoomTypesManagement() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-sky-950">Типы размещения</h1>
-        <button className="bg-orange-500 text-white px-4 py-2 rounded-xl font-bold hover:bg-orange-600 transition-colors">
+        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
           + Добавить тип
         </button>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-sky-50 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-sky-50 overflow-hidden">
         <table className="w-full text-left">
           <thead className="bg-sky-50 text-sky-950 text-sm font-bold uppercase tracking-wider">
             <tr>

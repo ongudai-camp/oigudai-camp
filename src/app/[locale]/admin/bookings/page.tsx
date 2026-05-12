@@ -163,7 +163,7 @@ export default function AdminBookingsPage() {
                 <tbody className="divide-y divide-gray-100">
                   {bookings.map((booking) => (
                     <tr key={booking.id} className="hover:bg-gray-50 transition-colors duration-200">
-                      <td className="px-6 py-4 text-sm font-mono text-gray-900">{booking.bookingId}</td>
+                      <td className="px-6 py-4 text-sm font-mono text-gray-900 tabular-nums">{booking.bookingId}</td>
                       <td className="px-6 py-4">
                         <div className="font-medium text-gray-900">{booking.post.title}</div>
                         {booking.room && (
@@ -182,7 +182,7 @@ export default function AdminBookingsPage() {
                           ? ` — ${format(new Date(booking.checkOut), "dd MMM yyyy", { locale: ru })}`
                           : ""}
                       </td>
-                      <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+                      <td className="px-6 py-4 text-sm font-semibold text-gray-900 tabular-nums">
                         {booking.totalPrice} ₽
                       </td>
                       <td className="px-6 py-4">

@@ -1,9 +1,9 @@
 {
   "nav": {
     "home": "Басты бет",
-    "hotels": "Қонақ үйлер",
+    "accommodation": "Тұру",
     "tours": "Турлар",
-    "activities": "Белсенділік",
+    "experiences": "Әсерлер",
     "about": "Біз туралы",
     "login": "Кіру",
     "register": "Тіркелу",
@@ -11,39 +11,39 @@
     "admin": "Әкімші панелі"
   },
   "mega": {
-    "hotels": {
-      "luxury": "Люкс қонақ үйлер",
-      "luxury_desc": "Тау көрінісі бар премиум демалыс",
-      "eco_hotels": "Эко қонақ үйлер",
-      "eco_hotels_desc": "Табиғат ортасындағы экологиялық қонақ үйлер",
-      "camping": "Кемпинг аймақтары",
-      "camping_desc": "Аспан астында жайлы демалыс",
-      "guest_houses": "Қонақ үйлер",
-      "guest_houses_desc": "Үй жайлылығы мен қонақжайлылық",
-      "hotel_of_the_month": "Айдың үздік қонақ үйі",
-      "hotel_of_the_month_desc": "Ongudai Resort - 2026 қонақтарының таңдауы"
+    "accommodation": {
+      "cottages": "Коттедждер",
+      "cottages_desc": "Отбасылар мен компанияларға арналған жайлы үйлер",
+      "hotel_rooms": "Қонақ үй бөлмелері",
+      "hotel_rooms_desc": "Негізгі ғимараттағы жайлы бөлмелер",
+      "altai_ails": "Алтай аилдары",
+      "altai_ails_desc": "Көшпенділердің дәстүрлі тұрағы",
+      "eco_village": "Эко-ауыл",
+      "eco_village_desc": "Табиғатпен толық бірлік",
+      "new_opening": "Маусымның ашылуы",
+      "new_opening_desc": "Ongudai Camp — 2026 жаңартылған формат"
     },
     "tours": {
-      "adventure": "Сергіту",
-      "adventure_desc": "Белсенді саяхаттар мен толқу",
-      "cultural": "Мәдени",
-      "cultural_desc": "Алтай дәстүрлеріне саяхат",
-      "sightseeing": "Экскурсиялар",
-      "sightseeing_desc": "Негізгі көрікті жерлер мен ескерткіштер",
-      "custom": "Арнайы турлар",
-      "custom_desc": "Жеке бутик турлар",
+      "altai_ring": "Алтай Сақинасы",
+      "altai_ring_desc": "Бір аптада бүкіл Алтай",
+      "horse_tours": "Атты турлар",
+      "horse_tours_desc": "Тауларға атпен саяхат",
+      "winter_magic": "Қысқы сиқыр",
+      "winter_magic_desc": "Мұзды сарқырамалар мен жайлылық",
+      "custom_routes": "Өз маршрутың",
+      "custom_routes_desc": "Жеке бағдарламалар",
       "popular_tour": "Танымал тур",
-      "popular_tour_desc": "Алтайдың Алтын Сақинасы - 5 күндік сиқыр"
+      "popular_tour_desc": "Алтайдың Алтын Сақинасы - таулар сиқыры"
     },
-    "activities": {
-      "hiking": "Жаяу серуен",
-      "hiking_desc": "Тау асуларында жаяу серуендеу",
+    "experiences": {
       "rafting": "Рафтинг",
       "rafting_desc": "Катун өзенінде рафтинг",
-      "horse_riding": "Атпен серуен",
-      "horse_riding_desc": "Тауларда атпен саяхаттау",
-      "photography": "Фото турлар",
-      "photography_desc": "Үздік орындарда фото турлар"
+      "trekking": "Треккинг",
+      "trekking_desc": "Шыңдарға жаяу маршруттар",
+      "shaman_rituals": "Шаман рәсімдері",
+      "shaman_rituals_desc": "Алтайдың мистикалық мәдениеті",
+      "photo_expeditions": "Фото экспедициялар",
+      "photo_expeditions_desc": "Үздік кадрларды іздеу"
     }
   },
   "hero": {
@@ -176,7 +176,8 @@
     "phone": "Телефон",
     "role": "Рөл",
     "memberSince": "Қосылған уақыт",
-    "language": "Тіл"
+    "language": "Тіл",
+    "backToDashboard": "← Сайтқа оралу"
   },
   "listing": {
     "hotelsTitle": "Онгудай қонақ үйлері",
@@ -435,6 +436,8 @@
       "showcase": "Витрина",
       "users": "Пайдаланушылар",
       "packages": "Пакеттер",
+      "chat": "Қолдау чаты",
+      "settings": "Параметрлер",
       "backToDashboard": "← Сайтқа оралу"
     },
     "bookings": {

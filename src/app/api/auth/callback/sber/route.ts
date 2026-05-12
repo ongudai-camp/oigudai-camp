@@ -18,41 +18,43 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const tokenResponse = await fetch("https://oauth.vk.com/access_token", {
+    const tokenResponse = await fetch("https://api.sberbank.ru/auth/oauth/v2/token", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Accept": "application/json",
+      },
       body: new URLSearchParams({
-        client_id: process.env.VK_CLIENT_ID!,
-        client_secret: process.env.VK_CLIENT_SECRET!,
-        code: code,
-        redirect_uri: `${process.env.NEXTAUTH_URL}/api/auth/callback/vk`,
+        code,
+        client_id: process.env.SBER_CLIENT_ID!,
+        client_secret: process.env.SBER_CLIENT_SECRET!,
+        grant_type: "authorization_code",
+        redirect_uri: `${process.env.NEXTAUTH_URL}/api/auth/callback/sber`,
       }),
     });
 
     const tokenData = await tokenResponse.json();
-
-    if (tokenData.error) {
-      console.error("VK token error:", tokenData);
-      return NextResponse.redirect(new URL("/auth/signin?error=vk_token_failed", baseUrl));
+    if (!tokenData.access_token) {
+      console.error("SberID token error:", tokenData);
+      return NextResponse.redirect(new URL("/auth/signin?error=sber_token_failed", baseUrl));
     }
 
-    const userInfoResponse = await fetch(
-      `https://api.vk.com/method/users.get?access_token=${tokenData.access_token}&v=5.131&fields=photo_200`
-    );
+    const userInfoResponse = await fetch("https://api.sberbank.ru/auth/v2/userinfo", {
+      headers: { Authorization: `Bearer ${tokenData.access_token}` },
+    });
     const userInfo = await userInfoResponse.json();
 
-    if (!userInfo.response || !userInfo.response[0]) {
-      return NextResponse.redirect(new URL("/auth/signin?error=vk_user_failed", baseUrl));
+    if (!userInfo.sub) {
+      return NextResponse.redirect(new URL("/auth/signin?error=sber_user_failed", baseUrl));
     }
 
-    const vkUser = userInfo.response[0];
-    const vkId = (tokenData.user_id || vkUser.id)?.toString();
-    const email = tokenData.email || "";
-    const name = [vkUser.first_name, vkUser.last_name].filter(Boolean).join(" ") || "VK User";
+    const sberId = userInfo.sub;
+    const name = userInfo.name || userInfo.given_name || "Sber User";
+    const email = userInfo.email || userInfo.phone || `sber_${sberId}@sberbank.ru`;
 
     let user = await prisma.user.findFirst({
       where: {
-        accounts: { some: { provider: "vk", providerAccountId: vkId } },
+        accounts: { some: { provider: "sber", providerAccountId: sberId } },
       },
     });
 
@@ -65,8 +67,8 @@ export async function GET(request: NextRequest) {
           data: {
             userId: existing.id,
             type: "oauth",
-            provider: "vk",
-            providerAccountId: vkId,
+            provider: "sber",
+            providerAccountId: sberId,
             access_token: tokenData.access_token,
           },
         });
@@ -75,14 +77,15 @@ export async function GET(request: NextRequest) {
         user = await prisma.user.create({
           data: {
             name,
-            email: email || `vk_${vkId}@vk.com`,
+            email,
             password: randomPassword,
             role: "subscriber",
+            phone: userInfo.phone || null,
             accounts: {
               create: {
                 type: "oauth",
-                provider: "vk",
-                providerAccountId: vkId,
+                provider: "sber",
+                providerAccountId: sberId,
                 access_token: tokenData.access_token,
               },
             },
@@ -98,7 +101,7 @@ export async function GET(request: NextRequest) {
       redirectTo: "/dashboard",
     });
   } catch (err) {
-    console.error("VK auth error:", err);
+    console.error("SberID auth error:", err);
     return NextResponse.redirect(new URL("/auth/signin?error=social_auth_failed", baseUrl));
   }
 }

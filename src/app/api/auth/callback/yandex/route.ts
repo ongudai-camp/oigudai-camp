@@ -47,8 +47,8 @@ export async function GET(request: NextRequest) {
     }
 
     const yandexId = userInfo.id.toString();
-    const email = userInfo.default_email;
-    const name = userInfo.real_name || userInfo.display_name || "Yandex User";
+    const email = userInfo.default_email || "";
+    const name = userInfo.real_name || userInfo.display_name || userInfo.login || "Yandex User";
 
     let user = await prisma.user.findFirst({
       where: {

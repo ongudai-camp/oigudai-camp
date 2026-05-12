@@ -146,6 +146,10 @@ export default function SignInPage() {
       const clientId = process.env.NEXT_PUBLIC_YANDEX_CLIENT_ID || "your-yandex-client-id";
       const redirectUri = encodeURIComponent(`${window.location.origin}/api/auth/callback/yandex`);
       window.location.href = `https://oauth.yandex.ru/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=login:info login:email`;
+    } else if (provider === "sber") {
+      const clientId = process.env.NEXT_PUBLIC_SBER_CLIENT_ID || "your-sber-client-id";
+      const redirectUri = encodeURIComponent(`${window.location.origin}/api/auth/callback/sber`);
+      window.location.href = `https://api.sberbank.ru/auth/oauth/v2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid name email phone`;
     }
   };
 
@@ -275,14 +279,14 @@ export default function SignInPage() {
             </div>
           ) : (
             <div className="space-y-6 animate-in fade-in duration-500">
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-4 gap-2">
                 <button
                   onClick={() => handleSocialSignIn("vk")}
                   className="flex items-center justify-center py-3 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all cursor-pointer group"
-                  title="VK"
+                  title="VK ID"
                 >
-                  <svg className="w-6 h-6 grayscale group-hover:grayscale-0 transition-all" viewBox="0 0 24 24" fill="#4C75A3">
-                    <path d="M12.14 18.11c-3.44 0-6.26-2.54-6.26-6.26 0-3.44 2.54-6.26 6.26-6.26 3.44 0 6.26 2.54 6.26 6.26 0 3.44-2.54 6.26-6.26 6.26zm0-10.52c-2.34 0-4.26 1.92-4.26 4.26s1.92 4.26 4.26 4.26 4.26-1.92 4.26-4.26-1.92-4.26-4.26-4.26z"/>
+                  <svg className="w-6 h-6 grayscale group-hover:grayscale-0 transition-all" viewBox="0 0 48 48" fill="#0077FF">
+                    <path d="M24 4C12.96 4 4 12.96 4 24s8.96 20 20 20 20-8.96 20-20S35.04 4 24 4zm10.6 30.6h-4.2c-1.6 0-2.2-.8-3.6-2.4-1.2-1.2-2.4-2.6-3.6-2.6-.6 0-1.2.2-1.8.6-.6.4-.8 1.2-.8 2.2v2.2c0 .8-.2 1.2-1 1.4-2.4.6-5.2 0-7.8-2.4-3.6-3.6-6.6-8.4-6.8-8.8-.4-.8-.2-1.2.6-1.2h4.2c.8 0 1.2.2 1.6 1 .4.8 1.8 3.8 3.2 5.2 1.2 1.2 2 1.6 2.8 1.6.6 0 1-.4 1-1.4v-4.6c-.2-1.2-.8-1.6-.8-2.2-.2-.4 0-.8.4-1h.2c.6-.2 1.6-.4 2.8-.4 1.6 0 2.4.4 2.8.8.4.4.4 1.2.4 2.2v4c0 .6.2 1 .8 1 .4 0 1-.2 1.8-1 1.6-2 2.6-5 2.8-5.2.2-.6.6-.8 1.2-.8h4.2c.8 0 1.2.4 1 1.2-.6 2.8-3.6 7.2-4.6 8.6-1 1.4-1 1.8 0 3.2.8 1.2 2.6 2.8 3.2 3.8.4.6.2 1.2-.6 1.2z"/>
                   </svg>
                 </button>
 
@@ -291,18 +295,28 @@ export default function SignInPage() {
                   className="flex items-center justify-center py-3 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all cursor-pointer group"
                   title="Telegram"
                 >
-                  <svg className="w-6 h-6 grayscale group-hover:grayscale-0 transition-all" viewBox="0 0 24 24" fill="#0088cc">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.2-.04-.28-.02-.12.02-2.02 1.28-5.7 3.76-.54.37-1.03.56-1.47.55-.48-.01-1.4-.27-2.09-.49-.84-.28-1.51-.42-1.45-.89.03-.25.38-.5 1.04-.76 4.07-1.77 6.79-2.94 8.15-3.5 3.88-1.62 4.69-1.9 5.21-1.91.12 0 .37.03.54.17.14.12.18.28.2.47-.01.06.01.24 0 .38z"/>
+                  <svg className="w-6 h-6 grayscale group-hover:grayscale-0 transition-all" viewBox="0 0 48 48" fill="#0088cc">
+                    <path d="M24 4C12.96 4 4 12.96 4 24s8.96 20 20 20 20-8.96 20-20S35.04 4 24 4zm9.4 15.2c-.2 1-3 12.4-4.2 16.4-.6 2-1.8 2.6-3 2.8-.8 0-2-.6-3-1.2-1.8-1.2-3.4-2.6-5-4-.6-.6-.2-1.2.4-1.8.2-.2 3.4-3 6.8-6.2.8-.8 1.6-2.4-.2-2-.2 0-5.4 3.4-7.6 4.8-.8.6-2.2.6-3.2.4l-5.2-1.6c-1.2-.4-1.2-1.2.2-1.8 5.8-2.6 13.4-5.6 19.2-7.6 2.4-.8 4.6-1.6 6.6-2.2 1.2-.4 2.2-.2 2.6 1 .2.6 0 1.6-.4 3z"/>
                   </svg>
                 </button>
 
                 <button
                   onClick={() => handleSocialSignIn("yandex")}
                   className="flex items-center justify-center py-3 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all cursor-pointer group"
-                  title="Yandex"
+                  title="Yandex ID"
                 >
-                  <svg className="w-6 h-6 grayscale group-hover:grayscale-0 transition-all" viewBox="0 0 24 24" fill="#FF0000">
-                    <path d="M2 8.5v7h3.5c.17 0 .3-.13.3-.3v-6.4c0-.17-.13-.3-.3-.3H2zm4.5 0v7c0 .83.67 1.5 1.5 1.5h3.5c.17 0 .3-.13.3-.3v-7.4c0-.17-.13-.3-.3-.3H7c-.83 0-1.5.67-1.5 1.5z"/>
+                  <svg className="w-6 h-6 grayscale group-hover:grayscale-0 transition-all" viewBox="0 0 48 48" fill="#FC3F1D">
+                    <path d="M24 4C12.96 4 4 12.96 4 24s8.96 20 20 20 20-8.96 20-20S35.04 4 24 4zm-2.4 29.6h-3.6V14.6c0-.4.2-.6.6-.6h4.4c4.8 0 8 2.6 8 7 0 3.8-2.2 6.6-5.6 7.6l6.4 9.4v.4h-4l-5.6-8.4h-.6v5.6zm0-8.6h1.8c2.4 0 4-1.6 4-4s-1.6-4-4-4h-1.8v8z"/>
+                  </svg>
+                </button>
+
+                <button
+                  onClick={() => handleSocialSignIn("sber")}
+                  className="flex items-center justify-center py-3 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all cursor-pointer group"
+                  title="SberID"
+                >
+                  <svg className="w-6 h-6 grayscale group-hover:grayscale-0 transition-all" viewBox="0 0 48 48" fill="#2EAC57">
+                    <path d="M24 4C12.96 4 4 12.96 4 24s8.96 20 20 20 20-8.96 20-20S35.04 4 24 4zm10.4 16.8l-9.2 9.2c-.6.6-1.6.6-2.2 0l-5.6-5.6c-.6-.6-.6-1.6 0-2.2.6-.6 1.6-.6 2.2 0l4.6 4.4 8-8c.6-.6 1.6-.6 2.2 0 .6.8.6 1.8 0 2.2z"/>
                   </svg>
                 </button>
               </div>

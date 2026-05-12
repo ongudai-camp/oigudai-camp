@@ -16,8 +16,10 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     { href: "/admin/activities", label: t("admin.menu.activities"), icon: "🎯" },
     { href: "/admin/bookings", label: t("admin.menu.bookings"), icon: "📋" },
     { href: "/admin/showcase", label: t("admin.menu.showcase"), icon: "🎬" },
+    { href: "/admin/chat", label: t("admin.menu.chat"), icon: "💬" },
     { href: "/admin/users", label: t("admin.menu.users"), icon: "👥" },
     { href: "/admin/packages", label: t("admin.menu.packages"), icon: "📦" },
+    { href: "/admin/settings/meta", label: t("admin.menu.settings"), icon: "⚙️" },
   ];
 
   return (

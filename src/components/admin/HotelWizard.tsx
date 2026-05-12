@@ -130,12 +130,15 @@ export default function HotelWizard() {
             <h2 className="text-xl font-semibold">Информация об отеле</h2>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="hotel-title" className="block text-sm font-medium text-gray-700 mb-2">
                 Название отеля *
               </label>
               <input
+                id="hotel-title"
+                name="title"
                 type="text"
                 required
+                autoComplete="off"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -144,10 +147,12 @@ export default function HotelWizard() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="hotel-description" className="block text-sm font-medium text-gray-700 mb-2">
                 Описание
               </label>
               <textarea
+                id="hotel-description"
+                name="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
@@ -157,11 +162,14 @@ export default function HotelWizard() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="hotel-address" className="block text-sm font-medium text-gray-700 mb-2">
                 Адрес
               </label>
               <input
+                id="hotel-address"
+                name="address"
                 type="text"
+                autoComplete="street-address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -171,12 +179,16 @@ export default function HotelWizard() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="hotel-price" className="block text-sm font-medium text-gray-700 mb-2">
                   Цена за ночь (₽) *
                 </label>
                 <input
+                  id="hotel-price"
+                  name="price"
                   type="number"
                   required
+                  inputMode="numeric"
+                  autoComplete="off"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -185,11 +197,15 @@ export default function HotelWizard() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="hotel-salePrice" className="block text-sm font-medium text-gray-700 mb-2">
                   Цена со скидкой (₽)
                 </label>
                 <input
+                  id="hotel-salePrice"
+                  name="salePrice"
                   type="number"
+                  inputMode="numeric"
+                  autoComplete="off"
                   value={salePrice}
                   onChange={(e) => setSalePrice(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -200,12 +216,16 @@ export default function HotelWizard() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="hotel-latitude" className="block text-sm font-medium text-gray-700 mb-2">
                   Широта
                 </label>
                 <input
+                  id="hotel-latitude"
+                  name="latitude"
                   type="number"
                   step="any"
+                  inputMode="decimal"
+                  autoComplete="off"
                   value={latitude}
                   onChange={(e) => setLatitude(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -214,12 +234,16 @@ export default function HotelWizard() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="hotel-longitude" className="block text-sm font-medium text-gray-700 mb-2">
                   Долгота
                 </label>
                 <input
+                  id="hotel-longitude"
+                  name="longitude"
                   type="number"
                   step="any"
+                  inputMode="decimal"
+                  autoComplete="off"
                   value={longitude}
                   onChange={(e) => setLongitude(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -261,10 +285,12 @@ export default function HotelWizard() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor={`hotel-roomType-${index}`} className="block text-sm font-medium text-gray-700 mb-2">
                       Тип проживания
                     </label>
                     <select
+                      id={`hotel-roomType-${index}`}
+                      name="roomTypeId"
                       value={room.roomTypeId || ""}
                       onChange={(e) => updateRoom(index, "roomTypeId", e.target.value ? parseInt(e.target.value) : null)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -279,12 +305,15 @@ export default function HotelWizard() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor={`hotel-roomTitle-${index}`} className="block text-sm font-medium text-gray-700 mb-2">
                       Название номера *
                     </label>
                     <input
+                      id={`hotel-roomTitle-${index}`}
+                      name="roomTitle"
                       type="text"
                       required
+                      autoComplete="off"
                       value={room.title}
                       onChange={(e) => updateRoom(index, "title", e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -294,10 +323,12 @@ export default function HotelWizard() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor={`hotel-roomDesc-${index}`} className="block text-sm font-medium text-gray-700 mb-2">
                     Описание
                   </label>
                   <textarea
+                    id={`hotel-roomDesc-${index}`}
+                    name="roomDescription"
                     value={room.description}
                     onChange={(e) => updateRoom(index, "description", e.target.value)}
                     rows={2}
@@ -308,12 +339,16 @@ export default function HotelWizard() {
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor={`hotel-roomPrice-${index}`} className="block text-sm font-medium text-gray-700 mb-2">
                       Цена (₽) *
                     </label>
                     <input
+                      id={`hotel-roomPrice-${index}`}
+                      name="roomPrice"
                       type="number"
                       required
+                      inputMode="numeric"
+                      autoComplete="off"
                       value={room.price}
                       onChange={(e) => updateRoom(index, "price", e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -321,12 +356,16 @@ export default function HotelWizard() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor={`hotel-roomGuests-${index}`} className="block text-sm font-medium text-gray-700 mb-2">
                       Гостей
                     </label>
                     <input
+                      id={`hotel-roomGuests-${index}`}
+                      name="roomGuests"
                       type="number"
                       min="1"
+                      inputMode="numeric"
+                      autoComplete="off"
                       value={room.guests}
                       onChange={(e) => updateRoom(index, "guests", parseInt(e.target.value))}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -334,12 +373,16 @@ export default function HotelWizard() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor={`hotel-roomFloor-${index}`} className="block text-sm font-medium text-gray-700 mb-2">
                       Этаж
                     </label>
                     <input
+                      id={`hotel-roomFloor-${index}`}
+                      name="roomFloor"
                       type="number"
                       min="1"
+                      inputMode="numeric"
+                      autoComplete="off"
                       value={room.floor || ""}
                       onChange={(e) => updateRoom(index, "floor", e.target.value ? parseInt(e.target.value) : null)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -348,12 +391,16 @@ export default function HotelWizard() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor={`hotel-roomBeds-${index}`} className="block text-sm font-medium text-gray-700 mb-2">
                       Кроватей
                     </label>
                     <input
+                      id={`hotel-roomBeds-${index}`}
+                      name="roomBeds"
                       type="number"
                       min="1"
+                      inputMode="numeric"
+                      autoComplete="off"
                       value={room.beds}
                       onChange={(e) => updateRoom(index, "beds", parseInt(e.target.value))}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"

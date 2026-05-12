@@ -100,12 +100,15 @@ export default function TourWizard() {
             <h2 className="text-xl font-semibold">Информация о туре</h2>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="tour-title" className="block text-sm font-medium text-gray-700 mb-2">
                 Название тура *
               </label>
               <input
+                id="tour-title"
+                name="title"
                 type="text"
                 required
+                autoComplete="off"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -114,10 +117,12 @@ export default function TourWizard() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="tour-description" className="block text-sm font-medium text-gray-700 mb-2">
                 Описание
               </label>
               <textarea
+                id="tour-description"
+                name="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
@@ -127,11 +132,14 @@ export default function TourWizard() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="tour-address" className="block text-sm font-medium text-gray-700 mb-2">
                 Локация/Маршрут
               </label>
               <input
+                id="tour-address"
+                name="address"
                 type="text"
+                autoComplete="street-address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -141,12 +149,16 @@ export default function TourWizard() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="tour-price" className="block text-sm font-medium text-gray-700 mb-2">
                   Цена (₽) *
                 </label>
                 <input
+                  id="tour-price"
+                  name="price"
                   type="number"
                   required
+                  inputMode="numeric"
+                  autoComplete="off"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -155,11 +167,15 @@ export default function TourWizard() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="tour-salePrice" className="block text-sm font-medium text-gray-700 mb-2">
                   Цена со скидкой (₽)
                 </label>
                 <input
+                  id="tour-salePrice"
+                  name="salePrice"
                   type="number"
+                  inputMode="numeric"
+                  autoComplete="off"
                   value={salePrice}
                   onChange={(e) => setSalePrice(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -170,11 +186,15 @@ export default function TourWizard() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="tour-duration" className="block text-sm font-medium text-gray-700 mb-2">
                   Длительность (дни)
                 </label>
                 <input
+                  id="tour-duration"
+                  name="duration"
                   type="number"
+                  inputMode="numeric"
+                  autoComplete="off"
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -184,12 +204,16 @@ export default function TourWizard() {
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="tour-latitude" className="block text-sm font-medium text-gray-700 mb-2">
                     Широта
                   </label>
                   <input
+                    id="tour-latitude"
+                    name="latitude"
                     type="number"
                     step="any"
+                    inputMode="decimal"
+                    autoComplete="off"
                     value={latitude}
                     onChange={(e) => setLatitude(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -197,12 +221,16 @@ export default function TourWizard() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="tour-longitude" className="block text-sm font-medium text-gray-700 mb-2">
                     Долгота
                   </label>
                   <input
+                    id="tour-longitude"
+                    name="longitude"
                     type="number"
                     step="any"
+                    inputMode="decimal"
+                    autoComplete="off"
                     value={longitude}
                     onChange={(e) => setLongitude(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -220,10 +248,12 @@ export default function TourWizard() {
             <h2 className="text-xl font-semibold">Детали тура</h2>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="tour-included" className="block text-sm font-medium text-gray-700 mb-2">
                 Что включено
               </label>
               <textarea
+                id="tour-included"
+                name="included"
                 value={included}
                 onChange={(e) => setIncluded(e.target.value)}
                 rows={3}
@@ -233,10 +263,12 @@ export default function TourWizard() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="tour-notIncluded" className="block text-sm font-medium text-gray-700 mb-2">
                 Что не включено
               </label>
               <textarea
+                id="tour-notIncluded"
+                name="notIncluded"
                 value={notIncluded}
                 onChange={(e) => setNotIncluded(e.target.value)}
                 rows={3}

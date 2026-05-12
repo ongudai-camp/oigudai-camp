@@ -62,10 +62,10 @@ export default async function AdminActivitiesPage({
                 <td className="px-6 py-4 text-sm text-gray-600">
                   {activity.address}
                 </td>
-                <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                <td className="px-6 py-4 text-sm font-medium text-gray-900 tabular-nums">
                   {activity.price} ₽
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-600">
+                <td className="px-6 py-4 text-sm text-gray-600 tabular-nums">
                   {activity._count.bookings}
                 </td>
                 <td className="px-6 py-4 text-right text-sm font-medium">

@@ -94,7 +94,7 @@ export default async function DashboardPage({
                 <span className="font-medium">{t("myBookings")}</span>
               </Link>
               <Link
-                href={`/${locale}/dashboard/settings`}
+                href={user.role === "admin" ? `/${locale}/admin/settings/meta` : `/${locale}/dashboard/settings`}
                 className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 cursor-pointer transition-all duration-200"
               >
                 <span>⚙️</span>
@@ -115,7 +115,7 @@ export default async function DashboardPage({
                 <span className="font-medium">{t("wishlist")}</span>
               </Link>
               <Link
-                href={`/${locale}/dashboard/chat`}
+                href={user.role === "admin" ? `/${locale}/admin/chat` : `/${locale}/dashboard/chat`}
                 className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 cursor-pointer transition-all duration-200"
               >
                 <span>💬</span>

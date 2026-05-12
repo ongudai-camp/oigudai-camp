@@ -81,12 +81,15 @@ export default function ActivityWizard() {
             <h2 className="text-xl font-semibold">Информация об активности</h2>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="activity-title" className="block text-sm font-medium text-gray-700 mb-2">
                 Название активности *
               </label>
               <input
+                id="activity-title"
+                name="title"
                 type="text"
                 required
+                autoComplete="off"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -95,10 +98,12 @@ export default function ActivityWizard() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="activity-category" className="block text-sm font-medium text-gray-700 mb-2">
                 Категория
               </label>
               <select
+                id="activity-category"
+                name="category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -114,10 +119,12 @@ export default function ActivityWizard() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="activity-description" className="block text-sm font-medium text-gray-700 mb-2">
                 Описание
               </label>
               <textarea
+                id="activity-description"
+                name="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
@@ -127,11 +134,14 @@ export default function ActivityWizard() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="activity-address" className="block text-sm font-medium text-gray-700 mb-2">
                 Локация/Место проведения
               </label>
               <input
+                id="activity-address"
+                name="address"
                 type="text"
+                autoComplete="street-address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -141,12 +151,16 @@ export default function ActivityWizard() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="activity-price" className="block text-sm font-medium text-gray-700 mb-2">
                   Цена (₽) *
                 </label>
                 <input
+                  id="activity-price"
+                  name="price"
                   type="number"
                   required
+                  inputMode="numeric"
+                  autoComplete="off"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -155,11 +169,15 @@ export default function ActivityWizard() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="activity-salePrice" className="block text-sm font-medium text-gray-700 mb-2">
                   Цена со скидкой (₽)
                 </label>
                 <input
+                  id="activity-salePrice"
+                  name="salePrice"
                   type="number"
+                  inputMode="numeric"
+                  autoComplete="off"
                   value={salePrice}
                   onChange={(e) => setSalePrice(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -170,10 +188,12 @@ export default function ActivityWizard() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="activity-difficulty" className="block text-sm font-medium text-gray-700 mb-2">
                   Сложность
                 </label>
                 <select
+                  id="activity-difficulty"
+                  name="difficulty"
                   value={difficulty}
                   onChange={(e) => setDifficulty(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -185,11 +205,14 @@ export default function ActivityWizard() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="activity-duration" className="block text-sm font-medium text-gray-700 mb-2">
                   Длительность
                 </label>
                 <input
+                  id="activity-duration"
+                  name="duration"
                   type="text"
+                  autoComplete="off"
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -200,12 +223,16 @@ export default function ActivityWizard() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="activity-latitude" className="block text-sm font-medium text-gray-700 mb-2">
                   Широта
                 </label>
                 <input
+                  id="activity-latitude"
+                  name="latitude"
                   type="number"
                   step="any"
+                  inputMode="decimal"
+                  autoComplete="off"
                   value={latitude}
                   onChange={(e) => setLatitude(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -213,12 +240,16 @@ export default function ActivityWizard() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="activity-longitude" className="block text-sm font-medium text-gray-700 mb-2">
                   Долгота
                 </label>
                 <input
+                  id="activity-longitude"
+                  name="longitude"
                   type="number"
                   step="any"
+                  inputMode="decimal"
+                  autoComplete="off"
                   value={longitude}
                   onChange={(e) => setLongitude(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
@@ -235,10 +266,12 @@ export default function ActivityWizard() {
             <h2 className="text-xl font-semibold">Детали активности</h2>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="activity-included" className="block text-sm font-medium text-gray-700 mb-2">
                 Что включено
               </label>
               <textarea
+                id="activity-included"
+                name="included"
                 value={included}
                 onChange={(e) => setIncluded(e.target.value)}
                 rows={3}
@@ -248,10 +281,12 @@ export default function ActivityWizard() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="activity-requirements" className="block text-sm font-medium text-gray-700 mb-2">
                 Требования/Что взять с собой
               </label>
               <textarea
+                id="activity-requirements"
+                name="requirements"
                 value={requirements}
                 onChange={(e) => setRequirements(e.target.value)}
                 rows={3}

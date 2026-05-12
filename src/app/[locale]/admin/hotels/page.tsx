@@ -72,13 +72,13 @@ export default async function AdminHotelsPage({
                 <td className="px-6 py-4 text-sm text-gray-600">
                   {hotel.author?.name || "Неизвестно"}
                 </td>
-                <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                <td className="px-6 py-4 text-sm font-medium text-gray-900 tabular-nums">
                   {hotel.price} ₽
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-600">
+                <td className="px-6 py-4 text-sm text-gray-600 tabular-nums">
                   {hotel._count.rooms}
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-600">
+                <td className="px-6 py-4 text-sm text-gray-600 tabular-nums">
                   {hotel._count.bookings}
                 </td>
                 <td className="px-6 py-4">

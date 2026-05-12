@@ -1,0 +1,727 @@
+{
+  "totalCount": 232,
+  "allKeys": [
+    "T",
+    "about.description1",
+    "about.stats.guests",
+    "about.subtitle",
+    "about.title",
+    "accept-language",
+    "accountInfo",
+    "activitiesTitle",
+    "address",
+    "admin.activities.addNew",
+    "admin.activities.columns.actions",
+    "admin.activities.columns.bookings",
+    "admin.activities.columns.location",
+    "admin.activities.columns.price",
+    "admin.activities.columns.title",
+    "admin.activities.empty.addFirst",
+    "admin.activities.empty.noActivities",
+    "admin.activities.title",
+    "admin.bookings.empty",
+    "admin.bookings.error",
+    "admin.bookings.filters.all",
+    "admin.bookings.filters.cancelled",
+    "admin.bookings.filters.completed",
+    "admin.bookings.filters.confirmed",
+    "admin.bookings.filters.pending",
+    "admin.bookings.guestUnknown",
+    "admin.bookings.table.actions",
+    "admin.bookings.table.amount",
+    "admin.bookings.table.checkInOut",
+    "admin.bookings.table.guest",
+    "admin.bookings.table.id",
+    "admin.bookings.table.object",
+    "admin.bookings.table.payment",
+    "admin.bookings.table.status",
+    "admin.bookings.title",
+    "admin.dashboard.title",
+    "admin.general.edit",
+    "admin.menu.activities",
+    "admin.menu.backToDashboard",
+    "admin.menu.bookings",
+    "admin.menu.chat",
+    "admin.menu.dashboard",
+    "admin.menu.hotels",
+    "admin.menu.packages",
+    "admin.menu.settings",
+    "admin.menu.showcase",
+    "admin.menu.tours",
+    "admin.menu.users",
+    "admin.users.changeRole",
+    "admin.users.columns.actions",
+    "admin.users.columns.bookings",
+    "admin.users.columns.email",
+    "admin.users.columns.name",
+    "admin.users.columns.registered",
+    "admin.users.columns.role",
+    "admin.users.filters.all",
+    "admin.users.noName",
+    "admin.users.notFound",
+    "admin.users.title",
+    "adminPanel",
+    "amenities",
+    "auth.codeSent",
+    "auth.confirmPassword",
+    "auth.email",
+    "auth.getCode",
+    "auth.hasAccount",
+    "auth.name",
+    "auth.noAccount",
+    "auth.orSignInWith",
+    "auth.password",
+    "auth.phone",
+    "auth.profile",
+    "auth.register",
+    "auth.resendCode",
+    "auth.signin",
+    "auth.verifyCode",
+    "auth_date",
+    "backHome",
+    "backToDashboard",
+    "bathrooms",
+    "beds",
+    "book",
+    "bookingDetail",
+    "category",
+    "checkIn",
+    "checkOut",
+    "code",
+    "common.book",
+    "common.loading",
+    "common.optional",
+    "common.required",
+    "common.welcome",
+    "congratulations.description",
+    "congratulations.goToDashboard",
+    "congratulations.goToHome",
+    "congratulations.subtitle",
+    "congratulations.title",
+    "contacts",
+    "contacts_address",
+    "contacts_email",
+    "contacts_phone",
+    "content.contact",
+    "content.p1_text",
+    "content.p1_title",
+    "content.p2_text",
+    "content.p2_title",
+    "content.p3_text",
+    "content.p3_title",
+    "copyright",
+    "cta_hotels",
+    "cta_tours",
+    "date",
+    "description",
+    "description1",
+    "description2",
+    "difficulty",
+    "duration",
+    "email",
+    "error",
+    "featured.viewAll",
+    "featuredImage",
+    "find",
+    "findHotel",
+    "first_name",
+    "from",
+    "gallery",
+    "general.edit",
+    "groupSize",
+    "guests",
+    "hash",
+    "hero.description",
+    "hero.subtitle",
+    "hero.title",
+    "hex",
+    "hotelsTitle",
+    "id",
+    "included",
+    "itinerary",
+    "language",
+    "last_name",
+    "latitude",
+    "limit",
+    "locale",
+    "loginToBook",
+    "longitude",
+    "memberSince",
+    "myBookings",
+    "nav-variation",
+    "nav.about",
+    "nav.admin",
+    "nav.dashboard",
+    "nav.home",
+    "nav.login",
+    "nav.register",
+    "navigation",
+    "navigation_activities",
+    "navigation_home",
+    "navigation_hotels",
+    "navigation_tours",
+    "nights",
+    "noBookings",
+    "noImage",
+    "noResults",
+    "noReviews",
+    "notIncluded",
+    "page",
+    "perNight",
+    "perPerson",
+    "personalInfo",
+    "phone",
+    "photo_url",
+    "preferred-locale",
+    "price",
+    "priceFrom",
+    "priceTo",
+    "privacy.accept",
+    "privacy.link",
+    "privacy.required",
+    "profile",
+    "property",
+    "q",
+    "rating",
+    "recent",
+    "requirements",
+    "reviews",
+    "role",
+    "room",
+    "rooms",
+    "salePrice",
+    "search",
+    "searchPlaceholder",
+    "settings",
+    "settingsDescription",
+    "settingsTitle",
+    "stats.confirmed",
+    "stats.guests",
+    "stats.hotels",
+    "stats.pending",
+    "stats.spent",
+    "stats.total",
+    "stats.tours",
+    "status",
+    "submit",
+    "subtitle",
+    "support",
+    "support_about",
+    "support_policy",
+    "support_terms",
+    "tagline",
+    "title",
+    "total",
+    "totalPrice",
+    "tourDetails",
+    "tours.addNew",
+    "tours.columns.actions",
+    "tours.columns.author",
+    "tours.columns.bookings",
+    "tours.columns.price",
+    "tours.columns.status",
+    "tours.columns.title",
+    "tours.empty.addFirst",
+    "tours.empty.noTours",
+    "tours.title",
+    "toursTitle",
+    "type",
+    "typeActivity",
+    "typeTour",
+    "userId",
+    "username",
+    "viewAll",
+    "welcome",
+    "wishlist"
+  ],
+  "byNamespace": {
+    "about": [
+      "about.description1",
+      "about.stats.guests",
+      "about.subtitle",
+      "about.title"
+    ],
+    "accept-language": [
+      "accept-language"
+    ],
+    "accountInfo": [
+      "accountInfo"
+    ],
+    "activitiesTitle": [
+      "activitiesTitle"
+    ],
+    "address": [
+      "address"
+    ],
+    "admin": [
+      "admin.activities.addNew",
+      "admin.activities.columns.actions",
+      "admin.activities.columns.bookings",
+      "admin.activities.columns.location",
+      "admin.activities.columns.price",
+      "admin.activities.columns.title",
+      "admin.activities.empty.addFirst",
+      "admin.activities.empty.noActivities",
+      "admin.activities.title",
+      "admin.bookings.empty",
+      "admin.bookings.error",
+      "admin.bookings.filters.all",
+      "admin.bookings.filters.cancelled",
+      "admin.bookings.filters.completed",
+      "admin.bookings.filters.confirmed",
+      "admin.bookings.filters.pending",
+      "admin.bookings.guestUnknown",
+      "admin.bookings.table.actions",
+      "admin.bookings.table.amount",
+      "admin.bookings.table.checkInOut",
+      "admin.bookings.table.guest",
+      "admin.bookings.table.id",
+      "admin.bookings.table.object",
+      "admin.bookings.table.payment",
+      "admin.bookings.table.status",
+      "admin.bookings.title",
+      "admin.dashboard.title",
+      "admin.general.edit",
+      "admin.menu.activities",
+      "admin.menu.backToDashboard",
+      "admin.menu.bookings",
+      "admin.menu.chat",
+      "admin.menu.dashboard",
+      "admin.menu.hotels",
+      "admin.menu.packages",
+      "admin.menu.settings",
+      "admin.menu.showcase",
+      "admin.menu.tours",
+      "admin.menu.users",
+      "admin.users.changeRole",
+      "admin.users.columns.actions",
+      "admin.users.columns.bookings",
+      "admin.users.columns.email",
+      "admin.users.columns.name",
+      "admin.users.columns.registered",
+      "admin.users.columns.role",
+      "admin.users.filters.all",
+      "admin.users.noName",
+      "admin.users.notFound",
+      "admin.users.title"
+    ],
+    "adminPanel": [
+      "adminPanel"
+    ],
+    "amenities": [
+      "amenities"
+    ],
+    "auth": [
+      "auth.codeSent",
+      "auth.confirmPassword",
+      "auth.email",
+      "auth.getCode",
+      "auth.hasAccount",
+      "auth.name",
+      "auth.noAccount",
+      "auth.orSignInWith",
+      "auth.password",
+      "auth.phone",
+      "auth.profile",
+      "auth.register",
+      "auth.resendCode",
+      "auth.signin",
+      "auth.verifyCode"
+    ],
+    "auth_date": [
+      "auth_date"
+    ],
+    "backHome": [
+      "backHome"
+    ],
+    "backToDashboard": [
+      "backToDashboard"
+    ],
+    "bathrooms": [
+      "bathrooms"
+    ],
+    "beds": [
+      "beds"
+    ],
+    "book": [
+      "book"
+    ],
+    "bookingDetail": [
+      "bookingDetail"
+    ],
+    "category": [
+      "category"
+    ],
+    "checkIn": [
+      "checkIn"
+    ],
+    "checkOut": [
+      "checkOut"
+    ],
+    "code": [
+      "code"
+    ],
+    "common": [
+      "common.book",
+      "common.loading",
+      "common.optional",
+      "common.required",
+      "common.welcome"
+    ],
+    "congratulations": [
+      "congratulations.description",
+      "congratulations.goToDashboard",
+      "congratulations.goToHome",
+      "congratulations.subtitle",
+      "congratulations.title"
+    ],
+    "contacts": [
+      "contacts"
+    ],
+    "contacts_address": [
+      "contacts_address"
+    ],
+    "contacts_email": [
+      "contacts_email"
+    ],
+    "contacts_phone": [
+      "contacts_phone"
+    ],
+    "content": [
+      "content.contact",
+      "content.p1_text",
+      "content.p1_title",
+      "content.p2_text",
+      "content.p2_title",
+      "content.p3_text",
+      "content.p3_title"
+    ],
+    "copyright": [
+      "copyright"
+    ],
+    "cta_hotels": [
+      "cta_hotels"
+    ],
+    "cta_tours": [
+      "cta_tours"
+    ],
+    "date": [
+      "date"
+    ],
+    "description": [
+      "description"
+    ],
+    "description1": [
+      "description1"
+    ],
+    "description2": [
+      "description2"
+    ],
+    "difficulty": [
+      "difficulty"
+    ],
+    "duration": [
+      "duration"
+    ],
+    "email": [
+      "email"
+    ],
+    "error": [
+      "error"
+    ],
+    "featured": [
+      "featured.viewAll"
+    ],
+    "featuredImage": [
+      "featuredImage"
+    ],
+    "find": [
+      "find"
+    ],
+    "findHotel": [
+      "findHotel"
+    ],
+    "first_name": [
+      "first_name"
+    ],
+    "from": [
+      "from"
+    ],
+    "gallery": [
+      "gallery"
+    ],
+    "general": [
+      "general.edit"
+    ],
+    "groupSize": [
+      "groupSize"
+    ],
+    "guests": [
+      "guests"
+    ],
+    "hash": [
+      "hash"
+    ],
+    "hero": [
+      "hero.description",
+      "hero.subtitle",
+      "hero.title"
+    ],
+    "hex": [
+      "hex"
+    ],
+    "hotelsTitle": [
+      "hotelsTitle"
+    ],
+    "id": [
+      "id"
+    ],
+    "included": [
+      "included"
+    ],
+    "itinerary": [
+      "itinerary"
+    ],
+    "language": [
+      "language"
+    ],
+    "last_name": [
+      "last_name"
+    ],
+    "latitude": [
+      "latitude"
+    ],
+    "limit": [
+      "limit"
+    ],
+    "locale": [
+      "locale"
+    ],
+    "loginToBook": [
+      "loginToBook"
+    ],
+    "longitude": [
+      "longitude"
+    ],
+    "memberSince": [
+      "memberSince"
+    ],
+    "myBookings": [
+      "myBookings"
+    ],
+    "nav": [
+      "nav.about",
+      "nav.admin",
+      "nav.dashboard",
+      "nav.home",
+      "nav.login",
+      "nav.register"
+    ],
+    "nav-variation": [
+      "nav-variation"
+    ],
+    "navigation": [
+      "navigation"
+    ],
+    "navigation_activities": [
+      "navigation_activities"
+    ],
+    "navigation_home": [
+      "navigation_home"
+    ],
+    "navigation_hotels": [
+      "navigation_hotels"
+    ],
+    "navigation_tours": [
+      "navigation_tours"
+    ],
+    "nights": [
+      "nights"
+    ],
+    "noBookings": [
+      "noBookings"
+    ],
+    "noImage": [
+      "noImage"
+    ],
+    "noResults": [
+      "noResults"
+    ],
+    "noReviews": [
+      "noReviews"
+    ],
+    "notIncluded": [
+      "notIncluded"
+    ],
+    "page": [
+      "page"
+    ],
+    "perNight": [
+      "perNight"
+    ],
+    "perPerson": [
+      "perPerson"
+    ],
+    "personalInfo": [
+      "personalInfo"
+    ],
+    "phone": [
+      "phone"
+    ],
+    "photo_url": [
+      "photo_url"
+    ],
+    "preferred-locale": [
+      "preferred-locale"
+    ],
+    "price": [
+      "price"
+    ],
+    "priceFrom": [
+      "priceFrom"
+    ],
+    "priceTo": [
+      "priceTo"
+    ],
+    "privacy": [
+      "privacy.accept",
+      "privacy.link",
+      "privacy.required"
+    ],
+    "profile": [
+      "profile"
+    ],
+    "property": [
+      "property"
+    ],
+    "q": [
+      "q"
+    ],
+    "rating": [
+      "rating"
+    ],
+    "recent": [
+      "recent"
+    ],
+    "requirements": [
+      "requirements"
+    ],
+    "reviews": [
+      "reviews"
+    ],
+    "role": [
+      "role"
+    ],
+    "room": [
+      "room"
+    ],
+    "rooms": [
+      "rooms"
+    ],
+    "salePrice": [
+      "salePrice"
+    ],
+    "search": [
+      "search"
+    ],
+    "searchPlaceholder": [
+      "searchPlaceholder"
+    ],
+    "settings": [
+      "settings"
+    ],
+    "settingsDescription": [
+      "settingsDescription"
+    ],
+    "settingsTitle": [
+      "settingsTitle"
+    ],
+    "stats": [
+      "stats.confirmed",
+      "stats.guests",
+      "stats.hotels",
+      "stats.pending",
+      "stats.spent",
+      "stats.total",
+      "stats.tours"
+    ],
+    "status": [
+      "status"
+    ],
+    "submit": [
+      "submit"
+    ],
+    "subtitle": [
+      "subtitle"
+    ],
+    "support": [
+      "support"
+    ],
+    "support_about": [
+      "support_about"
+    ],
+    "support_policy": [
+      "support_policy"
+    ],
+    "support_terms": [
+      "support_terms"
+    ],
+    "T": [
+      "T"
+    ],
+    "tagline": [
+      "tagline"
+    ],
+    "title": [
+      "title"
+    ],
+    "total": [
+      "total"
+    ],
+    "totalPrice": [
+      "totalPrice"
+    ],
+    "tourDetails": [
+      "tourDetails"
+    ],
+    "tours": [
+      "tours.addNew",
+      "tours.columns.actions",
+      "tours.columns.author",
+      "tours.columns.bookings",
+      "tours.columns.price",
+      "tours.columns.status",
+      "tours.columns.title",
+      "tours.empty.addFirst",
+      "tours.empty.noTours",
+      "tours.title"
+    ],
+    "toursTitle": [
+      "toursTitle"
+    ],
+    "type": [
+      "type"
+    ],
+    "typeActivity": [
+      "typeActivity"
+    ],
+    "typeTour": [
+      "typeTour"
+    ],
+    "userId": [
+      "userId"
+    ],
+    "username": [
+      "username"
+    ],
+    "viewAll": [
+      "viewAll"
+    ],
+    "welcome": [
+      "welcome"
+    ],
+    "wishlist": [
+      "wishlist"
+    ]
+  }
+}
