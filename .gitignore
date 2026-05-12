@@ -41,3 +41,16 @@ yarn-error.log*
 next-env.d.ts
 
 /src/generated/prisma
+
+# database files
+*.db
+*.db-journal
+
+# logs
+*.log
+
+# supabase temp
+/supabase/.temp/
+
+# server logs
+server.log
