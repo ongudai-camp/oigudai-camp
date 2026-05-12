@@ -1,24 +1,27 @@
 import Link from "next/link";
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
+import { getTranslations } from "next-intl/server";
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
+  if (!session?.user || session.user.role !== "admin") {
     redirect("/dashboard");
   }
 
+  const t = await getTranslations();
+
   const menuItems = [
-    { href: "/admin", label: "Дашборд", icon: "📊" },
-    { href: "/admin/hotels", label: "Отели", icon: "🏨" },
-    { href: "/admin/tours", label: "Туры", icon: "🗺️" },
-    { href: "/admin/activities", label: "Активности", icon: "🎯" },
-    { href: "/admin/bookings", label: "Бронирования", icon: "📋" },
-    { href: "/admin/showcase", label: "Шоукейс", icon: "🎬" },
-    { href: "/admin/users", label: "Пользователи", icon: "👥" },
-    { href: "/admin/packages", label: "Пакеты", icon: "📦" },
+    { href: "/admin", label: t("admin.menu.dashboard"), icon: "📊" },
+    { href: "/admin/hotels", label: t("admin.menu.hotels"), icon: "🏨" },
+    { href: "/admin/tours", label: t("admin.menu.tours"), icon: "🗺️" },
+    { href: "/admin/activities", label: t("admin.menu.activities"), icon: "🎯" },
+    { href: "/admin/bookings", label: t("admin.menu.bookings"), icon: "📋" },
+    { href: "/admin/showcase", label: t("admin.menu.showcase"), icon: "🎬" },
+    { href: "/admin/users", label: t("admin.menu.users"), icon: "👥" },
+    { href: "/admin/packages", label: t("admin.menu.packages"), icon: "📦" },
   ];
 
   return (
@@ -27,7 +30,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
       <aside className="w-64 bg-white shadow-lg border-r border-gray-100 min-h-screen sticky top-0">
         <div className="p-6">
           <Link href="/admin" className="text-xl font-bold cursor-pointer hover:opacity-80 transition-opacity" style={{ color: "var(--main-color)" }}>
-            Админ панель
+            {t("admin.dashboard.title")}
           </Link>
         </div>
         <nav className="px-4 pb-6">
@@ -50,7 +53,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
               className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 cursor-pointer transition-all duration-200"
             >
               <span className="text-lg">←</span>
-              <span className="font-medium">В кабинет</span>
+              <span className="font-medium">{t("admin.menu.backToDashboard")}</span>
             </Link>
           </div>
         </nav>

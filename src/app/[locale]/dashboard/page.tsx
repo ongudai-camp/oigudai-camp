@@ -1,18 +1,25 @@
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
-import { ru } from "date-fns/locale";
+import { ru, enUS, kk } from "date-fns/locale";
+import { getTranslations } from "next-intl/server";
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const session = await auth();
+  const t = await getTranslations("dashboard");
 
   if (!session?.user) {
-    redirect("/auth/signin");
+    redirect(`/${locale}/auth/signin`);
   }
 
-  const userId = parseInt((session.user as any).id);
+  const userId = parseInt(session.user.id);
 
   // Get user with bookings
   const user = await prisma.user.findUnique({
@@ -27,19 +34,26 @@ export default async function DashboardPage() {
   });
 
   if (!user) {
-    redirect("/auth/signin");
+    redirect(`/${locale}/auth/signin`);
   }
 
+  // Date fns locale
+  const dateLocale = locale === "ru" ? ru : locale === "kk" ? kk : enUS;
+
   // Stats
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const stats = {
     totalBookings: user.bookings.length,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     confirmed: user.bookings.filter((b: any) => b.status === "confirmed").length,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     pending: user.bookings.filter((b: any) => b.status === "pending").length,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     totalSpent: user.bookings.reduce((sum: number, b: any) => sum + b.totalPrice, 0),
   };
 
   const getStatusBadge = (status: string) => {
-    const styles: any = {
+    const styles: Record<string, string> = {
       confirmed: "bg-green-100 text-green-800",
       pending: "bg-yellow-100 text-yellow-800",
       cancelled: "bg-red-100 text-red-800",
@@ -53,7 +67,7 @@ export default async function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] py-8">
+    <div className="min-h-screen bg-[#f8fafc] pt-24 pb-8">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row gap-8">
           {/* Sidebar */}
@@ -64,7 +78,7 @@ export default async function DashboardPage() {
                   {user.name?.[0] || "U"}
                 </span>
               </div>
-              <h3 className="font-semibold text-lg">{user.name || "Пользователь"}</h3>
+              <h3 className="font-semibold text-lg">{user.name || "User"}</h3>
               <p className="text-sm text-gray-500">{user.phone || user.email}</p>
               <span className="inline-block mt-2 px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
                 {user.role}
@@ -73,40 +87,47 @@ export default async function DashboardPage() {
 
             <nav className="space-y-2">
               <Link
-                href="/dashboard"
+                href={`/${locale}/dashboard`}
                 className="flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-50 text-blue-600 cursor-pointer transition-all duration-200"
               >
                 <span>📋</span>
-                <span className="font-medium">Мои бронирования</span>
+                <span className="font-medium">{t("myBookings")}</span>
               </Link>
               <Link
-                href="/dashboard/profile"
+                href={`/${locale}/dashboard/settings`}
+                className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 cursor-pointer transition-all duration-200"
+              >
+                <span>⚙️</span>
+                <span className="font-medium">{t("settings")}</span>
+              </Link>
+              <Link
+                href={`/${locale}/dashboard/profile`}
                 className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 cursor-pointer transition-all duration-200"
               >
                 <span>👤</span>
-                <span className="font-medium">Профиль</span>
+                <span className="font-medium">{t("profile")}</span>
               </Link>
               <Link
-                href="/dashboard/wishlist"
+                href={`/${locale}/dashboard/wishlist`}
                 className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 cursor-pointer transition-all duration-200"
               >
                 <span>❤️</span>
-                <span className="font-medium">Избранное</span>
+                <span className="font-medium">{t("wishlist")}</span>
               </Link>
               <Link
-                href="/dashboard/chat"
+                href={`/${locale}/dashboard/chat`}
                 className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 cursor-pointer transition-all duration-200"
               >
                 <span>💬</span>
-                <span className="font-medium">Чат поддержки</span>
+                <span className="font-medium">{t("support")}</span>
               </Link>
               {user.role === "admin" && (
                 <Link
-                  href="/admin"
+                  href={`/${locale}/admin`}
                   className="flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 cursor-pointer transition-all duration-200"
                 >
                   <span>⚙️</span>
-                  <span className="font-medium">Админ панель</span>
+                  <span className="font-medium">{t("adminPanel")}</span>
                 </Link>
               )}
             </nav>
@@ -115,9 +136,11 @@ export default async function DashboardPage() {
           {/* Main Content */}
           <main className="flex-1">
             <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8 mb-6">
-              <h1 className="text-2xl font-bold mb-2">Добро пожаловать, {user.name}!</h1>
+              <h1 className="text-2xl font-bold mb-2">
+                {t("welcome", { name: user.name || "Guest" })}
+              </h1>
               <p className="text-gray-600">
-                Здесь вы можете управлять своими бронированиями и просматривать историю поездок.
+                {t("description")}
               </p>
             </div>
 
@@ -128,44 +151,45 @@ export default async function DashboardPage() {
                   <span className="text-2xl">📋</span>
                   <span className="text-3xl font-bold text-blue-600">{stats.totalBookings}</span>
                 </div>
-                <h3 className="text-gray-500 text-sm font-medium">Всего бронирований</h3>
+                <h3 className="text-gray-500 text-sm font-medium">{t("stats.total")}</h3>
               </div>
               <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 cursor-pointer">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-2xl">✅</span>
                   <span className="text-3xl font-bold text-green-600">{stats.confirmed}</span>
                 </div>
-                <h3 className="text-gray-500 text-sm font-medium">Подтверждено</h3>
+                <h3 className="text-gray-500 text-sm font-medium">{t("stats.confirmed")}</h3>
               </div>
               <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 cursor-pointer">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-2xl">⏳</span>
                   <span className="text-3xl font-bold text-yellow-600">{stats.pending}</span>
                 </div>
-                <h3 className="text-gray-500 text-sm font-medium">Ожидают</h3>
+                <h3 className="text-gray-500 text-sm font-medium">{t("stats.pending")}</h3>
               </div>
               <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 cursor-pointer">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-2xl">₽</span>
                   <span className="text-3xl font-bold text-purple-600">{stats.totalSpent}</span>
                 </div>
-                <h3 className="text-gray-500 text-sm font-medium">Потрачено</h3>
+                <h3 className="text-gray-500 text-sm font-medium">{t("stats.spent")}</h3>
               </div>
             </div>
 
             {/* Recent Bookings */}
             <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6">
-              <h2 className="text-xl font-semibold mb-4">Последние бронирования</h2>
+              <h2 className="text-xl font-semibold mb-4">{t("recent")}</h2>
 
               {user.bookings.length === 0 ? (
                 <div className="text-center py-8 text-gray-500">
-                  <p>У вас пока нет бронирований</p>
-                  <Link href="/hotels" className="text-blue-600 hover:underline mt-2 inline-block">
-                    Найти отель
+                  <p>{t("noBookings")}</p>
+                  <Link href={`/${locale}/hotels`} className="text-blue-600 hover:underline mt-2 inline-block">
+                    {t("findHotel")}
                   </Link>
                 </div>
               ) : (
                 <div className="space-y-4">
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                   {user.bookings.map((booking: any) => (
                     <div
                       key={booking.id}
@@ -178,9 +202,9 @@ export default async function DashboardPage() {
                             <p className="text-sm text-gray-600">{booking.room.title}</p>
                           )}
                           <p className="text-sm text-gray-500">
-                            {format(new Date(booking.checkIn), "dd MMM yyyy", { locale: ru })}
+                            {format(new Date(booking.checkIn), "dd MMM yyyy", { locale: dateLocale })}
                             {booking.checkOut && (
-                              <> — {format(new Date(booking.checkOut), "dd MMM yyyy", { locale: ru })}</>
+                              <> — {format(new Date(booking.checkOut), "dd MMM yyyy", { locale: dateLocale })}</>
                             )}
                           </p>
                         </div>

@@ -1,18 +1,24 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { format } from "date-fns";
-import { ru } from "date-fns/locale";
+import { getTranslations } from "next-intl/server";
 
 export default async function ToursPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ q?: string; minPrice?: string; maxPrice?: string }>;
 }) {
+  const { locale } = await params;
   const { q, minPrice, maxPrice } = await searchParams;
+  const t = await getTranslations("listing");
+  const tc = await getTranslations("common");
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {
     type: "tour",
     status: "publish",
+    locale,
   };
 
   if (q) {
@@ -39,26 +45,26 @@ export default async function ToursPage({
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-8">Туры по Алтаю</h1>
+        <h1 className="text-3xl font-bold mb-8">{t("toursTitle")}</h1>
 
         {/* Search and Filter */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
           <form className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Поиск
+                {t("search")}
               </label>
               <input
                 type="text"
                 name="q"
-                placeholder="Название или локация..."
+                placeholder={t("searchPlaceholder")}
                 defaultValue={q}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Цена от (₽)
+                {t("priceFrom")}
               </label>
               <input
                 type="number"
@@ -70,7 +76,7 @@ export default async function ToursPage({
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Цена до (₽)
+                {t("priceTo")}
               </label>
               <input
                 type="number"
@@ -85,7 +91,7 @@ export default async function ToursPage({
                 type="submit"
                 className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
               >
-                Найти
+                {t("find")}
               </button>
             </div>
           </form>
@@ -93,10 +99,12 @@ export default async function ToursPage({
 
         {/* Tours Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {tours.map((tour: any) => (
             <div key={tour.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
               <div className="h-48 bg-gray-300 relative">
                 {tour.featuredImage && (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={tour.featuredImage}
                     alt={tour.title}
@@ -105,7 +113,7 @@ export default async function ToursPage({
                 )}
                 {tour.salePrice && (
                   <div className="absolute top-4 right-4 bg-red-500 text-white px-2 py-1 text-xs rounded">
-                    Скидка
+                    {tc("discount")}
                   </div>
                 )}
               </div>
@@ -114,7 +122,7 @@ export default async function ToursPage({
                   <h3 className="text-xl font-semibold">{tour.title}</h3>
                   <div className="flex items-center">
                     <span className="text-yellow-500">★</span>
-                    <span className="ml-1 text-sm">{tour.rating || "Нет оценок"}</span>
+                    <span className="ml-1 text-sm">{tour.rating || tc("noRating")}</span>
                   </div>
                 </div>
 
@@ -130,13 +138,13 @@ export default async function ToursPage({
                         {tour.price} ₽
                       </span>
                     )}
-                    <span className="text-gray-500 text-sm"> / с человека</span>
+                    <span className="text-gray-500 text-sm"> / {tc("perPerson")}</span>
                   </div>
                   <Link
-                    href={`/tours/${tour.id}`}
+                    href={`/${locale}/tours/${tour.slug}`}
                     className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
                   >
-                    Подробнее
+                    {tc("details")}
                   </Link>
                 </div>
               </div>
@@ -146,7 +154,7 @@ export default async function ToursPage({
 
         {tours.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500">Туры не найдены. Попробуйте изменить параметры поиска.</p>
+            <p className="text-gray-500">{t("noResults")}</p>
           </div>
         )}
       </div>

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 
 // GET /api/admin/activities/[id] - get single activity
 export async function GET(
@@ -9,7 +9,7 @@ export async function GET(
 ) {
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
+  if (!session?.user || session.user.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -33,7 +33,7 @@ export async function PUT(
 ) {
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
+  if (!session?.user || session.user.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -48,6 +48,8 @@ export async function PUT(
       salePrice,
       authorId,
       status,
+      featuredImage,
+      gallery,
     } = body;
 
     const activity = await prisma.post.update({
@@ -60,13 +62,15 @@ export async function PUT(
         salePrice: salePrice ? parseFloat(salePrice) : null,
         authorId: authorId ? parseInt(authorId) : null,
         status,
+        featuredImage: featuredImage || null,
+        gallery: gallery || null,
       },
     });
 
     return NextResponse.json(activity);
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { error: error.message || "Failed to update activity" },
+      { error: error instanceof Error ? error.message : "Failed to update activity" },
       { status: 500 }
     );
   }
@@ -79,7 +83,7 @@ export async function DELETE(
 ) {
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
+  if (!session?.user || session.user.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -90,9 +94,9 @@ export async function DELETE(
     });
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { error: error.message || "Failed to delete activity" },
+      { error: error instanceof Error ? error.message : "Failed to delete activity" },
       { status: 500 }
     );
   }

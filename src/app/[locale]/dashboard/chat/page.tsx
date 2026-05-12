@@ -1,16 +1,21 @@
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import ChatInterface from "@/components/chat/ChatInterface";
 
-export default async function ChatPage() {
+export default async function ChatPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const session = await auth();
 
   if (!session?.user) {
-    redirect("/auth/signin");
+    redirect(`/${locale}/auth/signin`);
   }
 
-  const userId = parseInt((session.user as any).id);
+  const userId = parseInt(session.user.id);
 
   return (
     <div className="min-h-screen bg-[#f8fafc] py-8">
@@ -21,30 +26,37 @@ export default async function ChatPage() {
             <div className="text-center mb-6">
               <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <span className="text-2xl text-blue-600 font-bold">
-                  {(session.user as any).name?.[0] || "U"}
+                  {session.user.name?.[0] || "U"}
                 </span>
               </div>
-              <h3 className="font-semibold text-lg">{(session.user as any).name || "Пользователь"}</h3>
-              <p className="text-sm text-gray-500">{(session.user as any).phone || (session.user as any).email}</p>
+              <h3 className="font-semibold text-lg">{session.user.name || "Пользователь"}</h3>
+              <p className="text-sm text-gray-500">{session.user.phone || session.user.email}</p>
             </div>
 
             <nav className="space-y-2">
               <Link
-                href="/dashboard"
+                href={`/${locale}/dashboard`}
                 className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 cursor-pointer transition-all duration-200"
               >
                 <span>📋</span>
                 <span className="font-medium">Мои бронирования</span>
               </Link>
               <Link
-                href="/dashboard/profile"
+                href={`/${locale}/dashboard/settings`}
+                className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 cursor-pointer transition-all duration-200"
+              >
+                <span>⚙️</span>
+                <span className="font-medium">Настройки</span>
+              </Link>
+              <Link
+                href={`/${locale}/dashboard/profile`}
                 className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 cursor-pointer transition-all duration-200"
               >
                 <span>👤</span>
                 <span className="font-medium">Профиль</span>
               </Link>
               <Link
-                href="/dashboard/chat"
+                href={`/${locale}/dashboard/chat`}
                 className="flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-50 text-blue-600 cursor-pointer transition-all duration-200"
               >
                 <span>💬</span>

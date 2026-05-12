@@ -1,0 +1,259 @@
+
+> ongudai-camp@0.1.0 dev
+> next dev -p 3001
+
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://192.168.0.3:3001
+- Environments: .env
+✓ Ready in 760ms
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+
+[Middleware] Path: /
+[Middleware] Path: /ru
+ GET /ru 200 in 5.2s (next.js: 2.2s, proxy.ts: 23ms, generate-params: 1655ms, application-code: 2.9s)
+ GET /api/posts?type=hotel&limit=3&locale=ru 200 in 468ms (next.js: 296ms, application-code: 172ms)
+ GET /api/posts?type=tour&limit=3&locale=ru 200 in 71ms (next.js: 20ms, application-code: 51ms)
+ GET /api/posts?type=activity&limit=3&locale=ru 200 in 76ms (next.js: 29ms, application-code: 47ms)
+ GET /api/auth/session 200 in 1248ms (next.js: 1218ms, application-code: 30ms)
+ GET /api/auth/session 200 in 34ms (next.js: 16ms, application-code: 19ms)
+[Middleware] Path: /ru/auth/signin
+ GET /ru/auth/signin 200 in 1450ms (next.js: 1275ms, proxy.ts: 33ms, generate-params: 1206ms, application-code: 143ms)
+[Middleware] Path: /ru/auth/signin
+ GET /ru/auth/signin 200 in 137ms (next.js: 33ms, proxy.ts: 9ms, generate-params: 14ms, application-code: 94ms)
+[Middleware] Path: /ru/auth/register
+ GET /ru/auth/register 200 in 1447ms (next.js: 1273ms, proxy.ts: 8ms, generate-params: 1202ms, application-code: 166ms)
+[Middleware] Path: /ru
+ GET /ru 200 in 153ms (next.js: 29ms, proxy.ts: 11ms, generate-params: 10ms, application-code: 113ms)
+ GET /api/posts?type=hotel&limit=3&locale=ru 200 in 54ms (next.js: 20ms, application-code: 34ms)
+ GET /api/posts?type=tour&limit=3&locale=ru 200 in 46ms (next.js: 16ms, application-code: 31ms)
+ GET /api/posts?type=activity&limit=3&locale=ru 200 in 50ms (next.js: 24ms, application-code: 26ms)
+[Middleware] Path: /ru/hotels
+ GET /api/posts?type=activity&limit=3&locale=ru 200 in 1082ms (next.js: 608ms, application-code: 474ms)
+ GET /api/posts?type=hotel&limit=3&locale=ru 200 in 1085ms (next.js: 631ms, application-code: 453ms)
+ GET /api/posts?type=tour&limit=3&locale=ru 200 in 1080ms (next.js: 631ms, application-code: 449ms)
+ GET /ru/hotels?type=cottage 200 in 4.3s (next.js: 2.9s, proxy.ts: 579ms, generate-params: 2.2s, application-code: 822ms)
+[Middleware] Path: /ru/tours
+ GET /ru/tours?category=custom 200 in 1704ms (next.js: 1476ms, proxy.ts: 13ms, generate-params: 1407ms, application-code: 215ms)
+[Middleware] Path: /ru/admin/hotels/new
+ GET /ru/admin/hotels/new 200 in 1269ms (next.js: 1072ms, proxy.ts: 11ms, generate-params: 1014ms, application-code: 186ms)
+[Middleware] Path: /dashboard
+[Middleware] Path: /dashboard
+[Middleware] Path: /ru/dashboard
+[Middleware] Path: /ru/dashboard
+ GET /ru/dashboard 200 in 1266ms (next.js: 1088ms, proxy.ts: 16ms, generate-params: 1015ms, application-code: 162ms)
+ GET /ru/dashboard 200 in 238ms (next.js: 40ms, proxy.ts: 22ms, generate-params: 12ms, application-code: 176ms)
+[Middleware] Path: /ru/auth/signin
+[Middleware] Path: /ru/auth/signin
+ GET /ru/auth/signin 200 in 277ms (next.js: 37ms, proxy.ts: 12ms, generate-params: 13ms, application-code: 227ms)
+ GET /ru/auth/signin 200 in 158ms (next.js: 24ms, proxy.ts: 18ms, generate-params: 64µs, application-code: 116ms)
+[Middleware] Path: /ru
+ GET /ru 200 in 129ms (next.js: 27ms, proxy.ts: 10ms, generate-params: 9ms, application-code: 93ms)
+ GET /api/posts?type=hotel&limit=3&locale=ru 200 in 32ms (next.js: 6ms, application-code: 26ms)
+ GET /api/posts?type=tour&limit=3&locale=ru 200 in 45ms (next.js: 23ms, application-code: 22ms)
+ GET /api/posts?type=activity&limit=3&locale=ru 200 in 26ms (next.js: 11ms, application-code: 15ms)
+[Middleware] Path: /en
+ GET /en 200 in 261ms (next.js: 28ms, proxy.ts: 11ms, generate-params: 12ms, application-code: 222ms)
+ GET /api/posts?type=hotel&limit=3&locale=en 200 in 75ms (next.js: 36ms, application-code: 39ms)
+ GET /api/posts?type=tour&limit=3&locale=en 200 in 56ms (next.js: 20ms, application-code: 36ms)
+ GET /api/posts?type=activity&limit=3&locale=en 200 in 57ms (next.js: 28ms, application-code: 29ms)
+ GET /api/auth/session 200 in 99ms (next.js: 43ms, application-code: 56ms)
+ GET /api/auth/session 200 in 34ms (next.js: 9ms, application-code: 24ms)
+ GET /api/auth/session 200 in 33ms (next.js: 7ms, application-code: 26ms)
+ GET /api/auth/session 200 in 46ms (next.js: 9ms, application-code: 37ms)
+[Middleware] Path: /tr
+ GET /tr 200 in 231ms (next.js: 20ms, proxy.ts: 10ms, generate-params: 46µs, application-code: 201ms)
+ GET /api/posts?type=hotel&limit=3&locale=tr 200 in 50ms (next.js: 11ms, application-code: 38ms)
+ GET /api/posts?type=activity&limit=3&locale=tr 200 in 63ms (next.js: 25ms, application-code: 38ms)
+ GET /api/posts?type=tour&limit=3&locale=tr 200 in 66ms (next.js: 33ms, application-code: 33ms)
+ GET /api/auth/session 200 in 40ms (next.js: 15ms, application-code: 25ms)
+ GET /api/auth/session 200 in 23ms (next.js: 5ms, application-code: 18ms)
+ GET /api/auth/session 200 in 22ms (next.js: 5ms, application-code: 17ms)
+ GET /api/auth/session 200 in 18ms (next.js: 4ms, application-code: 14ms)
+[Middleware] Path: /tr/hotels
+ GET /tr/hotels 200 in 318ms (next.js: 37ms, proxy.ts: 13ms, generate-params: 16ms, application-code: 268ms)
+[Middleware] Path: /ru
+ GET /ru 200 in 200ms (next.js: 23ms, proxy.ts: 9ms, generate-params: 10ms, application-code: 169ms)
+ GET /api/posts?type=hotel&limit=3&locale=ru 200 in 39ms (next.js: 15ms, application-code: 25ms)
+ GET /api/posts?type=tour&limit=3&locale=ru 200 in 49ms (next.js: 16ms, application-code: 32ms)
+ GET /api/posts?type=activity&limit=3&locale=ru 200 in 50ms (next.js: 25ms, application-code: 26ms)
+ GET /api/auth/session 200 in 57ms (next.js: 28ms, application-code: 28ms)
+ GET /api/auth/session 200 in 20ms (next.js: 5ms, application-code: 15ms)
+ GET /api/auth/session 200 in 16ms (next.js: 5ms, application-code: 11ms)
+ GET /api/auth/session 200 in 17ms (next.js: 4ms, application-code: 12ms)
+[Middleware] Path: /ru
+ GET /ru 200 in 1117ms (next.js: 319ms, proxy.ts: 125ms, generate-params: 9ms, application-code: 673ms)
+ GET /api/posts?type=hotel&limit=3&locale=ru 200 in 319ms (next.js: 178ms, application-code: 141ms)
+ GET /api/posts?type=tour&limit=3&locale=ru 200 in 158ms (next.js: 118ms, application-code: 39ms)
+ GET /api/posts?type=activity&limit=3&locale=ru 200 in 159ms (next.js: 127ms, application-code: 32ms)
+[Middleware] Path: /ru
+ GET /ru 200 in 87ms (next.js: 35ms, proxy.ts: 13ms, generate-params: 12ms, application-code: 39ms)
+[Middleware] Path: /ru
+ GET /ru 200 in 181ms (next.js: 20ms, proxy.ts: 12ms, generate-params: 69µs, application-code: 149ms)
+[Middleware] Path: /ru/hotels/gorny-altay-hotel
+[Middleware] Path: /ru/hotels/gorny-altay-hotel
+ GET /ru/hotels/gorny-altay-hotel 200 in 14.6s (next.js: 2.1s, proxy.ts: 11ms, application-code: 12.5s)
+ GET /ru/hotels/gorny-altay-hotel 200 in 2.8s (next.js: 2.3s, proxy.ts: 217ms, application-code: 250ms)
+[Middleware] Path: /en
+ GET /en 200 in 703ms (next.js: 29ms, proxy.ts: 11ms, generate-params: 11ms, application-code: 664ms)
+[Middleware] Path: /ru/hotels
+ GET /ru/hotels?type=cottage 200 in 2.9s (next.js: 1977ms, proxy.ts: 359ms, generate-params: 10ms, application-code: 536ms)
+[Middleware] Path: /ru
+ GET /ru 200 in 101ms (next.js: 23ms, proxy.ts: 8ms, generate-params: 11ms, application-code: 71ms)
+ GET /api/posts?type=hotel&limit=3&locale=ru 200 in 28ms (next.js: 6ms, application-code: 21ms)
+ GET /api/posts?type=tour&limit=3&locale=ru 200 in 50ms (next.js: 7ms, application-code: 43ms)
+ GET /api/posts?type=activity&limit=3&locale=ru 200 in 52ms (next.js: 15ms, application-code: 37ms)
+[Middleware] Path: /ru/auth/signin
+ GET /ru/auth/signin 200 in 788ms (next.js: 260ms, proxy.ts: 8ms, generate-params: 9ms, application-code: 520ms)
+[Middleware] Path: /ru/auth/signin
+ GET /ru/auth/signin 200 in 110ms (next.js: 18ms, proxy.ts: 6ms, generate-params: 8ms, application-code: 86ms)
+[Middleware] Path: /ru/tours
+ GET /ru/tours?category=horse 200 in 977ms (next.js: 403ms, proxy.ts: 10ms, generate-params: 10ms, application-code: 564ms)
+[Middleware] Path: /ru/auth/signin
+ GET /ru/auth/signin 200 in 281ms (next.js: 83ms, proxy.ts: 17ms, generate-params: 21ms, application-code: 181ms)
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+✓ Compiled in 12227.1s
+[Middleware] Path: /en
+ GET /en 200 in 2.1s (next.js: 412ms, proxy.ts: 182ms, generate-params: 11ms, application-code: 1513ms)
+[Middleware] Path: /ru/auth/signin
+ GET /ru/auth/signin 200 in 6.8s (next.js: 3.6s, proxy.ts: 469ms, generate-params: 10ms, application-code: 2.8s)
+ GET /api/auth/session 200 in 430ms (next.js: 242ms, application-code: 188ms)
+ GET /api/auth/session 200 in 15ms (next.js: 4ms, application-code: 11ms)
+[Middleware] Path: /ru/auth/signin
+ GET /ru/auth/signin 200 in 1486ms (next.js: 112ms, proxy.ts: 44ms, generate-params: 15ms, application-code: 1330ms)
+ GET /api/auth/session 200 in 52ms (next.js: 21ms, application-code: 31ms)
+ GET /api/auth/session 200 in 18ms (next.js: 5ms, application-code: 13ms)
+ GET /api/auth/providers 200 in 34ms (next.js: 16ms, application-code: 18ms)
+ GET /api/auth/csrf 200 in 14ms (next.js: 4ms, application-code: 11ms)
+[31m[auth][error][0m CredentialsSignin: Read more at https://errors.authjs.dev#credentialssignin
+    at Module.callback (D:\ongudai-camp.ru\ongudai-camp\.next\dev\server\chunks\node_modules_@auth_core_09h2y9.._.js:4314:30)
+    at async AuthInternal (D:\ongudai-camp.ru\ongudai-camp\.next\dev\server\chunks\node_modules_@auth_core_09h2y9.._.js:5162:24)
+    at async Auth (D:\ongudai-camp.ru\ongudai-camp\.next\dev\server\chunks\node_modules_@auth_core_09h2y9.._.js:5384:34)
+    at async AppRouteRouteModule.do (D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:40115)
+    at async AppRouteRouteModule.handle (D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:47321)
+    at async responseGenerator (D:\ongudai-camp.ru\ongudai-camp\.next\dev\server\chunks\node_modules_next_0fkt7xl._.js:18297:38)
+    at async AppRouteRouteModule.handleResponse (D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:1:227216)
+    at async handleResponse (D:\ongudai-camp.ru\ongudai-camp\.next\dev\server\chunks\node_modules_next_0fkt7xl._.js:18360:32)
+    at async Module.handler (D:\ongudai-camp.ru\ongudai-camp\.next\dev\server\chunks\node_modules_next_0fkt7xl._.js:18414:13)
+    at async DevServer.renderToResponseWithComponentsImpl (D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\server\base-server.js:1454:9)
+    at async DevServer.renderPageComponent (D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\server\base-server.js:1506:24)
+    at async DevServer.renderToResponseImpl (D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\server\base-server.js:1556:32)
+    at async DevServer.pipeImpl (D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\server\base-server.js:1043:25)
+    at async NextNodeServer.handleCatchallRenderRequest (D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\server\next-server.js:338:17)
+    at async DevServer.handleRequestImpl (D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\server\base-server.js:934:17)
+    at async D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\server\dev\next-dev-server.js:394:20
+    at async Span.traceAsyncFn (D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\trace\trace.js:164:20)
+    at async DevServer.handleRequest (D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\server\dev\next-dev-server.js:390:24)
+    at async invokeRender (D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\server\lib\router-server.js:266:21)
+    at async handleRequest (D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\server\lib\router-server.js:465:24)
+    at async requestHandlerImpl (D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\server\lib\router-server.js:514:13)
+    at async Server.requestListener (D:\ongudai-camp.ru\ongudai-camp\node_modules\next\dist\server\lib\start-server.js:225:13)
+ POST /api/auth/callback/credentials? 200 in 40ms (next.js: 5ms, application-code: 34ms)
+ GET /api/auth/session 200 in 15ms (next.js: 4ms, application-code: 11ms)
+[Middleware] Path: /ru/auth/register
+ GET /ru/auth/register 200 in 872ms (next.js: 286ms, proxy.ts: 8ms, generate-params: 8ms, application-code: 578ms)
+[Middleware] Path: /ru/privacy-policy
+ GET /ru/privacy-policy 200 in 1263ms (next.js: 1113ms, proxy.ts: 14ms, generate-params: 1038ms, application-code: 136ms)
+SMS code for +75151515155: 670251
+ POST /api/auth/send-sms 200 in 147ms (next.js: 64ms, application-code: 83ms)
+[Middleware] Path: /ru/auth/register
+ GET /ru/auth/register 200 in 1394ms (next.js: 28ms, proxy.ts: 13ms, generate-params: 10ms, application-code: 1353ms)
+ GET /api/auth/session 200 in 84ms (next.js: 22ms, application-code: 62ms)
+ GET /api/auth/session 200 in 30ms (next.js: 9ms, application-code: 21ms)
+[Middleware] Path: /ru
+ GET /ru 200 in 194ms (next.js: 33ms, proxy.ts: 7ms, generate-params: 10ms, application-code: 154ms)
+ GET /api/posts?type=hotel&limit=3&locale=ru 200 in 166ms (next.js: 80ms, application-code: 87ms)
+ GET /api/posts?type=tour&limit=3&locale=ru 200 in 169ms (next.js: 89ms, application-code: 80ms)
+ GET /api/posts?type=activity&limit=3&locale=ru 200 in 170ms (next.js: 93ms, application-code: 77ms)
+[Middleware] Path: /ru/auth/signin
+ GET /ru/auth/signin 200 in 152ms (next.js: 23ms, proxy.ts: 9ms, generate-params: 8ms, application-code: 120ms)
+[Middleware] Path: /ru
+ GET /ru 200 in 158ms (next.js: 31ms, proxy.ts: 11ms, generate-params: 11ms, application-code: 117ms)
+[Middleware] Path: /ru
+ GET /ru 200 in 1091ms (next.js: 363ms, proxy.ts: 109ms, generate-params: 11ms, application-code: 619ms)
+[Middleware] Path: /ru
+ GET /ru 200 in 960ms (next.js: 292ms, proxy.ts: 45ms, generate-params: 10ms, application-code: 623ms)
+[Middleware] Path: /ru
+[Middleware] Path: /ru
+ GET /ru 200 in 1448ms (next.js: 347ms, proxy.ts: 69ms, generate-params: 11ms, application-code: 1031ms)
+ GET /ru 200 in 463ms (next.js: 91ms, proxy.ts: 62ms, generate-params: 96µs, application-code: 309ms)
+[Middleware] Path: /ru
+[Middleware] Path: /ru
+[Middleware] Path: /ru
+[Middleware] Path: /ru
+ GET /ru 200 in 13.6s (next.js: 4.9s, proxy.ts: 449ms, generate-params: 10ms, application-code: 8.2s)
+ GET /ru 200 in 7.1s (next.js: 5.0s, proxy.ts: 438ms, generate-params: 10ms, application-code: 1668ms)
+ GET /ru 200 in 800ms (next.js: 249ms, proxy.ts: 81ms, generate-params: 10ms, application-code: 470ms)
+ GET /ru 200 in 797ms (next.js: 339ms, proxy.ts: 82ms, generate-params: 93µs, application-code: 377ms)
+[Middleware] Path: /ru
+ GET /ru 200 in 1262ms (next.js: 344ms, proxy.ts: 73ms, generate-params: 8ms, application-code: 846ms)
+[Middleware] Path: /ru
+[Middleware] Path: /ru
+[Middleware] Path: /ru
+[Middleware] Path: /ru
+[Middleware] Path: /ru
+[Middleware] Path: /ru
+ GET /ru 200 in 5.2s (next.js: 533ms, proxy.ts: 63ms, generate-params: 13ms, application-code: 4.6s)
+⚠ Server is approaching the used memory threshold, restarting...
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://192.168.0.3:3001
+- Environments: .env
+✓ Ready in 1129ms
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+
+[Middleware] Path: /ru
+ GET /ru 404 in 2.3s (next.js: 857ms, proxy.ts: 377ms, application-code: 1089ms)
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/ru" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="__next_bui...">
+                      <SegmentTrieNode>
+                      <script>
+                      <script>
+                      <DefaultLayout>
+                        <html>
+                          <body
+-                           hix-version="3.1.8"
+-                           hix-id="njggknpmkjapgklcfhaiigafiiebpchm"
+                          >
+                  ...
+ 
+[Middleware] Path: /en
+ GET /en 404 in 133ms (next.js: 18ms, proxy.ts: 16ms, application-code: 99ms)
+[Middleware] Path: /
+[Middleware] Path: /ru/auth/signin
+ GET /ru/auth/signin 404 in 122ms (next.js: 16ms, proxy.ts: 9ms, application-code: 96ms)
+[?25h

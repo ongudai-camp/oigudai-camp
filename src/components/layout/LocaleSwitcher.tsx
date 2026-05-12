@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
@@ -8,23 +9,25 @@ export default function LocaleSwitcher() {
   const pathname = usePathname();
 
   const switchLocale = (newLocale: string) => {
-    // Replace locale in pathname
     const segments = pathname.split("/");
-    if (["ru", "en", "tr"].includes(segments[1])) {
+    if (["ru", "en", "kk"].includes(segments[1])) {
       segments[1] = newLocale;
     } else {
       segments.splice(1, 0, newLocale);
     }
     const newPath = segments.join("/");
     router.push(newPath);
-    
-    // Set cookie for geolocation
-    document.cookie = `preferred-locale=${newLocale}; max-age=${60 * 60 * 24 * 365}; path=/`;
   };
+
+  useEffect(() => {
+    const segments = pathname.split("/");
+    const locale = ["ru", "en", "kk"].includes(segments[1]) ? segments[1] : "ru";
+    document.cookie = `preferred-locale=${locale}; max-age=${60 * 60 * 24 * 365}; path=/`;
+  }, [pathname]);
 
   const getCurrentLocale = () => {
     const segments = pathname.split("/");
-    if (["ru", "en", "tr"].includes(segments[1])) {
+    if (["ru", "en", "kk"].includes(segments[1])) {
       return segments[1];
     }
     return "ru";
@@ -33,15 +36,15 @@ export default function LocaleSwitcher() {
   const currentLocale = getCurrentLocale();
 
   return (
-    <div className="flex items-center gap-2">
-      {["ru", "en", "tr"].map((locale) => (
+    <div className="flex items-center gap-1 bg-sky-50 p-1 rounded-lg">
+      {["ru", "en", "kk"].map((locale) => (
         <button
           key={locale}
           onClick={() => switchLocale(locale)}
-          className={`px-3 py-1 text-sm rounded-md transition-all duration-200 cursor-pointer ${
+          className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all duration-300 cursor-pointer ${
             currentLocale === locale
-              ? "bg-blue-600 text-white"
-              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              ? "bg-white text-sky-600 shadow-sm"
+              : "text-sky-400 hover:text-sky-600"
           }`}
         >
           {locale.toUpperCase()}

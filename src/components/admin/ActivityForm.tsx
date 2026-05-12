@@ -2,10 +2,24 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import ImageUploader from "./ImageUploader";
+
+interface ActivityData {
+  id: number;
+  title: string;
+  content: string | null;
+  address: string | null;
+  price: number;
+  salePrice: number | null;
+  authorId: number | null;
+  status: string;
+  featuredImage?: string | null;
+  gallery?: string | null;
+}
 
 interface ActivityFormProps {
   users: { id: number; name: string | null; email: string | null }[];
-  activity?: any;
+  activity?: ActivityData;
 }
 
 export default function ActivityForm({ users, activity }: ActivityFormProps) {
@@ -14,11 +28,20 @@ export default function ActivityForm({ users, activity }: ActivityFormProps) {
     title: activity?.title || "",
     content: activity?.content || "",
     address: activity?.address || "",
-    price: activity?.price || 0,
-    salePrice: activity?.salePrice || "",
-    authorId: activity?.authorId || "",
+    price: activity?.price?.toString() || "",
+    salePrice: activity?.salePrice?.toString() || "",
+    authorId: activity?.authorId?.toString() || "",
     status: activity?.status || "publish",
   });
+  const [images, setImages] = useState<string[]>(
+    activity?.featuredImage
+      ? [activity.featuredImage, ...(activity.gallery ? JSON.parse(activity.gallery) : [])].filter(
+          (v, i, a) => a.indexOf(v) === i
+        )
+      : activity?.gallery
+        ? JSON.parse(activity.gallery)
+        : []
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -39,9 +62,11 @@ export default function ActivityForm({ users, activity }: ActivityFormProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
-          authorId: formData.authorId ? parseInt(formData.authorId as any) : null,
-          price: parseFloat(formData.price as any),
-          salePrice: formData.salePrice ? parseFloat(formData.salePrice as any) : null,
+          authorId: formData.authorId ? parseInt(formData.authorId) : null,
+          price: parseFloat(formData.price),
+          salePrice: formData.salePrice ? parseFloat(formData.salePrice) : null,
+          featuredImage: images[0] || null,
+          gallery: images.length > 0 ? JSON.stringify(images) : null,
         }),
       });
 
@@ -51,8 +76,8 @@ export default function ActivityForm({ users, activity }: ActivityFormProps) {
       }
 
       router.push("/admin/activities");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setLoading(false);
     }
@@ -132,7 +157,7 @@ export default function ActivityForm({ users, activity }: ActivityFormProps) {
             min="0"
             step="0.01"
             value={formData.price}
-            onChange={(e) => setFormData({ ...formData, price: e.target.value as any })}
+            onChange={(e) => setFormData({ ...formData, price: e.target.value as unknown as string })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
           />
         </div>
@@ -146,15 +171,23 @@ export default function ActivityForm({ users, activity }: ActivityFormProps) {
             min="0"
             step="0.01"
             value={formData.salePrice}
-            onChange={(e) => setFormData({ ...formData, salePrice: e.target.value as any })}
+            onChange={(e) => setFormData({ ...formData, salePrice: e.target.value as unknown as string })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Статус
-          </label>
+      <div className="space-y-4">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Галерея изображений
+        </label>
+        <p className="text-sm text-gray-500">Первое изображение будет главным.</p>
+        <ImageUploader images={images} onChange={setImages} />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Статус
+        </label>
           <select
             value={formData.status}
             onChange={(e) => setFormData({ ...formData, status: e.target.value })}

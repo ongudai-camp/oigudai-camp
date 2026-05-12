@@ -1,6 +1,12 @@
+'use client';
+
 import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function Footer() {
+  const t = useTranslations('footer');
+  const locale = useLocale();
+
   return (
     <footer className="bg-[#0C4A6E] text-white py-16 mt-20">
       <div className="container mx-auto px-4">
@@ -10,41 +16,41 @@ export default function Footer() {
               ONGUDAI<span className="text-orange-500">CAMP</span>
             </h3>
             <p className="text-sky-200/70 leading-relaxed">
-              Туристический комплекс в самом сердце горного Алтая. Мы создаем незабываемые впечатления для каждого гостя.
+              {t('tagline')}
             </p>
           </div>
 
           <div>
-            <h4 className="font-bold text-lg mb-6">Навигация</h4>
+            <h4 className="font-bold text-lg mb-6">{t('navigation')}</h4>
             <ul className="space-y-4 text-sky-100/60">
-              <li><Link href="/" className="hover:text-sky-400 transition-colors">Главная</Link></li>
-              <li><Link href="/hotels" className="hover:text-sky-400 transition-colors">Отели</Link></li>
-              <li><Link href="/tours" className="hover:text-sky-400 transition-colors">Туры</Link></li>
-              <li><Link href="/activities" className="hover:text-sky-400 transition-colors">Активности</Link></li>
-            </ul>
+                <li><Link href={`/${locale}`} className="hover:text-sky-400 transition-colors">{t('navigation_home')}</Link></li>
+                <li><Link href={`/${locale}/hotels`} className="hover:text-sky-400 transition-colors">{t('navigation_hotels')}</Link></li>
+                <li><Link href={`/${locale}/tours`} className="hover:text-sky-400 transition-colors">{t('navigation_tours')}</Link></li>
+                <li><Link href={`/${locale}/activities`} className="hover:text-sky-400 transition-colors">{t('navigation_activities')}</Link></li>
+              </ul>
           </div>
 
           <div>
-            <h4 className="font-bold text-lg mb-6">Поддержка</h4>
+            <h4 className="font-bold text-lg mb-6">{t('support')}</h4>
             <ul className="space-y-4 text-sky-100/60">
-              <li><Link href="/contact" className="hover:text-sky-400 transition-colors">Контакты</Link></li>
-              <li><Link href="/faq" className="hover:text-sky-400 transition-colors">FAQ</Link></li>
-              <li><Link href="/terms" className="hover:text-sky-400 transition-colors">Условия</Link></li>
-            </ul>
+                <li><Link href={`/${locale}/about`} className="hover:text-sky-400 transition-colors">{t('support_about')}</Link></li>
+                <li><Link href={`/${locale}/privacy-policy`} className="hover:text-sky-400 transition-colors">{t('support_policy')}</Link></li>
+                <li><Link href={`/${locale}/terms`} className="hover:text-sky-400 transition-colors">{t('support_terms')}</Link></li>
+              </ul>
           </div>
 
           <div>
-            <h4 className="font-bold text-lg mb-6">Контакты</h4>
+            <h4 className="font-bold text-lg mb-6">{t('contacts')}</h4>
             <div className="space-y-4 text-sky-100/60">
-              <p>📍 с. Онгудай, Республика Алтай</p>
-              <p>📞 +7 (388) 123-45-67</p>
-              <p>✉️ info@ongudaicamp.ru</p>
-            </div>
+                <p>📍 {t('contacts_address')}</p>
+                <p>📞 {t('contacts_phone')}</p>
+                <p>✉️ {t('contacts_email')}</p>
+              </div>
           </div>
         </div>
 
         <div className="border-t border-sky-800/50 mt-16 pt-8 text-center text-sky-200/40 text-sm">
-          <p>&copy; 2026 Ongudai Camp. Сделано с любовью к Алтаю.</p>
+           <p>&copy; 2026 Ongudai Camp. {t('copyright')}</p>
         </div>
       </div>
     </footer>

@@ -20,7 +20,7 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-  User              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -33,8 +33,8 @@ model Availability {
   status    String   @default("available")
   price     Float?
   createdAt DateTime @default(now())
-  Room      Room?    @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  Post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  room      Room?    @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@index([roomId, date])
   @@index([postId, date])
@@ -54,10 +54,10 @@ model Booking {
   status        String    @default("pending")
   paymentStatus String    @default("unpaid")
   createdAt     DateTime  @default(now())
-  updatedAt     DateTime
-  Room          Room?     @relation(fields: [roomId], references: [id])
-  Post          Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-  User          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  updatedAt     DateTime  @updatedAt
+  room          Room?     @relation(fields: [roomId], references: [id])
+  post          Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([status])
   @@index([postId])
@@ -70,7 +70,7 @@ model ChatMessage {
   isFromUser Boolean  @default(true)
   content    String
   createdAt  DateTime @default(now())
-  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([createdAt])
   @@index([userId])
@@ -84,8 +84,8 @@ model Package {
   postsLimit  Int           @default(0)
   featured    Boolean       @default(false)
   createdAt   DateTime      @default(now())
-  updatedAt   DateTime
-  UserPackage UserPackage[]
+  updatedAt   DateTime      @updatedAt
+  userPackages UserPackage[]
 
   @@unique([id, name])
 }
@@ -93,8 +93,9 @@ model Package {
 model Post {
   id            Int            @id @default(autoincrement())
   title         String
-  slug          String         @unique
+  slug          String
   type          String
+  locale        String         @default("ru")
   content       String?
   excerpt       String?
   status        String         @default("publish")
@@ -110,13 +111,15 @@ model Post {
   rating        Float          @default(0)
   reviewCount   Int            @default(0)
   createdAt     DateTime       @default(now())
-  updatedAt     DateTime
-  Availability  Availability[]
-  Booking       Booking[]
-  User          User?          @relation(fields: [authorId], references: [id])
-  PostMeta      PostMeta[]
-  Review        Review[]
-  Room          Room[]
+  updatedAt     DateTime       @updatedAt
+  availabilities Availability[]
+  bookings      Booking[]
+  author        User?          @relation(fields: [authorId], references: [id])
+  meta          PostMeta[]
+  reviews       Review[]
+  rooms         Room[]
+
+  @@unique([slug, locale])
 }
 
 model PostMeta {
@@ -125,7 +128,7 @@ model PostMeta {
   key       String
   value     String?
   createdAt DateTime @default(now())
-  Post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@index([postId, key])
 }
@@ -139,30 +142,63 @@ model Review {
   content   String?
   status    String   @default("pending")
   createdAt DateTime @default(now())
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([postId])
 }
 
 model Room {
-  id           Int            @id @default(autoincrement())
-  postId       Int
-  title        String
-  description  String?
-  price        Float          @default(0)
-  salePrice    Float?
-  guests       Int            @default(1)
-  beds         Int            @default(1)
-  bathrooms    Int            @default(1)
-  gallery      String?
-  amenities    String?
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime
-  Availability Availability[]
-  Booking      Booking[]
-  Post         Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
+  id             Int            @id @default(autoincrement())
+  postId         Int
+  roomTypeId     Int?
+  title          String
+  description    String?
+  price          Float          @default(0)
+  salePrice      Float?
+  guests         Int            @default(1)
+  beds           Int            @default(1)
+  bathrooms      Int            @default(1)
+  floor          Int?
+  gallery        String?
+  amenities      String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  availabilities Availability[]
+  bookings       Booking[]
+  post           Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
+  roomType       RoomType?      @relation(fields: [roomTypeId], references: [id])
+  facilities     Facility[]
+}
+
+model RoomType {
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique
+  description String?
+  icon        String?
+  rooms       Room[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Facility {
+  id        Int      @id @default(autoincrement())
+  name      String
+  slug      String   @unique
+  icon      String?
+  rooms     Room[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SmsCode {
+  phone     String   @id
+  code      String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
 }
 
 model Session {
@@ -170,7 +206,7 @@ model Session {
   sessionToken String   @unique
   userId       Int
   expires      DateTime
-  User         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -184,14 +220,14 @@ model User {
   password      String?
   role          String        @default("subscriber")
   createdAt     DateTime      @default(now())
-  updatedAt     DateTime
-  Account       Account[]
-  Booking       Booking[]
-  ChatMessage   ChatMessage[]
-  Post          Post[]
-  Review        Review[]
-  Session       Session[]
-  UserPackage   UserPackage[]
+  updatedAt     DateTime      @updatedAt
+  accounts      Account[]
+  bookings      Booking[]
+  chatMessages  ChatMessage[]
+  posts         Post[]
+  reviews       Review[]
+  sessions      Session[]
+  userPackages  UserPackage[]
 }
 
 model UserPackage {
@@ -202,8 +238,8 @@ model UserPackage {
   endDate   DateTime?
   status    String    @default("active")
   createdAt DateTime  @default(now())
-  Package   Package   @relation(fields: [packageId], references: [id], onDelete: Cascade)
-  User      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  package   Package   @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, packageId])
 }

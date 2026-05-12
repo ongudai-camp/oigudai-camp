@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
+  if (!session?.user || session.user.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -41,10 +41,10 @@ export async function GET(request: NextRequest) {
     }));
 
     return NextResponse.json({ users: formattedUsers });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Chat users error:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to load chat users" },
+      { error: error instanceof Error ? error.message : "Failed to load chat users" },
       { status: 500 }
     );
   }

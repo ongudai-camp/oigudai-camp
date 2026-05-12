@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 
 // GET - Get single hotel
 export async function GET(
@@ -9,7 +9,7 @@ export async function GET(
 ) {
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
+  if (!session?.user || session.user.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -26,7 +26,7 @@ export async function GET(
     }
 
     return NextResponse.json(hotel);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
@@ -38,7 +38,7 @@ export async function PUT(
 ) {
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
+  if (!session?.user || session.user.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -58,6 +58,8 @@ export async function PUT(
       currency,
       authorId,
       status,
+      featuredImage,
+      gallery,
     } = body;
 
     const hotel = await prisma.post.update({
@@ -67,20 +69,22 @@ export async function PUT(
         content,
         excerpt,
         address,
-        latitude,
-        longitude,
-        price,
-        salePrice,
+        latitude: latitude ? parseFloat(latitude) : null,
+        longitude: longitude ? parseFloat(longitude) : null,
+        price: parseFloat(price),
+        salePrice: salePrice ? parseFloat(salePrice) : null,
         currency,
         authorId: authorId ? parseInt(authorId) : null,
         status,
+        featuredImage: featuredImage || null,
+        gallery: gallery || null,
         updatedAt: new Date(),
       },
     });
 
     return NextResponse.json(hotel);
-  } catch (error) {
-    console.error("Update hotel error:", error);
+  } catch (err) {
+    console.error("Update hotel error:", err);
     return NextResponse.json({ error: "Ошибка обновления" }, { status: 500 });
   }
 }
@@ -92,7 +96,7 @@ export async function DELETE(
 ) {
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
+  if (!session?.user || session.user.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -104,7 +108,7 @@ export async function DELETE(
     });
 
     return NextResponse.json({ message: "Отель удален" });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Ошибка удаления" }, { status: 500 });
   }
 }

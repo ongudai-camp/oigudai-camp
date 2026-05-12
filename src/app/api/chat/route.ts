@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 
 export async function GET(request: NextRequest) {
   try {
@@ -18,8 +18,8 @@ export async function GET(request: NextRequest) {
 
     // If admin, can view any user's chat
     // If regular user, can only view their own chat
-    const requestingUserId = parseInt((session.user as any).id);
-    const isAdmin = (session.user as any).role === "admin";
+    const requestingUserId = parseInt(session.user.id);
+    const isAdmin = session.user.role === "admin";
 
     if (!isAdmin && requestingUserId !== userId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -31,10 +31,10 @@ export async function GET(request: NextRequest) {
     });
 
     return NextResponse.json({ messages });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Chat GET error:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to load messages" },
+      { error: error instanceof Error ? error.message : "Failed to load messages" },
       { status: 500 }
     );
   }
@@ -54,8 +54,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Message content required" }, { status: 400 });
     }
 
-    const requestingUserId = parseInt((session.user as any).id);
-    const isAdmin = (session.user as any).role === "admin";
+    const requestingUserId = parseInt(session.user.id);
+    const isAdmin = session.user.role === "admin";
 
     // Determine who the message is for
     let messageUserId = userId;
@@ -78,10 +78,10 @@ export async function POST(request: NextRequest) {
     // TODO: Send notification to admin (email, push, etc.)
 
     return NextResponse.json({ success: true, message });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Chat POST error:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to send message" },
+      { error: error instanceof Error ? error.message : "Failed to send message" },
       { status: 500 }
     );
   }

@@ -34,7 +34,8 @@ export default function ShowcasePage() {
         {/* Hotel List */}
         <div className='space-y-4'>
           <h2 className='font-bold text-sky-900 uppercase text-xs tracking-wider'>Ваши объекты</h2>
-          {hotels.map((hotel: any, index: number) => (
+          {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+          hotels.map((hotel: any, index: number) => (
             <button
               key={hotel.id}
               onClick={() => setSelectedHotelIndex(index)}

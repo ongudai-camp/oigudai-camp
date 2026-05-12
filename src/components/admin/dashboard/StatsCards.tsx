@@ -53,7 +53,7 @@ export default function StatsCards() {
         >
           <div className='flex items-center justify-between mb-4'>
             <span className='text-2xl group-hover:scale-110 transition-transform duration-300'>{stat.icon}</span>
-            <span className={	ext-3xl font-bold text-\-600}>{stat.value}</span>
+            <span className={`text-3xl font-bold text-sky-600`}>{stat.value}</span>
           </div>
           <h3 className='text-gray-500 text-sm font-medium'>{stat.label}</h3>
         </div>

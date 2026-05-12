@@ -1,18 +1,23 @@
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
-export default async function AdminPackagesPage() {
+export default async function AdminPackagesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
-    redirect("/dashboard");
+  if (!session?.user || session.user.role !== "admin") {
+    redirect(`/${locale}/dashboard`);
   }
 
   const packages = await prisma.package.findMany({
     orderBy: { price: "asc" },
-    include: { _count: { select: { users: true } } },
+    include: { _count: { select: { userPackages: true } } },
   });
 
   return (
@@ -22,19 +27,19 @@ export default async function AdminPackagesPage() {
           <aside className="md:w-64 bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold mb-6">Админ панель</h2>
             <nav className="space-y-2">
-              <Link href="/admin" className="block px-4 py-2 rounded hover:bg-gray-50">
+              <Link href={`/${locale}/admin`} className="block px-4 py-2 rounded hover:bg-gray-50">
                 Дашборд
               </Link>
-              <Link href="/admin/hotels" className="block px-4 py-2 rounded hover:bg-gray-50">
+              <Link href={`/${locale}/admin/hotels`} className="block px-4 py-2 rounded hover:bg-gray-50">
                 Отели
               </Link>
-              <Link href="/admin/bookings" className="block px-4 py-2 rounded hover:bg-gray-50">
+              <Link href={`/${locale}/admin/bookings`} className="block px-4 py-2 rounded hover:bg-gray-50">
                 Бронирования
               </Link>
-              <Link href="/admin/users" className="block px-4 py-2 rounded hover:bg-gray-50">
+              <Link href={`/${locale}/admin/users`} className="block px-4 py-2 rounded hover:bg-gray-50">
                 Пользователи
               </Link>
-              <Link href="/admin/packages" className="block px-4 py-2 rounded bg-blue-50 text-blue-600">
+              <Link href={`/${locale}/admin/packages`} className="block px-4 py-2 rounded bg-blue-50 text-blue-600">
                 Пакеты
               </Link>
             </nav>
@@ -44,7 +49,7 @@ export default async function AdminPackagesPage() {
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-2xl font-bold">Пакеты подписки</h1>
               <Link
-                href="/admin/packages/new"
+                href={`/${locale}/admin/packages/new`}
                 className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
               >
                 Добавить пакет
@@ -52,7 +57,8 @@ export default async function AdminPackagesPage() {
             </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {packages.map((pkg: any) => (
+              {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+              packages.map((pkg: any) => (
                 <div key={pkg.id} className="bg-white rounded-lg shadow p-6 relative">
                   {pkg.featured && (
                     <span className="absolute top-4 right-4 bg-yellow-400 text-yellow-900 px-2 py-1 text-xs rounded">
@@ -75,12 +81,12 @@ export default async function AdminPackagesPage() {
                     </li>
                     <li className="flex items-center">
                       <span className="text-green-500 mr-2">✓</span>
-                      Активных пользователей: {pkg._count.users}
+                      Активных пользователей: {pkg._count.userPackages}
                     </li>
                   </ul>
                   <div className="flex gap-2">
                     <Link
-                      href={`/admin/packages/${pkg.id}/edit`}
+                      href={`/${locale}/admin/packages/${pkg.id}/edit`}
                       className="flex-1 text-center bg-blue-50 text-blue-600 py-2 rounded hover:bg-blue-100"
                     >
                       Редактировать
@@ -96,7 +102,7 @@ export default async function AdminPackagesPage() {
             {packages.length === 0 && (
               <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
                 <p>Пакеты не созданы.</p>
-                <Link href="/admin/packages/new" className="text-blue-600 hover:underline">
+                <Link href={`/${locale}/admin/packages/new`} className="text-blue-600 hover:underline">
                   Создать первый пакет
                 </Link>
               </div>

@@ -1,18 +1,21 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { getTranslations } from "next-intl/server";
 
 interface ActivityPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 export default async function ActivityPage({ params }: ActivityPageProps) {
-  const activityId = parseInt(params.slug);
-
-  if (isNaN(activityId)) notFound();
+  const { slug, locale } = await params;
+  const t = await getTranslations("common");
 
   const activity = await prisma.post.findUnique({
-    where: { id: activityId, type: "activity" },
+    where: { 
+      slug_locale: { slug, locale },
+      type: "activity" 
+    },
     include: {
       author: true,
       meta: true,
@@ -33,7 +36,8 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
             {/* Image */}
             <div className="bg-white rounded-lg shadow overflow-hidden mb-6">
               <div className="h-96 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
-                {activity.featuredImage ? (
+                  {activity.featuredImage ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={activity.featuredImage}
                     alt={activity.title}
@@ -55,9 +59,9 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
               {/* Details from Meta */}
               {activity.meta.length > 0 && (
                 <div className="border-t pt-6">
-                  <h2 className="text-xl font-semibold mb-4">Детали</h2>
+                  <h2 className="text-xl font-semibold mb-4">{t("tourDetails")}</h2>
                   <div className="grid grid-cols-2 gap-4">
-                    {activity.meta.map((m: any) => (
+                    {activity.meta.filter((m) => m.value !== null).map((m) => (
                       <div key={m.id} className="flex items-center">
                         <span className="text-gray-600">{m.key}:</span>
                         <span className="ml-2 font-medium">{m.value}</span>
@@ -71,24 +75,43 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
 
           {/* Sidebar */}
           <aside className="lg:w-1/3">
-            <div className="sticky top-8">
-              <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-xl font-bold mb-4">Забронировать</h3>
+            <div className="sticky top-8 space-y-6">
+              {/* Price Card */}
+              <div className="bg-white rounded-2xl shadow-xl border border-white/50 p-6">
                 <div className="space-y-4">
-                  <div>
-                    <span className="text-gray-600">Цена:</span>
-                    <span className="ml-2 font-bold text-lg text-green-600">
-                      {activity.salePrice || activity.price} ₽
-                    </span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-orange-400">Цена</span>
+                    <div className="text-3xl font-black text-orange-500">
+                      {(activity.salePrice || activity.price).toLocaleString()} ₽
+                    </div>
                   </div>
+                  <p className="text-xs font-bold text-orange-400">{t("perPerson")}</p>
+
                   <Link
-                    href={`/booking?type=activity&id=${activity.id}`}
-                    className="block w-full bg-green-600 text-white text-center py-3 rounded-lg hover:bg-green-700"
+                    href={"/" + locale + "/booking?type=activity&id=" + activity.id}
+                    className="block w-full bg-orange-500 hover:bg-orange-600 text-white text-center py-4 rounded-xl font-bold text-sm shadow-lg shadow-orange-500/20 transition-all active:scale-95"
                   >
-                    Записаться
+                    {t("book")}
                   </Link>
                 </div>
               </div>
+
+              {/* Meta Details */}
+              {activity.meta.length > 0 && (
+                <div className="bg-white rounded-2xl shadow-xl border border-white/50 p-6">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-sky-300 block mb-4">Детали</span>
+                  <div className="space-y-3">
+                    {activity.meta.filter(function(m) { return m.value !== null; }).map(function(m) {
+                      return (
+                        <div key={m.id} className="flex items-center justify-between text-sm">
+                          <span className="text-sky-700 font-medium">{m.key}:</span>
+                          <span className="font-bold text-sky-950">{m.value}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
           </aside>
         </div>
@@ -98,15 +121,14 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
 }
 
 export async function generateMetadata({ params }: ActivityPageProps) {
-  const activityId = parseInt(params.slug);
-  if (isNaN(activityId)) return {};
+  const { slug, locale } = await params;
 
   const activity = await prisma.post.findUnique({
-    where: { id: activityId },
+    where: { slug_locale: { slug, locale } },
   });
 
   return {
-    title: activity?.title || "Активность",
+    title: activity?.title || "Activity",
     description: activity?.excerpt || activity?.content?.substring(0, 160),
   };
 }

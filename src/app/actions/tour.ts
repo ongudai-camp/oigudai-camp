@@ -1,13 +1,12 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/app/api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
 
 export async function createTourAction(formData: FormData) {
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
+  if (!session?.user || session.user.role !== "admin") {
     return { error: "Не авторизован" };
   }
 
@@ -22,6 +21,8 @@ export async function createTourAction(formData: FormData) {
   const included = formData.get("included") as string;
   const notIncluded = formData.get("notIncluded") as string;
   const itineraryJson = formData.get("itinerary") as string;
+  const featuredImage = formData.get("featuredImage") as string | null;
+  const gallery = formData.get("gallery") as string | null;
 
   if (!title || !price) {
     return { error: "Название и цена обязательны" };
@@ -39,7 +40,9 @@ export async function createTourAction(formData: FormData) {
         salePrice: salePrice ? parseFloat(salePrice) : null,
         latitude: latitude ? parseFloat(latitude) : null,
         longitude: longitude ? parseFloat(longitude) : null,
-        authorId: parseInt((session.user as any).id),
+        featuredImage,
+        gallery,
+        authorId: parseInt(session.user.id),
         status: "publish",
         meta: {
           create: [
@@ -53,7 +56,7 @@ export async function createTourAction(formData: FormData) {
     });
 
     return { success: true, tourId: tour.id };
-  } catch (error: any) {
-    return { error: error.message || "Ошибка при создании тура" };
+  } catch (error: unknown) {
+    return { error: error instanceof Error ? error.message : "Ошибка при создании тура" };
   }
 }

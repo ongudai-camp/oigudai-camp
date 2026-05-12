@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createActivityAction } from "@/app/actions/activity";
+import ImageUploader from "./ImageUploader";
 
 enum Step {
   ACTIVITY_INFO = 1,
@@ -32,6 +33,7 @@ export default function ActivityWizard() {
   const [included, setIncluded] = useState("");
   const [requirements, setRequirements] = useState("");
   const [difficulty, setDifficulty] = useState("easy");
+  const [images, setImages] = useState<string[]>([]);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -51,6 +53,10 @@ export default function ActivityWizard() {
       formData.append("included", included);
       formData.append("requirements", requirements);
       formData.append("difficulty", difficulty);
+      if (images.length > 0) {
+        formData.append("featuredImage", images[0]);
+        formData.append("gallery", JSON.stringify(images));
+      }
 
       const result = await createActivityAction(formData);
 
@@ -59,6 +65,7 @@ export default function ActivityWizard() {
       } else {
         router.push("/admin/activities");
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message || "Произошла ошибка");
     } finally {
@@ -164,19 +171,6 @@ export default function ActivityWizard() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Длительность
-                </label>
-                <input
-                  type="text"
-                  value={duration}
-                  onChange={(e) => setDuration(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
-                  placeholder="3 часа"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Сложность
                 </label>
                 <select
@@ -188,6 +182,19 @@ export default function ActivityWizard() {
                   <option value="medium">Средняя</option>
                   <option value="hard">Сложная</option>
                 </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Длительность
+                </label>
+                <input
+                  type="text"
+                  value={duration}
+                  onChange={(e) => setDuration(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                  placeholder="3 часа"
+                />
               </div>
             </div>
 
@@ -262,16 +269,7 @@ export default function ActivityWizard() {
             <p className="text-gray-600">
               Загрузите изображения активности. Первое изображение будет главным.
             </p>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-              <p className="text-gray-500">Перетащите изображения сюда или нажмите для выбора</p>
-              <input type="file" multiple accept="image/*" className="hidden" />
-              <button
-                type="button"
-                className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 cursor-pointer transition-colors duration-200"
-              >
-                Выбрать файлы
-              </button>
-            </div>
+            <ImageUploader images={images} onChange={setImages} />
           </div>
         );
 
@@ -287,6 +285,9 @@ export default function ActivityWizard() {
                 <p className="text-gray-600">Локация: {address}</p>
                 <p className="text-gray-600">Цена: {price} ₽</p>
                 {duration && <p className="text-gray-600">Длительность: {duration}</p>}
+                {images.length > 0 && (
+                  <p className="text-gray-600">Изображения: {images.length} шт.</p>
+                )}
               </div>
             </div>
           </div>

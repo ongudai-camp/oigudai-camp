@@ -73,6 +73,15 @@ sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
 - **Command**: `npx next dev -p 3001`
 - **Status**: Running successfully after fixes
 
+### Congratulations Page (2026-05-11)
+- **Added**: `/auth/register/congratulations` page after successful registration
+- **Translations**: Added `congratulations` section to ru.json, en.json, kk.json
+- **Redirect**: Registration now redirects to congratulations page instead of signin
+
+### Middleware → Proxy (2026-05-11)
+- **Renamed**: `src/middleware.ts` → `src/proxy.ts` (Next.js 16 deprecated middleware file convention)
+- **Cleared**: `.next` cache to resolve stale module references
+
 ### Git History
 - `1bdd24a` - Initial commit with fixes (image paths, sizes prop, MEMO)
 - `3cfe261` - UI/UX improvements (globals.css updates per SaaS UI Master)
@@ -150,21 +159,56 @@ sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
 - ✅ **Privacy Policy**: `/[locale]/privacy-policy` page (RU law compliant)
 - ✅ **Registration/Login**: Now requires privacy policy acceptance
 
+### Phase 4 Completed (2026-05-11)
+- ✅ **TanStack Query Refactor**: Admin bookings page (`admin/bookings/page.tsx`) — converted from server component with Prisma to client component with `useQuery`/`useMutation`
+  - Interactive status/payment status selects per row
+  - Loading/error/empty states
+  - Auto-refetch on mutation via `invalidateQueries`
+- ✅ **Delete Actions**: Created `<DeleteButton>` component with two-step confirmation dialog
+  - Integrated into hotels/tours/activities listing pages
+  - Calls existing DELETE API endpoints (`/api/admin/{type}/[id]`)
+- ✅ **Real SMS Integration**: SMS.ru provider in `src/lib/sms.ts`
+  - Falls back to `console.log` in dev (when `SMS_RU_API_KEY` is placeholder)
+  - Updates `send-sms/route.ts` to send via SMS.ru API
+  - Env var: `SMS_RU_API_KEY`
+
 ### Current Status
 - **Build**: ✅ Successful (no TypeScript errors)
 - **Server**: http://localhost:3001 (needs restart with locale support)
 - **Locales**: /ru, /en, /tr prefixes working
 - **Pages Migrated**: Home, About, Hotels, Tours, Activities, Auth, Dashboard, Admin, Privacy Policy
 
+### Supabase Migration — Guide
+
+1. Create project at https://supabase.com
+2. Go to Project Settings → Database → Connection string (URI format)
+3. Copy `postgresql://postgres:xxxx@db.xxxx.supabase.co:5432/postgres`
+4. Update `DATABASE_URL` in `.env`
+5. Run migration:
+   ```bash
+   npx prisma migrate dev --name supabase_init
+   ```
+6. Seed data:
+   ```bash
+   npx prisma db seed
+   ```
+7. Verify:
+   ```bash
+   npx next build
+   ```
+
+**Migration file already generated**: `prisma/migrations/20260511_supabase_init/migration.sql`
+**Lock file updated**: `migration_lock.toml` → `provider = "postgresql"`
+
+> Note: If you keep using SQLite for local dev, swap the `DATABASE_URL` comments in `.env`.
+
 ### Next Steps
-1. **Restart server** with locale support: `npx next dev -p 3001`
-2. **Test locales**: Visit /ru, /en, /tr versions
-3. **Fix middleware**: Ensure geolocation detection works
-4. **Add image upload** to all wizards
-5. **Create edit pages** for hotels/tours/activities
-6. **Integrate AI bot** for chat support (OpenAI/Gemini API)
-7. **Add category filter** to listing pages
-8. **Implement frontend booking** system (user-facing)
-9. **Test SMS verification** with real SMS service (Twilio, SMS.ru)
-10. **Add booking calendar** view for users
-11. **Create notification** system (email, push)
+1. **Integrate AI bot** for chat support (OpenAI/Gemini API)
+2. **Add category filter** to listing pages
+3. **Implement frontend booking** system (user-facing)
+4. **Test SMS verification** with real SMS service (Twilio, SMS.ru)
+5. **Add booking calendar** view for users
+6. **Create notification** system (email, push)
+7. **Performance/Lighthouse** audit (Phase 5)
+8. **Supabase migration** (Phase 5 — ready)
+9. **Security audit** (Phase 5)

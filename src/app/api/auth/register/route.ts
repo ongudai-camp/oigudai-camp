@@ -14,9 +14,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Format phone
     const digits = phone.replace(/\D/g, "");
-    const formattedPhone = digits.startsWith("7") ? "+" + digits : "+7" + digits;
+    const formattedPhone = "+" + digits;
 
     // Check if user exists
     const existingUser = await prisma.user.findFirst({
@@ -54,10 +53,10 @@ export async function POST(request: NextRequest) {
       success: true,
       userId: user.id,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Registration error:", error);
     return NextResponse.json(
-      { error: error.message || "Registration failed" },
+      { error: error instanceof Error ? error.message : "Registration failed" },
       { status: 500 }
     );
   }

@@ -6,6 +6,47 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Start seeding...");
 
+  // Clear existing data
+  await prisma.booking.deleteMany();
+  await prisma.availability.deleteMany();
+  await prisma.postMeta.deleteMany();
+  await prisma.room.deleteMany();
+  await prisma.review.deleteMany();
+  await prisma.post.deleteMany();
+  await prisma.userPackage.deleteMany();
+  await prisma.roomType.deleteMany();
+  await prisma.facility.deleteMany();
+
+  // Create Room Types
+  const roomTypes = [
+    { name: "Коттедж", slug: "cottage", description: "Отдельно стоящий дом" },
+    { name: "Отельный номер", slug: "hotel-room", description: "Номер в основном корпусе" },
+    { name: "Алтайский аил", slug: "altai-ail", description: "Традиционное алтайское жилище" },
+  ];
+
+  for (const rt of roomTypes) {
+    await prisma.roomType.create({ data: rt });
+  }
+
+  // Create Facilities
+  const facilities = [
+    { name: "Wi-Fi", slug: "wifi", icon: "Wifi" },
+    { name: "Душ", slug: "shower", icon: "Shower" },
+    { name: "Телевизор", slug: "tv", icon: "Tv" },
+    { name: "Кухня", slug: "kitchen", icon: "Utensils" },
+    { name: "Мангал", slug: "bbq", icon: "Flame" },
+    { name: "Парковка", slug: "parking", icon: "Car" },
+    { name: "Вид на горы", slug: "mountain-view", icon: "Mountain" },
+    { name: "Отопление", slug: "heating", icon: "Thermometer" },
+  ];
+
+  for (const f of facilities) {
+    await prisma.facility.create({ data: f });
+  }
+
+  const allRoomTypes = await prisma.roomType.findMany();
+  const allFacilities = await prisma.facility.findMany();
+
   // Create admin user
   const adminPassword = await bcrypt.hash("admin123", 10);
   const admin = await prisma.user.upsert({
@@ -16,29 +57,33 @@ async function main() {
       name: "Администратор",
       password: adminPassword,
       role: "admin",
+      updatedAt: new Date(),
     },
   });
-  console.log("Created admin:", admin.email);
 
-  // Create regular user
-  const userPassword = await bcrypt.hash("user123", 10);
-  const user = await prisma.user.upsert({
-    where: { email: "user@ongudai-camp.ru" },
-    update: {},
-    create: {
-      email: "user@ongudai-camp.ru",
-      name: "Тестовый Пользователь",
-      password: userPassword,
-      role: "subscriber",
-    },
-  });
-  console.log("Created user:", user.email);
+  // Create test users
+  const users = [
+    { email: "user@ongudai-camp.ru", name: "Тестовый Пользователь", role: "subscriber" },
+  ];
+
+  for (const u of users) {
+    const userPassword = await bcrypt.hash("user123", 10);
+    await prisma.user.upsert({
+      where: { email: u.email },
+      update: {},
+      create: {
+        ...u,
+        password: userPassword,
+        updatedAt: new Date(),
+      },
+    });
+  }
 
   // Create packages
   const packages = [
-    { name: "Basic", price: 0, duration: 30, postsLimit: 1, featured: false },
-    { name: "Standard", price: 990, duration: 365, postsLimit: 5, featured: false },
-    { name: "Premium", price: 2990, duration: 365, postsLimit: 0, featured: true },
+    { name: "Basic", price: 0, duration: 30, postsLimit: 1, featured: false, updatedAt: new Date() },
+    { name: "Standard", price: 990, duration: 365, postsLimit: 5, featured: false, updatedAt: new Date() },
+    { name: "Premium", price: 2990, duration: 365, postsLimit: 0, featured: true, updatedAt: new Date() },
   ];
 
   for (const pkg of packages) {
@@ -48,239 +93,214 @@ async function main() {
       create: pkg,
     });
   }
-  console.log("Created packages");
 
-  // Create hotels
-  const hotels = [
+  // Helper to create translatable posts
+  async function createLocalizedPost(baseData: any, translations: any, roomsConfig?: any[]) {
+    const createdPosts = [];
+    for (const locale of ["ru", "en", "kk"]) {
+      const localeData = translations[locale] || {};
+      const post = await prisma.post.create({
+        data: {
+          ...baseData,
+          ...localeData,
+          locale,
+          updatedAt: new Date(),
+        },
+      });
+      createdPosts.push(post);
+
+      // Add custom rooms if provided
+      if (roomsConfig && locale === "ru") { // Add rooms only once (linked to RU locale post for simplicity in this seed)
+        for (const roomData of roomsConfig) {
+          await prisma.room.create({
+            data: {
+              ...roomData,
+              postId: post.id,
+              updatedAt: new Date(),
+            }
+          });
+        }
+      } else if (baseData.type === "hotel" && !roomsConfig) {
+        // Default rooms for other hotels
+        const roomTitles: any = {
+          ru: ["Стандарт", "Люкс"],
+          en: ["Standard", "Deluxe"],
+          kk: ["Стандарт", "Люкс"]
+        };
+        
+        for (let i = 0; i < 2; i++) {
+          await prisma.room.create({
+            data: {
+              postId: post.id,
+              title: roomTitles[locale][i],
+              price: baseData.price * (i === 0 ? 1 : 1.6),
+              guests: 2 + i,
+              beds: 1 + i,
+              updatedAt: new Date(),
+            }
+          });
+        }
+      }
+    }
+    return createdPosts;
+  }
+
+  // Main post: Ongudai Camp
+  const cottageType = allRoomTypes.find(t => t.slug === "cottage");
+  const hotelRoomType = allRoomTypes.find(t => t.slug === "hotel-room");
+  const ailType = allRoomTypes.find(t => t.slug === "altai-ail");
+
+  const wifi = allFacilities.find(f => f.slug === "wifi");
+  const shower = allFacilities.find(f => f.slug === "shower");
+  const heating = allFacilities.find(f => f.slug === "heating");
+
+  await createLocalizedPost(
     {
-      title: "Горный Алтай Отель",
+      slug: "ongudai-camp",
+      type: "hotel",
+      address: "Республика Алтай, Онгудайский район",
+      price: 3000,
+      status: "publish",
+      authorId: admin.id,
+      featuredImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b",
+      rating: 5.0,
+      reviewCount: 50,
+    },
+    {
+      ru: { title: "Ongudai Camp", content: "Лучшая туристическая база в самом сердце Алтая." },
+      en: { title: "Ongudai Camp", content: "The best tourist base in the heart of Altai." },
+      kk: { title: "Ongudai Camp", content: "Алтайдың жүрегіндегі үздік туристік кешен." }
+    },
+    [
+      // Cottages
+      { 
+        title: "Коттедж двухместный", 
+        price: 4000, 
+        guests: 2, 
+        beds: 1, 
+        roomTypeId: cottageType?.id,
+        amenities: "Wi-Fi, Душ, Отопление"
+      },
+      { 
+        title: "Коттедж трехместный", 
+        price: 5500, 
+        guests: 3, 
+        beds: 2, 
+        roomTypeId: cottageType?.id,
+        amenities: "Wi-Fi, Душ, Отопление"
+      },
+      { 
+        title: "Коттедж четырехместный", 
+        price: 7000, 
+        guests: 4, 
+        beds: 3, 
+        roomTypeId: cottageType?.id,
+        amenities: "Wi-Fi, Душ, Отопление"
+      },
+      // Hotel Rooms
+      { 
+        title: "Отельный номер (2 чел, 1 этаж)", 
+        price: 3000, 
+        guests: 2, 
+        beds: 1, 
+        floor: 1,
+        roomTypeId: hotelRoomType?.id,
+        amenities: "Wi-Fi, Душ"
+      },
+      { 
+        title: "Отельный номер (3 чел, 1 этаж)", 
+        price: 4000, 
+        guests: 3, 
+        beds: 2, 
+        floor: 1,
+        roomTypeId: hotelRoomType?.id,
+        amenities: "Wi-Fi, Душ"
+      },
+      { 
+        title: "Отельный номер (4 чел, 2 этаж)", 
+        price: 5000, 
+        guests: 4, 
+        beds: 3, 
+        floor: 2,
+        roomTypeId: hotelRoomType?.id,
+        amenities: "Wi-Fi, Душ"
+      },
+      // Altai Ail
+      { 
+        title: "Алтайский аил", 
+        price: 2500, 
+        guests: 4, 
+        beds: 2, 
+        roomTypeId: ailType?.id,
+        amenities: "Традиционный стиль"
+      },
+    ]
+  );
+
+  // Other Hotels
+  await createLocalizedPost(
+    {
       slug: "gorny-altay-hotel",
       type: "hotel",
-      content: "Уютный отель в центре Онгудая с видом на горы. Комфортабельные номера, сауна, ресторан с местной кухней.",
       address: "с. Онгудай, ул. Центральная, 15",
       price: 3500,
       salePrice: 2800,
-      latitude: 50.7358,
-      longitude: 85.7867,
       status: "publish",
       authorId: admin.id,
-      featuredImage: "/images/hotels/hotel1.jpg",
+      featuredImage: "https://images.unsplash.com/photo-1566073771259-6a8506099945",
       rating: 4.5,
       reviewCount: 12,
     },
     {
-      title: "Туристическая База Золотой Алтай",
-      slug: "tur-baza-zolotoy-altay",
-      type: "hotel",
-      content: "Живописная база отдыха на берегу реки Катунь. Домики, палаточный городок, активные туры.",
-      address: "с. Онгудай, берег р. Катунь",
-      price: 2500,
-      latitude: 50.7401,
-      longitude: 85.7923,
-      status: "publish",
-      authorId: admin.id,
-      featuredImage: "/images/hotels/hotel2.jpg",
-      rating: 4.2,
-      reviewCount: 8,
-    },
-    {
-      title: "Guest House Алтайская Сказка",
-      slug: "guest-house-altayskaya-skazka",
-      type: "hotel",
-      content: "Гостевой дом с домашним уютом. Вкусные завтраки, экскурсионное бюро, трансфер.",
-      address: "с. Онгудай, ул. Лесная, 8",
-      price: 1800,
-      salePrice: 1500,
-      latitude: 50.7322,
-      longitude: 85.7891,
-      status: "publish",
-      authorId: admin.id,
-      featuredImage: "/images/hotels/hotel3.jpg",
-      rating: 4.8,
-      reviewCount: 25,
-    },
-  ];
-
-  for (const hotelData of hotels) {
-    const hotel = await prisma.post.upsert({
-      where: { slug: hotelData.slug },
-      update: hotelData,
-      create: hotelData,
-    });
-
-    // Add rooms for each hotel
-    const rooms = [
-      {
-        postId: hotel.id,
-        title: "Стандарт",
-        description: "Уютный номер с видом во двор",
-        price: hotelData.price,
-        guests: 2,
-        beds: 1,
-        bathrooms: 1,
-      },
-      {
-        postId: hotel.id,
-        title: "Люкс с видом на горы",
-        description: "Просторный номер с балконом и видом на горы",
-        price: hotelData.price * 1.5,
-        guests: 3,
-        beds: 2,
-        bathrooms: 1,
-      },
-    ];
-
-    for (const room of rooms) {
-      await prisma.room.upsert({
-        where: { id: 0 }, // Will create new
-        update: room,
-        create: room,
-      });
+      ru: { title: "Горный Алтай Отель", content: "Уютный отель в центре Онгудая с видом на горы." },
+      en: { title: "Mountain Altai Hotel", content: "Cozy hotel in the center of Ongudai with mountain views." },
+      kk: { title: "Алтай Тау қонақ үйі", content: "Онгудай орталығында тау көрінісі бар жайлы қонақ үй." }
     }
+  );
 
-    // Add amenities as meta
-    const amenities = ["Wi-Fi", "Парковка", "Сауна", "Ресторан", "Трансфер"];
-    await prisma.postMeta.createMany({
-      data: [
-        {
-          postId: hotel.id,
-          key: "amenities",
-          value: JSON.stringify(amenities),
-        },
-      ],
-    });
-  }
-  console.log("Created hotels with rooms");
-
-  // Create tours
-  const tours = [
+  // Tours and Activities (simplified)
+  await createLocalizedPost(
     {
-      title: "Величественный Алтай - 3 дня",
       slug: "velichestvennyy-altay-3-dnya",
       type: "tour",
-      content: "Увлекательный тур по самым живописным местам Онгудайского района. Посещение древних курганов, горы Белуха (вид с обзорной площадки), водопадов.",
       address: "с. Онгудай и окрестности",
       price: 15000,
-      salePrice: 12000,
       status: "publish",
       authorId: admin.id,
-      featuredImage: "/images/tours/tour1.jpg",
+      featuredImage: "https://images.unsplash.com/photo-1533587851505-d119e13fa0d7",
       rating: 4.7,
       reviewCount: 15,
     },
     {
-      title: "Конный поход к Караколу",
-      slug: "konnyy-pohod-k-karakolu",
-      type: "tour",
-      content: "Трехдневный конный поход к озеру Каракол. Ночевки в юртах, национальная кухня, незабываемые виды.",
-      address: "Озеро Каракол",
-      price: 25000,
-      status: "publish",
-      authorId: admin.id,
-      featuredImage: "/images/tours/tour2.jpg",
-      rating: 4.9,
-      reviewCount: 8,
-    },
-    {
-      title: "Джиппинг по Алтаю",
-      slug: "jipping-po-altayu",
-      type: "tour",
-      content: "Экстремальная поездка на джипах по труднодоступным местам Алтая. Горные перевалы, дикие реки, ночевка в палатках.",
-      address: "Онгудайский район",
-      price: 35000,
-      salePrice: 30000,
-      status: "publish",
-      authorId: admin.id,
-      featuredImage: "/images/tours/tour3.jpg",
-      rating: 4.6,
-      reviewCount: 11,
-    },
-  ];
-
-  for (const tourData of tours) {
-    const tour = await prisma.post.upsert({
-      where: { slug: tourData.slug },
-      update: tourData,
-      create: tourData,
-    });
-
-    // Add tour details as meta
-    const metaData = [
-      { key: "duration", value: "3 дня / 2 ночи" },
-      { key: "groupSize", value: "6-12" },
-      { key: "difficulty", value: tourData.slug.includes("djipping") ? "Сложный" : "Средний" },
-    ];
-
-    for (const meta of metaData) {
-      await prisma.postMeta.upsert({
-        where: { id: 0 },
-        update: {
-          postId: tour.id,
-          key: meta.key,
-          value: meta.value,
-        },
-        create: {
-          postId: tour.id,
-          key: meta.key,
-          value: meta.value,
-        },
-      });
+      ru: { title: "Величественный Алтай - 3 дня", content: "Увлекательный тур." },
+      en: { title: "Majestic Altai - 3 Days", content: "Exciting tour." },
+      kk: { title: "Ұлы Алтай - 3 күн", content: "Толқытатын тур." }
     }
-  }
-  console.log("Created tours");
+  );
 
-  // Create activities
-  const activities = [
-    {
-      title: "Рафтинг на Катуни",
-      slug: "rafting-na-katuni",
-      type: "activity",
-      content: "Захватывающий сплав по реке Катунь на рафтах. Маршруты различной сложности для новичков и опытных.",
-      address: "р. Катунь, Онгудайский район",
-      price: 3500,
-      status: "publish",
-      authorId: admin.id,
-      featuredImage: "/images/activities/rafting.jpg",
-      rating: 4.8,
-      reviewCount: 30,
-    },
-    {
-      title: "Конные прогулки",
-      slug: "konnye-progulki",
-      type: "activity",
-      content: "Верховые прогулки по живописным местам вокруг Онгудая. Маршруты от 1 часа до целого дня.",
-      address: "с. Онгудай",
-      price: 1500,
-      salePrice: 1200,
-      status: "publish",
-      authorId: admin.id,
-      featuredImage: "/images/activities/horse.jpg",
-      rating: 4.5,
-      reviewCount: 18,
-    },
-    {
-      title: "Треккинг к водопаду",
-      slug: "trekking-k-vodopadu",
-      type: "activity",
-      content: "Пеший поход к красивейшему водопаду в окрестностях Онгудая. Протяженность 8 км, перепад высот 300 м.",
-      address: "с. Онгудай, тропа к водопаду",
-      price: 800,
-      status: "publish",
-      authorId: admin.id,
-      featuredImage: "/images/activities/trekking.jpg",
-      rating: 4.6,
-      reviewCount: 22,
-    },
-  ];
+  // Create dummy bookings
+  console.log("Creating bookings...");
+  const ruPosts = await prisma.post.findMany({ where: { locale: "ru" } });
+  const subUsers = await prisma.user.findMany({ where: { role: "subscriber" } });
 
-  for (const activityData of activities) {
-    await prisma.post.upsert({
-      where: { slug: activityData.slug },
-      update: activityData,
-      create: activityData,
+  for (let i = 0; i < 5; i++) {
+    const post = ruPosts[Math.floor(Math.random() * ruPosts.length)];
+    const user = subUsers[Math.floor(Math.random() * subUsers.length)];
+    const checkIn = new Date();
+    checkIn.setDate(checkIn.getDate() + Math.floor(Math.random() * 30));
+
+    await prisma.booking.create({
+      data: {
+        bookingId: `BK-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
+        userId: user.id,
+        postId: post.id,
+        checkIn,
+        totalPrice: post.price * 2,
+        status: "confirmed",
+        updatedAt: new Date(),
+      },
     });
   }
-  console.log("Created activities");
 
   console.log("Seeding finished.");
 }

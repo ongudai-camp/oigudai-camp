@@ -1,13 +1,12 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/app/api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
 
 export async function createActivityAction(formData: FormData) {
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
+  if (!session?.user || session.user.role !== "admin") {
     return { error: "Не авторизован" };
   }
 
@@ -23,6 +22,8 @@ export async function createActivityAction(formData: FormData) {
   const included = formData.get("included") as string;
   const requirements = formData.get("requirements") as string;
   const difficulty = formData.get("difficulty") as string;
+  const featuredImage = formData.get("featuredImage") as string | null;
+  const gallery = formData.get("gallery") as string | null;
 
   if (!title || !price) {
     return { error: "Название и цена обязательны" };
@@ -40,7 +41,9 @@ export async function createActivityAction(formData: FormData) {
         salePrice: salePrice ? parseFloat(salePrice) : null,
         latitude: latitude ? parseFloat(latitude) : null,
         longitude: longitude ? parseFloat(longitude) : null,
-        authorId: parseInt((session.user as any).id),
+        featuredImage,
+        gallery,
+        authorId: parseInt(session.user.id),
         status: "publish",
         meta: {
           create: [
@@ -55,7 +58,7 @@ export async function createActivityAction(formData: FormData) {
     });
 
     return { success: true, activityId: activity.id };
-  } catch (error: any) {
-    return { error: error.message || "Ошибка при создании активности" };
+  } catch (error: unknown) {
+    return { error: error instanceof Error ? error.message : "Ошибка при создании активности" };
   }
 }

@@ -1,4 +1,4 @@
-﻿import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig, Img, Sequence } from 'remotion';
+import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig, Img, Sequence } from 'remotion';
 
 interface HotelProps {
   title: string;
@@ -18,7 +18,7 @@ export const HotelShowcase: React.FC<HotelProps> = ({ title, price, image, ratin
   return (
     <AbsoluteFill style={{ backgroundColor: '#0C4A6E' }}>
       {/* Background Image with Zoom */}
-      <AbsoluteFill style={{ transform: \scale(\)\ }}>
+      <AbsoluteFill style={{ transform: `scale(${scale})` }}>
         <Img 
           src={image} 
           style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
@@ -29,7 +29,7 @@ export const HotelShowcase: React.FC<HotelProps> = ({ title, price, image, ratin
       {/* Info Overlay */}
       <AbsoluteFill style={{ justifyContent: 'flex-end', padding: 100 }}>
         <div style={{ 
-          transform: \	ranslateY(\px)\, 
+          transform: `translateY(${moveUp}px)`, 
           opacity,
           backgroundColor: 'white',
           padding: 60,

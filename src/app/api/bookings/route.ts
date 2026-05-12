@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 
 // POST - Create new booking
 export async function POST(request: Request) {
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     const booking = await prisma.booking.create({
       data: {
         bookingId,
-        userId: parseInt((session.user as any).id),
+        userId: parseInt(session.user.id),
         postId: parseInt(postId),
         roomId: roomId ? parseInt(roomId) : null,
         checkIn: new Date(checkIn),
@@ -53,6 +53,53 @@ export async function POST(request: Request) {
   }
 }
 
+// PATCH - Update booking (cancel)
+export async function PATCH(request: Request) {
+  const session = await auth();
+
+  if (!session?.user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const body = await request.json();
+    const { bookingId, status, paymentStatus } = body;
+
+    const userId = parseInt(session.user.id);
+    const isAdmin = session.user.role === "admin";
+
+    // Verify ownership
+    const existing = await prisma.booking.findUnique({
+      where: { id: parseInt(bookingId) },
+    });
+
+    if (!existing) {
+      return NextResponse.json({ error: "Booking not found" }, { status: 404 });
+    }
+
+    if (!isAdmin && existing.userId !== userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    }
+
+    const booking = await prisma.booking.update({
+      where: { id: parseInt(bookingId) },
+      data: {
+        ...(status && { status }),
+        ...(paymentStatus && { paymentStatus }),
+      },
+      include: { post: true, room: true },
+    });
+
+    return NextResponse.json(booking);
+  } catch (error) {
+    console.error("Booking update error:", error);
+    return NextResponse.json(
+      { error: "Ошибка обновления бронирования" },
+      { status: 500 }
+    );
+  }
+}
+
 // GET - List user bookings
 export async function GET(request: Request) {
   const session = await auth();
@@ -61,10 +108,11 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const userId = parseInt((session.user as any).id);
+  const userId = parseInt(session.user.id);
   const { searchParams } = new URL(request.url);
-  const isAdmin = (session.user as any).role === "admin";
+  const isAdmin = session.user.role === "admin";
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = isAdmin ? {} : { userId };
 
   if (searchParams.get("status")) {

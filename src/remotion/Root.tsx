@@ -19,7 +19,7 @@ export const RemotionRoot: React.FC = () => {
       />
       <Composition
         id='HotelShowcase'
-        component={HotelShowcase}
+        component={HotelShowcase as any}
         durationInFrames={150}
         fps={30}
         width={1920}

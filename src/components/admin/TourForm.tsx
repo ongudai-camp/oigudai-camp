@@ -2,10 +2,27 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import ImageUploader from "./ImageUploader";
+
+interface TourData {
+  id: number;
+  title: string;
+  content: string | null;
+  address: string | null;
+  price: number;
+  salePrice: number | null;
+  latitude: number | null;
+  longitude: number | null;
+  authorId: number | null;
+  status: string;
+  meta?: Array<{ key: string; value: string | null }>;
+  featuredImage?: string | null;
+  gallery?: string | null;
+}
 
 interface TourFormProps {
   users: { id: number; name: string | null; email: string | null }[];
-  tour?: any;
+  tour?: TourData;
 }
 
 export default function TourForm({ users, tour }: TourFormProps) {
@@ -14,16 +31,25 @@ export default function TourForm({ users, tour }: TourFormProps) {
     title: tour?.title || "",
     content: tour?.content || "",
     address: tour?.address || "",
-    price: tour?.price || 0,
-    salePrice: tour?.salePrice || "",
-    latitude: tour?.latitude || "",
-    longitude: tour?.longitude || "",
-    authorId: tour?.authorId || "",
+    price: tour?.price?.toString() || "",
+    salePrice: tour?.salePrice?.toString() || "",
+    latitude: tour?.latitude?.toString() || "",
+    longitude: tour?.longitude?.toString() || "",
+    authorId: tour?.authorId?.toString() || "",
     status: tour?.status || "publish",
-    duration: tour?.meta?.find((m: any) => m.key === "duration")?.value || "",
-    groupSize: tour?.meta?.find((m: any) => m.key === "groupSize")?.value || "",
-    difficulty: tour?.meta?.find((m: any) => m.key === "difficulty")?.value || "",
+    duration: tour?.meta?.find((m) => m.key === "duration")?.value || "",
+    groupSize: tour?.meta?.find((m) => m.key === "groupSize")?.value || "",
+    difficulty: tour?.meta?.find((m) => m.key === "difficulty")?.value || "",
   });
+  const [images, setImages] = useState<string[]>(
+    tour?.featuredImage
+      ? [tour.featuredImage, ...(tour.gallery ? JSON.parse(tour.gallery) : [])].filter(
+          (v, i, a) => a.indexOf(v) === i
+        )
+      : tour?.gallery
+        ? JSON.parse(tour.gallery)
+        : []
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -44,11 +70,13 @@ export default function TourForm({ users, tour }: TourFormProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
-          authorId: formData.authorId ? parseInt(formData.authorId as any) : null,
-          price: parseFloat(formData.price as any),
-          salePrice: formData.salePrice ? parseFloat(formData.salePrice as any) : null,
-          latitude: formData.latitude ? parseFloat(formData.latitude as any) : null,
-          longitude: formData.longitude ? parseFloat(formData.longitude as any) : null,
+          authorId: formData.authorId ? parseInt(formData.authorId) : null,
+          price: parseFloat(formData.price as unknown as string),
+          salePrice: formData.salePrice ? parseFloat(formData.salePrice as unknown as string) : null,
+          latitude: formData.latitude ? parseFloat(formData.latitude as unknown as string) : null,
+          longitude: formData.longitude ? parseFloat(formData.longitude as unknown as string) : null,
+          featuredImage: images[0] || null,
+          gallery: images.length > 0 ? JSON.stringify(images) : null,
         }),
       });
 
@@ -58,8 +86,8 @@ export default function TourForm({ users, tour }: TourFormProps) {
       }
 
       router.push("/admin/tours");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setLoading(false);
     }
@@ -139,7 +167,7 @@ export default function TourForm({ users, tour }: TourFormProps) {
             min="0"
             step="0.01"
             value={formData.price}
-            onChange={(e) => setFormData({ ...formData, price: e.target.value as any })}
+            onChange={(e) => setFormData({ ...formData, price: e.target.value })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
@@ -153,7 +181,7 @@ export default function TourForm({ users, tour }: TourFormProps) {
             min="0"
             step="0.01"
             value={formData.salePrice}
-            onChange={(e) => setFormData({ ...formData, salePrice: e.target.value as any })}
+            onChange={(e) => setFormData({ ...formData, salePrice: e.target.value as unknown as string })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
@@ -200,10 +228,18 @@ export default function TourForm({ users, tour }: TourFormProps) {
           </select>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Статус
-          </label>
+      <div className="space-y-4">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Галерея изображений
+        </label>
+        <p className="text-sm text-gray-500">Первое изображение будет главным.</p>
+        <ImageUploader images={images} onChange={setImages} />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Статус
+        </label>
           <select
             value={formData.status}
             onChange={(e) => setFormData({ ...formData, status: e.target.value })}

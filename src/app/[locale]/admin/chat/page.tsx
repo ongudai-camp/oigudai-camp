@@ -1,37 +1,28 @@
 "use client";
 
-import { auth } from "@/app/api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
-import Link from "next/link";
-import { prisma } from "@/lib/prisma";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-export default function AdminChatPage({
-  searchParams,
-}: {
-  searchParams: { userId?: string };
-}) {
-  const [usersWithChats, setUsersWithChats] = useState<any[]>([]);
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(
-    searchParams.userId ? parseInt(searchParams.userId) : null
-  );
-  const [messages, setMessages] = useState<any[]>([]);
+interface ChatUser {
+  userId: number;
+  name?: string;
+  lastMessage?: string;
+}
+
+interface ChatMessage {
+  id: number;
+  isFromUser: boolean;
+  content: string;
+  createdAt: string;
+}
+
+export default function AdminChatPage() {
+  const [usersWithChats, setUsersWithChats] = useState<ChatUser[]>([]);
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
 
-  useEffect(() => {
-    loadUsers();
-  }, []);
-
-  useEffect(() => {
-    if (selectedUserId) {
-      loadMessages(selectedUserId);
-    } else {
-      setMessages([]);
-    }
-  }, [selectedUserId]);
-
-  const loadUsers = async () => {
+  const loadUsers = useCallback(async () => {
     try {
       const res = await fetch("/api/admin/chat-users");
       if (res.ok) {
@@ -41,9 +32,9 @@ export default function AdminChatPage({
     } catch (error) {
       console.error("Failed to load users:", error);
     }
-  };
+  }, []);
 
-  const loadMessages = async (userId: number) => {
+  const loadMessages = useCallback(async (userId: number) => {
     try {
       const res = await fetch(`/api/chat?userId=${userId}`);
       if (res.ok) {
@@ -53,73 +44,19 @@ export default function AdminChatPage({
     } catch (error) {
       console.error("Failed to load messages:", error);
     }
-  };
+  }, []);
 
-  const sendMessage = async () => {
-    if (!input.trim() || !selectedUserId) return;
-
-    setSending(true);
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: selectedUserId,
-          content: input,
-          isFromUser: false,
-        }),
-      });
-
-      if (res.ok) {
-        setInput("");
-        loadMessages(selectedUserId);
-      }
-    } catch (error) {
-      console.error("Failed to send message:", error);
-    } finally {
-      setSending(false);
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  };
-
-  // This is a server component wrapper
-  return <AdminChatClient usersWithChats={usersWithChats} />;
-}
-
-function AdminChatClient({
-  usersWithChats: initialUsers,
-}: {
-  usersWithChats: any[];
-}) {
-  const [usersWithChats, setUsersWithChats] = useState(initialUsers);
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
-  const [messages, setMessages] = useState<any[]>([]);
-  const [input, setInput] = useState("");
-  const [sending, setSending] = useState(false);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadUsers();
+  }, [loadUsers]);
 
   useEffect(() => {
     if (selectedUserId) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       loadMessages(selectedUserId);
     }
-  }, [selectedUserId]);
-
-  const loadMessages = async (userId: number) => {
-    try {
-      const res = await fetch(`/api/chat?userId=${userId}`);
-      if (res.ok) {
-        const data = await res.json();
-        setMessages(data.messages || []);
-      }
-    } catch (error) {
-      console.error("Failed to load messages:", error);
-    }
-  };
+  }, [selectedUserId, loadMessages]);
 
   const sendMessage = async () => {
     if (!input.trim() || !selectedUserId) return;

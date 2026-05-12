@@ -1,13 +1,21 @@
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import DeleteButton from "@/components/admin/DeleteButton";
+import { useTranslations } from "next-intl";
 
-export default async function AdminActivitiesPage() {
+export default async function AdminActivitiesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = useTranslations('admin');
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
-    redirect("/dashboard");
+  if (!session?.user || session.user.role !== "admin") {
+    redirect(`/${locale}/dashboard`);
   }
 
   const activities = await prisma.post.findMany({
@@ -19,12 +27,12 @@ export default async function AdminActivitiesPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Управление активностями</h1>
+        <h1 className="text-2xl font-bold">{t('admin.activities.title')}</h1>
         <Link
-          href="/admin/activities/new"
+          href={`/${locale}/admin/activities/new`}
           className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 cursor-pointer transition-colors duration-200 shadow-sm hover:shadow-md"
         >
-          + Добавить активность
+          {t('admin.activities.addNew')}
         </Link>
       </div>
 
@@ -33,24 +41,25 @@ export default async function AdminActivitiesPage() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Название
+                {t('admin.activities.columns.name')}
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Локация
+                {t('admin.activities.columns.location')}
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Цена
+                {t('admin.activities.columns.price')}
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Бронирований
+                {t('admin.activities.columns.bookings')}
               </th>
               <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Действия
+                {t('admin.activities.columns.actions')}
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {activities.map((activity: any) => (
+            {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+            activities.map((activity: any) => (
               <tr key={activity.id} className="hover:bg-gray-50 cursor-pointer transition-colors duration-200">
                 <td className="px-6 py-4">
                   <div className="font-medium text-gray-900">{activity.title}</div>
@@ -66,14 +75,12 @@ export default async function AdminActivitiesPage() {
                 </td>
                 <td className="px-6 py-4 text-right text-sm font-medium">
                   <Link
-                    href={`/admin/activities/${activity.id}/edit`}
+                    href={`/${locale}/admin/activities/${activity.id}/edit`}
                     className="text-blue-600 hover:text-blue-900 mr-4 cursor-pointer transition-colors duration-200"
                   >
-                    Редактировать
+                    {t('admin.general.edit')}
                   </Link>
-                  <button className="text-red-600 hover:text-red-900 cursor-pointer transition-colors duration-200">
-                    Удалить
-                  </button>
+                  <DeleteButton id={activity.id} type="activities" />
                 </td>
               </tr>
             ))}
@@ -82,9 +89,9 @@ export default async function AdminActivitiesPage() {
 
         {activities.length === 0 && (
           <div className="text-center py-8 text-gray-500">
-            Активности не найдены.{" "}
-            <Link href="/admin/activities/new" className="text-blue-600 hover:underline">
-              Добавить первую активность
+            {t('admin.activities.empty.noActivities')}{' '}
+            <Link href={`/${locale}/admin/activities/new`} className="text-blue-600 hover:underline">
+              {t('admin.activities.empty.addFirst')}
             </Link>
           </div>
         )}

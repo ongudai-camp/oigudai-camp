@@ -2,10 +2,28 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import ImageUploader from "./ImageUploader";
+
+interface HotelData {
+  id: number;
+  title: string;
+  content: string | null;
+  address: string | null;
+  price: number;
+  salePrice: number | null;
+  latitude: number | null;
+  longitude: number | null;
+  authorId: number | null;
+  status: string;
+  featuredImage?: string | null;
+  gallery?: string | null;
+  currency?: string | null;
+  excerpt?: string | null;
+}
 
 interface HotelFormProps {
-  users: { id: number; name: string | null; email: string }[];
-  hotel?: any;
+  users: { id: number; name: string | null; email: string | null }[];
+  hotel?: HotelData;
 }
 
 export default function HotelForm({ users, hotel }: HotelFormProps) {
@@ -14,13 +32,22 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
     title: hotel?.title || "",
     content: hotel?.content || "",
     address: hotel?.address || "",
-    price: hotel?.price || 0,
-    salePrice: hotel?.salePrice || "",
-    latitude: hotel?.latitude || "",
-    longitude: hotel?.longitude || "",
-    authorId: hotel?.authorId || "",
+    price: hotel?.price?.toString() || "",
+    salePrice: hotel?.salePrice?.toString() || "",
+    latitude: hotel?.latitude?.toString() || "",
+    longitude: hotel?.longitude?.toString() || "",
+    authorId: hotel?.authorId?.toString() || "",
     status: hotel?.status || "publish",
   });
+  const [images, setImages] = useState<string[]>(
+    hotel?.featuredImage
+      ? [hotel.featuredImage, ...(hotel.gallery ? JSON.parse(hotel.gallery) : [])].filter(
+          (v, i, a) => a.indexOf(v) === i
+        )
+      : hotel?.gallery
+        ? JSON.parse(hotel.gallery)
+        : []
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -41,11 +68,13 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
-          authorId: formData.authorId ? parseInt(formData.authorId as any) : null,
-          price: parseFloat(formData.price as any),
-          salePrice: formData.salePrice ? parseFloat(formData.salePrice as any) : null,
-          latitude: formData.latitude ? parseFloat(formData.latitude as any) : null,
-          longitude: formData.longitude ? parseFloat(formData.longitude as any) : null,
+          authorId: formData.authorId ? parseInt(formData.authorId) : null,
+          price: parseFloat(formData.price),
+          salePrice: formData.salePrice ? parseFloat(formData.salePrice) : null,
+          latitude: formData.latitude ? parseFloat(formData.latitude) : null,
+          longitude: formData.longitude ? parseFloat(formData.longitude) : null,
+          featuredImage: images[0] || null,
+          gallery: images.length > 0 ? JSON.stringify(images) : null,
         }),
       });
 
@@ -55,8 +84,8 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
       }
 
       router.push("/admin/hotels");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setLoading(false);
     }
@@ -136,7 +165,7 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
             min="0"
             step="0.01"
             value={formData.price}
-            onChange={(e) => setFormData({ ...formData, price: e.target.value as any })}
+            onChange={(e) => setFormData({ ...formData, price: e.target.value as unknown as string })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
@@ -150,7 +179,7 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
             min="0"
             step="0.01"
             value={formData.salePrice}
-            onChange={(e) => setFormData({ ...formData, salePrice: e.target.value as any })}
+            onChange={(e) => setFormData({ ...formData, salePrice: e.target.value as unknown as string })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
@@ -163,7 +192,7 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
             type="number"
             step="0.000001"
             value={formData.latitude}
-            onChange={(e) => setFormData({ ...formData, latitude: e.target.value as any })}
+            onChange={(e) => setFormData({ ...formData, latitude: e.target.value as unknown as string })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
@@ -176,10 +205,18 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
             type="number"
             step="0.000001"
             value={formData.longitude}
-            onChange={(e) => setFormData({ ...formData, longitude: e.target.value as any })}
+            onChange={(e) => setFormData({ ...formData, longitude: e.target.value as unknown as string })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
+      </div>
+
+      <div className="space-y-4">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Галерея изображений
+        </label>
+        <p className="text-sm text-gray-500">Первое изображение будет главным.</p>
+        <ImageUploader images={images} onChange={setImages} />
       </div>
 
       <div>

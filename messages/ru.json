@@ -1,14 +1,50 @@
 {
   "nav": {
     "home": "Главная",
-    "hotels": "Отели",
+    "accommodation": "Проживание",
     "tours": "Туры",
-    "activities": "Активности",
+    "experiences": "Впечатления",
     "about": "О нас",
     "login": "Войти",
     "register": "Регистрация",
     "dashboard": "Кабинет",
     "admin": "Админ панель"
+  },
+  "mega": {
+    "accommodation": {
+      "cottages": "Коттеджи",
+      "cottages_desc": "Уютные дома для семей и компаний",
+      "hotel_rooms": "Отельные номера",
+      "hotel_rooms_desc": "Комфортные номера в корпусе",
+      "altai_ails": "Алтайские аилы",
+      "altai_ails_desc": "Традиционное жилье кочевников",
+      "eco_village": "Эко-деревня",
+      "eco_village_desc": "Полное единение с природой",
+      "new_opening": "Открытие сезона",
+      "new_opening_desc": "Ongudai Camp — обновленный формат отдыха 2026"
+    },
+    "tours": {
+      "altai_ring": "Кольцо Алтая",
+      "altai_ring_desc": "Весь Алтай за одну неделю",
+      "horse_tours": "Конные туры",
+      "horse_tours_desc": "Путешествия верхом в горы",
+      "winter_magic": "Зимняя сказка",
+      "winter_magic_desc": "Замерзшие водопады и уют",
+      "custom_routes": "Свой маршрут",
+      "custom_routes_desc": "Индивидуальные программы под ключ",
+      "popular_tour": "Хит сезона",
+      "popular_tour_desc": "Золотое кольцо Алтая - магия гор"
+    },
+    "experiences": {
+      "rafting": "Рафтинг",
+      "rafting_desc": "Сплавы по горной Катуни",
+      "trekking": "Теккинг",
+      "trekking_desc": "Пешие маршруты к вершинам",
+      "shaman_rituals": "Ритуалы шаманов",
+      "shaman_rituals_desc": "Мистическая культура Алтая",
+      "photo_expeditions": "Фото-экспедиции",
+      "photo_expeditions_desc": "Охота за лучшими кадрами"
+    }
   },
   "hero": {
     "title": "Открой для себя",
@@ -25,6 +61,13 @@
     "viewAll": "Смотреть все",
     "from": "от"
   },
+  "congratulations": {
+    "title": "Поздравляем с регистрацией!",
+    "subtitle": "Ваш аккаунт создан",
+    "description": "Теперь вы можете бронировать отели, туры и экскурсии на Алтае. Добро пожаловать в Онгудай!",
+    "goToDashboard": "Перейти в личный кабинет",
+    "goToHome": "На главную"
+  },
   "auth": {
     "signin": "Вход",
     "register": "Регистрация",
@@ -37,7 +80,11 @@
     "orSignInWith": "Или войдите с",
     "orRegister": "Или зарегистрируйтесь",
     "noAccount": "Нет аккаунта?",
-    "hasAccount": "Уже есть аккаунт?"
+    "hasAccount": "Уже есть аккаунт?",
+    "profile": "Профиль",
+    "name": "Имя",
+    "codeSent": "Код отправлен на",
+    "resendCode": "Отправить код повторно"
   },
   "common": {
     "welcome": "Добро пожаловать на туристический комплекс Онгудай",
@@ -45,16 +92,479 @@
     "book": "Забронировать",
     "price": "Цена",
     "perNight": "за ночь",
+    "perPerson": "за человека",
     "details": "Подробнее",
     "back": "Назад к списку",
     "loading": "Загрузка...",
     "error": "Ошибка",
-    "success": "Успешно"
+    "success": "Успешно",
+    "noImage": "Нет изображения",
+    "discount": "Скидка",
+    "rating": "рейтинг",
+    "noRating": "Нет оценок",
+    "description": "Описание",
+    "amenities": "Удобства",
+    "rooms": "Номера",
+    "reviews": "Отзывы",
+    "noReviews": "Пока нет отзывов. Будьте первым!",
+    "guests": "гостей",
+    "beds": "кроватей",
+    "bathrooms": "ванных",
+    "tourDetails": "Детали тура",
+    "duration": "Длительность",
+    "groupSize": "Размер группы",
+    "difficulty": "Сложность",
+    "optional": "необязательно",
+    "required": "обязательно"
   },
   "privacy": {
     "title": "Соглашение об обработке персональных данных",
     "accept": "Я принимаю обработку персональных данных",
     "link": "Политика конфиденциальности",
-    "required": "Обязательно по законодательству РФ"
+    "required": "Обязательно по законодательству РФ",
+    "content": {
+      "p1_title": "1. Общие положения",
+      "p1_text": "Настоящее Соглашение об обработке персональных данных разработало в соответствии с законодательством РФ.",
+      "p2_title": "2. Какие данные мы собираем",
+      "p2_text": "Имя, контактные данные, данные для бронирования.",
+      "p3_title": "3. Цели обработки",
+      "p3_text": "Оформление и управление бронированиями.",
+      "contact": "По вопросам обработки: privacy@ongudaicamp.ru"
+    }
+  },
+  "about": {
+    "title": "О туристическом комплексе",
+    "subtitle": "Ваш идеальный отдых на Алтае",
+    "welcome": "Добро пожаловать в Ongudai Camp",
+    "description1": "Наш туристический комплекс расположен в живописном селе Онгудай, сердце Республики Алтай.",
+    "description2": "С 2015 года мы помогаем туристам открывать для себя красоту Алтая.",
+    "stats": {
+      "hotels": "Отелей и гостевых домов",
+      "tours": "Туров и активностей",
+      "guests": "Довольных гостей"
+    }
+  },
+  "notFound": {
+    "title": "Страница не найдена",
+    "description": "Извините, запрашиваемая страница не существует или была перемещена.",
+    "backHome": "Вернуться на главную"
+  },
+  "dashboard": {
+    "title": "Личный кабинет",
+    "welcome": "Добро пожаловать, {name}!",
+    "description": "Здесь вы можете управлять своими бронированиями и просматривать историю поездок.",
+    "myBookings": "Мои бронирования",
+    "profile": "Профиль",
+    "wishlist": "Избранное",
+    "support": "Чат поддержки",
+    "adminPanel": "Админ панель",
+    "stats": {
+      "total": "Всего бронирований",
+      "confirmed": "Подтверждено",
+      "pending": "Ожидают",
+      "spent": "Потрачено"
+    },
+    "recent": "Последние бронирования",
+    "noBookings": "У вас пока нет бронирований",
+    "findHotel": "Найти отель",
+    "settings": "Настройки",
+    "settingsTitle": "Настройки аккаунта",
+    "settingsDescription": "Управляйте информацией и настройками аккаунта.",
+    "personalInfo": "Личная информация",
+    "accountInfo": "Информация об аккаунте",
+    "email": "Email",
+    "phone": "Телефон",
+    "role": "Роль",
+    "memberSince": "На сайте с",
+    "language": "Язык"
+  },
+  "listing": {
+    "hotelsTitle": "Отели Онгудая",
+    "toursTitle": "Туры по Алтаю",
+    "activitiesTitle": "Активности на Алтае",
+    "search": "Поиск",
+    "searchPlaceholder": "Название или адрес...",
+    "priceFrom": "Цена от (₽)",
+    "priceTo": "Цена до (₽)",
+    "find": "Найти",
+    "noResults": "Ничего не найдено. Попробуйте изменить параметры поиска.",
+    "more": "Подробнее"
+  },
+  "footer": {
+    "tagline": "Туристический комплекс в самом сердце горного Алтая. Мы создаем незабываемые впечатления для каждого гостя.",
+    "navigation": "Навигация",
+    "navigation_home": "Главная",
+    "navigation_hotels": "Отели",
+    "navigation_tours": "Туры",
+    "navigation_activities": "Активности",
+    "support": "Поддержка",
+    "support_about": "О нас",
+    "support_policy": "Политика",
+    "support_terms": "Условия",
+    "contacts": "Контакты",
+    "contacts_address": "с. Онгудай, Республика Алтай",
+    "contacts_phone": "+7 (388) 123-45-67",
+    "contacts_email": "info@ongudaicamp.ru",
+    "copyright": "© 2026 Ongudai Camp. Сделано с любовью к Алтаю."
+  },
+  "search": {
+    "label": "Поиск",
+    "placeholder": "Название или адрес...",
+    "noResults": "Ничего не найдено. Попробуйте изменить параметры поиска."
+  },
+  "forms": {
+    "booking": {
+      "title": "Бронирование",
+      "room": "Номер",
+      "checkIn": "Заезд",
+      "checkOut": "Выезд",
+      "guests": "Количество гостей",
+      "pricePerNight": "Цена за ночь",
+      "total": "Итого",
+      "typeLabel": "Тип:",
+      "typeTour": "Тур",
+      "typeActivity": "Активность",
+      "perPerson": "/ чел",
+      "date": "Дата",
+      "submit": "Забронировать",
+        "error": "Ошибка бронирования",
+        "loginToBook": "Войдите для бронирования",
+        "nights": "ночей"
+    },
+    "admin": {
+      "hotel": {
+        "title": "Название отеля *",
+        "description": "Описание",
+        "address": "Адрес",
+        "price": "Цена за ночь (₽) *",
+        "salePrice": "Цена со скидкой (₽)",
+        "latitude": "Широта",
+        "longitude": "Долгота",
+        "author": "Автор",
+        "gallery": "Галерея изображений",
+        "galleryHint": "Первое изображение будет главным.",
+        "status": "Статус",
+        "statusValues": {
+          "publish": "Опубликовано",
+          "draft": "Черновик",
+          "pending": "На модерации"
+        },
+        "step": {
+          "hotelInfo": "Информация об отеле",
+          "rooms": "Номера отеля",
+          "gallery": "Галерея изображений",
+          "review": "Проверка и сохранение",
+          "back": "Назад",
+          "next": "Далее"
+        },
+        "addRoom": "+ Добавить номер",
+        "room": {
+          "number": "Номер {index + 1}",
+          "title": "Название номера *",
+          "description": "Описание",
+          "type": "Тип размещения",
+          "selectPlaceholder": "Выберите тип",
+          "price": "Цена (₽) *",
+          "guests": "Гостей",
+          "beds": "Кроватей",
+          "bathrooms": "Ванных",
+          "floor": "Этаж",
+          "floorAny": "Любой",
+          "floorLabel": "Этаж: {room.floor || 'Любой'}",
+          "amenities": "Удобства в номере",
+          "amenitiesCount": "Удобств: {room.facilityIds.length}",
+          "delete": "Удалить",
+          "summaryTitle": "Номер ({room.title} - {room.price} ₽)",
+          "typeLabel": "Тип: {roomTypes.find(t => t.id === room.roomTypeId)?.name || 'Не указан'} | Гостей: {room.guests} | Этаж: {room.floor || 'Любой'}",
+          "guestsLabel": "Гостей: {room.guests}"
+        },
+        "review": {
+          "hotelInfo": "Информация об отеле",
+          "hotelName": "Название: {title}",
+          "hotelAddress": "Адрес: {address}",
+          "hotelPrice": "Цена: {price} ₽",
+          "images": "Изображения ({images.length})",
+          "roomsTitle": "Номера ({rooms.length})"
+        },
+        "error": "Произошла ошибка"
+      },
+      "tour": {
+        "title": "Название тура *",
+        "description": "Описание",
+        "address": "Локация/Маршрут",
+        "price": "Цена (₽/чел) *",
+        "salePrice": "Цена со скидкой (₽)",
+        "author": "Автор",
+        "latitude": "Широта",
+        "longitude": "Долгота",
+        "duration": "Длительность",
+        "groupSize": "Размер группы",
+        "difficulty": "Сложность",
+        "gallery": "Галерея изображений",
+        "galleryHint": "Первое изображение будет главным.",
+        "itinerary": "Программа тура",
+        "included": "Включено",
+        "notIncluded": "Не включено",
+        "status": "Статус",
+        "statusValues": {
+          "publish": "Опубликовано",
+          "draft": "Черновик",
+          "pending": "На модерации"
+        },
+        "step": {
+          "tourInfo": "Информация о туре",
+          "details": "Детали",
+          "gallery": "Галерея изображений",
+          "review": "Проверка и сохранение",
+          "back": "Назад",
+          "save": "Сохранить"
+        },
+        "day": {
+          "title": "Заголовок дня",
+          "description": "Описание программы дня..."
+        },
+        "difficultyValues": {
+          "easy": "Легкий",
+          "medium": "Средний",
+          "hard": "Сложный"
+        },
+        "review": {
+          "tourInfo": "Информация о туре",
+          "tourTitle": "Название: {title}",
+          "tourLocation": "Локация: {address}",
+          "tourPrice": "Цена: {price} ₽"
+        },
+        "saveButton": "Сохранить тур",
+        "error": "Ошибка сохранения"
+      },
+      "activity": {
+        "title": "Название активности *",
+        "description": "Описание",
+        "address": "Локация/Место проведения",
+        "price": "Цена (₽) *",
+        "salePrice": "Цена со скидкой (₽)",
+        "author": "Автор",
+        "latitude": "Широта",
+        "longitude": "Долгота",
+        "category": "Категория",
+        "categories": {
+          "excursion": "Экскурсия",
+          "rafting": "Рафтинг",
+          "hiking": "Пеший поход",
+          "horseback": "Конная прогулка",
+          "fishing": "Рыбалка",
+          "skiing": "Лыжи/Сноуборд",
+          "other": "Другое"
+        },
+        "included": "Включено",
+        "requirements": "Требования",
+        "gallery": "Галерея изображений",
+        "galleryHint": "Первое изображение будет главным.",
+        "status": "Статус",
+        "statusValues": {
+          "publish": "Опубликовано",
+          "draft": "Черновик",
+          "pending": "На модерации"
+        },
+        "step": {
+          "activityInfo": "Информация об активности",
+          "details": "Детали",
+          "gallery": "Галерея изображений",
+          "review": "Проверка и сохранение",
+          "back": "Назад",
+          "save": "Сохранить"
+        },
+        "review": {
+          "activityInfo": "Информация об активности",
+          "activityTitle": "Название: {title}",
+          "activityLocation": "Локация: {address}",
+          "activityPrice": "Цена: {price} ₽"
+        },
+        "saveButton": "Сохранить активность",
+        "error": "Ошибка сохранения"
+      }
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Обзор системы",
+      "welcome": "Добро пожаловать в панель управления Ongudai Camp"
+    },
+    "hotels": {
+      "title": "Управление отелями",
+      "addNew": "+ Добавить отель",
+      "columns": {
+        "title": "Название",
+        "author": "Автор",
+        "price": "Цена",
+        "rooms": "Номеров",
+        "bookings": "Бронирований",
+        "status": "Статус",
+        "date": "Дата",
+        "actions": "Действия"
+      },
+      "empty": {
+        "noHotels": "Отели не найдены. ",
+        "addFirst": "Добавить первый отель"
+      },
+      "statusUnknown": "Не указан"
+    },
+    "tours": {
+      "title": "Управление турами",
+      "addNew": "+ Добавить тур",
+      "columns": {
+        "title": "Название",
+        "author": "Автор",
+        "price": "Цена",
+        "bookings": "Бронирований",
+        "status": "Статус",
+        "actions": "Действия"
+      },
+      "location": "Локация",
+      "empty": {
+        "noTours": "Туры не найдены. ",
+        "addFirst": "Добавить первый тур"
+      }
+    },
+    "activities": {
+      "title": "Управление активностями",
+      "addNew": "+ Добавить активность",
+      "columns": {
+        "title": "Название",
+        "location": "Локация",
+        "price": "Цена",
+        "bookings": "Бронирований",
+        "actions": "Действия"
+      },
+      "empty": {
+        "noActivities": "Активности не найдены. ",
+        "addFirst": "Добавить первую активность"
+      }
+    },
+    "bookings": {
+      "title": "Управление бронированиями",
+      "filters": {
+        "all": "Все",
+        "pending": "Ожидание",
+        "confirmed": "Подтверждено",
+        "completed": "Завершено",
+        "cancelled": "Отменено"
+      },
+      "table": {
+        "id": "ID",
+        "property": "Объект",
+        "room": "Номер",
+        "guest": "Гость",
+        "checkIn": "Заезд",
+        "checkOut": "Выезд",
+        "total": "Сумма",
+        "status": "Статус",
+        "payment": "Оплата",
+        "actions": "Действия"
+      },
+      "empty": "Бронирования не найдены",
+      "error": "Ошибка загрузки:",
+      "guestUnknown": "Гость"
+    },
+    "users": {
+      "title": "Управление пользователями",
+      "filters": {
+        "all": "Все",
+        "admin": "Админ",
+        "subscriber": "Подписчик"
+      },
+      "columns": {
+        "name": "Имя",
+        "email": "Email",
+        "role": "Роль",
+        "bookings": "Бронирований",
+        "registered": "Дата регистрации",
+        "actions": "Действия"
+      },
+      "noName": "Без имени",
+      "changeRole": "Изменить роль",
+      "notFound": "Пользователи не найдены"
+    },
+    "chat": {
+      "title": "Чат поддержки",
+      "users": "Пользователи",
+      "noActiveChats": "Нет активных чатов",
+      "noName": "Без имени",
+      "noMessages": "Нет сообщений",
+      "userLabel": "Пользователь",
+      "send": "Отправить",
+      "messagePlaceholder": "Введите сообщение...",
+      "typing": "..."
+    },
+    "packages": {
+      "title": "Пакеты подписки",
+      "addNew": "Добавить пакет",
+      "featured": "Популярный",
+      "postsLimit": "Лимит постов: {postsLimit}",
+      "duration": "Длительность: {duration} дн.",
+      "activeUsers": "Активных пользователей: {count}",
+      "edit": "Редактировать",
+      "delete": "Удалить"
+    },
+    "general": {
+      "edit": "Редактировать",
+      "delete": "Удалить",
+      "deleteConfirm": "Да, удалить",
+      "cancel": "Отмена",
+      "deleting": "...",
+      "saving": "...",
+      "unknown": "Неизвестно",
+      "errorDelete": "Ошибка удаления",
+      "errorAlert": "Ошибка при удалении"
+    }
+  },
+  "phone": {
+    "country": {
+      "rf": "Гражданин РФ",
+      "kz": "Казахстан",
+      "uz": "Узбекистан",
+      "kg": "Кыргызстан",
+      "tj": "Таджикистан",
+      "tm": "Туркменистан",
+      "az": "Азербайджан",
+      "am": "Армения",
+      "ge": "Грузия",
+      "tr": "Турция",
+      "cn": "Китай",
+      "in": "Индия",
+      "ae": "ОАЭ",
+      "us_ca": "США / Канада",
+      "uk": "Великобритания",
+      "de": "Германия",
+      "fr": "Франция",
+      "it": "Италия",
+      "es": "Испания",
+      "il": "Израиль",
+      "th": "Таиланд",
+      "vn": "Вьетнам",
+      "mn": "Монголия"
+    }
+  },
+  "imageUploader": {
+    "uploadCount": "Загружено: {count} {count, plural, one {изображение} other {изображений}}",
+    "noneUploaded": "Изображения не загружены",
+    "moveLeft": "Переместить влево",
+    "moveRight": "Переместить вправо",
+    "delete": "Удалить",
+    "mainPhoto": "Главная",
+    "uploading": "Загрузка...",
+    "dragOrClick": "Перетащите изображения сюда или нажмите для выбора",
+    "remaining": "Можно загрузить еще {remaining}",
+    "limitReached": "Лимит исчерпан",
+    "uploadError": "Ошибка при загрузке"
+  },
+  "dialogs": {
+    "deleteConfirmation": "Да, удалить",
+    "deleteDialogTitle": "Подтвердите удаление",
+    "cancel": "Отмена"
+  },
+  "adminStats": {
+    "title": "Обзор системы",
+    "welcome": "Добро пожаловать в панель управления Ongudai Camp"
   }
 }

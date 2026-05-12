@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createTourAction } from "@/app/actions/tour";
+import ImageUploader from "./ImageUploader";
 
 enum Step {
   TOUR_INFO = 1,
@@ -30,7 +31,14 @@ export default function TourWizard() {
   // Details
   const [included, setIncluded] = useState("");
   const [notIncluded, setNotIncluded] = useState("");
-  const [itinerary, setItinerary] = useState([
+  const [images, setImages] = useState<string[]>([]);
+  interface ItineraryDay {
+    day: number;
+    title: string;
+    description: string;
+  }
+
+  const [itinerary, setItinerary] = useState<ItineraryDay[]>([
     { day: 1, title: "", description: "" },
   ]);
 
@@ -38,9 +46,9 @@ export default function TourWizard() {
     setItinerary([...itinerary, { day: itinerary.length + 1, title: "", description: "" }]);
   };
 
-  const updateDay = (index: number, field: string, value: string) => {
+  const updateDay = (index: number, field: "title" | "description", value: string) => {
     const newItinerary = [...itinerary];
-    (newItinerary[index] as any)[field] = value;
+    newItinerary[index][field] = value;
     setItinerary(newItinerary);
   };
 
@@ -65,6 +73,10 @@ export default function TourWizard() {
       formData.append("included", included);
       formData.append("notIncluded", notIncluded);
       formData.append("itinerary", JSON.stringify(itinerary));
+      if (images.length > 0) {
+        formData.append("featuredImage", images[0]);
+        formData.append("gallery", JSON.stringify(images));
+      }
 
       const result = await createTourAction(formData);
 
@@ -73,8 +85,8 @@ export default function TourWizard() {
       } else {
         router.push("/admin/tours");
       }
-    } catch (err: any) {
-      setError(err.message || "Произошла ошибка");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Произошла ошибка");
     } finally {
       setLoading(false);
     }
@@ -298,16 +310,7 @@ export default function TourWizard() {
             <p className="text-gray-600">
               Загрузите изображения тура. Первое изображение будет главным.
             </p>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-              <p className="text-gray-500">Перетащите изображения сюда или нажмите для выбора</p>
-              <input type="file" multiple accept="image/*" className="hidden" />
-              <button
-                type="button"
-                className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 cursor-pointer transition-colors duration-200"
-              >
-                Выбрать файлы
-              </button>
-            </div>
+            <ImageUploader images={images} onChange={setImages} />
           </div>
         );
 

@@ -10,6 +10,64 @@
     "dashboard": "Dashboard",
     "admin": "Admin Panel"
   },
+  "mega": {
+    "hotels": {
+      "luxury": "Luxury Hotels",
+      "luxury_desc": "Premium relaxation with mountain views",
+      "eco_hotels": "Eco Hotels",
+      "eco_hotels_desc": "Eco-friendly hotels in the heart of nature",
+      "camping": "Camping",
+      "camping_desc": "Cozy camping under the open sky",
+      "guest_houses": "Guest Houses",
+      "guest_houses_desc": "Home comfort and hospitality",
+      "hotel_of_the_month": "Hotel of the Month",
+      "hotel_of_the_month_desc": "Ongudai Resort - best choice by guests 2026"
+    },
+    "tours": {
+      "adventure": "Adventure",
+      "adventure_desc": "Active adventures and drive",
+      "cultural": "Cultural",
+      "cultural_desc": "Immersion in Altai traditions",
+      "sightseeing": "Sightseeing",
+      "sightseeing_desc": "Main attractions and landmarks",
+      "custom": "Custom Tours",
+      "custom_desc": "Tailor-made individual routes",
+      "popular_tour": "Popular Tour",
+      "popular_tour_desc": "Golden Ring of Altai - 5 days of magic"
+    },
+    "activities": {
+      "hiking": "Hiking",
+      "hiking_desc": "Hiking through mountain passes",
+      "rafting": "Rafting",
+      "rafting_desc": "Rafting on the mountain Katun river",
+      "horse_riding": "Horse Riding",
+      "horse_riding_desc": "Horseback riding in the mountains",
+      "photography": "Photography",
+      "photography_desc": "Photo tours of the best locations"
+    }
+  },
+  "hero": {
+    "title": "Discover",
+    "subtitle": "The Magic of Altai",
+    "description": "The best hotels, unforgettable tours, and active leisure in the heart of the Altai mountains — Ongudai district.",
+    "cta_hotels": "Find Hotel",
+    "cta_tours": "View Tours",
+    "rating": "guest rating"
+  },
+  "featured": {
+    "hotels": "Best Hotels",
+    "tours": "Popular Tours",
+    "activities": "Active Leisure",
+    "viewAll": "View All",
+    "from": "from"
+  },
+  "congratulations": {
+    "title": "Congratulations!",
+    "subtitle": "Your account has been created",
+    "description": "Now you can book hotels, tours and activities in Altai. Welcome to Ongudai!",
+    "goToDashboard": "Go to Dashboard",
+    "goToHome": "Go to Home"
+  },
   "auth": {
     "signin": "Sign In",
     "register": "Register",
@@ -22,7 +80,11 @@
     "orSignInWith": "Or sign in with",
     "orRegister": "Or register",
     "noAccount": "Don't have an account?",
-    "hasAccount": "Already have an account?"
+    "hasAccount": "Already have an account?",
+    "profile": "Profile",
+    "name": "Name",
+    "codeSent": "Code sent to",
+    "resendCode": "Resend code"
   },
   "common": {
     "welcome": "Welcome to Ongudai tourist complex",
@@ -30,16 +92,368 @@
     "book": "Book Now",
     "price": "Price",
     "perNight": "per night",
+    "perPerson": "per person",
     "details": "Details",
     "back": "Back to list",
     "loading": "Loading...",
     "error": "Error",
-    "success": "Success"
+    "success": "Success",
+    "noImage": "No image",
+    "discount": "Discount",
+    "rating": "rating",
+    "noRating": "No rating",
+    "description": "Description",
+    "amenities": "Amenities",
+    "rooms": "Rooms",
+    "reviews": "Reviews",
+    "noReviews": "No reviews yet. Be the first one!",
+    "guests": "guests",
+    "beds": "beds",
+    "bathrooms": "bathrooms",
+    "tourDetails": "Tour Details",
+    "duration": "Duration",
+    "groupSize": "Group Size",
+    "difficulty": "Difficulty",
+    "optional": "optional",
+    "required": "required"
   },
   "privacy": {
     "title": "Personal Data Processing Agreement",
     "accept": "I accept the processing of personal data",
     "link": "Privacy Policy",
-    "required": "Required by Russian Federation law"
+    "required": "Required by Russian Federation law",
+    "content": {
+      "p1_title": "1. General Provisions",
+      "p1_text": "This Agreement is developed in accordance with the legislation of the Russian Federation.",
+      "p2_title": "2. Data We Collect",
+      "p2_text": "Name, contact details, booking information.",
+      "p3_title": "3. Processing Purposes",
+      "p3_text": "Processing and managing bookings.",
+      "contact": "For inquiries: privacy@ongudaicamp.ru"
+    }
+  },
+  "about": {
+    "title": "About the Resort",
+    "subtitle": "Your Perfect Vacation in Altai",
+    "welcome": "Welcome to Ongudai Camp",
+    "description1": "Our resort is located in the picturesque village of Ongudai, the heart of the Altai Republic.",
+    "description2": "Since 2015, we have been helping tourists discover the beauty of Altai.",
+    "stats": {
+      "hotels": "Hotels and Guest Houses",
+      "tours": "Tours and Activities",
+      "guests": "Happy Guests"
+    }
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "Sorry, the page you are looking for does not exist or has been moved.",
+    "backHome": "Back to Home"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome, {name}!",
+    "description": "Manage your bookings and view your travel history here.",
+    "myBookings": "My Bookings",
+    "profile": "Profile",
+    "wishlist": "Wishlist",
+    "support": "Support Chat",
+    "adminPanel": "Admin Panel",
+    "stats": {
+      "total": "Total Bookings",
+      "confirmed": "Confirmed",
+      "pending": "Pending",
+      "spent": "Total Spent"
+    },
+    "recent": "Recent Bookings",
+    "noBookings": "You have no bookings yet",
+    "findHotel": "Find a Hotel",
+    "settings": "Settings",
+    "settingsTitle": "Account Settings",
+    "settingsDescription": "Manage your account information and preferences.",
+    "personalInfo": "Personal Information",
+    "accountInfo": "Account Info",
+    "email": "Email",
+    "phone": "Phone",
+    "role": "Role",
+    "memberSince": "Member since",
+    "language": "Language"
+  },
+  "listing": {
+    "hotelsTitle": "Ongudai Hotels",
+    "toursTitle": "Altai Tours",
+    "activitiesTitle": "Altai Activities",
+    "search": "Search",
+    "searchPlaceholder": "Name or address...",
+    "priceFrom": "Price from (₽)",
+    "priceTo": "Price to (₽)",
+    "find": "Find",
+    "noResults": "No results found. Try changing your search parameters.",
+    "more": "More"
+  },
+  "footer": {
+    "tagline": "Tourist complex in the heart of the Altai mountains. We create unforgettable experiences for every guest.",
+    "navigation": "Navigation",
+    "navigation_home": "Home",
+    "navigation_hotels": "Hotels",
+    "navigation_tours": "Tours",
+    "navigation_activities": "Activities",
+    "support": "Support",
+    "support_about": "About",
+    "support_policy": "Privacy Policy",
+    "support_terms": "Terms of Use",
+    "contacts": "Contacts",
+    "contacts_address": "s. Ongudai, Republic of Altai",
+    "contacts_phone": "+7 (388) 123-45-67",
+    "contacts_email": "info@ongudaicamp.ru",
+    "copyright": "© 2026 Ongudai Camp. Made with love for Altai."
+  },
+  "search": {
+    "label": "Search",
+    "placeholder": "Name or address...",
+    "noResults": "No results found. Try changing your search parameters."
+  },
+  "forms": {
+    "booking": {
+      "title": "Booking",
+      "room": "Room",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "guests": "Number of guests",
+      "pricePerNight": "Price per night",
+      "total": "Total",
+      "typeLabel": "Type:",
+      "typeTour": "Tour",
+      "typeActivity": "Activity",
+      "perPerson": "/ person",
+      "date": "Date",
+      "submit": "Book Now",
+      "error": "Booking error",
+      "loginToBook": "Sign in to book",
+      "nights": "nights"
+    },
+    "admin": {
+      "hotel": {
+        "title": "Hotel Name *",
+        "description": "Description",
+        "address": "Address",
+        "price": "Price per night (₽) *",
+        "salePrice": "Discounted price (₽)",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "author": "Author",
+        "gallery": "Image Gallery",
+        "galleryHint": "First image will be the main one.",
+        "status": "Status",
+        "statusValues": {
+          "publish": "Published",
+          "draft": "Draft",
+          "pending": "Under moderation"
+        },
+        "step": {
+          "hotelInfo": "Hotel Information",
+          "rooms": "Hotel Rooms",
+          "gallery": "Image Gallery",
+          "review": "Review & Save",
+          "back": "Back",
+          "next": "Next"
+        },
+        "addRoom": "+ Add Room",
+        "room": {
+          "number": "Room {index + 1}",
+          "title": "Room Name *",
+          "description": "Description",
+          "type": "Accommodation Type",
+          "selectPlaceholder": "Select type",
+          "price": "Price (₽) *",
+          "guests": "Guests",
+          "beds": "Beds",
+          "bathrooms": "Bathrooms",
+          "floor": "Floor",
+          "floorAny": "Any",
+          "floorLabel": "Floor: {room.floor || 'Any'}",
+          "amenities": "In-room Amenities",
+          "amenitiesCount": "Amenities: {room.facilityIds.length}",
+          "delete": "Delete",
+          "summaryTitle": "Room Summary",
+          "typeLabel": "Type: {roomTypes.find(t => t.id === room.roomTypeId)?.name || 'Not specified'} | Guests: {room.guests} | Floor: {room.floor || 'Any'}",
+          "guestsLabel": "Guests: {room.guests}"
+        },
+        "review": {
+          "hotelInfo": "Hotel Information",
+          "hotelName": "Name: {title}",
+          "hotelAddress": "Address: {address}",
+          "hotelPrice": "Price: {price} ₽",
+          "images": "Images ({images.length})",
+          "roomsTitle": "Rooms ({rooms.length})"
+        },
+        "error": "An error occurred"
+      },
+      "tour": {
+        "title": "Tour Name *",
+        "description": "Description",
+        "address": "Location/Route",
+        "price": "Price (₽/person) *",
+        "salePrice": "Discounted price (₽)",
+        "author": "Author",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "duration": "Duration",
+        "groupSize": "Group size",
+        "difficulty": "Difficulty",
+        "gallery": "Image Gallery",
+        "galleryHint": "First image will be the main one.",
+        "itinerary": "Itinerary",
+        "included": "Included",
+        "notIncluded": "Not included",
+        "status": "Status",
+        "statusValues": {
+          "publish": "Published",
+          "draft": "Draft",
+          "pending": "Under moderation"
+        },
+        "step": {
+          "tourInfo": "Tour Information",
+          "details": "Details",
+          "gallery": "Image Gallery",
+          "review": "Review & Save",
+          "back": "Back",
+          "save": "Save"
+        },
+        "day": {
+          "title": "Day {index + 1} Title",
+          "description": "Day Program Description"
+        },
+        "difficultyValues": {
+          "easy": "Easy",
+          "medium": "Medium",
+          "hard": "Hard"
+        },
+        "review": {
+          "tourInfo": "Tour Information",
+          "tourTitle": "Name: {title}",
+          "tourLocation": "Location: {address}",
+          "tourPrice": "Price: {price} ₽"
+        },
+        "saveButton": "Save Tour",
+        "error": "Error saving"
+      },
+      "activity": {
+        "title": "Activity Name *",
+        "description": "Description",
+        "address": "Location/Venue",
+        "price": "Price (₽) *",
+        "salePrice": "Discounted price (₽)",
+        "author": "Author",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "category": "Category",
+        "categories": {
+          "excursion": "Excursion",
+          "rafting": "Rafting",
+          "hiking": "Hiking",
+          "horseback": "Horseback Riding",
+          "fishing": "Fishing",
+          "skiing": "Skiing/Snowboarding",
+          "other": "Other"
+        },
+        "included": "Included",
+        "requirements": "Requirements",
+        "gallery": "Image Gallery",
+        "galleryHint": "First image will be the main one.",
+        "status": "Status",
+        "statusValues": {
+          "publish": "Published",
+          "draft": "Draft",
+          "pending": "Under moderation"
+        },
+        "step": {
+          "activityInfo": "Activity Information",
+          "details": "Details",
+          "gallery": "Image Gallery",
+          "review": "Review & Save",
+          "back": "Back",
+          "save": "Save"
+        },
+        "review": {
+          "activityInfo": "Activity Information",
+          "activityTitle": "Name: {title}",
+          "activityLocation": "Location: {address}",
+          "activityPrice": "Price: {price} ₽"
+        },
+        "saveButton": "Save Activity",
+        "error": "Error saving"
+      }
+    }
+  },
+  "admin": {
+    "users": {
+      "title": "User Management",
+      "filters": {
+        "all": "All",
+        "admin": "Admin",
+        "subscriber": "Subscriber"
+      },
+      "columns": {
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "bookings": "Bookings",
+        "registered": "Registration Date",
+        "actions": "Actions"
+      },
+      "noName": "No name",
+      "changeRole": "Change role",
+      "notFound": "No users found"
+    }
+  },
+   "phone": {
+    "country": {
+      "rf": "Russian Federation",
+      "kz": "Kazakhstan",
+      "uz": "Uzbekistan",
+      "kg": "Kyrgyzstan",
+      "tj": "Tajikistan",
+      "tm": "Turkmenistan",
+      "az": "Azerbaijan",
+      "am": "Armenia",
+      "ge": "Georgia",
+      "tr": "Turkey",
+      "cn": "China",
+      "in": "India",
+      "ae": "UAE",
+      "us_ca": "USA/Canada",
+      "uk": "United Kingdom",
+      "de": "Germany",
+      "fr": "France",
+      "it": "Italy",
+      "es": "Spain",
+      "il": "Israel",
+      "th": "Thailand",
+      "vn": "Vietnam",
+      "mn": "Mongolia",
+      "rfLabel": "Citizen of the Russian Federation"
+    }
+  },
+  "imageUploader": {
+    "uploadCount": "Uploaded: {count} {count, plural, one {image} other {images}}",
+    "noneUploaded": "No images uploaded",
+    "moveLeft": "Move left",
+    "moveRight": "Move right",
+    "delete": "Delete",
+    "mainPhoto": "Main",
+    "uploading": "Uploading...",
+    "dragOrClick": "Drag images here or click to select",
+    "remaining": "Can upload {remaining} more",
+    "limitReached": "Limit reached",
+    "uploadError": "Error uploading"
+  },
+  "dialogs": {
+    "deleteConfirmation": "Yes, delete",
+    "deleteDialogTitle": "Confirm deletion",
+    "cancel": "Cancel"
+  },
+  "adminStats": {
+    "title": "System Overview",
+    "welcome": "Welcome to the Ongudai Camp control panel"
   }
 }

@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface Post {
   id: number;
@@ -17,11 +17,12 @@ interface Post {
 
 export default function FeaturedSection({ type, titleKey }: { type: string; titleKey: string }) {
   const t = useTranslations('featured');
+  const locale = useLocale();
 
   const { data, isLoading } = useQuery<Post[]>({
     queryKey: ['featured', type],
     queryFn: async () => {
-      const res = await fetch(`/api/posts?type=${type}&limit=3`);
+      const res = await fetch(`/api/posts?type=${type}&limit=3&locale=${locale}`);
       if (!res.ok) throw new Error('Failed to fetch posts');
       const json = await res.json();
       return json.posts;
@@ -37,16 +38,16 @@ export default function FeaturedSection({ type, titleKey }: { type: string; titl
           <h2 className='text-3xl font-bold text-sky-950 mb-2'>{t(titleKey)}</h2>
           <div className='h-1.5 w-20 bg-orange-500 rounded-full'></div>
         </div>
-        <Link href={`/${type}s`} className='text-sky-600 font-semibold hover:text-sky-800 transition-colors cursor-pointer'>
+        <Link href={`/${locale}/${type}s`} className='text-sky-600 font-semibold hover:text-sky-800 transition-colors cursor-pointer'>
           {t('viewAll')} →
         </Link>
       </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
         {data?.map((post) => (
           <Link 
             key={post.id} 
-            href={`/${type}s/${post.slug}`}
+            href={`/${locale}/${type}s/${post.slug}`}
             className='group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sky-50'
           >
             <div className='relative h-64 overflow-hidden'>

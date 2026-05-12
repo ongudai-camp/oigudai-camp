@@ -1,15 +1,21 @@
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
+import DeleteButton from "@/components/admin/DeleteButton";
 
-export default async function AdminHotelsPage() {
+export default async function AdminHotelsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
-    redirect("/dashboard");
+  if (!session?.user || session.user.role !== "admin") {
+    redirect(`/${locale}/dashboard`);
   }
 
   const hotels = await prisma.post.findMany({
@@ -23,7 +29,7 @@ export default async function AdminHotelsPage() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Управление отелями</h1>
         <Link
-          href="/admin/hotels/new"
+          href={`/${locale}/admin/hotels/new`}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 cursor-pointer transition-colors duration-200 shadow-sm hover:shadow-md"
         >
           + Добавить отель
@@ -61,7 +67,8 @@ export default async function AdminHotelsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {hotels.map((hotel: any) => (
+            {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+            hotels.map((hotel: any) => (
               <tr key={hotel.id} className="hover:bg-gray-50 cursor-pointer transition-colors duration-200">
                 <td className="px-6 py-4">
                   <div className="font-medium text-gray-900">{hotel.title}</div>
@@ -95,14 +102,12 @@ export default async function AdminHotelsPage() {
                 </td>
                 <td className="px-6 py-4 text-right text-sm font-medium">
                   <Link
-                    href={`/admin/hotels/${hotel.id}/edit`}
+                    href={`/${locale}/admin/hotels/${hotel.id}/edit`}
                     className="text-blue-600 hover:text-blue-900 mr-4 cursor-pointer transition-colors duration-200"
                   >
                     Редактировать
                   </Link>
-                  <button className="text-red-600 hover:text-red-900 cursor-pointer transition-colors duration-200">
-                    Удалить
-                  </button>
+                  <DeleteButton id={hotel.id} type="hotels" />
                 </td>
               </tr>
             ))}
@@ -112,7 +117,7 @@ export default async function AdminHotelsPage() {
         {hotels.length === 0 && (
           <div className="text-center py-8 text-gray-500">
             Отели не найдены.{" "}
-            <Link href="/admin/hotels/new" className="text-blue-600 hover:underline">
+            <Link href={`/${locale}/admin/hotels/new`} className="text-blue-600 hover:underline">
               Добавить первый отель
             </Link>
           </div>

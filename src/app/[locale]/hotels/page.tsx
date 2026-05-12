@@ -1,18 +1,26 @@
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { format } from "date-fns";
-import { ru } from "date-fns/locale";
+import { getTranslations } from "next-intl/server";
+import Link from "next/link";
+import SideSearchPanel from "@/components/common/SideSearchPanel";
+import InteractiveMap from "@/components/common/InteractiveMap";
+import { Star, MapPin, ArrowRight, List, Map as MapIcon, Search } from "lucide-react";
 
-export default async function HotelsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ q?: string; minPrice?: string; maxPrice?: string }>;
-}) {
-  const { q, minPrice, maxPrice } = await searchParams;
+interface HotelsPageProps {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ q?: string; minPrice?: string; maxPrice?: string; type?: string }>;
+}
 
+export default async function HotelsPage({ params, searchParams }: HotelsPageProps) {
+  const { locale } = await params;
+  const { q, minPrice, maxPrice, type } = await searchParams;
+  const t = await getTranslations("listing");
+  const tc = await getTranslations("common");
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {
     type: "hotel",
     status: "publish",
+    locale,
   };
 
   if (q) {
@@ -30,6 +38,10 @@ export default async function HotelsPage({
     where.price = { ...where.price, lte: parseFloat(maxPrice) };
   }
 
+  if (type) {
+    where.rooms = { some: { roomType: { slug: type } } };
+  }
+
   const hotels = await prisma.post.findMany({
     where,
     orderBy: { price: "asc" },
@@ -37,118 +49,117 @@ export default async function HotelsPage({
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-8">Отели Онгудая</h1>
-
-        {/* Search and Filter */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <form className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Поиск
-              </label>
-              <input
-                type="text"
-                name="q"
-                placeholder="Название или адрес..."
-                defaultValue={q}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Цена от (₽)
-              </label>
-              <input
-                type="number"
-                name="minPrice"
-                placeholder="0"
-                defaultValue={minPrice}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Цена до (₽)
-              </label>
-              <input
-                type="number"
-                name="maxPrice"
-                placeholder="10000"
-                defaultValue={maxPrice}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="flex items-end">
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
-              >
-                Найти
-              </button>
-            </div>
-          </form>
-        </div>
-
-        {/* Hotels Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {hotels.map((hotel: any) => (
-            <div key={hotel.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
-              <div className="h-48 bg-gray-300 relative">
-                {hotel.featuredImage && (
-                  <img
-                    src={hotel.featuredImage}
-                    alt={hotel.title}
-                    className="w-full h-full object-cover"
-                  />
-                )}
-                {hotel.salePrice && (
-                  <div className="absolute top-4 right-4 bg-red-500 text-white px-2 py-1 text-xs rounded">
-                    Скидка
-                  </div>
-                )}
+    <div className="min-h-screen bg-[#F0F9FF] py-6 md:py-12 selection:bg-orange-500/30">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="flex flex-col gap-8 md:gap-12">
+          {/* Header & Map Integration */}
+          <div className="space-y-6 md:space-y-8 animate-in fade-in slide-in-from-top-4 duration-700">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+              <div>
+                <h1 className="text-3xl md:text-5xl font-black text-sky-950 tracking-tighter leading-none">
+                  {t("hotelsTitle")}
+                </h1>
+                <p className="text-sky-400 font-bold mt-3 flex items-center gap-2">
+                  <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
+                  Найдено вариантов: {hotels.length}
+                </p>
               </div>
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-xl font-semibold">{hotel.title}</h3>
-                  <div className="flex items-center">
-                    <span className="text-yellow-500">★</span>
-                    <span className="ml-1 text-sm">{hotel.rating || "Нет оценок"}</span>
-                  </div>
-                </div>
-
-                <p className="text-gray-500 text-sm mb-4">{hotel.address}</p>
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-2xl font-bold text-blue-600">
-                      {hotel.salePrice || hotel.price} ₽
-                    </span>
-                    {hotel.salePrice && (
-                      <span className="ml-2 text-sm text-gray-500 line-through">
-                        {hotel.price} ₽
-                      </span>
-                    )}
-                    <span className="text-gray-500 text-sm"> / ночь</span>
-                  </div>
-                  <Link
-                    href={`/hotels/${hotel.id}`}
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                  >
-                    Подробнее
-                  </Link>
-                </div>
+              <div className="flex gap-2 w-full md:w-auto bg-white/50 p-1.5 rounded-[1.25rem] backdrop-blur-sm border border-white/50 shadow-sm">
+                <button className="flex-1 md:flex-none bg-sky-950 text-white px-6 py-3 rounded-2xl font-bold shadow-xl shadow-sky-950/20 text-sm md:text-base flex items-center justify-center gap-2 transition-all active:scale-95">
+                  <List size={18} /> Список
+                </button>
+                <button className="flex-1 md:flex-none bg-transparent px-6 py-3 rounded-2xl font-bold text-sky-950 hover:bg-white/50 transition-all text-sm md:text-base flex items-center justify-center gap-2 active:scale-95">
+                  <MapIcon size={18} /> Карта
+                </button>
               </div>
             </div>
-          ))}
-        </div>
 
-        {hotels.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500">Отели не найдены. Попробуйте изменить параметры поиска.</p>
+            <div className="w-full overflow-hidden rounded-[2rem] md:rounded-[3rem] shadow-2xl border border-white/50 ring-1 ring-sky-900/5">
+              <InteractiveMap />
+            </div>
           </div>
-        )}
+
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
+            {/* Sidebar Search */}
+            <aside className="w-full lg:w-[320px] shrink-0 order-2 lg:order-1 animate-in fade-in slide-in-from-left-4 duration-1000 delay-300">
+              <div className="lg:sticky lg:top-28">
+                <SideSearchPanel />
+              </div>
+            </aside>
+
+            {/* Content Area */}
+            <main className="flex-1 space-y-8 order-1 lg:order-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10">
+                {hotels.length === 0 ? (
+                  <div className="col-span-full py-24 md:py-32 text-center bg-white/80 backdrop-blur-md rounded-[2.5rem] border border-sky-50 shadow-xl flex flex-col items-center justify-center space-y-4">
+                    <div className="w-20 h-20 bg-sky-50 rounded-full flex items-center justify-center text-sky-200">
+                      <Search size={40} />
+                    </div>
+                    <p className="text-sky-950 font-black text-xl tracking-tight">{t("noResults")}</p>
+                    <button className="text-orange-500 font-bold hover:underline">Сбросить все фильтры</button>
+                  </div>
+                ) : (
+                  hotels.map((hotel, index) => (
+                    <Link
+                      key={hotel.id}
+                      href={`/${locale}/hotels/${hotel.slug}`}
+                      className="group bg-white rounded-[2.5rem] overflow-hidden border border-sky-50 shadow-sm hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 ease-out animate-in fade-in slide-in-from-bottom-8 fill-mode-both"
+                      style={{ animationDelay: `${index * 100}ms` }}
+                    >
+                      <div className="relative h-64 md:h-72 overflow-hidden">
+                          {hotel.featuredImage ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={hotel.featuredImage}
+                            alt={hotel.title}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-sky-100 flex items-center justify-center text-sky-200">
+                            <MapPin size={48} strokeWidth={1} />
+                          </div>
+                        )}
+                        
+                        <div className="absolute top-5 right-5 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl text-xs font-black text-sky-950 shadow-lg border border-white flex items-center gap-1.5 transition-transform group-hover:scale-105">
+                          <Star size={14} className="text-orange-500 fill-orange-500" /> 
+                          {hotel.rating || tc("noRating")}
+                        </div>
+
+                        <div className="absolute bottom-5 left-5 bg-sky-950/90 backdrop-blur-md px-5 py-2.5 rounded-2xl text-white text-[10px] font-black uppercase tracking-widest max-w-[85%] truncate border border-white/10 flex items-center gap-2">
+                          <MapPin size={12} className="text-orange-400" />
+                          {hotel.address}
+                        </div>
+                      </div>
+                      <div className="p-8 md:p-10 space-y-5">
+                        <div className="space-y-2">
+                          <h2 className="text-2xl md:text-3xl font-black text-sky-950 group-hover:text-orange-500 transition-colors tracking-tighter leading-tight">
+                            {hotel.title}
+                          </h2>
+                          <p className="text-sky-900/50 text-sm md:text-base font-medium line-clamp-2 leading-relaxed">
+                            {hotel.content}
+                          </p>
+                        </div>
+                        
+                        <div className="pt-6 border-t border-sky-50 flex justify-between items-center">
+                          <div>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-sky-300 mb-1 block">Начиная от</span>
+                            <div className="text-3xl font-black text-sky-950">
+                              {hotel.salePrice || hotel.price} ₽
+                              <span className="text-sm font-bold text-sky-300 ml-1">/ ночь</span>
+                            </div>
+                          </div>
+                          <div className="w-14 h-14 bg-sky-50 rounded-3xl flex items-center justify-center text-sky-600 group-hover:bg-orange-500 group-hover:text-white group-hover:rotate-[-45deg] transition-all duration-500 ease-out shadow-inner">
+                            <ArrowRight size={24} />
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  ))
+                )}
+              </div>
+            </main>
+          </div>
+        </div>
       </div>
     </div>
   );

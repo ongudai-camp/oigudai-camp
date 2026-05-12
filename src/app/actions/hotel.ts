@@ -1,13 +1,12 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/app/api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
 
 export async function createHotelAction(formData: FormData) {
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
+  if (!session?.user || session.user.role !== "admin") {
     return { error: "Не авторизован" };
   }
 
@@ -19,6 +18,8 @@ export async function createHotelAction(formData: FormData) {
   const latitude = formData.get("latitude") as string;
   const longitude = formData.get("longitude") as string;
   const roomsJson = formData.get("rooms") as string;
+  const featuredImage = formData.get("featuredImage") as string | null;
+  const gallery = formData.get("gallery") as string | null;
 
   if (!title || !price) {
     return { error: "Название и цена обязательны" };
@@ -36,7 +37,9 @@ export async function createHotelAction(formData: FormData) {
         salePrice: salePrice ? parseFloat(salePrice) : null,
         latitude: latitude ? parseFloat(latitude) : null,
         longitude: longitude ? parseFloat(longitude) : null,
-        authorId: parseInt((session.user as any).id),
+        featuredImage,
+        gallery,
+        authorId: parseInt(session.user.id),
         status: "publish",
       },
     });
@@ -55,6 +58,11 @@ export async function createHotelAction(formData: FormData) {
               guests: room.guests || 1,
               beds: room.beds || 1,
               bathrooms: room.bathrooms || 1,
+              floor: room.floor || null,
+              roomTypeId: room.roomTypeId || null,
+              facilities: room.facilityIds ? {
+                connect: room.facilityIds.map((id: number) => ({ id }))
+              } : undefined,
             },
           });
         }
@@ -62,7 +70,7 @@ export async function createHotelAction(formData: FormData) {
     }
 
     return { success: true, hotelId: hotel.id };
-  } catch (error: any) {
-    return { error: error.message || "Ошибка при создании отеля" };
+  } catch (error: unknown) {
+    return { error: error instanceof Error ? error.message : "Ошибка при создании отеля" };
   }
 }

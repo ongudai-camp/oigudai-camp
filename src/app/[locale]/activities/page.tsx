@@ -1,16 +1,24 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { getTranslations } from "next-intl/server";
 
 export default async function ActivitiesPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ q?: string }>;
 }) {
+  const { locale } = await params;
   const { q } = await searchParams;
+  const t = await getTranslations("listing");
+  const tc = await getTranslations("common");
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {
     type: "activity",
     status: "publish",
+    locale,
   };
 
   if (q) {
@@ -29,19 +37,19 @@ export default async function ActivitiesPage({
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-8">Активности на Алтае</h1>
+        <h1 className="text-3xl font-bold mb-8">{t("activitiesTitle")}</h1>
 
         {/* Search */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
           <form className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="md:col-span-3">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Поиск активности
+                {t("search")}
               </label>
               <input
                 type="text"
                 name="q"
-                placeholder="Рафтинг, конные прогулки, треккинг..."
+                placeholder={t("searchPlaceholder")}
                 defaultValue={q}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
               />
@@ -51,7 +59,7 @@ export default async function ActivitiesPage({
                 type="submit"
                 className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
               >
-                Найти
+                {t("find")}
               </button>
             </div>
           </form>
@@ -59,10 +67,12 @@ export default async function ActivitiesPage({
 
         {/* Activities Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {activities.map((activity: any) => (
             <div key={activity.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
               <div className="h-48 bg-gradient-to-br from-green-400 to-blue-500 relative flex items-center justify-center">
-                {activity.featuredImage ? (
+                  {activity.featuredImage ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={activity.featuredImage}
                     alt={activity.title}
@@ -80,13 +90,13 @@ export default async function ActivitiesPage({
                     <span className="text-2xl font-bold text-green-600">
                       {activity.salePrice || activity.price} ₽
                     </span>
-                    <span className="text-gray-500 text-sm"> / чел</span>
+                    <span className="text-gray-500 text-sm"> / {tc("perPerson")}</span>
                   </div>
                   <Link
-                    href={`/activities/${activity.id}`}
+                    href={`/${locale}/activities/${activity.slug}`}
                     className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
                   >
-                    Подробнее
+                    {tc("details")}
                   </Link>
                 </div>
               </div>
@@ -96,7 +106,7 @@ export default async function ActivitiesPage({
 
         {activities.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500">Активности не найдены.</p>
+            <p className="text-gray-500">{t("noResults")}</p>
           </div>
         )}
       </div>

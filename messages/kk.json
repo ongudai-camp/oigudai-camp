@@ -1,0 +1,437 @@
+{
+  "nav": {
+    "home": "Басты бет",
+    "hotels": "Қонақ үйлер",
+    "tours": "Турлар",
+    "activities": "Белсенділік",
+    "about": "Біз туралы",
+    "login": "Кіру",
+    "register": "Тіркелу",
+    "dashboard": "Панель",
+    "admin": "Әкімші панелі"
+  },
+  "mega": {
+    "hotels": {
+      "luxury": "Люкс қонақ үйлер",
+      "luxury_desc": "Тау көрінісі бар премиум демалыс",
+      "eco_hotels": "Эко қонақ үйлер",
+      "eco_hotels_desc": "Табиғат ортасындағы экологиялық қонақ үйлер",
+      "camping": "Кемпинг аймақтары",
+      "camping_desc": "Аспан астында жайлы демалыс",
+      "guest_houses": "Қонақ үйлер",
+      "guest_houses_desc": "Үй жайлылығы мен қонақжайлылық",
+      "hotel_of_the_month": "Айдың үздік қонақ үйі",
+      "hotel_of_the_month_desc": "Ongudai Resort - 2026 қонақтарының таңдауы"
+    },
+    "tours": {
+      "adventure": "Сергіту",
+      "adventure_desc": "Белсенді саяхаттар мен толқу",
+      "cultural": "Мәдени",
+      "cultural_desc": "Алтай дәстүрлеріне саяхат",
+      "sightseeing": "Экскурсиялар",
+      "sightseeing_desc": "Негізгі көрікті жерлер мен ескерткіштер",
+      "custom": "Арнайы турлар",
+      "custom_desc": "Жеке бутик турлар",
+      "popular_tour": "Танымал тур",
+      "popular_tour_desc": "Алтайдың Алтын Сақинасы - 5 күндік сиқыр"
+    },
+    "activities": {
+      "hiking": "Жаяу серуен",
+      "hiking_desc": "Тау асуларында жаяу серуендеу",
+      "rafting": "Рафтинг",
+      "rafting_desc": "Катун өзенінде рафтинг",
+      "horse_riding": "Атпен серуен",
+      "horse_riding_desc": "Тауларда атпен саяхаттау",
+      "photography": "Фото турлар",
+      "photography_desc": "Үздік орындарда фото турлар"
+    }
+  },
+  "hero": {
+    "title": "Ашыңыз",
+    "subtitle": "Алтайдың Сиқыры",
+    "description": "Алтай тауларының жүрегінде — Онгудай ауданында үздік қонақ үйлер, ұмытылмас турлар және белсенді демалыс.",
+    "cta_hotels": "Қонақ үй іздеу",
+    "cta_tours": "Турларды көру",
+    "rating": "қонақ бағасы"
+  },
+  "featured": {
+    "hotels": "Үздік қонақ үйлер",
+    "tours": "Танымал турлар",
+    "activities": "Белсенді демалыс",
+    "viewAll": "Барлығын көру",
+    "from": "бастап"
+  },
+  "congratulations": {
+    "title": "Тіркелуіңізбен құттықтаймыз!",
+    "subtitle": "Аккаунтыңыз жасалды",
+    "description": "Енді сіз Алтайдағы қонақ үйлерді, турларды және экскурсияларды броньдай аласыз. Ongudai-ға қош келдіңіз!",
+    "goToDashboard": "Жеке кабинетке өту",
+    "goToHome": "Басты бетке"
+  },
+  "auth": {
+    "signin": "Кіру",
+    "register": "Тіркелу",
+    "phone": "Телефон",
+    "email": "Электронды пошта",
+    "password": "Құпия сөз",
+    "confirmPassword": "Құпия сөзді қайталау",
+    "getCode": "SMS кодын алу",
+    "verifyCode": "Кодты растау",
+    "orSignInWith": "Немесе арқылы кіру",
+    "orRegister": "Немесе тіркелу",
+    "noAccount": "Аккаунтыңыз жоқ па?",
+    "hasAccount": "Аккаунтыңыз бар ма?",
+    "profile": "Профиль",
+    "name": "Аты",
+    "codeSent": "Код жіберілді",
+    "resendCode": "Кодты қайта жіберу"
+  },
+  "common": {
+    "welcome": "Ongudai туристік кешеніне қош келдіңіз",
+    "search": "Іздеу",
+    "book": "Қазір броньдау",
+    "price": "Бағасы",
+    "perNight": "түнге",
+    "perPerson": "адамға",
+    "details": "Толығырақ",
+    "back": "Тізімге оралу",
+    "loading": "Жүктелуде...",
+    "error": "Қате",
+    "success": "Сәтті",
+    "noImage": "Сурет жоқ",
+    "discount": "Жеңілдік",
+    "rating": "баға",
+    "noRating": "Баға жоқ",
+    "description": "Сипаттама",
+    "amenities": "Жайлылықтар",
+    "rooms": "Бөлмелер",
+    "reviews": "Пікірлер",
+    "noReviews": "Әлі пікір жоқ. Бірінші болыңыз!",
+    "guests": "қонақ",
+    "beds": "кереует",
+    "bathrooms": "жуынатын бөлме",
+    "tourDetails": "Тур туралы мәліметтер",
+    "duration": "Ұзақтығы",
+    "groupSize": "Топ мөлшері",
+    "difficulty": "Қиындығы",
+    "optional": "қосымша",
+    "required": "міндетті"
+  },
+  "privacy": {
+    "title": "Жеке деректерді өңдеу келісімі",
+    "accept": "Жеке деректерді өңдеуге келісемін",
+    "link": "Құпиялылық саясаты",
+    "required": "РФ заңнамасы бойынша міндетті",
+    "content": {
+      "p1_title": "1. Жалпы ережелер",
+      "p1_text": "Бұл келісім Ресей Федерациясының заңнамасына сәйкес жасалған.",
+      "p2_title": "2. Біз жинайтын деректер",
+      "p2_text": "Аты, байланыс ақпараты, броньдау мәліметтері.",
+      "p3_title": "3. Өңдеу мақсаттары",
+      "p3_text": "Броньдауларды жасау және басқару.",
+      "contact": "Сұрақтарыңыз бойынша: privacy@ongudaicamp.ru"
+    }
+  },
+  "about": {
+    "title": "Кешен туралы",
+    "subtitle": "Алтайдағы тамаша демалысыңыз",
+    "welcome": "Ongudai Camp-қа қош келдіңіз",
+    "description1": "Біздің кешен Алтай Республикасының жүрегі — әсем Онгудай ауылында орналасқан.",
+    "description2": "2015 жылдан бастап туристерге Алтайдың сұлулығын ашуға көмектесеміз.",
+    "stats": {
+      "hotels": "Қонақ үйлер мен қонақжайлар",
+      "tours": "Турлар мен белсенділіктер",
+      "guests": "Бақытты қонақтар"
+    }
+  },
+  "notFound": {
+    "title": "Бет табылмады",
+    "description": "Кешіріңіз, сіз іздеген бет жоқ немесе жылжытылған.",
+    "backHome": "Басты бетке оралу"
+  },
+  "dashboard": {
+    "title": "Пайдаланушы панелі",
+    "welcome": "Қош келдіңіз, {name}!",
+    "description": "Мұнда броньдауларыңызды басқарып, саяхат тарихыңызды көре аласыз.",
+    "myBookings": "Менің броньдауларым",
+    "profile": "Профиль",
+    "wishlist": "Таңдаулылар",
+    "support": "Қолдау чаты",
+    "adminPanel": "Әкімші панелі",
+    "stats": {
+      "total": "Барлық броньдау",
+      "confirmed": "Расталған",
+      "pending": "Күтуде",
+      "spent": "Жалпы шығыс"
+    },
+    "recent": "Соңғы броньдаулар",
+    "noBookings": "Әлі броньдауларыңыз жоқ",
+    "findHotel": "Қонақ үй іздеу",
+    "settings": "Баптаулар",
+    "settingsTitle": "Аккаунт баптаулары",
+    "settingsDescription": "Аккаунт ақпараты мен баптауларын басқару.",
+    "personalInfo": "Жеке ақпарат",
+    "accountInfo": "Аккаунт ақпараты",
+    "email": "Email",
+    "phone": "Телефон",
+    "role": "Рөл",
+    "memberSince": "Қосылған уақыт",
+    "language": "Тіл"
+  },
+  "listing": {
+    "hotelsTitle": "Онгудай қонақ үйлері",
+    "toursTitle": "Алтай турлары",
+    "activitiesTitle": "Алтай белсенділіктері",
+    "search": "Іздеу",
+    "searchPlaceholder": "Аты немесе мекенжайы...",
+    "priceFrom": "Бағасы (минимум) (₽)",
+    "priceTo": "Бағасы (максимум) (₽)",
+    "find": "Іздеу",
+    "noResults": "Нәтиже табылмады. Іздеу критерийлерін өзгертіңіз.",
+    "more": "Толығырақ"
+  },
+  "footer": {
+    "tagline": "Алтай тауларының жүрегіндегі туристік кешен. Біз әрбір қонақ үшін ұмытылмас әсерлер жасаймыз.",
+    "navigation": "Навигация",
+    "navigation_home": "Басты бет",
+    "navigation_hotels": "Қонақ үйлер",
+    "navigation_tours": "Турлар",
+    "navigation_activities": "Белсенділік",
+    "support": "Қолдау",
+    "support_about": "Біз туралы",
+    "support_policy": "Құпиялылық саясаты",
+    "support_terms": "Қолдану шарттары",
+    "contacts": "Байланыс",
+    "contacts_address": "Онгудай а., Алтай Республикасы",
+    "contacts_phone": "+7 (388) 123-45-67",
+    "contacts_email": "info@ongudaicamp.ru",
+    "copyright": "© 2026 Ongudai Camp. Алтайға деген сүйіспеншілікпен жасалды."
+  },
+  "search": {
+    "label": "Іздеу",
+    "placeholder": "Аты немесе мекенжайы...",
+    "noResults": "Нәтиже табылмады. Іздеу параметрлерін өзгертіңіз."
+  },
+  "forms": {
+    "booking": {
+      "title": "Брондау",
+      "room": "Бөлме",
+      "checkIn": "Кіру",
+      "checkOut": "Шығу",
+      "guests": "Қонақтар саны",
+      "pricePerNight": "Түндегі бағасы",
+      "total": "Барлығы",
+      "typeLabel": "Түрі:",
+      "typeTour": "Тур",
+      "typeActivity": "Активтілік",
+      "perPerson": "/ адам",
+      "date": "Күні",
+      "submit": "Брондау",
+      "error": "Брондау қатесі",
+      "loginToBook": "Кіру үшін бронь",
+      "nights": "түн"
+    },
+    "admin": {
+      "hotel": {
+        "title": "Қонақ үй атауы *",
+        "description": "Сипаттама",
+        "address": "Мекенжай",
+        "price": "Түнге баға (₽) *",
+        "salePrice": "Жеңілдік баға (₽)",
+        "latitude": "Ендік",
+        "longitude": "Бойлық",
+        "author": "Авторы",
+        "gallery": "Суреттер галереясы",
+        "galleryHint": "Бірінші сурет негізгі болады.",
+        "status": "Күйі",
+        "statusValues": {
+          "publish": "Жарияланған",
+          "draft": "Жоба",
+          "pending": "Модерацияда"
+        },
+        "step": {
+          "hotelInfo": "Қонақ үй туралы ақпарат",
+          "rooms": "Қонақ үй бөлмелері",
+          "gallery": "Суреттер галереясы",
+          "review": "Тексеру және сақтау",
+          "back": "Артқа",
+          "next": "Келесі"
+        },
+        "addRoom": "+ Бөлме қосу",
+        "room": {
+          "number": "Бөлме {index + 1}",
+          "title": "Бөлме атауы *",
+          "description": "Сипаттама",
+          "type": "Тұру түрі",
+          "selectPlaceholder": "Түрін таңдаңыз",
+          "price": "Баға (₽) *",
+          "guests": "Қонақтар",
+          "beds": "Кереуеттер",
+          "bathrooms": "Ванна бөлмелері",
+          "floor": "Қабат",
+          "floorAny": "Кез келген",
+          "floorLabel": "Қабат: {room.floor || 'Кез келген'}",
+          "amenities": "Бөлменің жайлылықтары",
+          "amenitiesCount": "Жайлылықтар саны: {room.facilityIds.length}",
+          "delete": "Жою",
+          "summaryTitle": "Бөлме қорытындысы: {room.title} - {room.price} ₽",
+          "typeLabel": "Түрі: {roomTypes.find(t => t.id === room.roomTypeId)?.name || 'Көрсетілмеген'} | Қонақтар: {room.guests} | Қабат: {room.floor || 'Кез келген'}",
+          "guestsLabel": "Қонақтар: {room.guests}"
+        },
+        "review": {
+          "hotelInfo": "Қонақ үй туралы ақпарат",
+          "hotelName": "Атауы: {title}",
+          "hotelAddress": "Мекенжайы: {address}",
+          "hotelPrice": "Бағасы: {price} ₽",
+          "images": "Суреттер ({images.length})",
+          "roomsTitle": "Бөлмелер ({rooms.length})"
+        },
+        "error": "Қате орын алды"
+      },
+      "tour": {
+        "title": "Тур атауы *",
+        "description": "Сипаттама",
+        "address": "Орналасуы/Маршруты",
+        "price": "Баға (₽/адам) *",
+        "salePrice": "Жеңілдік баға (₽)",
+        "author": "Авторы",
+        "latitude": "Ендік",
+        "longitude": "Бойлық",
+        "duration": "Ұзақтығы",
+        "groupSize": "Топ мөлшері",
+        "difficulty": "Қиындығы",
+        "gallery": "Суреттер галереясы",
+        "galleryHint": "Бірінші сурет негізгі болады.",
+        "itinerary": "Бағдарлама",
+        "included": "Қамтылған",
+        "notIncluded": "Қамтылмаған",
+        "status": "Күйі",
+        "statusValues": {
+          "publish": "Жарияланған",
+          "draft": "Жоба",
+          "pending": "Модерацияда"
+        },
+        "step": {
+          "tourInfo": "Тур туралы ақпарат",
+          "details": "Егжей-тегжейлер",
+          "gallery": "Суреттер галереясы",
+          "review": "Тексеру және сақтау",
+          "back": "Артқа",
+          "save": "Сақтау"
+        },
+        "day": {
+          "title": "{index + 1} күні тақырыбы",
+          "description": "Күн бағдарламасының сипаттамасы"
+        },
+        "difficultyValues": {
+          "easy": "Оңай",
+          "medium": "Орташа",
+          "hard": "Қиын"
+        },
+        "review": {
+          "tourInfo": "Тур туралы ақпарат",
+          "tourTitle": "Атауы: {title}",
+          "tourLocation": "Орналасуы: {address}",
+          "tourPrice": "Бағасы: {price} ₽"
+        },
+        "saveButton": "Турды сақтау",
+        "error": "Сақтау қатесі"
+      },
+      "activity": {
+        "title": "Белсенділік атауы *",
+        "description": "Сипаттама",
+        "address": "Орын/Орын",
+        "price": "Баға (₽) *",
+        "salePrice": "Жеңілдік баға (₽)",
+        "author": "Авторы",
+        "latitude": "Ендік",
+        "longitude": "Бойлық",
+        "category": "Санаты",
+        "categories": {
+          "excursion": "Экскурсия",
+          "rafting": "Рафтинг",
+          "hiking": "Жаяу серуендеу",
+          "horseback": "Атпен серуен",
+          "fishing": "Балық аулау",
+          "skiing": "Тау шаңғысы/Сноуборд",
+          "other": "Басқа"
+        },
+        "included": "Қамтылған",
+        "requirements": "Талаптар",
+        "gallery": "Суреттер галереясы",
+        "galleryHint": "Бірінші сурет негізгі болады.",
+        "status": "Күйі",
+        "statusValues": {
+          "publish": "Жарияланған",
+          "draft": "Жоба",
+          "pending": "Модерацияда"
+        },
+        "step": {
+          "activityInfo": "Белсенділік туралы ақпарат",
+          "details": "Егжей-тегжейлер",
+          "gallery": "Суреттер галереясы",
+          "review": "Тексеру және сақтау",
+          "back": "Артқа",
+          "save": "Сақтау"
+        },
+        "review": {
+          "activityInfo": "Белсенділік туралы ақпарат",
+          "activityTitle": "Атауы: {title}",
+          "activityLocation": "Орналасуы: {address}",
+          "activityPrice": "Бағасы: {price} ₽"
+        },
+        "saveButton": "Белсенділікті сақтау",
+        "error": "Сақтау қатесі"
+      }
+    }
+  },
+  "phone": {
+    "country": {
+      "rf": "Ресей Федерациясы",
+      "kz": "Қазақстан",
+      "uz": "Өзбекстан",
+      "kg": "Қырғызстан",
+      "tj": "Тәжікстан",
+      "tm": "Түрікменстан",
+      "az": "Әзербайжан",
+      "am": "Армения",
+      "ge": "Грузия",
+      "tr": "Түркия",
+      "cn": "Қытай",
+      "in": "Үндістан",
+      "ae": "БАӘ",
+      "us_ca": "АҚШ/Канада",
+      "uk": "Ұлыбритания",
+      "de": "Германия",
+      "fr": "Франция",
+      "it": "Италия",
+      "es": "Испания",
+      "il": "Израиль",
+      "th": "Тайланд",
+      "vn": "Вьетнам",
+      "mn": "Моңғолия"
+    }
+  },
+  "imageUploader": {
+    "uploadCount": "Жүктелді: {count} {count, plural, one {сурет} other {суреттер}}",
+    "noneUploaded": "Суреттер жүктелмеді",
+    "moveLeft": "Солға жылжыту",
+    "moveRight": "Оңға жылжыту",
+    "delete": "Жою",
+    "mainPhoto": "Негізгі",
+    "uploading": "Жүктелуде...",
+    "dragOrClick": "Суреттерді осы жерге сүйріңіз немесе таңдау үшін басыңыз",
+    "remaining": "Тағы {remaining} сурет жүктей аласыз",
+    "limitReached": "Шегіне жетті",
+    "uploadError": "Жүктеу кезінде қате"
+  },
+  "dialogs": {
+    "deleteConfirmation": "Иә, жою",
+    "deleteDialogTitle": "Жоюды растау",
+    "cancel": "Болдырмау"
+  },
+  "adminStats": {
+    "title": "Жүйелік шолу",
+    "welcome": "Ongudai Camp басқару панеліне қош келдіңіз"
+  }
+}

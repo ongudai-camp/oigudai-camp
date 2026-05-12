@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createHotelAction } from "@/app/actions/hotel";
+import { getRoomTypesAction, getFacilitiesAction } from "@/app/actions/room-meta";
+import ImageUploader from "./ImageUploader";
 
 enum Step {
   HOTEL_INFO = 1,
@@ -17,6 +19,20 @@ export default function HotelWizard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Meta data
+  const [roomTypes, setRoomTypes] = useState<Array<{ id: number; name: string }>>([]);
+  const [facilities, setFacilities] = useState<Array<{ id: number; name: string }>>([]);
+
+  useEffect(() => {
+    async function fetchMeta() {
+      const typesRes = await getRoomTypesAction();
+      const facRes = await getFacilitiesAction();
+      if (typesRes.types) setRoomTypes(typesRes.types);
+      if (facRes.facilities) setFacilities(facRes.facilities);
+    }
+    fetchMeta();
+  }, []);
+
   // Hotel info
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -26,18 +42,46 @@ export default function HotelWizard() {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
+  // Gallery
+  const [images, setImages] = useState<string[]>([]);
+
   // Rooms
-  const [rooms, setRooms] = useState([
-    { title: "", description: "", price: "", guests: 1, beds: 1, bathrooms: 1 },
+  interface RoomData {
+    title: string;
+    description: string;
+    price: string;
+    guests: number;
+    beds: number;
+    bathrooms: number;
+    floor: number | null;
+    roomTypeId: number | null;
+    facilityIds: number[];
+  }
+
+  const [rooms, setRooms] = useState<RoomData[]>([
+    { title: "", description: "", price: "", guests: 1, beds: 1, bathrooms: 1, floor: null, roomTypeId: null, facilityIds: [] },
   ]);
 
   const addRoom = () => {
-    setRooms([...rooms, { title: "", description: "", price: "", guests: 1, beds: 1, bathrooms: 1 }]);
+    setRooms([...rooms, { title: "", description: "", price: "", guests: 1, beds: 1, bathrooms: 1, floor: null, roomTypeId: null, facilityIds: [] }]);
   };
 
-  const updateRoom = (index: number, field: string, value: any) => {
+  const updateRoom = (index: number, field: keyof RoomData, value: string | number | null | number[]) => {
     const newRooms = [...rooms];
-    (newRooms[index] as any)[field] = value;
+    (newRooms[index] as RoomData)[field] = value as never;
+    setRooms(newRooms);
+  };
+
+  const toggleFacility = (roomIndex: number, facilityId: number) => {
+    const newRooms = [...rooms];
+    const currentFacilities = [...newRooms[roomIndex].facilityIds];
+    const index = currentFacilities.indexOf(facilityId);
+    if (index === -1) {
+      currentFacilities.push(facilityId);
+    } else {
+      currentFacilities.splice(index, 1);
+    }
+    newRooms[roomIndex].facilityIds = currentFacilities;
     setRooms(newRooms);
   };
 
@@ -59,6 +103,10 @@ export default function HotelWizard() {
       if (latitude) formData.append("latitude", latitude);
       if (longitude) formData.append("longitude", longitude);
       formData.append("rooms", JSON.stringify(rooms));
+      if (images.length > 0) {
+        formData.append("featuredImage", images[0]);
+        formData.append("gallery", JSON.stringify(images));
+      }
 
       const result = await createHotelAction(formData);
 
@@ -67,8 +115,8 @@ export default function HotelWizard() {
       } else {
         router.push("/admin/hotels");
       }
-    } catch (err: any) {
-      setError(err.message || "Произошла ошибка");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Произошла ошибка");
     } finally {
       setLoading(false);
     }
@@ -197,9 +245,9 @@ export default function HotelWizard() {
             </div>
 
             {rooms.map((room, index) => (
-              <div key={index} className="bg-gray-50 rounded-lg p-6 space-y-4">
+              <div key={index} className="bg-gray-50 rounded-lg p-6 space-y-4 border border-gray-200">
                 <div className="flex justify-between items-center">
-                  <h3 className="font-medium">Номер {index + 1}</h3>
+                  <h3 className="font-medium text-lg">Номер {index + 1}</h3>
                   {rooms.length > 1 && (
                     <button
                       type="button"
@@ -211,18 +259,38 @@ export default function HotelWizard() {
                   )}
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Название номера *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={room.title}
-                    onChange={(e) => updateRoom(index, "title", e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
-                    placeholder="Стандарт"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Тип проживания
+                    </label>
+                    <select
+                      value={room.roomTypeId || ""}
+                      onChange={(e) => updateRoom(index, "roomTypeId", e.target.value ? parseInt(e.target.value) : null)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                    >
+                      <option value="">Выберите тип</option>
+                      {roomTypes.map((type) => (
+                        <option key={type.id} value={type.id}>
+                          {type.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Название номера *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={room.title}
+                      onChange={(e) => updateRoom(index, "title", e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                      placeholder="Напр: Коттедж двухместный"
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -232,16 +300,16 @@ export default function HotelWizard() {
                   <textarea
                     value={room.description}
                     onChange={(e) => updateRoom(index, "description", e.target.value)}
-                    rows={3}
+                    rows={2}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
                     placeholder="Описание номера..."
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Цена за ночь (₽) *
+                      Цена (₽) *
                     </label>
                     <input
                       type="number"
@@ -249,7 +317,6 @@ export default function HotelWizard() {
                       value={room.price}
                       onChange={(e) => updateRoom(index, "price", e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
-                      placeholder="2000"
                     />
                   </div>
 
@@ -265,9 +332,21 @@ export default function HotelWizard() {
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
                     />
                   </div>
-                </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Этаж
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      value={room.floor || ""}
+                      onChange={(e) => updateRoom(index, "floor", e.target.value ? parseInt(e.target.value) : null)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                      placeholder="Любой"
+                    />
+                  </div>
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Кроватей
@@ -280,18 +359,24 @@ export default function HotelWizard() {
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
                     />
                   </div>
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Ванных
-                    </label>
-                    <input
-                      type="number"
-                      min="1"
-                      value={room.bathrooms}
-                      onChange={(e) => updateRoom(index, "bathrooms", parseInt(e.target.value))}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
-                    />
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2 font-semibold">
+                    Удобства в номере
+                  </label>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    {facilities.map((facility) => (
+                      <label key={facility.id} className="flex items-center space-x-2 cursor-pointer p-2 hover:bg-gray-100 rounded transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={room.facilityIds.includes(facility.id)}
+                          onChange={() => toggleFacility(index, facility.id)}
+                          className="rounded text-blue-600 focus:ring-blue-500"
+                        />
+                        <span className="text-sm text-gray-700">{facility.name}</span>
+                      </label>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -306,16 +391,7 @@ export default function HotelWizard() {
             <p className="text-gray-600">
               Загрузите изображения отеля. Первое изображение будет главным.
             </p>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-              <p className="text-gray-500">Перетащите изображения сюда или нажмите для выбора</p>
-              <input type="file" multiple accept="image/*" className="hidden" />
-              <button
-                type="button"
-                className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 cursor-pointer transition-colors duration-200"
-              >
-                Выбрать файлы
-              </button>
-            </div>
+            <ImageUploader images={images} onChange={setImages} />
           </div>
         );
 
@@ -330,11 +406,24 @@ export default function HotelWizard() {
                 <p className="text-gray-600">Адрес: {address}</p>
                 <p className="text-gray-600">Цена: {price} ₽</p>
               </div>
+              {images.length > 0 && (
+                <div>
+                  <h3 className="font-medium text-gray-900">Изображения ({images.length})</h3>
+                </div>
+              )}
               <div>
                 <h3 className="font-medium text-gray-900">Номера ({rooms.length})</h3>
                 {rooms.map((room, index) => (
-                  <div key={index} className="ml-4 text-gray-600">
-                    {index + 1}. {room.title} - {room.price} ₽
+                  <div key={index} className="ml-4 text-gray-600 border-l-2 border-gray-200 pl-4 py-1 mb-2">
+                    <p className="font-medium">{room.title} - {room.price} ₽</p>
+                    <p className="text-sm">
+                      Тип: {roomTypes.find(t => t.id === room.roomTypeId)?.name || "Не указан"} | 
+                      Гостей: {room.guests} | 
+                      Этаж: {room.floor || "Любой"}
+                    </p>
+                    <p className="text-xs italic">
+                      Удобств: {room.facilityIds.length}
+                    </p>
                   </div>
                 ))}
               </div>

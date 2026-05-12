@@ -13,34 +13,35 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Format phone number
     const digits = phone.replace(/\D/g, "");
-    const formattedPhone = digits.startsWith("7") ? "+" + digits : "+7" + digits;
+    const formattedPhone = "+" + digits;
 
-    // Check code
-    const result = await prisma.$queryRaw<Array<{ phone: string; code: string; created_at: string }>>`
-      SELECT * FROM sms_codes
-      WHERE phone = ${formattedPhone} AND code = ${code}
-      AND datetime(created_at) > datetime('now', '-5 minutes')
-    `;
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
 
-    if (!result || result.length === 0) {
+    const smsCode = await prisma.smsCode.findUnique({
+      where: { phone: formattedPhone },
+    });
+
+    if (!smsCode || smsCode.code !== code || smsCode.createdAt < fiveMinutesAgo) {
       return NextResponse.json(
         { error: "Invalid or expired code" },
         { status: 400 }
       );
     }
 
-    // Delete used code
-    await prisma.$executeRaw`
-      DELETE FROM sms_codes WHERE phone = ${formattedPhone}
-    `;
+    // Generate one-time sign-in token (replace SMS code with sign-in token)
+    const signInToken = crypto.randomUUID();
+    await prisma.smsCode.upsert({
+      where: { phone: formattedPhone },
+      update: { code: signInToken, createdAt: new Date() },
+      create: { phone: formattedPhone, code: signInToken },
+    });
 
-    return NextResponse.json({ success: true, verified: true });
-  } catch (error: any) {
+    return NextResponse.json({ success: true, verified: true, signInToken });
+  } catch (error: unknown) {
     console.error("SMS verification error:", error);
     return NextResponse.json(
-      { error: error.message || "Verification failed" },
+      { error: error instanceof Error ? error.message : "Verification failed" },
       { status: 500 }
     );
   }

@@ -1,24 +1,31 @@
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { getTranslations } from "next-intl/server";
 
 export default async function AdminUsersPage({
+  params,
   searchParams,
 }: {
-  searchParams: { role?: string; page?: string };
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ role?: string; page?: string }>;
 }) {
+  const { locale } = await params;
+  const { role: roleParam, page: pageParam } = await searchParams;
+  const t = await getTranslations('admin');
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
-    redirect("/dashboard");
+  if (!session?.user || session.user.role !== "admin") {
+    redirect(`/${locale}/dashboard`);
   }
 
-  const role = searchParams.role || "all";
-  const page = parseInt(searchParams.page || "1");
+  const role = roleParam || "all";
+  const page = parseInt(pageParam || "1");
   const limit = 10;
   const skip = (page - 1) * limit;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {};
   if (role !== "all") {
     where.role = role;
@@ -47,7 +54,7 @@ export default async function AdminUsersPage({
   const totalPages = Math.ceil(total / limit);
 
   const getRoleBadge = (role: string) => {
-    const styles: any = {
+    const styles: Record<string, string> = {
       admin: "bg-purple-100 text-purple-800",
       subscriber: "bg-gray-100 text-gray-800",
     };
@@ -60,7 +67,7 @@ export default async function AdminUsersPage({
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Управление пользователями</h1>
+       <h1 className="text-2xl font-bold mb-6">{t('admin.users.title')}</h1>
 
       {/* Filters */}
       <div className="bg-white rounded-xl shadow-lg p-4 mb-6">
@@ -68,14 +75,14 @@ export default async function AdminUsersPage({
           {["all", "admin", "subscriber"].map((r) => (
             <Link
               key={r}
-              href={`/admin/users?role=${r}`}
+              href={`/${locale}/admin/users?role=${r}`}
               className={`px-4 py-2 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 ${
                 role === r
                   ? "bg-blue-600 text-white"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
-              {r === "all" ? "Все" : r}
+               {r === "all" ? t('admin.users.filters.all') : t(`admin.users.filters.${r}`)}
             </Link>
           ))}
         </div>
@@ -87,30 +94,31 @@ export default async function AdminUsersPage({
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Имя
+                 {t('admin.users.columns.name')}
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Email
+                 {t('admin.users.columns.email')}
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Роль
+                 {t('admin.users.columns.role')}
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Бронирований
+                 {t('admin.users.columns.bookings')}
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Дата регистрации
+                 {t('admin.users.columns.registered')}
               </th>
               <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Действия
+                 {t('admin.users.columns.actions')}
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {users.map((user: any) => (
+            {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+            users.map((user: any) => (
               <tr key={user.id} className="hover:bg-gray-50 cursor-pointer transition-colors duration-200">
                 <td className="px-6 py-4">
-                  <div className="font-medium text-gray-900">{user.name || "Без имени"}</div>
+                   <div className="font-medium text-gray-900">{user.name || t('admin.users.noName')}</div>
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-600">
                   {user.email}
@@ -126,7 +134,7 @@ export default async function AdminUsersPage({
                 </td>
                 <td className="px-6 py-4 text-right text-sm font-medium">
                   <button className="text-blue-600 hover:text-blue-900 cursor-pointer transition-colors duration-200 mr-4">
-                    Изменить роль
+                     {t('admin.users.changeRole')}
                   </button>
                 </td>
               </tr>
@@ -136,7 +144,7 @@ export default async function AdminUsersPage({
 
         {users.length === 0 && (
           <div className="text-center py-8 text-gray-500">
-            Пользователи не найдены
+             {t('admin.users.notFound')}
           </div>
         )}
       </div>
@@ -147,7 +155,7 @@ export default async function AdminUsersPage({
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
             <Link
               key={p}
-              href={`/admin/users?role=${role}&page=${p}`}
+              href={`/${locale}/admin/users?role=${role}&page=${p}`}
               className={`px-4 py-2 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 ${
                 page === p
                   ? "bg-blue-600 text-white"

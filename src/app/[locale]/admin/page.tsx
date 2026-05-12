@@ -1,13 +1,18 @@
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import StatsCards from "@/components/admin/dashboard/StatsCards";
 import RecentBookings from "@/components/admin/dashboard/RecentBookings";
 
-export default async function AdminDashboard() {
+export default async function AdminDashboard({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const session = await auth();
 
-  if (!session?.user || (session.user as any).role !== "admin") {
-    redirect("/dashboard");
+  if (!session?.user || session.user.role !== "admin") {
+    redirect(`/${locale}/dashboard`);
   }
 
   return (
