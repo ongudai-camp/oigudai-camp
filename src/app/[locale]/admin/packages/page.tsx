@@ -1,5 +1,4 @@
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/adminAccess";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
@@ -9,11 +8,7 @@ export default async function AdminPackagesPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const session = await auth();
-
-  if (!session?.user || session.user.role !== "admin") {
-    redirect(`/${locale}/dashboard`);
-  }
+  await requireAdmin(locale);
 
   const packages = await prisma.package.findMany({
     orderBy: { price: "asc" },

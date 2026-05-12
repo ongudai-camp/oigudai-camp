@@ -1,7 +1,7 @@
-import { auth } from "@/lib/auth";
+import { requireAdmin } from "@/lib/adminAccess";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import ActivityForm from "@/components/admin/ActivityForm";
 
 interface EditActivityPageProps {
@@ -10,11 +10,7 @@ interface EditActivityPageProps {
 
 export default async function EditActivityPage({ params }: EditActivityPageProps) {
   const { id, locale } = await params;
-  const session = await auth();
-
-  if (!session?.user || session.user.role !== "admin") {
-    redirect(`/${locale}/dashboard`);
-  }
+  await requireAdmin(locale);
 
   const activityId = parseInt(id);
   const activity = await prisma.post.findUnique({

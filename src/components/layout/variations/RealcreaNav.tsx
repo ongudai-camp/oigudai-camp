@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { Menu, X, ChevronDown, Phone, Plus, User } from "lucide-react";
+import { Menu, X, ChevronDown, Phone, Plus, User, LayoutDashboard, LogOut } from "lucide-react";
 import { navConfig } from "@/lib/navConfig";
 import clsx from "clsx";
 import type { Session } from "next-auth";
+import { signOut } from "next-auth/react";
 
 interface NavProps {
   locale: string;
@@ -19,13 +20,24 @@ export default function RealcreaNav({ locale, session, logoutButton, localeSwitc
   const t = useTranslations();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
+    const handleClickOutside = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const isAdminOrModerator = session?.user?.role === "admin" || session?.user?.role === "moderator";
@@ -92,16 +104,32 @@ export default function RealcreaNav({ locale, session, logoutButton, localeSwitc
           {/* User / Add Property */}
           <div className="flex items-center gap-2 sm:gap-3">
             {session ? (
-              <div className="flex items-center gap-2 sm:gap-3">
-                <Link 
-                  href={`/${locale}/dashboard`}
-                  className="w-10 h-10 flex items-center justify-center border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
+              <div className="relative" ref={userMenuRef}>
+                <button
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="w-10 h-10 flex items-center justify-center border border-gray-200 rounded-full hover:bg-gray-50 transition-colors cursor-pointer"
                 >
                   <User className="w-5 h-5 text-[#1A1A1A]" />
-                </Link>
-                <div className="hidden sm:block">
-                   {logoutButton}
-                </div>
+                </button>
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-56 bg-white shadow-2xl rounded-2xl border border-gray-100 z-50 p-2">
+                    <Link
+                      href={`/${locale}/dashboard`}
+                      onClick={() => setIsUserMenuOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-xl transition-colors"
+                    >
+                      <LayoutDashboard className="w-4 h-4 text-gray-400" />
+                      {t("nav.dashboard")}
+                    </Link>
+                    <button
+                      onClick={() => signOut()}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Выйти
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <Link 
@@ -180,11 +208,16 @@ export default function RealcreaNav({ locale, session, logoutButton, localeSwitc
               </div>
               <div className="grid gap-3 pt-4">
                 {session ? (
-                  <Link href={`/${locale}/dashboard`} className="w-full py-4 bg-gray-50 text-[#1A1A1A] rounded-2xl text-center font-bold">
-                    {t("nav.dashboard")}
-                  </Link>
+                  <>
+                    <Link href={`/${locale}/dashboard`} onClick={() => setIsMobileMenuOpen(false)} className="w-full py-4 bg-gray-50 text-[#1A1A1A] rounded-2xl text-center font-bold">
+                      {t("nav.dashboard")}
+                    </Link>
+                    <button onClick={() => signOut()} className="w-full py-4 text-red-500 border border-red-200 rounded-2xl text-center font-bold cursor-pointer hover:bg-red-50 transition-colors">
+                      Выйти
+                    </button>
+                  </>
                 ) : (
-                  <Link href={`/${locale}/auth/signin`} className="w-full py-4 bg-gray-50 text-[#1A1A1A] rounded-2xl text-center font-bold">
+                  <Link href={`/${locale}/auth/signin`} onClick={() => setIsMobileMenuOpen(false)} className="w-full py-4 bg-gray-50 text-[#1A1A1A] rounded-2xl text-center font-bold">
                     {t("nav.login")}
                   </Link>
                 )}

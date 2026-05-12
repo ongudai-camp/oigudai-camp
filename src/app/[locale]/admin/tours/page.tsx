@@ -1,11 +1,8 @@
-"use client";
-
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/adminAccess";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import DeleteButton from "@/components/admin/DeleteButton";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 export default async function AdminToursPage({
   params,
@@ -13,12 +10,8 @@ export default async function AdminToursPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const t = useTranslations('admin');
-  const session = await auth();
-
-  if (!session?.user || session.user.role !== "admin") {
-    redirect(`/${locale}/dashboard`);
-  }
+  const t = await getTranslations('admin');
+  await requireAdmin(locale);
 
   const tours = await prisma.post.findMany({
     where: { type: "tour" },
@@ -29,12 +22,12 @@ export default async function AdminToursPage({
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">{t('admin.tours.title')}</h1>
+        <h1 className="text-2xl font-bold">{t('tours.title')}</h1>
         <Link
           href={`/${locale}/admin/tours/new`}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 cursor-pointer transition-colors duration-200 shadow-sm hover:shadow-md"
         >
-          {t('admin.tours.addNew')}
+          {t('tours.addNew')}
         </Link>
       </div>
 
@@ -43,22 +36,22 @@ export default async function AdminToursPage({
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {t('admin.tours.columns.title')}
+                {t('tours.columns.title')}
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {t('admin.tours.columns.author')}
+                {t('tours.columns.author')}
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {t('admin.tours.columns.price')}
+                {t('tours.columns.price')}
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {t('admin.tours.columns.bookings')}
+                {t('tours.columns.bookings')}
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {t('admin.tours.columns.status')}
+                {t('tours.columns.status')}
               </th>
               <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {t('admin.tours.columns.actions')}
+                {t('tours.columns.actions')}
               </th>
             </tr>
           </thead>
@@ -71,7 +64,7 @@ export default async function AdminToursPage({
                   <div className="text-sm text-gray-500">{tour.address}</div>
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-600">
-                  {tour.author?.name || t('admin.hotels.statusUnknown')}
+                  {tour.author?.name || '—'}
                 </td>
                 <td className="px-6 py-4 text-sm font-medium text-gray-900">
                   {tour.price} ₽
@@ -95,7 +88,7 @@ export default async function AdminToursPage({
                     href={`/${locale}/admin/tours/${tour.id}/edit`}
                     className="text-blue-600 hover:text-blue-900 mr-4 cursor-pointer transition-colors duration-200"
                   >
-                    {t('admin.general.edit')}
+                    {t('general.edit')}
                   </Link>
                   <DeleteButton id={tour.id} type="tours" />
                 </td>
@@ -106,9 +99,9 @@ export default async function AdminToursPage({
 
         {tours.length === 0 && (
             <div className="text-center py-8 text-gray-500">
-              {t('admin.tours.empty.noTours')}
+              {t('tours.empty.noTours')}
               <Link href={`/${locale}/admin/tours/new`} className="text-blue-600 hover:underline">
-                {t('admin.tours.empty.addFirst')}
+                {t('tours.empty.addFirst')}
               </Link>
             </div>
         )}

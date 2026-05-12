@@ -1,7 +1,7 @@
-import { auth } from "@/lib/auth";
+import { requireAdmin } from "@/lib/adminAccess";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import TourForm from "@/components/admin/TourForm";
 
 interface EditTourPageProps {
@@ -10,11 +10,7 @@ interface EditTourPageProps {
 
 export default async function EditTourPage({ params }: EditTourPageProps) {
   const { id, locale } = await params;
-  const session = await auth();
-
-  if (!session?.user || session.user.role !== "admin") {
-    redirect(`/${locale}/dashboard`);
-  }
+  await requireAdmin(locale);
 
   const tourId = parseInt(id);
   const tour = await prisma.post.findUnique({

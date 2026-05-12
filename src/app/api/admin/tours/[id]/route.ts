@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { isAdmin } from "@/lib/adminAccess";
 
 // GET /api/admin/tours/[id] - get single tour
 export async function GET(
@@ -9,7 +10,7 @@ export async function GET(
 ) {
   const session = await auth();
 
-  if (!session?.user || session.user.role !== "admin") {
+  if (!session?.user || !isAdmin(session.user.role)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -33,7 +34,7 @@ export async function PUT(
 ) {
   const session = await auth();
 
-  if (!session?.user || session.user.role !== "admin") {
+  if (!session?.user || !isAdmin(session.user.role)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -107,7 +108,7 @@ export async function DELETE(
 ) {
   const session = await auth();
 
-  if (!session?.user || session.user.role !== "admin") {
+  if (!session?.user || !isAdmin(session.user.role)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

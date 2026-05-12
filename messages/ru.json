@@ -386,6 +386,17 @@
     }
   },
   "admin": {
+    "menu": {
+      "dashboard": "Дашборд",
+      "hotels": "Отели",
+      "tours": "Туры",
+      "activities": "Активности",
+      "bookings": "Бронирования",
+      "showcase": "Шоукес",
+      "users": "Пользователи",
+      "packages": "Пакеты",
+      "backToDashboard": "← На сайт"
+    },
     "dashboard": {
       "title": "Обзор системы",
       "welcome": "Добро пожаловать в панель управления Ongudai Camp"
@@ -453,14 +464,22 @@
       "table": {
         "id": "ID",
         "property": "Объект",
+        "object": "Объект",
         "room": "Номер",
         "guest": "Гость",
         "checkIn": "Заезд",
         "checkOut": "Выезд",
+        "checkInOut": "Заезд / Выезд",
         "total": "Сумма",
+        "amount": "Сумма",
         "status": "Статус",
         "payment": "Оплата",
         "actions": "Действия"
+      },
+      "paymentStatus": {
+        "paid": "Оплачено",
+        "unpaid": "Не оплачено",
+        "refunded": "Возвращено"
       },
       "empty": "Бронирования не найдены",
       "error": "Ошибка загрузки:",

@@ -1,12 +1,15 @@
 "use server";
 
 import { auth } from "@/lib/auth";
-import { writeFile, mkdir } from "fs/promises";
+import { isAdmin } from "@/lib/adminAccess";
+import { prisma } from "@/lib/prisma";
+import { writeFile, mkdir, unlink } from "fs/promises";
 import path from "path";
 
 export async function uploadImagesAction(formData: FormData) {
   const session = await auth();
-  if (!session?.user || session.user.role !== "admin") {
+
+  if (!session?.user || !isAdmin(session.user.role)) {
     return { error: "Не авторизован" };
   }
 
@@ -39,7 +42,7 @@ export async function uploadImagesAction(formData: FormData) {
 
 export async function deleteImageAction(url: string) {
   const session = await auth();
-  if (!session?.user || session.user.role !== "admin") {
+  if (!session?.user || !isAdmin(session.user.role)) {
     return { error: "Не авторизован" };
   }
 

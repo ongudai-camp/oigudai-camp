@@ -1,5 +1,4 @@
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/adminAccess";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
@@ -12,11 +11,7 @@ export default async function AdminHotelsPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const session = await auth();
-
-  if (!session?.user || session.user.role !== "admin") {
-    redirect(`/${locale}/dashboard`);
-  }
+  await requireAdmin(locale);
 
   const hotels = await prisma.post.findMany({
     where: { type: "hotel" },

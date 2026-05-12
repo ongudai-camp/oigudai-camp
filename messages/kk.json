@@ -425,6 +425,52 @@
     "limitReached": "Шегіне жетті",
     "uploadError": "Жүктеу кезінде қате"
   },
+  "admin": {
+    "menu": {
+      "dashboard": "Басқару панелі",
+      "hotels": "Қонақ үйлер",
+      "tours": "Турлар",
+      "activities": "Белсенділіктер",
+      "bookings": "Брондаулар",
+      "showcase": "Витрина",
+      "users": "Пайдаланушылар",
+      "packages": "Пакеттер",
+      "backToDashboard": "← Сайтқа оралу"
+    },
+    "bookings": {
+      "title": "Брондауларды басқару",
+      "filters": {
+        "all": "Барлығы",
+        "pending": "Күтуде",
+        "confirmed": "Расталған",
+        "completed": "Аяқталған",
+        "cancelled": "Бас тартылған"
+      },
+      "table": {
+        "id": "ID",
+        "property": "Нысан",
+        "object": "Нысан",
+        "room": "Бөлме",
+        "guest": "Қонақ",
+        "checkIn": "Кіру",
+        "checkOut": "Шығу",
+        "checkInOut": "Кіру / Шығу",
+        "total": "Барлығы",
+        "amount": "Сома",
+        "status": "Мәртебе",
+        "payment": "Төлем",
+        "actions": "Әрекеттер"
+      },
+      "paymentStatus": {
+        "paid": "Төленді",
+        "unpaid": "Төленбеді",
+        "refunded": "Қайтарылды"
+      },
+      "empty": "Брондаулар табылмады",
+      "error": "Жүктеу қатесі:",
+      "guestUnknown": "Қонақ"
+    }
+  },
   "dialogs": {
     "deleteConfirmation": "Иә, жою",
     "deleteDialogTitle": "Жоюды растау",

@@ -1,9 +1,8 @@
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/adminAccess";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import DeleteButton from "@/components/admin/DeleteButton";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 export default async function AdminActivitiesPage({
   params,
@@ -11,12 +10,8 @@ export default async function AdminActivitiesPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const t = useTranslations('admin');
-  const session = await auth();
-
-  if (!session?.user || session.user.role !== "admin") {
-    redirect(`/${locale}/dashboard`);
-  }
+  const t = await getTranslations();
+  await requireAdmin(locale);
 
   const activities = await prisma.post.findMany({
     where: { type: "activity" },

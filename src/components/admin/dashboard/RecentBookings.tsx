@@ -52,7 +52,7 @@ export default function RecentBookings() {
               </tr>
             </thead>
             <tbody className='divide-y divide-sky-50'>
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               {bookings.map((booking: any) => (
                 <tr key={booking.id} className='hover:bg-sky-50/50 cursor-pointer transition-colors duration-200 group'>
                   <td className='py-4 px-4 text-sm text-sky-800 font-mono'>{booking.bookingId}</td>

@@ -2,11 +2,12 @@
 
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { isAdmin } from "@/lib/adminAccess";
 
 export async function createHotelAction(formData: FormData) {
   const session = await auth();
 
-  if (!session?.user || session.user.role !== "admin") {
+  if (!session?.user || !isAdmin(session.user.role)) {
     return { error: "Не авторизован" };
   }
 

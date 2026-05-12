@@ -44,7 +44,7 @@ const PAYMENT_STYLES: Record<string, string> = {
 };
 
 export default function AdminBookingsPage() {
-  const t = useTranslations('admin');
+  const t = useTranslations();
   const queryClient = useQueryClient();
   const [status, setStatus] = useState("all");
   const [page, setPage] = useState(1);

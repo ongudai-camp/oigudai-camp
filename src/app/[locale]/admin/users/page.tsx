@@ -1,5 +1,4 @@
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/adminAccess";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { getTranslations } from "next-intl/server";
@@ -13,12 +12,8 @@ export default async function AdminUsersPage({
 }) {
   const { locale } = await params;
   const { role: roleParam, page: pageParam } = await searchParams;
-  const t = await getTranslations('admin');
-  const session = await auth();
-
-  if (!session?.user || session.user.role !== "admin") {
-    redirect(`/${locale}/dashboard`);
-  }
+  const t = await getTranslations();
+  await requireAdmin(locale);
 
   const role = roleParam || "all";
   const page = parseInt(pageParam || "1");

@@ -386,6 +386,50 @@
     }
   },
   "admin": {
+    "menu": {
+      "dashboard": "Dashboard",
+      "hotels": "Hotels",
+      "tours": "Tours",
+      "activities": "Activities",
+      "bookings": "Bookings",
+      "showcase": "Showcase",
+      "users": "Users",
+      "packages": "Packages",
+      "backToDashboard": "← Back to site"
+    },
+    "bookings": {
+      "title": "Booking Management",
+      "filters": {
+        "all": "All",
+        "pending": "Pending",
+        "confirmed": "Confirmed",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "table": {
+        "id": "ID",
+        "property": "Property",
+        "object": "Property",
+        "room": "Room",
+        "guest": "Guest",
+        "checkIn": "Check-in",
+        "checkOut": "Check-out",
+        "checkInOut": "Check-in / Check-out",
+        "total": "Total",
+        "amount": "Amount",
+        "status": "Status",
+        "payment": "Payment",
+        "actions": "Actions"
+      },
+      "paymentStatus": {
+        "paid": "Paid",
+        "unpaid": "Unpaid",
+        "refunded": "Refunded"
+      },
+      "empty": "No bookings found",
+      "error": "Error loading:",
+      "guestUnknown": "Guest"
+    },
     "users": {
       "title": "User Management",
       "filters": {

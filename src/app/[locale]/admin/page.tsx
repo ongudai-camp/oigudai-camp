@@ -1,5 +1,4 @@
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/adminAccess";
 import StatsCards from "@/components/admin/dashboard/StatsCards";
 import RecentBookings from "@/components/admin/dashboard/RecentBookings";
 
@@ -9,11 +8,7 @@ export default async function AdminDashboard({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const session = await auth();
-
-  if (!session?.user || session.user.role !== "admin") {
-    redirect(`/${locale}/dashboard`);
-  }
+  await requireAdmin(locale);
 
   return (
     <div className="space-y-8">

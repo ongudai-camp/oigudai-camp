@@ -1,7 +1,7 @@
-import { auth } from "@/lib/auth";
+import { requireAdmin } from "@/lib/adminAccess";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import HotelForm from "@/components/admin/HotelForm";
 
 interface EditHotelPageProps {
@@ -10,11 +10,7 @@ interface EditHotelPageProps {
 
 export default async function EditHotelPage({ params }: EditHotelPageProps) {
   const { id, locale } = await params;
-  const session = await auth();
-
-  if (!session?.user || session.user.role !== "admin") {
-    redirect(`/${locale}/dashboard`);
-  }
+  await requireAdmin(locale);
 
   const hotelId = parseInt(id);
   const hotel = await prisma.post.findUnique({

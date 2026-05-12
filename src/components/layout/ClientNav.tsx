@@ -158,7 +158,7 @@ export default function ClientNav({ locale, session, logoutButton, localeSwitche
                   >
                     <LayoutDashboard className="w-5 h-5" />
                   </Link>
-                  {session.user && session.user.role === "admin" && (
+                  {(session.user.role === "admin" || session.user.role === "superadmin") && (
                     <Link 
                       href={`/${locale}/admin`} 
                       className="hidden md:flex bg-sky-950 text-white px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-widest hover:bg-sky-900 transition-all shadow-lg shadow-sky-950/20"
