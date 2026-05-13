@@ -13,7 +13,7 @@ export default function NotFound() {
         <h1 className="text-9xl font-black text-sky-900 opacity-20">404</h1>
         <div className="-mt-16">
           <h2 className="text-3xl font-bold text-sky-900 mb-4">{t("title")}</h2>
-          <p className="text-gray-600 mb-8 max-w-md mx-auto">
+          <p className="text-[#1A2B48] mb-8 max-w-md mx-auto">
             {t("description")}
           </p>
           <Link

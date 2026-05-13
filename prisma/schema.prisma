@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -65,12 +65,13 @@ model Booking {
 }
 
 model ChatMessage {
-  id         Int      @id @default(autoincrement())
-  userId     Int
-  isFromUser Boolean  @default(true)
-  content    String
-  createdAt  DateTime @default(now())
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  isFromUser    Boolean  @default(true)
+  isAiGenerated Boolean  @default(false)
+  content       String
+  createdAt     DateTime @default(now())
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([createdAt])
   @@index([userId])
@@ -242,6 +243,19 @@ model UserPackage {
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, packageId])
+}
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  action    String
+  entity    String
+  entityId  Int
+  userId    Int?
+  metadata  String?
+  createdAt DateTime @default(now())
+
+  @@index([entity, entityId])
+  @@index([createdAt])
 }
 
 model VerificationToken {

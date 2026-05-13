@@ -40,7 +40,7 @@ export default function DeleteButton({ id, type, label = "Удалить" }: Del
         </button>
         <button
           onClick={() => setConfirming(false)}
-          className="text-gray-500 text-sm px-2 py-1 hover:text-gray-700 cursor-pointer transition-colors duration-200"
+          className="text-[#1A2B48] text-sm px-2 py-1 hover:text-gray-700 cursor-pointer transition-colors duration-200"
         >
           Отмена
         </button>

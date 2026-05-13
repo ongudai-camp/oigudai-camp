@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ImageUploader from "./ImageUploader";
+import LocationPicker from "@/components/common/LocationPicker";
 
 interface HotelData {
   id: number;
@@ -108,7 +109,7 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
           required
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-[#5000FF]"
         />
       </div>
 
@@ -120,94 +121,77 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
           rows={6}
           value={formData.content}
           onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-[#5000FF]"
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="space-y-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Адрес
           </label>
-          <input
-            type="text"
-            value={formData.address}
-            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          <LocationPicker
+            address={formData.address}
+            latitude={formData.latitude ? parseFloat(formData.latitude) : null}
+            longitude={formData.longitude ? parseFloat(formData.longitude) : null}
+            onChange={(data) => {
+              setFormData({
+                ...formData,
+                address: data.address,
+                latitude: data.latitude?.toString() || "",
+                longitude: data.longitude?.toString() || "",
+              });
+            }}
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Автор
-          </label>
-          <select
-            value={formData.authorId}
-            onChange={(e) => setFormData({ ...formData, authorId: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="">Выберите автора</option>
-            {users.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.name || user.email}
-              </option>
-            ))}
-          </select>
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Автор
+            </label>
+            <select
+              value={formData.authorId}
+              onChange={(e) => setFormData({ ...formData, authorId: e.target.value })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-[#5000FF]"
+            >
+              <option value="">Выберите автора</option>
+              {users.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name || user.email}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Цена (₽/ночь) *
-          </label>
-          <input
-            type="number"
-            required
-            min="0"
-            step="0.01"
-            value={formData.price}
-            onChange={(e) => setFormData({ ...formData, price: e.target.value as unknown as string })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Цена (₽/ночь) *
+            </label>
+            <input
+              type="number"
+              required
+              min="0"
+              step="0.01"
+              value={formData.price}
+              onChange={(e) => setFormData({ ...formData, price: e.target.value as unknown as string })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-[#5000FF]"
+            />
+          </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Цена со скидкой
-          </label>
-          <input
-            type="number"
-            min="0"
-            step="0.01"
-            value={formData.salePrice}
-            onChange={(e) => setFormData({ ...formData, salePrice: e.target.value as unknown as string })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Широта
-          </label>
-          <input
-            type="number"
-            step="0.000001"
-            value={formData.latitude}
-            onChange={(e) => setFormData({ ...formData, latitude: e.target.value as unknown as string })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Долгота
-          </label>
-          <input
-            type="number"
-            step="0.000001"
-            value={formData.longitude}
-            onChange={(e) => setFormData({ ...formData, longitude: e.target.value as unknown as string })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Цена со скидкой
+            </label>
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={formData.salePrice}
+              onChange={(e) => setFormData({ ...formData, salePrice: e.target.value as unknown as string })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-[#5000FF]"
+            />
+          </div>
         </div>
       </div>
 
@@ -215,7 +199,7 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Галерея изображений
         </label>
-        <p className="text-sm text-gray-500">Первое изображение будет главным.</p>
+        <p className="text-sm text-[#1A2B48]">Первое изображение будет главным.</p>
         <ImageUploader images={images} onChange={setImages} />
       </div>
 
@@ -226,7 +210,7 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
         <select
           value={formData.status}
           onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-[#5000FF]"
         >
           <option value="publish">Опубликовано</option>
           <option value="draft">Черновик</option>

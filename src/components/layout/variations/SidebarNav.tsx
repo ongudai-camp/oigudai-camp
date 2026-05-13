@@ -7,6 +7,7 @@ import { Menu, X, Home, LayoutDashboard, LogIn, Globe } from "lucide-react";
 import { navConfig } from "@/lib/navConfig";
 import clsx from "clsx";
 import type { Session } from "next-auth";
+import { useSession } from "next-auth/react";
 
 interface NavProps {
   locale: string;
@@ -18,6 +19,8 @@ interface NavProps {
 export default function SidebarNav({ locale, session, logoutButton, localeSwitcher }: NavProps) {
   const t = useTranslations();
   const [isOpen, setIsOpen] = useState(false);
+  const { data: liveSession } = useSession();
+  const effectiveSession = session || liveSession;
 
   return (
     <>
@@ -36,7 +39,7 @@ export default function SidebarNav({ locale, session, logoutButton, localeSwitch
 
          <div className="flex items-center gap-2 sm:gap-4">
             <div className="hidden sm:block">{localeSwitcher}</div>
-            {session ? (
+            {effectiveSession ? (
               <Link href={`/${locale}/dashboard`} className="w-9 h-9 sm:w-10 sm:h-10 bg-sky-100 rounded-full flex items-center justify-center">
                  <LayoutDashboard className="w-5 h-5 text-sky-600" />
               </Link>
@@ -87,7 +90,7 @@ export default function SidebarNav({ locale, session, logoutButton, localeSwitch
               {navConfig.map((section) => {
                 return (
                   <div key={section.title} className="pt-4">
-                     <div className="px-4 text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
+                     <div className="px-4 text-xs font-black uppercase tracking-widest text-[#1A2B48] mb-2">
                         {t(`nav.${section.title}`)}
                      </div>
                      <div className="space-y-1">
@@ -111,11 +114,11 @@ export default function SidebarNav({ locale, session, logoutButton, localeSwitch
 
         <div className="p-6 sm:p-8 border-t border-gray-100 space-y-6">
            <div className="flex items-center gap-4">
-              <Globe className="w-5 h-5 text-gray-400" />
+              <Globe className="w-5 h-5 text-[#1A2B48]" />
               <div className="scale-90 origin-left">{localeSwitcher}</div>
            </div>
            
-           {session ? (
+           {effectiveSession ? (
              <div className="grid gap-3">
                <Link 
                  href={`/${locale}/dashboard`}

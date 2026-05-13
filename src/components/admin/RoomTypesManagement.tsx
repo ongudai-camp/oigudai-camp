@@ -52,7 +52,7 @@ export default function RoomTypesManagement() {
                 <tr key={t.id} className="hover:bg-sky-50/50 transition-colors">
                   <td className="px-6 py-4 font-medium text-sky-950">{t.name}</td>
                   <td className="px-6 py-4 text-sky-600 font-mono text-sm">{t.slug}</td>
-                  <td className="px-6 py-4 text-gray-500 max-w-xs truncate">{t.description}</td>
+                  <td className="px-6 py-4 text-[#1A2B48] max-w-xs truncate">{t.description}</td>
                   <td className="px-6 py-4">
                     <div className="flex gap-2">
                       <button className="text-sky-600 hover:text-sky-800 transition-colors">Изменить</button>

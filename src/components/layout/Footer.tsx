@@ -50,7 +50,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-sky-800/50 mt-16 pt-8 text-center text-sky-200/40 text-sm">
-           <p>&copy; 2026 Ongudai Camp. {t('copyright')}</p>
+           <p>&copy; 2026 Reg Griffin Ecosystems rgacademy.spave</p>
         </div>
       </div>
     </footer>

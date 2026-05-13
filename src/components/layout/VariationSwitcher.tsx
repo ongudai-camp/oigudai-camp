@@ -51,7 +51,7 @@ export default function VariationSwitcher() {
                      "w-full flex items-center justify-between p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-all border-2 text-left",
                      current === v.id 
                        ? "bg-orange-50 border-orange-500 text-orange-900" 
-                       : "bg-gray-50 border-transparent text-gray-600 hover:bg-gray-100"
+                       : "bg-gray-50 border-transparent text-[#1A2B48] hover:bg-gray-100"
                    )}
                  >
                     <div>
@@ -62,7 +62,7 @@ export default function VariationSwitcher() {
                  </button>
                ))}
             </div>
-            <p className="mt-4 text-[9px] sm:text-[10px] text-gray-400 text-center font-medium uppercase tracking-widest">Select to reload system</p>
+            <p className="mt-4 text-[9px] sm:text-[10px] text-[#1A2B48] text-center font-medium uppercase tracking-widest">Select to reload system</p>
          </div>
        )}
     </div>

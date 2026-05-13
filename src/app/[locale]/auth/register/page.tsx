@@ -153,7 +153,7 @@ export default function RegisterPage() {
   ];
 
   return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 pt-24">
       {/* Left Column: Register Form */}
       <div className="flex items-center justify-center bg-white py-12 px-8 md:px-16 lg:px-24">
         <div className="max-w-md w-full space-y-8">
@@ -164,7 +164,7 @@ export default function RegisterPage() {
             <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">
               {t("auth.register")}
             </h2>
-            <p className="mt-3 text-gray-500">
+            <p className="mt-3 text-[#1A2B48]">
               {t("auth.hasAccount")}{" "}
               <Link href={`/${locale}/auth/signin`} className="text-orange-500 font-bold hover:text-orange-600 transition-colors">
                 {t("auth.signin")}
@@ -183,7 +183,7 @@ export default function RegisterPage() {
                       ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-500/30" 
                       : step > s.id 
                         ? "bg-green-500 border-green-500 text-white" 
-                        : "bg-white border-gray-200 text-gray-400"
+                        : "bg-white border-gray-200 text-[#1A2B48]"
                   )}
                 >
                   {step > s.id ? <Check className="w-5 h-5" /> : <s.icon className="w-5 h-5" />}
@@ -218,12 +218,12 @@ export default function RegisterPage() {
                       className="w-5 h-5 rounded border-gray-300 text-orange-500 focus:ring-orange-500 cursor-pointer transition-all"
                     />
                   </div>
-                  <label htmlFor="privacy" className="text-sm text-gray-600 leading-tight">
+                  <label htmlFor="privacy" className="text-sm text-[#1A2B48] leading-tight">
                     {t("privacy.accept")}{" "}
                     <Link href={`/${locale}/privacy-policy`} className="text-sky-600 font-medium hover:underline">
                       {t("privacy.link")}
                     </Link>{" "}
-                    <span className="text-gray-400">({t("common.required")})</span>
+                    <span className="text-[#1A2B48]">({t("common.required")})</span>
                   </label>
                 </div>
 
@@ -251,7 +251,7 @@ export default function RegisterPage() {
             <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
               <div className="text-center md:text-left mb-4">
                 <h3 className="text-lg font-bold text-gray-900">{t("auth.verifyCode")}</h3>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-[#1A2B48]">
                   {t("auth.codeSent")} <span className="font-bold text-gray-900">{formData.phone}</span>
                 </p>
               </div>
@@ -263,7 +263,7 @@ export default function RegisterPage() {
                 value={formData.smsCode}
                 onChange={(e) => setFormData({ ...formData, smsCode: e.target.value })}
                 placeholder="······"
-                className="w-full px-4 py-6 bg-gray-50 border border-gray-200 rounded-2xl focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all outline-none text-center text-4xl tracking-[0.5em] font-black"
+                className="w-full px-4 py-6 bg-gray-50 border border-gray-200 rounded-2xl focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all outline-none text-center text-4xl tracking-[0.5em] font-black text-[#1A2B48]"
                 maxLength={6}
               />
 
@@ -271,7 +271,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="px-6 py-4 border border-gray-200 text-gray-600 rounded-2xl font-bold hover:bg-gray-50 transition-all cursor-pointer"
+                  className="px-6 py-4 border border-gray-200 text-[#1A2B48] rounded-2xl font-bold hover:bg-gray-50 transition-all cursor-pointer"
                 >
                   ←
                 </button>
@@ -309,7 +309,7 @@ export default function RegisterPage() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none font-medium"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none font-medium text-[#1A2B48]"
                     placeholder="Иван Иванов"
                   />
                 </div>
@@ -323,7 +323,7 @@ export default function RegisterPage() {
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none font-medium"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none font-medium text-[#1A2B48]"
                     placeholder="email@example.com"
                   />
                 </div>
@@ -340,7 +340,7 @@ export default function RegisterPage() {
                       minLength={6}
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none font-medium"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none font-medium text-[#1A2B48]"
                     />
                   </div>
 
@@ -354,7 +354,7 @@ export default function RegisterPage() {
                       required
                       value={formData.confirmPassword}
                       onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none font-medium"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none font-medium text-[#1A2B48]"
                     />
                   </div>
                 </div>
@@ -364,7 +364,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => setStep(2)}
-                  className="px-6 py-4 border border-gray-200 text-gray-600 rounded-2xl font-bold hover:bg-gray-50 transition-all cursor-pointer"
+                  className="px-6 py-4 border border-gray-200 text-[#1A2B48] rounded-2xl font-bold hover:bg-gray-50 transition-all cursor-pointer"
                 >
                   ←
                 </button>

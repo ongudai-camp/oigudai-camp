@@ -11,7 +11,7 @@ export default function CongratulationsPage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 pt-24">
       <div className="flex items-center justify-center bg-white py-12 px-8 md:px-16 lg:px-24">
         <div className="max-w-md w-full text-center space-y-8">
           <div className="inline-flex items-center justify-center w-24 h-24 bg-green-100 rounded-full">
@@ -25,7 +25,7 @@ export default function CongratulationsPage() {
             <p className="text-lg text-green-600 font-bold">
               {t("congratulations.subtitle")}
             </p>
-            <p className="text-gray-500 leading-relaxed max-w-sm mx-auto">
+            <p className="text-[#1A2B48] leading-relaxed max-w-sm mx-auto">
               {t("congratulations.description")}
             </p>
           </div>

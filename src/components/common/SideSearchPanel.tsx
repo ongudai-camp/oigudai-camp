@@ -60,7 +60,7 @@ export default function SideSearchPanel() {
               "flex-1 py-3 text-[10px] font-black uppercase tracking-widest transition-all duration-300 rounded-2xl",
               activeTab === tab.toLowerCase() 
                 ? "text-white bg-sky-950 shadow-lg shadow-sky-950/20" 
-                : "text-sky-950/40 hover:text-sky-950 hover:bg-white"
+                : "text-[#5000FF]/40 hover:text-[#5000FF] hover:bg-white"
             )}
           >
             {tab}
@@ -82,7 +82,7 @@ export default function SideSearchPanel() {
               value={query}
               onChange={(e) => setQ(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              className="w-full bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-sky-950 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-500/5 transition-all placeholder:text-sky-900/20"
+              className="w-full bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-[#5000FF] outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-500/5 transition-all placeholder:text-sky-900/20"
             />
             <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-sky-200 w-4 h-4 pointer-events-none group-focus-within:text-sky-500 transition-colors" />
           </div>
@@ -95,7 +95,7 @@ export default function SideSearchPanel() {
             >
               {includeSurrounding && <Check className="w-3.5 h-3.5 text-white stroke-[4px] animate-in zoom-in-50 duration-300" />}
             </div>
-            <span className="text-xs font-bold text-sky-950/60 group-hover:text-sky-950 transition-colors">Включая окрестности</span>
+            <span className="text-xs font-bold text-[#5000FF]/60 group-hover:text-[#5000FF] transition-colors">Включая окрестности</span>
           </label>
         </div>
 
@@ -104,14 +104,14 @@ export default function SideSearchPanel() {
           <label className="text-[10px] font-black uppercase tracking-widest text-sky-300">Ценовой диапазон (₽)</label>
           <div className="grid grid-cols-2 gap-3">
             <div className="relative group">
-              <select className="w-full appearance-none bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-sky-950 outline-none cursor-pointer focus:border-sky-500 transition-all">
+              <select className="w-full appearance-none bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-[#5000FF] outline-none cursor-pointer focus:border-sky-500 transition-all">
                 <option>Любая</option>
                 <option>2000</option>
               </select>
               <ChevronDown className="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-sky-200 pointer-events-none group-hover:text-sky-500 transition-colors" />
             </div>
             <div className="relative group">
-              <select className="w-full appearance-none bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-sky-950 outline-none cursor-pointer focus:border-sky-500 transition-all">
+              <select className="w-full appearance-none bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-[#5000FF] outline-none cursor-pointer focus:border-sky-500 transition-all">
                 <option>Любая</option>
                 <option>15000</option>
               </select>
@@ -125,7 +125,7 @@ export default function SideSearchPanel() {
           <div className="space-y-4">
             <label className="text-[10px] font-black uppercase tracking-widest text-sky-300 whitespace-nowrap">Мин. спален</label>
             <div className="relative group">
-              <select className="w-full appearance-none bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-sky-950 outline-none cursor-pointer focus:border-sky-500 transition-all">
+              <select className="w-full appearance-none bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-[#5000FF] outline-none cursor-pointer focus:border-sky-500 transition-all">
                 <option>1</option>
                 <option>2</option>
               </select>
@@ -135,7 +135,7 @@ export default function SideSearchPanel() {
           <div className="space-y-4">
             <label className="text-[10px] font-black uppercase tracking-widest text-sky-300 whitespace-nowrap">Макс. спален</label>
             <div className="relative group">
-              <select className="w-full appearance-none bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-sky-950 outline-none cursor-pointer focus:border-sky-500 transition-all">
+              <select className="w-full appearance-none bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-[#5000FF] outline-none cursor-pointer focus:border-sky-500 transition-all">
                 <option>Любое</option>
                 <option>3</option>
               </select>
@@ -154,7 +154,7 @@ export default function SideSearchPanel() {
                   <div className="w-5 h-5 rounded-full border-2 border-sky-100 bg-sky-50 flex items-center justify-center transition-colors group-hover:bg-sky-500 group-hover:border-sky-500">
                     <Check className="w-3 h-3 text-white" />
                   </div>
-                  <span className="text-sm font-black text-sky-950 tracking-tight">
+                  <span className="text-sm font-black text-[#5000FF] tracking-tight">
                     {type === "cottage" ? "Коттедж" : type === "hotel-room" ? "Отельный номер" : type?.replace("-", " ")}
                   </span>
                 </div>
@@ -171,7 +171,7 @@ export default function SideSearchPanel() {
                 </button>
               </div>
             ))}
-            <button className="w-full py-4 text-[10px] font-black uppercase tracking-widest text-sky-400 hover:text-sky-950 transition-all flex items-center justify-center gap-2 border-2 border-dashed border-sky-100 rounded-2xl hover:border-sky-300">
+            <button className="w-full py-4 text-[10px] font-black uppercase tracking-widest text-sky-400 hover:text-[#5000FF] transition-all flex items-center justify-center gap-2 border-2 border-dashed border-sky-100 rounded-2xl hover:border-sky-300">
               <Plus size={14} /> Добавить тип
             </button>
           </div>
@@ -186,7 +186,7 @@ export default function SideSearchPanel() {
             {filterSections[0].options.slice(0, 5).map((option) => (
               <label key={option.id} className="flex items-center gap-3 cursor-pointer group p-1">
                 <div className="w-5 h-5 rounded border-2 border-sky-100 bg-sky-50/30 group-hover:border-sky-500 transition-all" />
-                <span className="text-xs font-bold text-sky-950/60 group-hover:text-sky-950 transition-colors">
+                <span className="text-xs font-bold text-[#5000FF]/60 group-hover:text-[#5000FF] transition-colors">
                   {option.label}
                 </span>
               </label>
@@ -203,7 +203,7 @@ export default function SideSearchPanel() {
         >
           Обновить поиск <ArrowRight size={16} className="text-sky-400" />
         </button>
-        <button className="w-full bg-white border-2 border-sky-100 text-sky-950 hover:border-sky-200 py-4 rounded-[1.25rem] text-[10px] font-black uppercase tracking-widest transition-all active:scale-95">
+        <button className="w-full bg-white border-2 border-sky-100 text-[#5000FF] hover:border-sky-200 py-4 rounded-[1.25rem] text-[10px] font-black uppercase tracking-widest transition-all active:scale-95">
           Сохранить параметры
         </button>
       </div>

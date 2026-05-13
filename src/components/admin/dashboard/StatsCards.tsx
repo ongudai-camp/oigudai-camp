@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -55,7 +55,7 @@ export default function StatsCards() {
             <span className='text-2xl group-hover:scale-110 transition-transform duration-300' aria-hidden="true">{stat.icon}</span>
             <span className={`text-3xl font-bold text-sky-600`}>{stat.value}</span>
           </div>
-          <h3 className='text-gray-500 text-sm font-medium'>{stat.label}</h3>
+          <h3 className='text-[#1A2B48] text-sm font-medium'>{stat.label}</h3>
         </div>
       ))}
     </div>

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { getTranslations } from "next-intl/server";
+import MapSection from "@/components/common/MapSection";
 
 interface ActivityPageProps {
   params: Promise<{ slug: string; locale: string }>;
@@ -29,13 +30,13 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
   if (!activity) notFound();
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 pt-24 pb-8">
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row gap-8">
           <main className="lg:w-2/3">
             {/* Image */}
-            <div className="bg-white rounded-lg shadow overflow-hidden mb-6">
-              <div className="h-96 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
+            <div className="bg-white rounded-[2.5rem] shadow-xl border border-white/50 overflow-hidden mb-6">
+              <div className="h-56 sm:h-72 lg:h-96 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
                   {activity.featuredImage ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -50,24 +51,41 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
             </div>
 
             {/* Info */}
-            <div className="bg-white rounded-lg shadow p-6 mb-6">
+            <div className="bg-white rounded-[2.5rem] shadow-xl border border-white/50 p-6 md:p-8 mb-6">
               <h1 className="text-3xl font-bold mb-4">{activity.title}</h1>
-              <p className="text-gray-600 mb-6 whitespace-pre-wrap">
-                {activity.content || "Описание отсутствует."}
+              {activity.address && (
+                <p className="text-[#1A2B48] flex items-center mb-4">
+                  <span className="mr-2">📍</span> {activity.address}
+                </p>
+              )}
+              <p className="text-[#1A2B48] mb-6 whitespace-pre-wrap">
+                {activity.content || t("noDescription")}
               </p>
 
               {/* Details from Meta */}
               {activity.meta.length > 0 && (
                 <div className="border-t pt-6">
-                  <h2 className="text-xl font-semibold mb-4">{t("tourDetails")}</h2>
+                  <h2 className="text-xl font-semibold text-[#5000FF] mb-4">{t("tourDetails")}</h2>
                   <div className="grid grid-cols-2 gap-4">
                     {activity.meta.filter((m) => m.value !== null).map((m) => (
                       <div key={m.id} className="flex items-center">
-                        <span className="text-gray-600">{m.key}:</span>
+                        <span className="text-[#1A2B48]">{m.key}:</span>
                         <span className="ml-2 font-medium">{m.value}</span>
                       </div>
                     ))}
                   </div>
+                </div>
+              )}
+
+              {activity.latitude && activity.longitude && (
+                <div className="border-t pt-6 mt-6">
+                  <h2 className="text-xl font-semibold text-[#5000FF] mb-4">{t("location")}</h2>
+                  <MapSection
+                    latitude={activity.latitude}
+                    longitude={activity.longitude}
+                    title={activity.title}
+                    address={activity.address}
+                  />
                 </div>
               )}
             </div>
@@ -80,7 +98,7 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
               <div className="bg-white rounded-2xl shadow-xl border border-white/50 p-6">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-orange-400">Цена</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-orange-400">{t("price")}</span>
                     <div className="text-3xl font-black text-orange-500">
                       {(activity.salePrice || activity.price).toLocaleString()} ₽
                     </div>
@@ -99,7 +117,7 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
               {/* Meta Details */}
               {activity.meta.length > 0 && (
                 <div className="bg-white rounded-2xl shadow-xl border border-white/50 p-6">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-sky-300 block mb-4">Детали</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-sky-300 block mb-4">{t("details")}</span>
                   <div className="space-y-3">
                     {activity.meta.filter(function(m) { return m.value !== null; }).map(function(m) {
                       return (

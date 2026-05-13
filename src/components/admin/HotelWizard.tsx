@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createHotelAction } from "@/app/actions/hotel";
 import { getRoomTypesAction, getFacilitiesAction } from "@/app/actions/room-meta";
 import ImageUploader from "./ImageUploader";
+import LocationPicker from "@/components/common/LocationPicker";
 
 enum Step {
   HOTEL_INFO = 1,
@@ -127,7 +128,7 @@ export default function HotelWizard() {
       case Step.HOTEL_INFO:
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold">Информация об отеле</h2>
+            <h2 className="text-xl font-semibold text-[#5000FF]">Информация об отеле</h2>
 
             <div>
               <label htmlFor="hotel-title" className="block text-sm font-medium text-gray-700 mb-2">
@@ -141,7 +142,7 @@ export default function HotelWizard() {
                 autoComplete="off"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
                 placeholder="Например: Grand Hotel Ongudai"
               />
             </div>
@@ -156,24 +157,24 @@ export default function HotelWizard() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
                 placeholder="Описание отеля..."
               />
             </div>
 
             <div>
-              <label htmlFor="hotel-address" className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Адрес
               </label>
-              <input
-                id="hotel-address"
-                name="address"
-                type="text"
-                autoComplete="street-address"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
-                placeholder="с. Онгудай, ул. Центральная, 1"
+              <LocationPicker
+                address={address}
+                latitude={latitude ? parseFloat(latitude) : null}
+                longitude={longitude ? parseFloat(longitude) : null}
+                onChange={(data) => {
+                  setAddress(data.address);
+                  setLatitude(data.latitude?.toString() || "");
+                  setLongitude(data.longitude?.toString() || "");
+                }}
               />
             </div>
 
@@ -191,7 +192,7 @@ export default function HotelWizard() {
                   autoComplete="off"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
                   placeholder="3000"
                 />
               </div>
@@ -208,49 +209,13 @@ export default function HotelWizard() {
                   autoComplete="off"
                   value={salePrice}
                   onChange={(e) => setSalePrice(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
                   placeholder="2500"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="hotel-latitude" className="block text-sm font-medium text-gray-700 mb-2">
-                  Широта
-                </label>
-                <input
-                  id="hotel-latitude"
-                  name="latitude"
-                  type="number"
-                  step="any"
-                  inputMode="decimal"
-                  autoComplete="off"
-                  value={latitude}
-                  onChange={(e) => setLatitude(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
-                  placeholder="50.123456"
-                />
-              </div>
 
-              <div>
-                <label htmlFor="hotel-longitude" className="block text-sm font-medium text-gray-700 mb-2">
-                  Долгота
-                </label>
-                <input
-                  id="hotel-longitude"
-                  name="longitude"
-                  type="number"
-                  step="any"
-                  inputMode="decimal"
-                  autoComplete="off"
-                  value={longitude}
-                  onChange={(e) => setLongitude(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
-                  placeholder="85.123456"
-                />
-              </div>
-            </div>
           </div>
         );
 
@@ -258,7 +223,7 @@ export default function HotelWizard() {
         return (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">Номера отеля</h2>
+              <h2 className="text-xl font-semibold text-[#5000FF]">Номера отеля</h2>
               <button
                 type="button"
                 onClick={addRoom}
@@ -293,7 +258,7 @@ export default function HotelWizard() {
                       name="roomTypeId"
                       value={room.roomTypeId || ""}
                       onChange={(e) => updateRoom(index, "roomTypeId", e.target.value ? parseInt(e.target.value) : null)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
                     >
                       <option value="">Выберите тип</option>
                       {roomTypes.map((type) => (
@@ -316,7 +281,7 @@ export default function HotelWizard() {
                       autoComplete="off"
                       value={room.title}
                       onChange={(e) => updateRoom(index, "title", e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
                       placeholder="Напр: Коттедж двухместный"
                     />
                   </div>
@@ -332,7 +297,7 @@ export default function HotelWizard() {
                     value={room.description}
                     onChange={(e) => updateRoom(index, "description", e.target.value)}
                     rows={2}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
                     placeholder="Описание номера..."
                   />
                 </div>
@@ -351,7 +316,7 @@ export default function HotelWizard() {
                       autoComplete="off"
                       value={room.price}
                       onChange={(e) => updateRoom(index, "price", e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
                     />
                   </div>
 
@@ -368,7 +333,7 @@ export default function HotelWizard() {
                       autoComplete="off"
                       value={room.guests}
                       onChange={(e) => updateRoom(index, "guests", parseInt(e.target.value))}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
                     />
                   </div>
 
@@ -385,7 +350,7 @@ export default function HotelWizard() {
                       autoComplete="off"
                       value={room.floor || ""}
                       onChange={(e) => updateRoom(index, "floor", e.target.value ? parseInt(e.target.value) : null)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
                       placeholder="Любой"
                     />
                   </div>
@@ -403,7 +368,7 @@ export default function HotelWizard() {
                       autoComplete="off"
                       value={room.beds}
                       onChange={(e) => updateRoom(index, "beds", parseInt(e.target.value))}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
                     />
                   </div>
                 </div>
@@ -434,8 +399,8 @@ export default function HotelWizard() {
       case Step.GALLERY:
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold">Галерея изображений</h2>
-            <p className="text-gray-600">
+            <h2 className="text-xl font-semibold text-[#5000FF]">Галерея изображений</h2>
+            <p className="text-[#1A2B48]">
               Загрузите изображения отеля. Первое изображение будет главным.
             </p>
             <ImageUploader images={images} onChange={setImages} />
@@ -445,13 +410,13 @@ export default function HotelWizard() {
       case Step.REVIEW:
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold">Проверка и сохранение</h2>
+            <h2 className="text-xl font-semibold text-[#5000FF]">Проверка и сохранение</h2>
             <div className="bg-gray-50 rounded-lg p-6 space-y-4">
               <div>
                 <h3 className="font-medium text-gray-900">Информация об отеле</h3>
-                <p className="text-gray-600">Название: {title}</p>
-                <p className="text-gray-600">Адрес: {address}</p>
-                <p className="text-gray-600">Цена: {price} ₽</p>
+                <p className="text-[#1A2B48]">Название: {title}</p>
+                <p className="text-[#1A2B48]">Адрес: {address}</p>
+                <p className="text-[#1A2B48]">Цена: {price} ₽</p>
               </div>
               {images.length > 0 && (
                 <div>
@@ -461,7 +426,7 @@ export default function HotelWizard() {
               <div>
                 <h3 className="font-medium text-gray-900">Номера ({rooms.length})</h3>
                 {rooms.map((room, index) => (
-                  <div key={index} className="ml-4 text-gray-600 border-l-2 border-gray-200 pl-4 py-1 mb-2">
+                  <div key={index} className="ml-4 text-[#1A2B48] border-l-2 border-gray-200 pl-4 py-1 mb-2">
                     <p className="font-medium">{room.title} - {room.price} ₽</p>
                     <p className="text-sm">
                       Тип: {roomTypes.find(t => t.id === room.roomTypeId)?.name || "Не указан"} | 
@@ -496,7 +461,7 @@ export default function HotelWizard() {
                 className={`w-10 h-10 rounded-full flex items-center justify-center font-medium ${
                   currentStep >= step
                     ? "bg-blue-600 text-white"
-                    : "bg-gray-200 text-gray-600"
+                    : "bg-gray-200 text-[#1A2B48]"
                 }`}
               >
                 {step}
@@ -512,10 +477,10 @@ export default function HotelWizard() {
           ))}
         </div>
         <div className="flex justify-between mt-2">
-          <span className="text-xs text-gray-500">Инфо</span>
-          <span className="text-xs text-gray-500">Номера</span>
-          <span className="text-xs text-gray-500">Фото</span>
-          <span className="text-xs text-gray-500">Готово</span>
+          <span className="text-xs text-[#1A2B48]">Инфо</span>
+          <span className="text-xs text-[#1A2B48]">Номера</span>
+          <span className="text-xs text-[#1A2B48]">Фото</span>
+          <span className="text-xs text-[#1A2B48]">Готово</span>
         </div>
       </div>
 

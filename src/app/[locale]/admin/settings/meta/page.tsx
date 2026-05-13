@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import FacilitiesManagement from "@/components/admin/FacilitiesManagement";
 import RoomTypesManagement from "@/components/admin/RoomTypesManagement";
 
 export default function MetaManagementPage() {
+  const t = useTranslations('admin');
   const [activeTab, setActiveTab] = useState<"facilities" | "types">("facilities");
 
   return (
@@ -18,7 +20,7 @@ export default function MetaManagementPage() {
               : "text-sky-950/40 hover:text-sky-950"
           }`}
         >
-          Удобства
+          {t('settings.facilities')}
         </button>
         <button
           onClick={() => setActiveTab("types")}
@@ -28,7 +30,7 @@ export default function MetaManagementPage() {
               : "text-sky-950/40 hover:text-sky-950"
           }`}
         >
-          Типы размещения
+          {t('settings.roomTypes')}
         </button>
       </div>
 

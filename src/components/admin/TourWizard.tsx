@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createTourAction } from "@/app/actions/tour";
 import ImageUploader from "./ImageUploader";
+import LocationPicker from "@/components/common/LocationPicker";
 
 enum Step {
   TOUR_INFO = 1,
@@ -97,7 +98,7 @@ export default function TourWizard() {
       case Step.TOUR_INFO:
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold">Информация о туре</h2>
+            <h2 className="text-xl font-semibold text-[#5000FF]">Информация о туре</h2>
 
             <div>
               <label htmlFor="tour-title" className="block text-sm font-medium text-gray-700 mb-2">
@@ -111,7 +112,7 @@ export default function TourWizard() {
                 autoComplete="off"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#1A2B48]"
                 placeholder="Например: Экскурсия по Онгудаю"
               />
             </div>
@@ -126,24 +127,24 @@ export default function TourWizard() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#1A2B48]"
                 placeholder="Описание тура..."
               />
             </div>
 
             <div>
-              <label htmlFor="tour-address" className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Локация/Маршрут
               </label>
-              <input
-                id="tour-address"
-                name="address"
-                type="text"
-                autoComplete="street-address"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
-                placeholder="с. Онгудай, окрестности"
+              <LocationPicker
+                address={address}
+                latitude={latitude ? parseFloat(latitude) : null}
+                longitude={longitude ? parseFloat(longitude) : null}
+                onChange={(data) => {
+                  setAddress(data.address);
+                  setLatitude(data.latitude?.toString() || "");
+                  setLongitude(data.longitude?.toString() || "");
+                }}
               />
             </div>
 
@@ -161,7 +162,7 @@ export default function TourWizard() {
                   autoComplete="off"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#1A2B48]"
                   placeholder="5000"
                 />
               </div>
@@ -178,7 +179,7 @@ export default function TourWizard() {
                   autoComplete="off"
                   value={salePrice}
                   onChange={(e) => setSalePrice(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#1A2B48]"
                   placeholder="4000"
                 />
               </div>
@@ -197,47 +198,12 @@ export default function TourWizard() {
                   autoComplete="off"
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#1A2B48]"
                   placeholder="3"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label htmlFor="tour-latitude" className="block text-sm font-medium text-gray-700 mb-2">
-                    Широта
-                  </label>
-                  <input
-                    id="tour-latitude"
-                    name="latitude"
-                    type="number"
-                    step="any"
-                    inputMode="decimal"
-                    autoComplete="off"
-                    value={latitude}
-                    onChange={(e) => setLatitude(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
-                    placeholder="50.123"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="tour-longitude" className="block text-sm font-medium text-gray-700 mb-2">
-                    Долгота
-                  </label>
-                  <input
-                    id="tour-longitude"
-                    name="longitude"
-                    type="number"
-                    step="any"
-                    inputMode="decimal"
-                    autoComplete="off"
-                    value={longitude}
-                    onChange={(e) => setLongitude(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
-                    placeholder="85.123"
-                  />
-                </div>
-              </div>
+
             </div>
           </div>
         );
@@ -245,7 +211,7 @@ export default function TourWizard() {
       case Step.DETAILS:
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold">Детали тура</h2>
+            <h2 className="text-xl font-semibold text-[#5000FF]">Детали тура</h2>
 
             <div>
               <label htmlFor="tour-included" className="block text-sm font-medium text-gray-700 mb-2">
@@ -257,7 +223,7 @@ export default function TourWizard() {
                 value={included}
                 onChange={(e) => setIncluded(e.target.value)}
                 rows={3}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#1A2B48]"
                 placeholder="Трансфер, питание, экскурсии..."
               />
             </div>
@@ -272,7 +238,7 @@ export default function TourWizard() {
                 value={notIncluded}
                 onChange={(e) => setNotIncluded(e.target.value)}
                 rows={3}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#1A2B48]"
                 placeholder="Авиабилеты, страховка..."
               />
             </div>
@@ -312,7 +278,7 @@ export default function TourWizard() {
                       type="text"
                       value={day.title}
                       onChange={(e) => updateDay(index, "title", e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#1A2B48]"
                       placeholder="Заголовок дня"
                     />
                   </div>
@@ -325,7 +291,7 @@ export default function TourWizard() {
                       value={day.description}
                       onChange={(e) => updateDay(index, "description", e.target.value)}
                       rows={3}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#1A2B48]"
                       placeholder="Описание программы дня..."
                     />
                   </div>
@@ -338,8 +304,8 @@ export default function TourWizard() {
       case Step.GALLERY:
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold">Галерея изображений</h2>
-            <p className="text-gray-600">
+            <h2 className="text-xl font-semibold text-[#5000FF]">Галерея изображений</h2>
+            <p className="text-[#1A2B48]">
               Загрузите изображения тура. Первое изображение будет главным.
             </p>
             <ImageUploader images={images} onChange={setImages} />
@@ -349,19 +315,19 @@ export default function TourWizard() {
       case Step.REVIEW:
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold">Проверка и сохранение</h2>
+            <h2 className="text-xl font-semibold text-[#5000FF]">Проверка и сохранение</h2>
             <div className="bg-gray-50 rounded-lg p-6 space-y-4">
               <div>
                 <h3 className="font-medium text-gray-900">Информация о туре</h3>
-                <p className="text-gray-600">Название: {title}</p>
-                <p className="text-gray-600">Локация: {address}</p>
-                <p className="text-gray-600">Цена: {price} ₽</p>
-                {duration && <p className="text-gray-600">Длительность: {duration} дней</p>}
+                <p className="text-[#1A2B48]">Название: {title}</p>
+                <p className="text-[#1A2B48]">Локация: {address}</p>
+                <p className="text-[#1A2B48]">Цена: {price} ₽</p>
+                {duration && <p className="text-[#1A2B48]">Длительность: {duration} дней</p>}
               </div>
               <div>
                 <h3 className="font-medium text-gray-900">Программа ({itinerary.length} дней)</h3>
                 {itinerary.map((day, index) => (
-                  <div key={index} className="ml-4 text-gray-600">
+                  <div key={index} className="ml-4 text-[#1A2B48]">
                     День {day.day}: {day.title}
                   </div>
                 ))}
@@ -386,7 +352,7 @@ export default function TourWizard() {
                 className={`w-10 h-10 rounded-full flex items-center justify-center font-medium ${
                   currentStep >= step
                     ? "bg-blue-600 text-white"
-                    : "bg-gray-200 text-gray-600"
+                    : "bg-gray-200 text-[#1A2B48]"
                 }`}
               >
                 {step}
@@ -402,10 +368,10 @@ export default function TourWizard() {
           ))}
         </div>
         <div className="flex justify-between mt-2">
-          <span className="text-xs text-gray-500">Инфо</span>
-          <span className="text-xs text-gray-500">Детали</span>
-          <span className="text-xs text-gray-500">Фото</span>
-          <span className="text-xs text-gray-500">Готово</span>
+          <span className="text-xs text-[#1A2B48]">Инфо</span>
+          <span className="text-xs text-[#1A2B48]">Детали</span>
+          <span className="text-xs text-[#1A2B48]">Фото</span>
+          <span className="text-xs text-[#1A2B48]">Готово</span>
         </div>
       </div>
 

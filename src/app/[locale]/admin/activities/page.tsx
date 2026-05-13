@@ -35,19 +35,19 @@ export default async function AdminActivitiesPage({
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
                 {t('admin.activities.columns.title')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
                 {t('admin.activities.columns.location')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
                 {t('admin.activities.columns.price')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
                 {t('admin.activities.columns.bookings')}
               </th>
-              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-right text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
                 {t('admin.activities.columns.actions')}
               </th>
             </tr>
@@ -59,13 +59,13 @@ export default async function AdminActivitiesPage({
                 <td className="px-6 py-4">
                   <div className="font-medium text-gray-900">{activity.title}</div>
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-600">
+                <td className="px-6 py-4 text-sm text-[#1A2B48]">
                   {activity.address}
                 </td>
                 <td className="px-6 py-4 text-sm font-medium text-gray-900 tabular-nums">
                   {activity.price} ₽
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-600 tabular-nums">
+                <td className="px-6 py-4 text-sm text-[#1A2B48] tabular-nums">
                   {activity._count.bookings}
                 </td>
                 <td className="px-6 py-4 text-right text-sm font-medium">
@@ -83,7 +83,7 @@ export default async function AdminActivitiesPage({
         </table>
 
         {activities.length === 0 && (
-          <div className="text-center py-8 text-gray-500">
+          <div className="text-center py-8 text-[#1A2B48]">
             {t('admin.activities.empty.noActivities')}{' '}
             <Link href={`/${locale}/admin/activities/new`} className="text-blue-600 hover:underline">
               {t('admin.activities.empty.addFirst')}

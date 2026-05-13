@@ -142,7 +142,7 @@ export default function AdminBookingsPage() {
       {!isLoading && !error && (
         <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
            {bookings.length === 0 ? (
-             <div className="text-center py-8 text-gray-500">
+             <div className="text-center py-8 text-[#1A2B48]">
                {t('admin.bookings.empty')}
              </div>
           ) : (
@@ -150,14 +150,14 @@ export default function AdminBookingsPage() {
               <table className="w-full">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.id')}</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.object')}</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.guest')}</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.checkInOut')}</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.amount')}</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.status')}</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.payment')}</th>
-                    <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">{t('admin.bookings.table.actions')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">{t('admin.bookings.table.id')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">{t('admin.bookings.table.object')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">{t('admin.bookings.table.guest')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">{t('admin.bookings.table.checkInOut')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">{t('admin.bookings.table.amount')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">{t('admin.bookings.table.status')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">{t('admin.bookings.table.payment')}</th>
+                    <th className="px-6 py-4 text-right text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">{t('admin.bookings.table.actions')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -167,16 +167,16 @@ export default function AdminBookingsPage() {
                       <td className="px-6 py-4">
                         <div className="font-medium text-gray-900">{booking.post.title}</div>
                         {booking.room && (
-                          <div className="text-sm text-gray-500">{booking.room.title}</div>
+                          <div className="text-sm text-[#1A2B48]">{booking.room.title}</div>
                         )}
                       </td>
                        <td className="px-6 py-4">
                          <div className="text-sm font-medium text-gray-900">
                            {booking.user.name || t('admin.bookings.guestUnknown')}
                          </div>
-                         <div className="text-sm text-gray-500">{booking.user.email}</div>
+                         <div className="text-sm text-[#1A2B48]">{booking.user.email}</div>
                        </td>
-                      <td className="px-6 py-4 text-sm text-gray-600">
+                      <td className="px-6 py-4 text-sm text-[#1A2B48]">
                         {format(new Date(booking.checkIn), "dd MMM", { locale: ru })}
                         {booking.checkOut
                           ? ` — ${format(new Date(booking.checkOut), "dd MMM yyyy", { locale: ru })}`
@@ -197,13 +197,13 @@ export default function AdminBookingsPage() {
                        </td>
                       <td className="px-6 py-4 text-right">
                         {updatingId === booking.id ? (
-                          <span className="text-sm text-gray-500">…</span>
+                          <span className="text-sm text-[#1A2B48]">…</span>
                         ) : (
                           <div className="flex gap-1 justify-end">
                             <select
                               value={booking.status}
                               onChange={(e) => handleStatusChange(booking.id, e.target.value)}
-                              className="text-xs border border-gray-200 rounded px-2 py-1 cursor-pointer"
+                              className="text-xs border border-gray-200 rounded px-2 py-1 cursor-pointer text-[#5000FF]"
                             >
                               {STATUSES.filter((s) => s !== "all").map((s) => (
                                 <option key={s} value={s}>{STATUS_LABELS[s]}</option>
@@ -212,7 +212,7 @@ export default function AdminBookingsPage() {
                              <select
                                value={booking.paymentStatus}
                                onChange={(e) => handlePaymentChange(booking.id, e.target.value)}
-                               className="text-xs border border-gray-200 rounded px-2 py-1 cursor-pointer"
+                               className="text-xs border border-gray-200 rounded px-2 py-1 cursor-pointer text-[#5000FF]"
                              >
                                {["paid", "unpaid", "refunded"].map((p) => (
                                  <option key={p} value={p}>{t(`admin.bookings.paymentStatus.${p}`)}</option>

@@ -115,7 +115,13 @@
     "groupSize": "Топ мөлшері",
     "difficulty": "Қиындығы",
     "optional": "қосымша",
-    "required": "міндетті"
+    "required": "міндетті",
+    "noDescription": "Сипаттама жоқ.",
+    "floor": "қабат",
+    "select": "Таңдау",
+    "persons": "адам",
+    "upTo": "{count} адамға дейін",
+    "location": "Орналасуы"
   },
   "terms": {
     "title": "Қолдану шарттары",
@@ -209,6 +215,22 @@
       "unpaid": "Төленбеген",
       "refunded": "Қайтарылған"
     },
+    "save": "Сақтау",
+    "cancel": "Болдырмау",
+    "saved": "Өзгерістер сақталды",
+    "editingDisabled": "Редакциялау өшірілген",
+    "editingDisabledHint": "Профильді редакциялау үшін email немесе телефон арқылы кіріңіз.",
+    "changePassword": "Құпия сөзді өзгерту",
+    "currentPassword": "Ағымдағы құпия сөз",
+    "newPassword": "Жаңа құпия сөз",
+    "confirmPassword": "Құпия сөзді растау",
+    "passwordUpdated": "Құпия сөз сәтті өзгертілді",
+    "passwordMismatch": "Құпия сөздер сәйкес келмейді",
+    "passwordShort": "Құпия сөз кемінде 6 таңбадан тұруы керек",
+    "passwordWrong": "Ағымдағы құпия сөз дұрыс емес",
+    "profileUpdated": "Профиль сәтті жаңартылды",
+    "enterCurrentPassword": "Ағымдағы құпия сөзді енгізіңіз",
+    "or": "немесе",
     "backToDashboard": "← Сайтқа оралу"
   },
   "listing": {
@@ -221,7 +243,15 @@
     "priceTo": "Бағасы (максимум) (₽)",
     "find": "Іздеу",
     "noResults": "Нәтиже табылмады. Іздеу критерийлерін өзгертіңіз.",
-    "more": "Толығырақ"
+    "more": "Толығырақ",
+    "categories": "Санаттар",
+    "all": "Барлығы",
+    "list": "Тізім",
+    "map": "Карта",
+    "resetFilters": "Сүзгілерді тазалау",
+    "startingFrom": "Бастапқы баға",
+    "perNight": "/ түн",
+    "foundCount": "Табылды: {count}"
   },
   "footer": {
     "tagline": "Алтай тауларының жүрегіндегі туристік кешен. Біз әрбір қонақ үшін ұмытылмас әсерлер жасаймыз.",
@@ -238,7 +268,7 @@
     "contacts_address": "Онгудай а., Алтай Республикасы",
     "contacts_phone": "+7 (388) 123-45-67",
     "contacts_email": "info@ongudaicamp.ru",
-    "copyright": "© 2026 Ongudai Camp. Алтайға деген сүйіспеншілікпен жасалды."
+    "copyright": "© 2026 Reg Griffin Ecosystems rgacademy.spave"
   },
   "search": {
     "label": "Іздеу",
@@ -470,28 +500,11 @@
       "packages": "Пакеттер",
       "chat": "Қолдау чаты",
       "settings": "Параметрлер",
-    "wishlistCount": "сақталған",
-    "wishlistEmpty": "Таңдаулылар тізімі бос",
-    "wishlistEmptyHint": "Тамаша сапарды жоспарлау үшін ұнаған қонақ үйлерді, турларды және белсенділіктерді сақтаңыз.",
-    "wishlistRemove": "Таңдаулылардан жою",
-    "wishlistType_hotel": "Қонақ үй",
-    "wishlistType_tour": "Тур",
-    "wishlistType_activity": "Белсенділік",
-    "findTour": "Турларды қарау",
-    "bookingsDescription": "Барлық броньдауларыңызды қараңыз, мәртебесі бойынша сүзгіден өткізіңіз және басқарыңыз.",
-    "filters": {
-      "all": "Барлығы",
-      "pending": "Күтуде",
-      "confirmed": "Расталған",
-      "completed": "Аяқталған",
-      "cancelled": "Болдырылмаған"
+      "backToDashboard": "← Сайтқа оралу"
     },
-    "paymentStatus": {
-      "paid": "Төленген",
-      "unpaid": "Төленбеген",
-      "refunded": "Қайтарылған"
-    },
-    "backToDashboard": "← Сайтқа оралу"
+    "dashboard": {
+      "title": "Басқару панелі",
+      "welcome": "Ongudai Camp басқару панеліне қош келдіңіз"
     },
     "bookings": {
       "title": "Брондауларды басқару",
@@ -525,6 +538,135 @@
       "empty": "Брондаулар табылмады",
       "error": "Жүктеу қатесі:",
       "guestUnknown": "Қонақ"
+    },
+    "hotels": {
+      "title": "Қонақ үйлерді басқару",
+      "addNew": "+ Қонақ үй қосу",
+      "newTitle": "Жаңа қонақ үй қосу",
+      "editTitle": "Қонақ үйді өңдеу",
+      "columns": {
+        "title": "Атауы",
+        "author": "Автор",
+        "price": "Бағасы",
+        "rooms": "Бөлмелер",
+        "bookings": "Брондаулар",
+        "status": "Мәртебе",
+        "date": "Күні",
+        "actions": "Әрекеттер"
+      },
+      "empty": {
+        "noHotels": "Қонақ үйлер табылмады. ",
+        "addFirst": "Бірінші қонақ үйді қосу"
+      },
+      "statusUnknown": "Көрсетілмеген"
+    },
+    "tours": {
+      "title": "Турларды басқару",
+      "addNew": "+ Тур қосу",
+      "newTitle": "Жаңа тур қосу",
+      "editTitle": "Турды өңдеу",
+      "columns": {
+        "title": "Атауы",
+        "author": "Автор",
+        "price": "Бағасы",
+        "bookings": "Брондаулар",
+        "status": "Мәртебе",
+        "actions": "Әрекеттер"
+      },
+      "location": "Орналасуы",
+      "empty": {
+        "noTours": "Турлар табылмады. ",
+        "addFirst": "Бірінші турды қосу"
+      }
+    },
+    "activities": {
+      "title": "Белсенділіктерді басқару",
+      "addNew": "+ Белсенділік қосу",
+      "newTitle": "Жаңа белсенділік қосу",
+      "editTitle": "Белсенділікті өңдеу",
+      "columns": {
+        "title": "Атауы",
+        "location": "Орналасуы",
+        "price": "Бағасы",
+        "bookings": "Брондаулар",
+        "actions": "Әрекеттер"
+      },
+      "empty": {
+        "noActivities": "Белсенділіктер табылмады. ",
+        "addFirst": "Бірінші белсенділікті қосу"
+      }
+    },
+    "users": {
+      "title": "Пайдаланушыларды басқару",
+      "filters": {
+        "all": "Барлығы",
+        "admin": "Әкімші",
+        "subscriber": "Жазылушы"
+      },
+      "columns": {
+        "name": "Аты",
+        "email": "Email",
+        "role": "Рөлі",
+        "bookings": "Брондаулар",
+        "registered": "Тіркеу күні",
+        "actions": "Әрекеттер"
+      },
+      "noName": "Аты жоқ",
+      "changeRole": "Рөлін өзгерту",
+      "notFound": "Пайдаланушылар табылмады"
+    },
+    "chat": {
+      "title": "Қолдау чаты",
+      "users": "Пайдаланушылар",
+      "noActiveChats": "Белсенді чаттар жоқ",
+      "noName": "Аты жоқ",
+      "noMessages": "Хабарламалар жоқ",
+      "userLabel": "Пайдаланушы",
+      "send": "Жіберу",
+      "messagePlaceholder": "Хабарламаңызды енгізіңіз...",
+      "typing": "...",
+      "selectUser": "Әңгімелесуді бастау үшін пайдаланушыны таңдаңыз"
+    },
+    "showcase": {
+      "title": "Бейне презентация генераторы",
+      "subtitle": "Жарнамалық бейне жасау үшін нысанды таңдаңыз",
+      "loading": "Қонақ үйлер жүктелуде...",
+      "yourObjects": "Сіздің нысандарыңыз",
+      "perNight": "/ түн",
+      "readyToRender": "Рендерге дайын",
+      "videoInfo": "Full HD (1080p) • 30 FPS • 5 секунд",
+      "downloadMp4": "MP4 жүктеу"
+    },
+    "packages": {
+      "title": "Жазылым пакеттері",
+      "addNew": "Пакет қосу",
+      "newTitle": "Жазылым пакетін жасау",
+      "editTitle": "Пакетті өңдеу",
+      "featured": "Танымал",
+      "postsLimit": "Посттар шегі: {postsLimit}",
+      "duration": "Ұзақтығы: {duration} күн",
+      "activeUsers": "Белсенді пайдаланушылар: {count}",
+      "unlimited": "Шексіз",
+      "noPackages": "Пакеттер жасалмаған.",
+      "createFirst": "Бірінші пакетті жасау",
+      "edit": "Өңдеу",
+      "delete": "Жою"
+    },
+    "settings": {
+      "facilities": "Ыңғайлылықтар",
+      "roomTypes": "Орналастыру түрлері"
+    },
+    "general": {
+      "edit": "Өңдеу",
+      "delete": "Жою",
+      "deleteConfirm": "Иә, жою",
+      "cancel": "Болдырмау",
+      "deleting": "...",
+      "saving": "...",
+      "unknown": "Белгісіз",
+      "errorDelete": "Жою қатесі",
+      "errorAlert": "Жою кезінде қате",
+      "backToList": "← Тізімге оралу"
     }
   },
   "dialogs": {

@@ -60,7 +60,7 @@ export default function ImageUploader({ images, onChange, maxFiles = 10 }: Image
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-[#1A2B48]">
           {images.length > 0
             ? `Загружено: ${images.length} ${images.length === 1 ? "изображение" : "изображений"}`
             : "Изображения не загружены"}
@@ -133,10 +133,10 @@ export default function ImageUploader({ images, onChange, maxFiles = 10 }: Image
             onChange={handleFiles}
             className="hidden"
           />
-          <p className="text-gray-500">
+          <p className="text-[#1A2B48]">
             {uploading ? "Загрузка…" : "Перетащите изображения сюда или нажмите для выбора"}
           </p>
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-[#1A2B48] mt-1">
             {maxFiles - images.length > 0
               ? `Можно загрузить еще ${maxFiles - images.length}`
               : "Лимит исчерпан"}

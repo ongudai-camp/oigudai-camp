@@ -4,8 +4,10 @@ import { Player } from '@remotion/player';
 import { HotelShowcase } from '@/remotion/templates/HotelShowcase';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function ShowcasePage() {
+  const t = useTranslations('admin');
   const { data, isLoading } = useQuery({
     queryKey: ['showcase-hotels'],
     queryFn: async () => {
@@ -18,7 +20,7 @@ export default function ShowcasePage() {
 
   const [selectedHotelIndex, setSelectedHotelIndex] = useState(0);
 
-  if (isLoading) return <div className='p-8 animate-pulse'>Загрузка отелей...</div>;
+  if (isLoading) return <div className='p-8 animate-pulse'>{t('showcase.loading')}</div>;
 
   const hotels = data || [];
   const selectedHotel = hotels[selectedHotelIndex];
@@ -26,14 +28,14 @@ export default function ShowcasePage() {
   return (
     <div className='p-8 space-y-8'>
       <div>
-        <h1 className='text-3xl font-bold text-sky-950 mb-2'>Генератор видео-презентаций</h1>
-        <p className='text-sky-600'>Выберите объект для создания рекламного ролика</p>
+        <h1 className='text-3xl font-bold text-sky-950 mb-2'>{t('showcase.title')}</h1>
+        <p className='text-sky-600'>{t('showcase.subtitle')}</p>
       </div>
 
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
         {/* Hotel List */}
         <div className='space-y-4'>
-          <h2 className='font-bold text-sky-900 uppercase text-xs tracking-wider'>Ваши объекты</h2>
+          <h2 className='font-bold text-sky-900 uppercase text-xs tracking-wider'>{t('showcase.yourObjects')}</h2>
           {// eslint-disable-next-line @typescript-eslint/no-explicit-any
           hotels.map((hotel: any, index: number) => (
             <button
@@ -47,7 +49,7 @@ export default function ShowcasePage() {
             >
               <div className='font-bold truncate'>{hotel.title}</div>
               <div className={`text-xs ${selectedHotelIndex === index ? 'text-sky-100' : 'text-sky-500'}`}>
-                {hotel.price} ₽ / ночь
+                {hotel.price} ₽ {t('showcase.perNight')}
               </div>
             </button>
           ))}
@@ -77,11 +79,11 @@ export default function ShowcasePage() {
               />
               <div className='p-8 flex items-center justify-between'>
                 <div>
-                  <h3 className='font-bold text-sky-950 text-xl'>Готово к рендеру</h3>
-                  <p className='text-sky-600 text-sm'>Full HD (1080p) • 30 FPS • 5 секунд</p>
+                  <h3 className='font-bold text-sky-950 text-xl'>{t('showcase.readyToRender')}</h3>
+                  <p className='text-sky-600 text-sm'>{t('showcase.videoInfo')}</p>
                 </div>
                 <button className='bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-orange-500/30 transition-all duration-300 transform hover:scale-105 cursor-pointer'>
-                  Скачать MP4
+                  {t('showcase.downloadMp4')}
                 </button>
               </div>
             </div>

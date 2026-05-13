@@ -42,7 +42,7 @@ export default async function SuperAdminDashboard({
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-black tracking-tight">SuperAdmin</h1>
-            <p className="text-gray-400 mt-1">Панель управления системой</p>
+            <p className="text-[#1A2B48] mt-1">Панель управления системой</p>
           </div>
           <Link
             href={`/${locale}/admin`}
@@ -68,7 +68,7 @@ export default async function SuperAdminDashboard({
                 <div key={user.id} className="flex items-center justify-between py-2 border-b border-gray-800 last:border-0">
                   <div>
                     <div className="font-medium">{user.name || "Без имени"}</div>
-                    <div className="text-sm text-gray-400">{user.email}</div>
+                    <div className="text-sm text-[#1A2B48]">{user.email}</div>
                   </div>
                   <span className={`text-xs px-2 py-1 rounded-full font-medium ${
                     user.role === "superadmin" ? "bg-purple-900 text-purple-300" :
@@ -89,21 +89,21 @@ export default async function SuperAdminDashboard({
               className="flex items-center justify-between w-full p-4 bg-gray-800 rounded-xl hover:bg-gray-700 transition-colors"
             >
               <span>Пользователи</span>
-              <span className="text-gray-400">→</span>
+              <span className="text-[#1A2B48]">→</span>
             </Link>
             <Link
               href={`/${locale}/admin/packages`}
               className="flex items-center justify-between w-full p-4 bg-gray-800 rounded-xl hover:bg-gray-700 transition-colors"
             >
               <span>Пакеты</span>
-              <span className="text-gray-400">→</span>
+              <span className="text-[#1A2B48]">→</span>
             </Link>
             <Link
               href={`/${locale}/admin/settings/meta`}
               className="flex items-center justify-between w-full p-4 bg-gray-800 rounded-xl hover:bg-gray-700 transition-colors"
             >
               <span>Настройки</span>
-              <span className="text-gray-400">→</span>
+              <span className="text-[#1A2B48]">→</span>
             </Link>
           </div>
         </div>
@@ -125,7 +125,7 @@ function StatCard({ label, value, color }: { label: string; value: number; color
     <div className="bg-gray-900 rounded-2xl p-5 border border-gray-800">
       <div className={`h-1 w-12 rounded-full bg-gradient-to-r ${colors[color] || colors.blue} mb-4`} />
       <div className="text-3xl font-black">{value}</div>
-      <div className="text-sm text-gray-400 mt-1">{label}</div>
+      <div className="text-sm text-[#1A2B48] mt-1">{label}</div>
     </div>
   );
 }

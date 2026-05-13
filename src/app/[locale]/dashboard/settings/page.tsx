@@ -50,7 +50,7 @@ export default async function SettingsPage({
                 </span>
               </div>
               <h3 className="font-semibold text-lg">{user.name || "User"}</h3>
-              <p className="text-sm text-gray-500">{user.phone || user.email}</p>
+              <p className="text-sm text-[#1A2B48]">{user.phone || user.email}</p>
               <span className="inline-block mt-2 px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
                 {user.role}
               </span>
@@ -95,7 +95,7 @@ export default async function SettingsPage({
             {/* Welcome Card */}
             <div className="bg-white rounded-xl shadow-lg p-8">
               <h1 className="text-2xl font-bold mb-2">{t("settingsTitle")}</h1>
-              <p className="text-gray-600">{t("settingsDescription")}</p>
+              <p className="text-[#1A2B48]">{t("settingsDescription")}</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -107,15 +107,15 @@ export default async function SettingsPage({
                 </h2>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm text-gray-500 mb-1">{t("profile")}</label>
+                    <label className="block text-sm text-[#1A2B48] mb-1">{t("profile")}</label>
                     <p className="text-gray-900 font-medium">{user.name || "—"}</p>
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-500 mb-1">{t("email")}</label>
+                    <label className="block text-sm text-[#1A2B48] mb-1">{t("email")}</label>
                     <p className="text-gray-900 font-medium">{user.email || "—"}</p>
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-500 mb-1">{t("phone")}</label>
+                    <label className="block text-sm text-[#1A2B48] mb-1">{t("phone")}</label>
                     <p className="text-gray-900 font-medium">{user.phone || "—"}</p>
                   </div>
                 </div>
@@ -129,17 +129,17 @@ export default async function SettingsPage({
                 </h2>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm text-gray-500 mb-1">{t("role")}</label>
+                    <label className="block text-sm text-[#1A2B48] mb-1">{t("role")}</label>
                     <p className="text-gray-900 font-medium">{user.role}</p>
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-500 mb-1">{t("memberSince")}</label>
+                    <label className="block text-sm text-[#1A2B48] mb-1">{t("memberSince")}</label>
                     <p className="text-gray-900 font-medium">
                       {format(new Date(user.createdAt), "dd MMM yyyy", { locale: dateLocale })}
                     </p>
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-500 mb-1">{t("language")}</label>
+                    <label className="block text-sm text-[#1A2B48] mb-1">{t("language")}</label>
                     <p className="text-gray-900 font-medium">{localeLabels[locale] || "English"}</p>
                   </div>
                 </div>

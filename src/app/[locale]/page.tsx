@@ -3,7 +3,7 @@ import FeaturedSection from "@/components/home/FeaturedSection";
 
 export default function Home() {
   return (
-    <div className="bg-[#F0F9FF] min-h-screen pb-20">
+    <div className="bg-[#F0F9FF] min-h-screen pt-24 pb-20">
       <Hero />
       
       <div className="container mx-auto px-4 space-y-10">

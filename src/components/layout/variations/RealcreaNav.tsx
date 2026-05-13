@@ -7,7 +7,7 @@ import { Menu, X, ChevronDown, Phone, Plus, User, LayoutDashboard, LogOut } from
 import { navConfig } from "@/lib/navConfig";
 import clsx from "clsx";
 import type { Session } from "next-auth";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 interface NavProps {
   locale: string;
@@ -22,6 +22,8 @@ export default function RealcreaNav({ locale, session, logoutButton, localeSwitc
   const [isScrolled, setIsScrolled] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const { data: liveSession } = useSession();
+  const effectiveSession = session || liveSession;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +42,7 @@ export default function RealcreaNav({ locale, session, logoutButton, localeSwitc
     };
   }, []);
 
-  const isAdminOrModerator = session?.user?.role === "admin" || session?.user?.role === "moderator";
+  const isAdminOrModerator = effectiveSession?.user?.role === "admin" || effectiveSession?.user?.role === "moderator";
   const navLinkClass = "text-[16px] font-medium text-[#1A1A1A] hover:text-[#EB664E] transition-colors flex items-center gap-1 py-2";
 
   return (
@@ -103,7 +105,7 @@ export default function RealcreaNav({ locale, session, logoutButton, localeSwitc
 
           {/* User / Add Property */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {session ? (
+            {effectiveSession ? (
               <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
@@ -118,7 +120,7 @@ export default function RealcreaNav({ locale, session, logoutButton, localeSwitc
                       onClick={() => setIsUserMenuOpen(false)}
                       className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-xl transition-colors"
                     >
-                      <LayoutDashboard className="w-4 h-4 text-gray-400" />
+                      <LayoutDashboard className="w-4 h-4 text-[#1A2B48]" />
                       {t("nav.dashboard")}
                     </Link>
                     <button
@@ -174,7 +176,7 @@ export default function RealcreaNav({ locale, session, logoutButton, localeSwitc
               </Link>
               {navConfig.map((section) => (
                 <div key={section.title} className="space-y-4 pt-4 border-t border-gray-50">
-                   <h4 className="text-xs font-black uppercase tracking-widest text-gray-400">{t(`nav.${section.title}`)}</h4>
+                   <h4 className="text-xs font-black uppercase tracking-widest text-[#1A2B48]">{t(`nav.${section.title}`)}</h4>
                    <div className="grid gap-4 pl-4">
                       {section.items.map((item) => (
                         <Link 
@@ -200,14 +202,14 @@ export default function RealcreaNav({ locale, session, logoutButton, localeSwitc
            <div className="pt-8 border-t border-gray-100 space-y-6">
               <div className="flex items-center justify-between">
                 <span className="font-bold text-[#1A1A1A]">{t("auth.phone")}</span>
-                <span className="text-gray-500 font-medium">+7 999 123-45-67</span>
+                <span className="text-[#1A2B48] font-medium">+7 999 123-45-67</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="font-bold text-[#1A1A1A]">Язык</span>
                 {localeSwitcher}
               </div>
               <div className="grid gap-3 pt-4">
-                {session ? (
+            {effectiveSession ? (
                   <>
                     <Link href={`/${locale}/dashboard`} onClick={() => setIsMobileMenuOpen(false)} className="w-full py-4 bg-gray-50 text-[#1A1A1A] rounded-2xl text-center font-bold">
                       {t("nav.dashboard")}

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { handleChatMessage, isRuleBotEnabled } from "@/lib/chatbot";
 
 export async function GET(request: NextRequest) {
   try {
@@ -16,12 +17,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "User ID required" }, { status: 400 });
     }
 
-    // If admin, can view any user's chat
-    // If regular user, can only view their own chat
     const requestingUserId = parseInt(session.user.id);
-    const isAdmin = session.user.role === "admin";
+    const admin = session.user.role === "admin" || session.user.role === "superadmin";
 
-    if (!isAdmin && requestingUserId !== userId) {
+    if (!admin && requestingUserId !== userId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
@@ -55,15 +54,12 @@ export async function POST(request: NextRequest) {
     }
 
     const requestingUserId = parseInt(session.user.id);
-    const isAdmin = session.user.role === "admin";
+    const admin = session.user.role === "admin" || session.user.role === "superadmin";
 
-    // Determine who the message is for
     let messageUserId = userId;
-    if (isAdmin && targetUserId) {
-      // Admin is sending message to a user
+    if (admin && targetUserId) {
       messageUserId = targetUserId;
-    } else if (!isAdmin) {
-      // Regular user sending message
+    } else if (!admin) {
       messageUserId = requestingUserId;
     }
 
@@ -71,11 +67,38 @@ export async function POST(request: NextRequest) {
       data: {
         userId: messageUserId,
         content,
-        isFromUser: isFromUser !== undefined ? isFromUser : !isAdmin,
+        isFromUser: isFromUser !== undefined ? isFromUser : !admin,
+        isAiGenerated: false,
       },
     });
 
-    // TODO: Send notification to admin (email, push, etc.)
+    const botEnabled = isRuleBotEnabled();
+
+    if (botEnabled && !admin) {
+      const recentAdminMessages = await prisma.chatMessage.findFirst({
+        where: {
+          userId: messageUserId,
+          isFromUser: false,
+          isAiGenerated: false,
+          createdAt: { gte: new Date(Date.now() - 5 * 60 * 1000) },
+        },
+      });
+
+      if (!recentAdminMessages) {
+        const reply = await handleChatMessage(content, messageUserId);
+        if (reply) {
+          const aiMessage = await prisma.chatMessage.create({
+            data: {
+              userId: messageUserId,
+              content: reply,
+              isFromUser: false,
+              isAiGenerated: true,
+            },
+          });
+          return NextResponse.json({ success: true, message, aiMessage });
+        }
+      }
+    }
 
     return NextResponse.json({ success: true, message });
   } catch (error: unknown) {

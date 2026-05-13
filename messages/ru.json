@@ -115,7 +115,13 @@
     "groupSize": "Размер группы",
     "difficulty": "Сложность",
     "optional": "необязательно",
-    "required": "обязательно"
+    "required": "обязательно",
+    "noDescription": "Описание отсутствует.",
+    "floor": "этаж",
+    "select": "Выбрать",
+    "persons": "чел.",
+    "upTo": "До {count} чел.",
+    "location": "Расположение"
   },
   "terms": {
     "title": "Условия использования",
@@ -209,6 +215,22 @@
       "unpaid": "Не оплачено",
       "refunded": "Возвращено"
     },
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "saved": "Изменения сохранены",
+    "editingDisabled": "Редактирование отключено",
+    "editingDisabledHint": "Войдите через email или телефон для редактирования профиля.",
+    "changePassword": "Изменить пароль",
+    "currentPassword": "Текущий пароль",
+    "newPassword": "Новый пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "passwordUpdated": "Пароль успешно изменён",
+    "passwordMismatch": "Пароли не совпадают",
+    "passwordShort": "Пароль должен быть не менее 6 символов",
+    "passwordWrong": "Неверный текущий пароль",
+    "profileUpdated": "Профиль успешно обновлён",
+    "enterCurrentPassword": "Введите текущий пароль",
+    "or": "или",
     "backToDashboard": "← На сайт"
   },
   "listing": {
@@ -221,7 +243,15 @@
     "priceTo": "Цена до (₽)",
     "find": "Найти",
     "noResults": "Ничего не найдено. Попробуйте изменить параметры поиска.",
-    "more": "Подробнее"
+    "more": "Подробнее",
+    "categories": "Категории",
+    "all": "Все",
+    "list": "Список",
+    "map": "Карта",
+    "resetFilters": "Сбросить все фильтры",
+    "startingFrom": "Начиная от",
+    "perNight": "/ ночь",
+    "foundCount": "Найдено: {count}"
   },
   "footer": {
     "tagline": "Туристический комплекс в самом сердце горного Алтая. Мы создаем незабываемые впечатления для каждого гостя.",
@@ -238,7 +268,7 @@
     "contacts_address": "с. Онгудай, Республика Алтай",
     "contacts_phone": "+7 (388) 123-45-67",
     "contacts_email": "info@ongudaicamp.ru",
-    "copyright": "© 2026 Ongudai Camp. Сделано с любовью к Алтаю."
+    "copyright": "© 2026 Reg Griffin Ecosystems rgacademy.spave"
   },
   "search": {
     "label": "Поиск",
@@ -439,6 +469,8 @@
     "hotels": {
       "title": "Управление отелями",
       "addNew": "+ Добавить отель",
+      "newTitle": "Добавить новый отель",
+      "editTitle": "Редактировать отель",
       "columns": {
         "title": "Название",
         "author": "Автор",
@@ -458,6 +490,8 @@
     "tours": {
       "title": "Управление турами",
       "addNew": "+ Добавить тур",
+      "newTitle": "Добавить новый тур",
+      "editTitle": "Редактировать тур",
       "columns": {
         "title": "Название",
         "author": "Автор",
@@ -475,6 +509,8 @@
     "activities": {
       "title": "Управление активностями",
       "addNew": "+ Добавить активность",
+      "newTitle": "Добавить новую активность",
+      "editTitle": "Редактировать активность",
       "columns": {
         "title": "Название",
         "location": "Локация",
@@ -548,17 +584,37 @@
       "userLabel": "Пользователь",
       "send": "Отправить",
       "messagePlaceholder": "Введите сообщение...",
-      "typing": "..."
+      "typing": "...",
+      "selectUser": "Выберите пользователя для начала общения"
+    },
+    "showcase": {
+      "title": "Генератор видео-презентаций",
+      "subtitle": "Выберите объект для создания рекламного ролика",
+      "loading": "Загрузка отелей...",
+      "yourObjects": "Ваши объекты",
+      "perNight": "/ ночь",
+      "readyToRender": "Готово к рендеру",
+      "videoInfo": "Full HD (1080p) • 30 FPS • 5 секунд",
+      "downloadMp4": "Скачать MP4"
     },
     "packages": {
       "title": "Пакеты подписки",
       "addNew": "Добавить пакет",
+      "newTitle": "Создать пакет подписки",
+      "editTitle": "Редактировать пакет",
       "featured": "Популярный",
       "postsLimit": "Лимит постов: {postsLimit}",
       "duration": "Длительность: {duration} дн.",
       "activeUsers": "Активных пользователей: {count}",
+      "unlimited": "Безлимит",
+      "noPackages": "Пакеты не созданы.",
+      "createFirst": "Создать первый пакет",
       "edit": "Редактировать",
       "delete": "Удалить"
+    },
+    "settings": {
+      "facilities": "Удобства",
+      "roomTypes": "Типы размещения"
     },
     "general": {
       "edit": "Редактировать",
@@ -569,7 +625,8 @@
       "saving": "...",
       "unknown": "Неизвестно",
       "errorDelete": "Ошибка удаления",
-      "errorAlert": "Ошибка при удалении"
+      "errorAlert": "Ошибка при удалении",
+      "backToList": "← Назад к списку"
     }
   },
   "phone": {

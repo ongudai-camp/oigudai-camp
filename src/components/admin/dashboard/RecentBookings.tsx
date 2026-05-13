@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
@@ -37,7 +37,7 @@ export default function RecentBookings() {
       <h2 className='text-xl font-semibold mb-4 text-sky-950'>Последние бронирования</h2>
 
       {bookings.length === 0 ? (
-        <p className='text-gray-500 text-center py-8'>Нет бронирований</p>
+        <p className='text-[#1A2B48] text-center py-8'>Нет бронирований</p>
       ) : (
         <div className='overflow-x-auto'>
           <table className='w-full'>

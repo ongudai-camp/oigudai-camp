@@ -36,6 +36,8 @@ export async function POST(request: NextRequest) {
       address,
       price,
       salePrice,
+      latitude,
+      longitude,
       authorId,
       status,
     } = body;
@@ -54,6 +56,8 @@ export async function POST(request: NextRequest) {
         address,
         price: parseFloat(price),
         salePrice: salePrice ? parseFloat(salePrice) : null,
+        latitude: latitude ? parseFloat(latitude) : null,
+        longitude: longitude ? parseFloat(longitude) : null,
         authorId: authorId ? parseInt(authorId) : null,
         status: status || "publish",
       },

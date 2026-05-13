@@ -10,33 +10,94 @@
 }
 
 :root {
-  --main-color: #0EA5E9;
-  --secondary-color: #38BDF8;
-  --cta-color: #F97316;
-  --grey-color: #5E6D77;
-  --light-grey-color: #EAEEF3;
-  --orange-color: #F97316;
-  --link-color: #0C4A6E;
-  --background: #F0F9FF;
-  --foreground: #0C4A6E;
+  --color-background: #FFFFFF;
+  --color-foreground: #082F49;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #0C4A6E;
+  --color-popover: #FFFFFF;
+  --color-popover-foreground: #082F49;
+  --color-primary: #0284C7;
+  --color-primary-foreground: #FFFFFF;
+  --color-secondary: #E0F2FE;
+  --color-secondary-foreground: #0C4A6E;
+  --color-muted: #F0F9FF;
+  --color-muted-foreground: #0284C7;
+  --color-accent: #FFEDD5;
+  --color-accent-foreground: #7C2D12;
+  --color-destructive: #DC2626;
+  --color-destructive-foreground: #FFFFFF;
+  --color-border: #BAE6FD;
+  --color-input: #BAE6FD;
+  --color-ring: #0284C7;
+  --color-cta: #F97316;
+  --color-cta-foreground: #FFFFFF;
+  --color-main: #0EA5E9;
+  --color-secondary-accent: #38BDF8;
+  --color-grey: #5E6D77;
+  --color-light-grey: #EAEEF3;
+  --color-link: #0C4A6E;
+  --color-orange: #F97316;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --main-color: #38BDF8;
-    --cta-color: #FB923C;
+    --color-background: #082F49;
+    --color-foreground: #F0F9FF;
+    --color-card: #0C4A6E;
+    --color-card-foreground: #F0F9FF;
+    --color-popover: #0C4A6E;
+    --color-popover-foreground: #F0F9FF;
+    --color-primary: #0EA5E9;
+    --color-primary-foreground: #FFFFFF;
+    --color-secondary: #075985;
+    --color-secondary-foreground: #F0F9FF;
+    --color-muted: #075985;
+    --color-muted-foreground: #38BDF8;
+    --color-accent: #9A3412;
+    --color-accent-foreground: #FFEDD5;
+    --color-destructive: #EF4444;
+    --color-destructive-foreground: #FFFFFF;
+    --color-border: #075985;
+    --color-input: #075985;
+    --color-ring: #0EA5E9;
+    --color-cta: #FB923C;
+    --color-cta-foreground: #FFFFFF;
+    --color-main: #38BDF8;
+    --color-link: #7DD3FC;
+    --color-orange: #FB923C;
   }
 }
 
 html,
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-background);
+  color: var(--color-foreground);
   font-family: "Inter", Arial, Helvetica, sans-serif;
   overflow-x: hidden;
   width: 100%;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Safe-area-aware padding helpers */
+.pb-safe-bottom {
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.pt-safe-top {
+  padding-top: constant(safe-area-inset-top);
+  padding-top: env(safe-area-inset-top);
+}
+
+.pl-safe-left {
+  padding-left: constant(safe-area-inset-left);
+  padding-left: env(safe-area-inset-left);
+}
+
+.pr-safe-right {
+  padding-right: constant(safe-area-inset-right);
+  padding-right: env(safe-area-inset-right);
 }
 
 /* SaaS UI: Prevent hydration issues from extensions */
@@ -57,50 +118,9 @@ body[jscontroller] {
   margin-top: 0;
 }
 
-/* Hero Section */
-.hero-section {
-  position: relative;
-  height: 600px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-size: cover;
-  background-position: center;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 10;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 20;
-  text-align: center;
-  color: white;
-  padding: 0 1rem;
-}
-
-/* Search Form */
-.search-form-wrapper {
-  max-width: 64rem;
-  margin: -5rem auto 0;
-  position: relative;
-  z-index: 30;
-}
-
-.search-form {
-  background: white;
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-}
-
 /* Buttons */
 .btn-main {
-  background-color: var(--main-color);
+  background-color: var(--color-main);
   color: white;
   padding: 0.75rem 2rem;
   border-radius: 0.5rem;
@@ -112,11 +132,11 @@ body[jscontroller] {
 }
 
 .btn-main:hover {
-  background-color: #3a7bd5;
+  background-color: var(--color-primary);
 }
 
 .btn-orange {
-  background-color: var(--orange-color);
+  background-color: var(--color-orange);
   color: white;
   padding: 0.75rem 2rem;
   border-radius: 0.5rem;
@@ -131,28 +151,9 @@ body[jscontroller] {
   background-color: #e04a2f;
 }
 
-.btn-main:hover {
-  background-color: #3a7bd5;
-}
-
-.btn-orange {
-  background-color: var(--orange-color);
-  color: white;
-  padding: 0.75rem 2rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  transition: background-color 0.2s;
-  display: inline-block;
-  text-decoration: none;
-}
-
-.btn-orange:hover {
-  background-color: #e04a2f;
-}
-
-/* Cards - SaaS UI: Use pure white cards on off-white background */
+/* Cards - SaaS UI: Pure white cards on muted background */
 .hotel-card, .tour-card, .activity-card {
-  background: white;
+  background: var(--color-card);
   border-radius: 0.75rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -171,7 +172,7 @@ body[jscontroller] {
 }
 
 .section-gray {
-  background-color: #f9fafb;
+  background-color: var(--color-muted);
 }
 
 .section-title {

@@ -154,7 +154,7 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 pt-24">
       {/* Left Column: Sign In Form */}
       <div className="flex items-center justify-center bg-white py-12 px-8 md:px-16 lg:px-24">
         <div className="max-w-md w-full space-y-8">
@@ -165,7 +165,7 @@ export default function SignInPage() {
             <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">
               {t("auth.signin")}
             </h2>
-            <p className="mt-3 text-gray-500">
+            <p className="mt-3 text-[#1A2B48]">
               {t("auth.noAccount")}{" "}
               <Link href={`/${locale}/auth/register`} className="text-orange-500 font-bold hover:text-orange-600 transition-colors">
                 {t("auth.register")}
@@ -184,12 +184,12 @@ export default function SignInPage() {
                 className="w-5 h-5 rounded border-gray-300 text-orange-500 focus:ring-orange-500 cursor-pointer transition-all"
               />
             </div>
-            <label htmlFor="privacy" className="text-sm text-gray-600 leading-tight">
+            <label htmlFor="privacy" className="text-sm text-[#1A2B48] leading-tight">
               {t("privacy.accept")}{" "}
               <Link href={`/${locale}/privacy-policy`} className="text-sky-600 font-medium hover:underline">
                 {t("privacy.link")}
               </Link>{" "}
-              <span className="text-gray-400">({t("privacy.required")})</span>
+              <span className="text-[#1A2B48]">({t("privacy.required")})</span>
             </label>
           </div>
 
@@ -200,7 +200,7 @@ export default function SignInPage() {
               className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all duration-300 cursor-pointer ${
                 loginMethod === "phone"
                   ? "bg-white text-gray-900 shadow-sm"
-                  : "text-gray-500 hover:text-gray-700"
+                  : "text-[#1A2B48] hover:text-gray-700"
               }`}
             >
               {t("auth.phone")}
@@ -210,7 +210,7 @@ export default function SignInPage() {
               className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all duration-300 cursor-pointer ${
                 loginMethod === "email"
                   ? "bg-white text-gray-900 shadow-sm"
-                  : "text-gray-500 hover:text-gray-700"
+                  : "text-[#1A2B48] hover:text-gray-700"
               }`}
             >
               {t("auth.email")}
@@ -250,10 +250,10 @@ export default function SignInPage() {
                       value={smsCode}
                       onChange={(e) => setSmsCode(e.target.value)}
                       placeholder="······"
-                      className="w-full px-4 py-6 bg-gray-50 border border-gray-200 rounded-2xl focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all outline-none text-center text-4xl tracking-[0.5em] font-black"
+                      className="w-full px-4 py-6 bg-gray-50 border border-gray-200 rounded-2xl focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all outline-none text-center text-4xl tracking-[0.5em] font-black text-[#1A2B48]"
                       maxLength={6}
                     />
-                    <p className="mt-3 text-sm text-gray-500 text-center">
+                    <p className="mt-3 text-sm text-[#1A2B48] text-center">
                       {t("auth.codeSent")} <span className="font-bold text-gray-900">{phone}</span>
                     </p>
                   </div>
@@ -326,7 +326,7 @@ export default function SignInPage() {
                   <div className="w-full border-t border-gray-100"/>
                 </div>
                 <div className="relative flex justify-center text-xs">
-                  <span className="px-4 bg-white text-gray-400 font-bold uppercase tracking-widest">{t("auth.orSignInWith")} email</span>
+                  <span className="px-4 bg-white text-[#1A2B48] font-bold uppercase tracking-widest">{t("auth.orSignInWith")} email</span>
                 </div>
               </div>
 
@@ -341,7 +341,7 @@ export default function SignInPage() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none font-medium"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none font-medium text-[#1A2B48]"
                   />
                 </div>
 
@@ -355,7 +355,7 @@ export default function SignInPage() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none font-medium"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none font-medium text-[#1A2B48]"
                   />
                 </div>
 

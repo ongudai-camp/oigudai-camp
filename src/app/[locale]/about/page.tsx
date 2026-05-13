@@ -19,25 +19,25 @@ export default function AboutPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold mb-6">{t("welcome")}</h2>
-            <p className="text-gray-600 mb-6 text-lg">
+            <p className="text-[#1A2B48] mb-6 text-lg">
               {t("description1")}
             </p>
-            <p className="text-gray-600 mb-6 text-lg">
+            <p className="text-[#1A2B48] mb-6 text-lg">
               {t("description2")}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 my-12">
               <div className="text-center">
                 <div className="text-4xl font-bold text-blue-600 mb-2">50+</div>
-                <div className="text-gray-600">{t("stats.hotels")}</div>
+                <div className="text-[#1A2B48]">{t("stats.hotels")}</div>
               </div>
               <div className="text-center">
                 <div className="text-4xl font-bold text-green-600 mb-2">100+</div>
-                <div className="text-gray-600">{t("stats.tours")}</div>
+                <div className="text-[#1A2B48]">{t("stats.tours")}</div>
               </div>
               <div className="text-center">
                 <div className="text-4xl font-bold text-red-600 mb-2">10,000+</div>
-                <div className="text-gray-600">{t("stats.guests")}</div>
+                <div className="text-[#1A2B48]">{t("stats.guests")}</div>
               </div>
             </div>
           </div>

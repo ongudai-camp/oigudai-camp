@@ -2,8 +2,9 @@ import { requireAdmin } from "@/lib/adminAccess";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
-import { ru } from "date-fns/locale";
+import { ru, enUS, kk } from "date-fns/locale";
 import DeleteButton from "@/components/admin/DeleteButton";
+import { getTranslations } from "next-intl/server";
 
 export default async function AdminHotelsPage({
   params,
@@ -11,7 +12,10 @@ export default async function AdminHotelsPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const t = await getTranslations('admin');
   await requireAdmin(locale);
+
+  const dateLocale = locale === "ru" ? ru : locale === "kk" ? kk : enUS;
 
   const hotels = await prisma.post.findMany({
     where: { type: "hotel" },
@@ -22,12 +26,12 @@ export default async function AdminHotelsPage({
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Управление отелями</h1>
+        <h1 className="text-2xl font-bold">{t('hotels.title')}</h1>
         <Link
           href={`/${locale}/admin/hotels/new`}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 cursor-pointer transition-colors duration-200 shadow-sm hover:shadow-md"
         >
-          + Добавить отель
+          {t('hotels.addNew')}
         </Link>
       </div>
 
@@ -35,29 +39,29 @@ export default async function AdminHotelsPage({
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Название
+              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+                {t('hotels.columns.title')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Автор
+              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+                {t('hotels.columns.author')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Цена
+              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+                {t('hotels.columns.price')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Номеров
+              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+                {t('hotels.columns.rooms')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Бронирований
+              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+                {t('hotels.columns.bookings')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Статус
+              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+                {t('hotels.columns.status')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Дата
+              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+                {t('hotels.columns.date')}
               </th>
-              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Действия
+              <th className="px-6 py-4 text-right text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+                {t('hotels.columns.actions')}
               </th>
             </tr>
           </thead>
@@ -67,18 +71,18 @@ export default async function AdminHotelsPage({
               <tr key={hotel.id} className="hover:bg-gray-50 cursor-pointer transition-colors duration-200">
                 <td className="px-6 py-4">
                   <div className="font-medium text-gray-900">{hotel.title}</div>
-                  <div className="text-sm text-gray-500">{hotel.address}</div>
+                  <div className="text-sm text-[#1A2B48]">{hotel.address}</div>
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-600">
-                  {hotel.author?.name || "Неизвестно"}
+                <td className="px-6 py-4 text-sm text-[#1A2B48]">
+                  {hotel.author?.name || t('hotels.statusUnknown')}
                 </td>
                 <td className="px-6 py-4 text-sm font-medium text-gray-900 tabular-nums">
                   {hotel.price} ₽
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-600 tabular-nums">
+                <td className="px-6 py-4 text-sm text-[#1A2B48] tabular-nums">
                   {hotel._count.rooms}
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-600 tabular-nums">
+                <td className="px-6 py-4 text-sm text-[#1A2B48] tabular-nums">
                   {hotel._count.bookings}
                 </td>
                 <td className="px-6 py-4">
@@ -92,15 +96,15 @@ export default async function AdminHotelsPage({
                     {hotel.status}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-600">
-                  {format(new Date(hotel.createdAt), "dd MMM yyyy", { locale: ru })}
+                <td className="px-6 py-4 text-sm text-[#1A2B48]">
+                  {format(new Date(hotel.createdAt), "dd MMM yyyy", { locale: dateLocale })}
                 </td>
                 <td className="px-6 py-4 text-right text-sm font-medium">
                   <Link
                     href={`/${locale}/admin/hotels/${hotel.id}/edit`}
                     className="text-blue-600 hover:text-blue-900 mr-4 cursor-pointer transition-colors duration-200"
                   >
-                    Редактировать
+                    {t('general.edit')}
                   </Link>
                   <DeleteButton id={hotel.id} type="hotels" />
                 </td>
@@ -110,10 +114,10 @@ export default async function AdminHotelsPage({
         </table>
 
         {hotels.length === 0 && (
-          <div className="text-center py-8 text-gray-500">
-            Отели не найдены.{" "}
+          <div className="text-center py-8 text-[#1A2B48]">
+            {t('hotels.empty.noHotels')}
             <Link href={`/${locale}/admin/hotels/new`} className="text-blue-600 hover:underline">
-              Добавить первый отель
+              {t('hotels.empty.addFirst')}
             </Link>
           </div>
         )}

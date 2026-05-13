@@ -7,6 +7,7 @@ import { Menu, X, Compass, User } from "lucide-react";
 import { navConfig } from "@/lib/navConfig";
 import clsx from "clsx";
 import type { Session } from "next-auth";
+import { useSession } from "next-auth/react";
 
 interface NavProps {
   locale: string;
@@ -18,6 +19,8 @@ export default function FloatingNav({ locale, session, localeSwitcher }: NavProp
   const t = useTranslations();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { data: liveSession } = useSession();
+  const effectiveSession = session || liveSession;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,7 +76,7 @@ export default function FloatingNav({ locale, session, localeSwitcher }: NavProp
                 {localeSwitcher}
              </div>
              
-             {session ? (
+             {effectiveSession ? (
                <Link 
                  href={`/${locale}/dashboard`}
                  className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-orange-500 text-white rounded-full shadow-lg shadow-orange-500/30 hover:scale-110 transition-transform"
@@ -118,7 +121,7 @@ export default function FloatingNav({ locale, session, localeSwitcher }: NavProp
             ))}
             <div className="pt-6 mt-6 border-t border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                {localeSwitcher}
-               {session ? (
+             {effectiveSession ? (
                  <Link href={`/${locale}/dashboard`} onClick={() => setIsMobileMenuOpen(false)} className="w-full sm:w-auto text-center bg-orange-500 text-white px-8 py-3 rounded-2xl font-bold">
                    Cabinet
                  </Link>

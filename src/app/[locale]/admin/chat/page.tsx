@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useTranslations, useLocale } from "next-intl";
 
 interface ChatUser {
   userId: number;
@@ -11,11 +12,14 @@ interface ChatUser {
 interface ChatMessage {
   id: number;
   isFromUser: boolean;
+  isAiGenerated?: boolean;
   content: string;
   createdAt: string;
 }
 
 export default function AdminChatPage() {
+  const t = useTranslations('admin');
+  const locale = useLocale();
   const [usersWithChats, setUsersWithChats] = useState<ChatUser[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -53,8 +57,9 @@ export default function AdminChatPage() {
 
   useEffect(() => {
     if (selectedUserId) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       loadMessages(selectedUserId);
+      const interval = setInterval(() => loadMessages(selectedUserId), 5000);
+      return () => clearInterval(interval);
     }
   }, [selectedUserId, loadMessages]);
 
@@ -94,7 +99,7 @@ export default function AdminChatPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Чат поддержки</h1>
+        <h1 className="text-2xl font-bold">{t('chat.title')}</h1>
       </div>
 
       <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
@@ -102,11 +107,11 @@ export default function AdminChatPage() {
           {/* Users List */}
           <div className="w-1/3 border-r border-gray-100 overflow-y-auto">
             <div className="p-4 border-b border-gray-100">
-              <h2 className="font-semibold">Пользователи</h2>
+              <h2 className="font-semibold">{t('chat.users')}</h2>
             </div>
             {usersWithChats.length === 0 ? (
-              <div className="p-4 text-center text-gray-500">
-                Нет активных чатов
+              <div className="p-4 text-center text-[#1A2B48]">
+                {t('chat.noActiveChats')}
               </div>
             ) : (
               usersWithChats.map((chat) => (
@@ -125,10 +130,10 @@ export default function AdminChatPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-gray-900 truncate">
-                        {chat.name || "Без имени"}
+                        {chat.name || t('chat.noName')}
                       </p>
-                      <p className="text-sm text-gray-500 truncate">
-                        {chat.lastMessage || "Нет сообщений"}
+                      <p className="text-sm text-[#1A2B48] truncate">
+                        {chat.lastMessage || t('chat.noMessages')}
                       </p>
                     </div>
                   </div>
@@ -143,9 +148,9 @@ export default function AdminChatPage() {
               <>
                 <div className="p-4 border-b border-gray-100">
                   <h3 className="font-semibold">
-                    {usersWithChats.find((u) => u.userId === selectedUserId)?.name || "Пользователь"}
+                    {usersWithChats.find((u) => u.userId === selectedUserId)?.name || t('chat.userLabel')}
                   </h3>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-[#1A2B48]">
                     ID: {selectedUserId}
                   </p>
                 </div>
@@ -165,14 +170,23 @@ export default function AdminChatPage() {
                       >
                         <p className="text-sm">{msg.content}</p>
                         <p
-                          className={`text-xs mt-1 ${
-                            msg.isFromUser ? "text-blue-600" : "text-gray-500"
+                          className={`text-xs mt-1 flex items-center gap-1 ${
+                            msg.isFromUser ? "text-blue-600" : "text-[#1A2B48]"
                           }`}
                         >
-                          {new Date(msg.createdAt).toLocaleTimeString("ru-RU", {
+                          {new Date(msg.createdAt).toLocaleTimeString(locale === "kk" ? "kk-KZ" : locale, {
                             hour: "2-digit",
                             minute: "2-digit",
                           })}
+                          {msg.isAiGenerated && (
+                            <span className="inline-flex items-center gap-0.5 text-[10px] font-medium text-purple-400">
+                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                              </svg>
+                              AI
+                            </span>
+                          )}
                         </p>
                       </div>
                     </div>
@@ -185,23 +199,23 @@ export default function AdminChatPage() {
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       onKeyDown={handleKeyPress}
-                      placeholder="Введите сообщение..."
+                      placeholder={t('chat.messagePlaceholder')}
                       rows={2}
-                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-[#1A2B48]"
                     />
                     <button
                       onClick={sendMessage}
                       disabled={sending || !input.trim()}
                       className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {sending ? "..." : "Отправить"}
+                      {sending ? t('chat.typing') : t('chat.send')}
                     </button>
                   </div>
                 </div>
               </>
             ) : (
-              <div className="flex-1 flex items-center justify-center text-gray-500">
-                <p>Выберите пользователя для начала общения</p>
+              <div className="flex-1 flex items-center justify-center text-[#1A2B48]">
+                <p>{t('chat.selectUser')}</p>
               </div>
             )}
           </div>
