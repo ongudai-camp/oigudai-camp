@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { notifyBookingCreated, notifyBookingStatusChanged } from "@/lib/notifications";
+import { notifyBookingCreated, notifyBookingStatusChanged, notifyAdminNewBooking } from "@/lib/notifications";
 
 // POST - Create new booking
 export async function POST(request: Request) {
@@ -72,6 +72,16 @@ export async function POST(request: Request) {
     });
 
     notifyBookingCreated({
+      id: booking.id,
+      bookingId: booking.bookingId,
+      userId: booking.userId,
+      status: booking.status,
+      totalPrice: booking.totalPrice,
+      post: booking.post,
+      user: booking.user,
+    });
+
+    notifyAdminNewBooking({
       id: booking.id,
       bookingId: booking.bookingId,
       userId: booking.userId,

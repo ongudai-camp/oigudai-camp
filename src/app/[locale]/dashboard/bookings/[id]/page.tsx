@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { ru, enUS, kk } from "date-fns/locale";
 import { getTranslations } from "next-intl/server";
 import CancelBookingButton from "@/components/booking/CancelBookingButton";
+import { Check, Clock, Ban, CalendarCheck } from "lucide-react";
 
 export default async function BookingDetailPage({
   params,
@@ -50,6 +51,33 @@ export default async function BookingDetailPage({
   };
 
   const canCancel = booking.status === "pending" || booking.status === "confirmed";
+
+  const timelineSteps = [
+    {
+      label: "Создано",
+      date: booking.createdAt,
+      icon: Clock,
+      status: "done",
+    },
+    {
+      label: "Подтверждено",
+      date: booking.status === "confirmed" || booking.status === "completed" ? booking.updatedAt : null,
+      icon: Check,
+      status: booking.status === "confirmed" || booking.status === "completed" ? "done" : booking.status === "cancelled" ? "skipped" : "pending",
+    },
+    {
+      label: "Заезд",
+      date: booking.checkInActual || null,
+      icon: CalendarCheck,
+      status: booking.checkInActual ? "done" : booking.status === "completed" ? "done" : booking.status === "cancelled" ? "skipped" : "pending",
+    },
+    {
+      label: booking.status === "cancelled" ? "Отменено" : "Завершено",
+      date: booking.status === "cancelled" ? booking.cancelledAt : booking.status === "completed" ? booking.checkOutActual || booking.updatedAt : null,
+      icon: booking.status === "cancelled" ? Ban : Check,
+      status: booking.status === "completed" || booking.status === "cancelled" ? "done" : "pending",
+    },
+  ];
 
   return (
     <>
@@ -175,6 +203,51 @@ export default async function BookingDetailPage({
             )}
           </div>
         </div>
+
+      {/* Booking Timeline */}
+      <div className="bg-white rounded-2xl shadow-xl border border-white/50 p-8">
+        <h2 className="text-lg font-black text-sky-950 mb-6">{t("bookingTimeline") || "Статус бронирования"}</h2>
+        <div className="relative">
+          {timelineSteps.map((step, idx) => (
+            <div key={step.label} className="flex gap-4 pb-8 last:pb-0 relative">
+              {/* Connector line */}
+              {idx < timelineSteps.length - 1 && (
+                <div className={`absolute left-4 top-10 w-0.5 h-[calc(100%-2rem)] ${
+                  timelineSteps[idx + 1].status === "done" || (timelineSteps[idx + 1].status === "skipped" && step.status === "done")
+                    ? "bg-green-400"
+                    : "bg-gray-200"
+                }`} />
+              )}
+              {/* Icon */}
+              <div className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
+                step.status === "done"
+                  ? "bg-green-500 text-white"
+                  : step.status === "skipped"
+                  ? "bg-gray-100 text-gray-400"
+                  : "bg-gray-100 text-gray-400"
+              }`}>
+                <step.icon size={16} />
+              </div>
+              {/* Content */}
+              <div className="flex-1 min-w-0 pt-1">
+                <p className={`font-bold text-sm ${
+                  step.status === "done" ? "text-gray-900" : "text-gray-400"
+                }`}>
+                  {step.label}
+                </p>
+                {step.date && (
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    {format(new Date(step.date), "dd MMM yyyy HH:mm", { locale: dateLocale })}
+                  </p>
+                )}
+                {!step.date && step.status === "pending" && (
+                  <p className="text-xs text-gray-400 mt-0.5 italic">Ожидается</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   );
 }

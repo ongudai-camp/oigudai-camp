@@ -32,7 +32,8 @@ export default async function AdminToursPage({
       </div>
 
       <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-        <table className="w-full">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-[600px]">
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
@@ -96,6 +97,7 @@ export default async function AdminToursPage({
             ))}
           </tbody>
         </table>
+        </div>
 
         {tours.length === 0 && (
             <div className="text-center py-8 text-gray-900">

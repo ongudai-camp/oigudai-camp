@@ -96,10 +96,32 @@ export async function notifyBookingStatusChanged(
   );
 }
 
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@ongudaicamp.ru";
+
 export async function notifyAdminNewBooking(booking: BookingEvent): Promise<void> {
   if (isDev()) {
     console.log(`[DEV ADMIN NOTIFY] New booking: ${booking.bookingId}`);
     return;
   }
   console.log(`[ADMIN NOTIFY] New booking: ${booking.bookingId} — amount: ${booking.totalPrice} ₽`);
+
+  await sendEmail(
+    ADMIN_EMAIL,
+    `Новое бронирование #${booking.bookingId} — ${booking.totalPrice.toLocaleString()} ₽`,
+    `
+      <div style="font-family:sans-serif;max-width:600px;margin:0 auto;">
+        <h2 style="color:#0C4A6E;">Новое бронирование</h2>
+        <p>Поступило новое бронирование:</p>
+        <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+          <tr><td style="padding:8px;border:1px solid #e2e8f0;font-weight:bold;">ID</td><td style="padding:8px;border:1px solid #e2e8f0;">#${booking.bookingId}</td></tr>
+          <tr><td style="padding:8px;border:1px solid #e2e8f0;font-weight:bold;">Сумма</td><td style="padding:8px;border:1px solid #e2e8f0;">${booking.totalPrice.toLocaleString()} ₽</td></tr>
+          <tr><td style="padding:8px;border:1px solid #e2e8f0;font-weight:bold;">Статус</td><td style="padding:8px;border:1px solid #e2e8f0;">${booking.status}</td></tr>
+          ${booking.post?.title ? `<tr><td style="padding:8px;border:1px solid #e2e8f0;font-weight:bold;">Объект</td><td style="padding:8px;border:1px solid #e2e8f0;">${booking.post.title}</td></tr>` : ""}
+          ${booking.user?.name ? `<tr><td style="padding:8px;border:1px solid #e2e8f0;font-weight:bold;">Клиент</td><td style="padding:8px;border:1px solid #e2e8f0;">${booking.user.name}</td></tr>` : ""}
+        </table>
+        <hr style="border:none;border-top:1px solid #e2e8f0;margin:24px 0;" />
+        <p style="color:#64748b;font-size:12px;">Ongudai Camp — уведомление администратору</p>
+      </div>
+    `,
+  );
 }

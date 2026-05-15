@@ -84,7 +84,8 @@ export default function AdminUsersPage() {
         {isLoading ? (
           <div className="animate-pulse p-8 space-y-4">{[...Array(5)].map((_, i) => <div key={i} className="h-12 bg-gray-100 rounded" />)}</div>
         ) : (
-          <table className="w-full">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[700px]">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">{t('admin.users.columns.name')}</th>
@@ -121,6 +122,7 @@ export default function AdminUsersPage() {
               ))}
             </tbody>
           </table>
+          </div>
         )}
         {users?.length === 0 && <div className="text-center py-8 text-gray-900">{t('admin.users.notFound')}</div>}
       </div>
