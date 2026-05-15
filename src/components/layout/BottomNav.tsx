@@ -9,6 +9,7 @@ import { Home, Compass, Calendar, MessageCircle, User, LayoutDashboard, X } from
 const userTabs = [
   { key: "home", href: "/", icon: Home, auth: false },
   { key: "explore", href: "/tours", icon: Compass, auth: false },
+  { key: "calendar", href: "/calendar", icon: Calendar, auth: false },
   { key: "bookings", href: "/dashboard/bookings", icon: Calendar, auth: true },
   { key: "chat", href: "/dashboard/chat", icon: MessageCircle, auth: true },
   { key: "profile", href: "/dashboard", icon: User, auth: "dynamic" },
@@ -30,6 +31,7 @@ type TabItem = {
 
 const adminSheetItems: { href: string; labelKey: string; icon: string }[] = [
   { href: "/admin", labelKey: "menu.dashboard", icon: "📊" },
+  { href: "/admin/calendar", labelKey: "menu.calendar", icon: "📅" },
   { href: "/admin/hotels", labelKey: "menu.hotels", icon: "🏨" },
   { href: "/admin/tours", labelKey: "menu.tours", icon: "🗺️" },
   { href: "/admin/activities", labelKey: "menu.activities", icon: "🎯" },
@@ -39,6 +41,7 @@ const adminSheetItems: { href: string; labelKey: string; icon: string }[] = [
   { href: "/admin/users", labelKey: "menu.users", icon: "👥" },
   { href: "/admin/packages", labelKey: "menu.packages", icon: "📦" },
   { href: "/admin/settings/meta", labelKey: "menu.settings", icon: "⚙️" },
+  { href: "/admin/settings/chat", labelKey: "menu.chat", icon: "🤖" },
 ];
 
 export default function BottomNav() {
@@ -93,6 +96,7 @@ export default function BottomNav() {
 
   const isAdminUser = role === "admin" || role === "superadmin";
   const tabs = loaded ? (isAdminUser ? adminTabs : userTabs) : userTabs.slice(0, 2);
+  const visibleTabs = tabs.filter(tab => !(tab.auth && !userId && tab.key !== "profile"));
   const onAdminPage = pathname.startsWith(`/${locale}/admin`);
 
   const isActive = (href: string) => {
@@ -129,14 +133,14 @@ export default function BottomNav() {
             <div className="w-10 h-1 bg-gray-300 rounded-full" />
             <button
               onClick={closeAdminMenu}
-              className="absolute right-4 top-3 w-8 h-8 flex items-center justify-center rounded-lg text-[#1A2B48] hover:bg-gray-100 transition-colors"
+              className="absolute right-4 top-3 w-8 h-8 flex items-center justify-center rounded-lg text-gray-900 hover:bg-gray-100 transition-colors"
               aria-label="Close"
             >
               <X size={18} />
             </button>
           </div>
           <div className="p-4">
-            <p className="text-xs font-semibold text-[#1A2B48] uppercase tracking-wider px-4 mb-2">
+            <p className="text-xs font-semibold text-gray-900 uppercase tracking-wider px-4 mb-2">
               {ta("dashboard.title")}
             </p>
             <nav>
@@ -178,9 +182,7 @@ export default function BottomNav() {
       {/* Bottom nav bar */}
       <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-white/90 backdrop-blur-lg border-t border-gray-200/80 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] pb-safe-bottom">
         <div className="flex items-center justify-around h-16">
-          {tabs.map((tab) => {
-            if (tab.auth && !userId && tab.key !== "profile") return null;
-
+          {visibleTabs.map((tab) => {
             const Icon = tab.icon;
             const href = getHref(tab);
             const active = tab.key === "admin" ? onAdminPage : isActive(tab.href);
@@ -191,7 +193,7 @@ export default function BottomNav() {
                   key={tab.key}
                   onClick={() => setAdminMenuOpen(true)}
                   className={`flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-full transition-colors relative ${
-                    active ? "text-orange-500" : "text-[#1A2B48] hover:text-[#1A2B48]"
+                    active ? "text-orange-500" : "text-gray-900 hover:text-gray-900"
                   }`}
                 >
                   {active && (
@@ -210,7 +212,7 @@ export default function BottomNav() {
                 key={tab.key}
                 href={`/${locale}${href}`}
                 className={`flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-full transition-colors relative ${
-                  active ? "text-orange-500" : "text-[#1A2B48] hover:text-[#1A2B48]"
+                  active ? "text-orange-500" : "text-gray-900 hover:text-gray-900"
                 }`}
               >
                 {active && (
@@ -218,11 +220,12 @@ export default function BottomNav() {
                 )}
                 <Icon size={active ? 22 : 20} />
                 <span className="text-[10px] font-bold leading-none">
-                  {tab.key === "home" ? t("home") :
-                   tab.key === "explore" ? t("tours") :
-                   tab.key === "bookings" ? "Бронь" :
-                   tab.key === "chat" ? "Чат" :
-                   userId ? t("dashboard") : t("login")}
+                    {tab.key === "home" ? t("home") :
+                     tab.key === "explore" ? t("tours") :
+                     tab.key === "calendar" ? "Calendar" :
+                     tab.key === "bookings" ? "Бронь" :
+                     tab.key === "chat" ? "Чат" :
+                     userId ? t("dashboard") : t("login")}
                 </span>
               </Link>
             );

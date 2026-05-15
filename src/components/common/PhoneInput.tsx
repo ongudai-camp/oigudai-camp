@@ -91,13 +91,13 @@ export default function PhoneInput({
         <span className="hidden sm:inline max-w-[100px] truncate">
           {selected.isRf ? "РФ" : selected.code}
         </span>
-        <svg className="w-3 h-3 text-[#1A2B48] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <svg className="w-3 h-3 text-gray-900 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
 
       <div className="relative flex-1">
-        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1A2B48] font-medium text-sm pointer-events-none select-none">
+        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-900 font-medium text-sm pointer-events-none select-none">
           {selected.code}
         </span>
         <input
@@ -111,7 +111,7 @@ export default function PhoneInput({
           className={clsx(
             "w-full pl-[4.5rem] pr-4 py-4 bg-gray-50 border border-gray-200 rounded-r-2xl",
             "focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10",
-            "transition-all outline-none text-lg font-medium text-[#1A2B48]",
+            "transition-all outline-none text-lg font-medium text-gray-900",
           )}
         />
       </div>
@@ -136,7 +136,7 @@ export default function PhoneInput({
                   {entry.isRf ? "🇷🇺" : "🌐"}
                 </span>
                 <span className="flex-1 text-sm">{entry.label}</span>
-                <span className="text-xs text-[#1A2B48] font-mono">{entry.code}</span>
+                <span className="text-xs text-gray-900 font-mono">{entry.code}</span>
                 {entry.isRf && (
                   <span className="text-[10px] uppercase tracking-wider text-orange-500 font-bold">особые условия</span>
                 )}

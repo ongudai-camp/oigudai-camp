@@ -39,28 +39,28 @@ export default async function AdminHotelsPage({
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                 {t('hotels.columns.title')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                 {t('hotels.columns.author')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                 {t('hotels.columns.price')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                 {t('hotels.columns.rooms')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                 {t('hotels.columns.bookings')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                 {t('hotels.columns.status')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                 {t('hotels.columns.date')}
               </th>
-              <th className="px-6 py-4 text-right text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-900 uppercase tracking-wider">
                 {t('hotels.columns.actions')}
               </th>
             </tr>
@@ -71,18 +71,18 @@ export default async function AdminHotelsPage({
               <tr key={hotel.id} className="hover:bg-gray-50 cursor-pointer transition-colors duration-200">
                 <td className="px-6 py-4">
                   <div className="font-medium text-gray-900">{hotel.title}</div>
-                  <div className="text-sm text-[#1A2B48]">{hotel.address}</div>
+                  <div className="text-sm text-gray-900">{hotel.address}</div>
                 </td>
-                <td className="px-6 py-4 text-sm text-[#1A2B48]">
+                <td className="px-6 py-4 text-sm text-gray-900">
                   {hotel.author?.name || t('hotels.statusUnknown')}
                 </td>
                 <td className="px-6 py-4 text-sm font-medium text-gray-900 tabular-nums">
                   {hotel.price} ₽
                 </td>
-                <td className="px-6 py-4 text-sm text-[#1A2B48] tabular-nums">
+                <td className="px-6 py-4 text-sm text-gray-900 tabular-nums">
                   {hotel._count.rooms}
                 </td>
-                <td className="px-6 py-4 text-sm text-[#1A2B48] tabular-nums">
+                <td className="px-6 py-4 text-sm text-gray-900 tabular-nums">
                   {hotel._count.bookings}
                 </td>
                 <td className="px-6 py-4">
@@ -96,7 +96,7 @@ export default async function AdminHotelsPage({
                     {hotel.status}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-sm text-[#1A2B48]">
+                <td className="px-6 py-4 text-sm text-gray-900">
                   {format(new Date(hotel.createdAt), "dd MMM yyyy", { locale: dateLocale })}
                 </td>
                 <td className="px-6 py-4 text-right text-sm font-medium">
@@ -114,7 +114,7 @@ export default async function AdminHotelsPage({
         </table>
 
         {hotels.length === 0 && (
-          <div className="text-center py-8 text-[#1A2B48]">
+          <div className="text-center py-8 text-gray-900">
             {t('hotels.empty.noHotels')}
             <Link href={`/${locale}/admin/hotels/new`} className="text-blue-600 hover:underline">
               {t('hotels.empty.addFirst')}

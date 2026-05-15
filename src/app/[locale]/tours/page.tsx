@@ -58,7 +58,7 @@ export default async function ToursPage({
               <h1 className="text-3xl md:text-5xl font-black text-sky-950 tracking-tighter leading-none">
                 {t("toursTitle")}
               </h1>
-              <p className="text-sky-400 font-bold mt-3 flex items-center gap-2">
+              <p className="text-sky-700 font-bold mt-3 flex items-center gap-2">
                 <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
                 {t("foundCount", { count: tours.length })}
               </p>
@@ -77,7 +77,7 @@ export default async function ToursPage({
                   name="q"
                   placeholder={t("searchPlaceholder")}
                   defaultValue={q}
-                  className="w-full px-4 py-3 border border-sky-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none bg-white text-[#1A2B48]"
+                  className="w-full px-4 py-3 border border-sky-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none bg-white text-gray-900"
                 />
               </div>
               <div>
@@ -89,7 +89,7 @@ export default async function ToursPage({
                   name="minPrice"
                   placeholder="0"
                   defaultValue={minPrice}
-                  className="w-full px-4 py-3 border border-sky-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none bg-white text-[#1A2B48]"
+                  className="w-full px-4 py-3 border border-sky-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none bg-white text-gray-900"
                 />
               </div>
               <div>
@@ -101,7 +101,7 @@ export default async function ToursPage({
                   name="maxPrice"
                   placeholder="50000"
                   defaultValue={maxPrice}
-                  className="w-full px-4 py-3 border border-sky-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none bg-white text-[#1A2B48]"
+                  className="w-full px-4 py-3 border border-sky-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none bg-white text-gray-900"
                 />
               </div>
               <div className="flex items-end">
@@ -126,7 +126,7 @@ export default async function ToursPage({
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
             {tours.length === 0 ? (
               <div className="col-span-full py-24 md:py-32 text-center bg-white/80 backdrop-blur-md rounded-[2.5rem] border border-sky-50 shadow-xl flex flex-col items-center justify-center space-y-4">
-                <div className="w-20 h-20 bg-sky-50 rounded-full flex items-center justify-center text-sky-200">
+                <div className="w-20 h-20 bg-sky-50 rounded-full flex items-center justify-center text-sky-500">
                   <Search size={40} />
                 </div>
                 <p className="text-sky-950 font-black text-xl tracking-tight">{t("noResults")}</p>
@@ -148,7 +148,7 @@ export default async function ToursPage({
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
                       />
                     ) : (
-                      <div className="w-full h-full bg-sky-100 flex items-center justify-center text-sky-200">
+                      <div className="w-full h-full bg-sky-100 flex items-center justify-center text-sky-500">
                         <MapPin size={48} strokeWidth={1} />
                       </div>
                     )}
@@ -171,7 +171,7 @@ export default async function ToursPage({
                       </h2>
                       {tour.address && (
                         <p className="text-sky-900/50 text-sm md:text-base font-medium flex items-center gap-1">
-                          <MapPin size={14} className="text-sky-400 shrink-0" />
+                          <MapPin size={14} className="text-sky-700 shrink-0" />
                           {tour.address}
                         </p>
                       )}
@@ -179,13 +179,13 @@ export default async function ToursPage({
 
                     <div className="pt-6 border-t border-sky-50 flex justify-between items-center">
                       <div>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-sky-300 mb-1 block">{t("priceFrom")}</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-sky-600 mb-1 block">{t("priceFrom")}</span>
                         <div className="text-3xl font-black text-sky-950">
                           {tour.salePrice || tour.price} ₽
-                          <span className="text-sm font-bold text-sky-300 ml-1">/ {tc("perPerson")}</span>
+                          <span className="text-sm font-bold text-sky-600 ml-1">/ {tc("perPerson")}</span>
                         </div>
                         {tour.salePrice && (
-                          <span className="text-sm text-sky-300 line-through ml-1">{tour.price} ₽</span>
+                          <span className="text-sm text-sky-600 line-through ml-1">{tour.price} ₽</span>
                         )}
                       </div>
                       <div className="w-14 h-14 bg-sky-50 rounded-3xl flex items-center justify-center text-sky-600 group-hover:bg-orange-500 group-hover:text-white group-hover:rotate-[-45deg] transition-all duration-500 ease-out shadow-inner">

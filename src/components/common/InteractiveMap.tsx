@@ -17,18 +17,6 @@ interface InteractiveMapProps {
   posts: MapPost[];
 }
 
-const defaultIcon = L.icon({
-  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-
-L.Marker.prototype.options.icon = defaultIcon;
-
 export default function InteractiveMap({ posts }: InteractiveMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
@@ -37,6 +25,17 @@ export default function InteractiveMap({ posts }: InteractiveMapProps) {
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
+
+    const defaultIcon = L.icon({
+      iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+      iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41],
+    });
+    L.Marker.prototype.options.icon = defaultIcon;
 
     const map = L.map(containerRef.current, {
       center: [50.75, 86.0],
@@ -76,7 +75,7 @@ export default function InteractiveMap({ posts }: InteractiveMapProps) {
       <div className="absolute inset-0 bg-gradient-to-tr from-sky-200/20 via-transparent to-orange-100/10 pointer-events-none z-[500]" />
       {validPosts.length === 0 && (
         <div className="absolute inset-0 flex items-center justify-center bg-sky-50 z-10">
-          <p className="text-sky-400 font-medium">Нет объектов с координатами на карте</p>
+          <p className="text-sky-700 font-medium">Нет объектов с координатами на карте</p>
         </div>
       )}
       <div ref={containerRef} className="w-full h-full z-0" />

@@ -40,7 +40,7 @@ export default function DashboardSidebarClient({ children }: { children: ReactNo
           <div className="w-10 h-1 bg-gray-300 rounded-full" />
           <button
             onClick={() => setMobileOpen(false)}
-            className="absolute right-4 top-3 w-8 h-8 flex items-center justify-center rounded-lg text-[#1A2B48] hover:bg-gray-100 transition-colors"
+            className="absolute right-4 top-3 w-8 h-8 flex items-center justify-center rounded-lg text-gray-900 hover:bg-gray-100 transition-colors"
             aria-label="Close"
           >
             <X size={18} />
@@ -63,7 +63,7 @@ export default function DashboardSidebarClient({ children }: { children: ReactNo
           {/* Collapse toggle */}
           <button
             onClick={() => setDesktopCollapsed(!desktopCollapsed)}
-            className="absolute -right-3 top-4 z-10 w-7 h-7 bg-white border border-gray-200 rounded-full shadow-md flex items-center justify-center text-[#1A2B48] hover:text-sky-700 hover:border-sky-200 transition-all hover:shadow-lg"
+            className="absolute -right-3 top-4 z-10 w-7 h-7 bg-white border border-gray-200 rounded-full shadow-md flex items-center justify-center text-gray-900 hover:text-sky-700 hover:border-sky-200 transition-all hover:shadow-lg"
             aria-label={desktopCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {desktopCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}

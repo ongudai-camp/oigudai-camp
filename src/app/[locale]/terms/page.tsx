@@ -18,17 +18,17 @@ export default async function TermsPage({
 
           <div className="space-y-6 text-gray-700">
             <section>
-              <h2 className="text-xl font-semibold text-[#5000FF] mb-3">{t("content.p1_title")}</h2>
+              <h2 className="text-xl font-semibold text-indigo-700 mb-3">{t("content.p1_title")}</h2>
               <p>{t("content.p1_text")}</p>
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold text-[#5000FF] mb-3">{t("content.p2_title")}</h2>
+              <h2 className="text-xl font-semibold text-indigo-700 mb-3">{t("content.p2_title")}</h2>
               <p>{t("content.p2_text")}</p>
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold text-[#5000FF] mb-3">{t("content.p3_title")}</h2>
+              <h2 className="text-xl font-semibold text-indigo-700 mb-3">{t("content.p3_title")}</h2>
               <p>{t("content.p3_text")}</p>
             </section>
           </div>

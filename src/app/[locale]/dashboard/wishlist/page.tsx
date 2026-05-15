@@ -43,8 +43,7 @@ export default function WishlistPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] pt-24 pb-8">
-      <div className="container mx-auto px-4 max-w-4xl">
+    <>
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
@@ -52,7 +51,7 @@ export default function WishlistPage() {
               {t("wishlist")}
             </h1>
             {items.length > 0 && (
-              <p className="text-sm text-[#1A2B48] mt-1">{items.length} {t("wishlistCount")}</p>
+              <p className="text-sm text-gray-900 mt-1">{items.length} {t("wishlistCount")}</p>
             )}
           </div>
           <Link
@@ -65,9 +64,9 @@ export default function WishlistPage() {
 
         {items.length === 0 ? (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">
-            <Heart size={48} className="mx-auto text-gray-300 mb-4" />
-            <p className="text-[#1A2B48] text-lg mb-2">{t("wishlistEmpty")}</p>
-            <p className="text-[#1A2B48] text-sm mb-6">{t("wishlistEmptyHint")}</p>
+            <Heart size={48} className="mx-auto text-gray-500 mb-4" />
+            <p className="text-gray-900 text-lg mb-2">{t("wishlistEmpty")}</p>
+            <p className="text-gray-900 text-sm mb-6">{t("wishlistEmptyHint")}</p>
             <div className="flex gap-3 justify-center">
               <Link
                 href={`/${locale}/hotels`}
@@ -96,12 +95,12 @@ export default function WishlistPage() {
                     href={`/${locale}/${item.type === "activity" ? "activities" : item.type + "s"}/${item.slug}`}
                     className="flex-1 min-w-0 flex items-center gap-4"
                   >
-                    <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-[#1A2B48] shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-gray-900 shrink-0">
                       {typeIcons[item.type]}
                     </div>
                     <div className="min-w-0">
                       <h3 className="font-semibold text-gray-900 truncate">{item.title}</h3>
-                      <div className="flex items-center gap-2 text-sm text-[#1A2B48]">
+                      <div className="flex items-center gap-2 text-sm text-gray-900">
                         <span className="capitalize">{t(`wishlistType_${item.type}`)}</span>
                         {item.price != null && (
                           <>
@@ -114,7 +113,7 @@ export default function WishlistPage() {
                   </Link>
                   <button
                     onClick={() => removeItem(item.id)}
-                    className="p-2 rounded-lg text-[#1A2B48] hover:text-red-500 hover:bg-red-50 transition-all shrink-0 cursor-pointer"
+                    className="p-2 rounded-lg text-gray-900 hover:text-red-500 hover:bg-red-50 transition-all shrink-0 cursor-pointer"
                     title={t("wishlistRemove")}
                   >
                     <Trash2 size={18} />
@@ -123,7 +122,6 @@ export default function WishlistPage() {
               ))}
           </div>
         )}
-      </div>
-    </div>
+    </>
   );
 }

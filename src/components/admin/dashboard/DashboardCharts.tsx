@@ -54,7 +54,7 @@ export default function DashboardCharts() {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Bookings Bar Chart */}
       <div className="bg-white rounded-xl shadow-sm border border-sky-100 p-6 hover:shadow-md transition-shadow">
-        <h3 className="text-sm font-semibold text-[#1A2B48] uppercase tracking-wider mb-4">
+        <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">
           Бронирования по дням
         </h3>
         <ResponsiveContainer width="100%" height={240}>
@@ -80,7 +80,7 @@ export default function DashboardCharts() {
 
       {/* Revenue Line Chart */}
       <div className="bg-white rounded-xl shadow-sm border border-sky-100 p-6 hover:shadow-md transition-shadow">
-        <h3 className="text-sm font-semibold text-[#1A2B48] uppercase tracking-wider mb-4">
+        <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">
           Выручка по дням
         </h3>
         <ResponsiveContainer width="100%" height={240}>
@@ -117,7 +117,7 @@ export default function DashboardCharts() {
 
       {/* User Growth Area Chart */}
       <div className="bg-white rounded-xl shadow-sm border border-sky-100 p-6 hover:shadow-md transition-shadow lg:col-span-2">
-        <h3 className="text-sm font-semibold text-[#1A2B48] uppercase tracking-wider mb-4">
+        <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">
           Регистрации пользователей
         </h3>
         <ResponsiveContainer width="100%" height={200}>

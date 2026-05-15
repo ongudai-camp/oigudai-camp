@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 
 interface AdminSidebarClientProps {
   menuItems: { href: string; label: string; icon: string }[];
@@ -18,7 +19,13 @@ export default function AdminSidebarClient({
 }: AdminSidebarClientProps) {
   const pathname = usePathname();
 
-  const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
+  const navItems = useMemo(() =>
+    menuItems.map((item) => ({
+      ...item,
+      isActive: pathname === item.href || pathname.startsWith(item.href + "/"),
+    })),
+    [menuItems, pathname]
+  );
 
   return (
     <aside className="hidden lg:block w-64 shrink-0">
@@ -34,12 +41,12 @@ export default function AdminSidebarClient({
 
         <nav className="px-4 pb-6">
           <ul className="space-y-2">
-            {menuItems.map((item) => (
+            {navItems.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
-                    isActive(item.href)
+                    item.isActive
                       ? "bg-blue-50 text-blue-600 font-semibold"
                       : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
                   }`}
@@ -66,7 +73,7 @@ export default function AdminSidebarClient({
           <div className="pt-6 mt-6 border-t border-gray-100">
             <Link
               href="/dashboard"
-              className="flex items-center gap-3 px-4 py-3 rounded-lg text-[#1A2B48] hover:bg-gray-50 transition-all duration-200"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-900 hover:bg-gray-50 transition-all duration-200"
             >
               <span className="text-lg" aria-hidden="true">←</span>
               <span className="font-medium">{backLabel}</span>

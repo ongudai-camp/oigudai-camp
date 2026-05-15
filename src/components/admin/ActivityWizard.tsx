@@ -79,7 +79,7 @@ export default function ActivityWizard() {
       case Step.ACTIVITY_INFO:
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-[#5000FF]">Информация об активности</h2>
+            <h2 className="text-xl font-semibold text-indigo-700">Информация об активности</h2>
 
             <div>
               <label htmlFor="activity-title" className="block text-sm font-medium text-gray-700 mb-2">
@@ -93,7 +93,7 @@ export default function ActivityWizard() {
                 autoComplete="off"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                 placeholder="Например: Рафтинг на Катуни"
               />
             </div>
@@ -107,7 +107,7 @@ export default function ActivityWizard() {
                 name="category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
               >
                 <option value="excursion">Экскурсия</option>
                 <option value="rafting">Рафтинг</option>
@@ -129,7 +129,7 @@ export default function ActivityWizard() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                 placeholder="Описание активности..."
               />
             </div>
@@ -164,7 +164,7 @@ export default function ActivityWizard() {
                   autoComplete="off"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                   placeholder="2000"
                 />
               </div>
@@ -181,7 +181,7 @@ export default function ActivityWizard() {
                   autoComplete="off"
                   value={salePrice}
                   onChange={(e) => setSalePrice(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                   placeholder="1500"
                 />
               </div>
@@ -197,7 +197,7 @@ export default function ActivityWizard() {
                   name="difficulty"
                   value={difficulty}
                   onChange={(e) => setDifficulty(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                 >
                   <option value="easy">Легкая</option>
                   <option value="medium">Средняя</option>
@@ -216,7 +216,7 @@ export default function ActivityWizard() {
                   autoComplete="off"
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                   placeholder="3 часа"
                 />
               </div>
@@ -229,7 +229,7 @@ export default function ActivityWizard() {
       case Step.DETAILS:
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-[#5000FF]">Детали активности</h2>
+            <h2 className="text-xl font-semibold text-indigo-700">Детали активности</h2>
 
             <div>
               <label htmlFor="activity-included" className="block text-sm font-medium text-gray-700 mb-2">
@@ -241,7 +241,7 @@ export default function ActivityWizard() {
                 value={included}
                 onChange={(e) => setIncluded(e.target.value)}
                 rows={3}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                 placeholder="Инвентарь, инструктор, трансфер..."
               />
             </div>
@@ -256,7 +256,7 @@ export default function ActivityWizard() {
                 value={requirements}
                 onChange={(e) => setRequirements(e.target.value)}
                 rows={3}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                 placeholder="Удобная обувь, купальник, солнцезащитный крем..."
               />
             </div>
@@ -266,8 +266,8 @@ export default function ActivityWizard() {
       case Step.GALLERY:
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-[#5000FF]">Галерея изображений</h2>
-            <p className="text-[#1A2B48]">
+            <h2 className="text-xl font-semibold text-indigo-700">Галерея изображений</h2>
+            <p className="text-gray-900">
               Загрузите изображения активности. Первое изображение будет главным.
             </p>
             <ImageUploader images={images} onChange={setImages} />
@@ -277,17 +277,17 @@ export default function ActivityWizard() {
       case Step.REVIEW:
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-[#5000FF]">Проверка и сохранение</h2>
+            <h2 className="text-xl font-semibold text-indigo-700">Проверка и сохранение</h2>
             <div className="bg-gray-50 rounded-lg p-6 space-y-4">
               <div>
                 <h3 className="font-medium text-gray-900">Информация об активности</h3>
-                <p className="text-[#1A2B48]">Название: {title}</p>
-                <p className="text-[#1A2B48]">Категория: {category}</p>
-                <p className="text-[#1A2B48]">Локация: {address}</p>
-                <p className="text-[#1A2B48]">Цена: {price} ₽</p>
-                {duration && <p className="text-[#1A2B48]">Длительность: {duration}</p>}
+                <p className="text-gray-900">Название: {title}</p>
+                <p className="text-gray-900">Категория: {category}</p>
+                <p className="text-gray-900">Локация: {address}</p>
+                <p className="text-gray-900">Цена: {price} ₽</p>
+                {duration && <p className="text-gray-900">Длительность: {duration}</p>}
                 {images.length > 0 && (
-                  <p className="text-[#1A2B48]">Изображения: {images.length} шт.</p>
+                  <p className="text-gray-900">Изображения: {images.length} шт.</p>
                 )}
               </div>
             </div>
@@ -310,7 +310,7 @@ export default function ActivityWizard() {
                 className={`w-10 h-10 rounded-full flex items-center justify-center font-medium ${
                   currentStep >= step
                     ? "bg-blue-600 text-white"
-                    : "bg-gray-200 text-[#1A2B48]"
+                    : "bg-gray-200 text-gray-900"
                 }`}
               >
                 {step}
@@ -326,10 +326,10 @@ export default function ActivityWizard() {
           ))}
         </div>
         <div className="flex justify-between mt-2">
-          <span className="text-xs text-[#1A2B48]">Инфо</span>
-          <span className="text-xs text-[#1A2B48]">Детали</span>
-          <span className="text-xs text-[#1A2B48]">Фото</span>
-          <span className="text-xs text-[#1A2B48]">Готово</span>
+          <span className="text-xs text-gray-900">Инфо</span>
+          <span className="text-xs text-gray-900">Детали</span>
+          <span className="text-xs text-gray-900">Фото</span>
+          <span className="text-xs text-gray-900">Готово</span>
         </div>
       </div>
 

@@ -42,7 +42,7 @@ export default async function AdminPackagesPage({
             <h3 className="text-xl font-bold mb-2 text-sky-950">{pkg.name}</h3>
             <div className="mb-4">
               <span className="text-3xl font-bold text-sky-950">{pkg.price} ₽</span>
-              <span className="text-[#1A2B48]"> / {t('packages.duration', { duration: pkg.duration })}</span>
+              <span className="text-gray-900"> / {t('packages.duration', { duration: pkg.duration })}</span>
             </div>
             <ul className="space-y-2 mb-6 text-sm">
               <li className="flex items-center text-gray-700">
@@ -72,7 +72,7 @@ export default async function AdminPackagesPage({
       </div>
 
       {packages.length === 0 && (
-        <div className="bg-white rounded-xl shadow-sm border border-sky-100 p-12 text-center text-[#1A2B48]">
+        <div className="bg-white rounded-xl shadow-sm border border-sky-100 p-12 text-center text-gray-900">
           <p className="text-lg mb-4">{t('packages.noPackages')}</p>
           <Link
             href={`/${locale}/admin/packages/new`}

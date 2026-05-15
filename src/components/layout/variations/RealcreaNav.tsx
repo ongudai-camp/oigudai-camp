@@ -120,7 +120,7 @@ export default function RealcreaNav({ locale, session, logoutButton, localeSwitc
                       onClick={() => setIsUserMenuOpen(false)}
                       className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-xl transition-colors"
                     >
-                      <LayoutDashboard className="w-4 h-4 text-[#1A2B48]" />
+                      <LayoutDashboard className="w-4 h-4 text-gray-900" />
                       {t("nav.dashboard")}
                     </Link>
                     <button
@@ -176,7 +176,7 @@ export default function RealcreaNav({ locale, session, logoutButton, localeSwitc
               </Link>
               {navConfig.map((section) => (
                 <div key={section.title} className="space-y-4 pt-4 border-t border-gray-50">
-                   <h4 className="text-xs font-black uppercase tracking-widest text-[#1A2B48]">{t(`nav.${section.title}`)}</h4>
+                   <h4 className="text-xs font-black uppercase tracking-widest text-gray-900">{t(`nav.${section.title}`)}</h4>
                    <div className="grid gap-4 pl-4">
                       {section.items.map((item) => (
                         <Link 
@@ -202,7 +202,7 @@ export default function RealcreaNav({ locale, session, logoutButton, localeSwitc
            <div className="pt-8 border-t border-gray-100 space-y-6">
               <div className="flex items-center justify-between">
                 <span className="font-bold text-[#1A1A1A]">{t("auth.phone")}</span>
-                <span className="text-[#1A2B48] font-medium">+7 999 123-45-67</span>
+                <span className="text-gray-900 font-medium">+7 999 123-45-67</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="font-bold text-[#1A1A1A]">Язык</span>

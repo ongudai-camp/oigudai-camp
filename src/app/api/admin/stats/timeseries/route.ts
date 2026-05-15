@@ -16,20 +16,20 @@ export async function GET(request: NextRequest) {
   try {
     const [bookingsByDay, usersByDay] = await Promise.all([
       prisma.$queryRaw<Array<{ date: string; count: number; revenue: number }>>`
-        SELECT DATE(createdAt) as date,
+        SELECT DATE("createdAt") as date,
                CAST(COUNT(*) AS INTEGER) as count,
-               CAST(COALESCE(SUM(totalPrice), 0) AS REAL) as revenue
-        FROM Booking
-        WHERE createdAt >= DATE('now', '-' || ${days} || ' days')
-        GROUP BY DATE(createdAt)
+               CAST(COALESCE(SUM("totalPrice"), 0) AS REAL) as revenue
+        FROM "Booking"
+        WHERE "createdAt" >= CURRENT_DATE - (${days} || ' days')::INTERVAL
+        GROUP BY DATE("createdAt")
         ORDER BY date ASC
       `,
       prisma.$queryRaw<Array<{ date: string; count: number }>>`
-        SELECT DATE(createdAt) as date,
+        SELECT DATE("createdAt") as date,
                CAST(COUNT(*) AS INTEGER) as count
-        FROM User
-        WHERE createdAt >= DATE('now', '-' || ${days} || ' days')
-        GROUP BY DATE(createdAt)
+        FROM "User"
+        WHERE "createdAt" >= CURRENT_DATE - (${days} || ' days')::INTERVAL
+        GROUP BY DATE("createdAt")
         ORDER BY date ASC
       `,
     ]);

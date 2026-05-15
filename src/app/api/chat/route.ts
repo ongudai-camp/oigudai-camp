@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { handleChatMessage, isRuleBotEnabled } from "@/lib/chatbot";
+import { getAiReply } from "@/lib/aiChat";
 
 export async function GET(request: NextRequest) {
   try {
@@ -75,6 +76,9 @@ export async function POST(request: NextRequest) {
     const botEnabled = isRuleBotEnabled();
 
     if (botEnabled && !admin) {
+      const aiSetting = await prisma.setting.findUnique({ where: { key: "ai_chat_enabled" } });
+      const aiEnabled = aiSetting ? aiSetting.value === "true" : process.env.AI_CHAT_ENABLED === "true";
+
       const recentAdminMessages = await prisma.chatMessage.findFirst({
         where: {
           userId: messageUserId,
@@ -84,8 +88,9 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      if (!recentAdminMessages) {
-        const reply = await handleChatMessage(content, messageUserId);
+      if (!recentAdminMessages && aiEnabled) {
+        const aiReply = await getAiReply(content, messageUserId);
+        const reply = aiReply ?? await handleChatMessage(content, messageUserId);
         if (reply) {
           const aiMessage = await prisma.chatMessage.create({
             data: {

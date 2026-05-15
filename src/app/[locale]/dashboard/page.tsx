@@ -2,24 +2,55 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { format } from "date-fns";
+import { format, differenceInDays } from "date-fns";
 import { ru, enUS, kk } from "date-fns/locale";
 import { getTranslations } from "next-intl/server";
 import { isAdmin } from "@/lib/adminAccess";
 import StatsCards from "@/components/admin/dashboard/StatsCards";
 import RecentBookings from "@/components/admin/dashboard/RecentBookings";
 import DashboardCharts from "@/components/admin/dashboard/DashboardCharts";
-import DashboardSidebarClient from "@/components/dashboard/DashboardSidebarClient";
+import UserStatsCards from "@/components/dashboard/UserStatsCards";
+import {
+  Calendar,
+  MapPin,
+  ChevronRight,
+  Hotel,
+  Compass,
+  Zap,
+  MessageCircle,
+  TrendingUp,
+  Clock,
+} from "lucide-react";
 
 interface DashboardPageProps {
   params: Promise<{ locale: string }>;
+}
+
+const STATUS_STYLES: Record<string, string> = {
+  confirmed: "bg-emerald-100 text-emerald-800",
+  pending: "bg-amber-100 text-amber-800",
+  cancelled: "bg-rose-100 text-rose-800",
+  completed: "bg-blue-100 text-blue-800",
+};
+
+const localeMap = { ru, en: enUS, kk };
+
+function getStatusBadge(status: string) {
+  return (
+    <span
+      className={`px-2.5 py-0.5 text-xs font-medium rounded-full ${
+        STATUS_STYLES[status] || "bg-gray-100 text-gray-800"
+      }`}
+    >
+      {status}
+    </span>
+  );
 }
 
 export default async function DashboardPage({ params }: DashboardPageProps) {
   const { locale } = await params;
   const session = await auth();
   const t = await getTranslations("dashboard");
-  const tc = await getTranslations("common");
 
   if (!session?.user) {
     redirect(`/${locale}/auth/signin`);
@@ -43,323 +74,324 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
     redirect(`/${locale}/auth/signin`);
   }
 
-  const dateLocale = locale === "ru" ? ru : locale === "kk" ? kk : enUS;
+  const dateLocale = localeMap[locale as keyof typeof localeMap] || enUS;
 
-  const stats = {
-    totalBookings: user.bookings.length,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    confirmed: user.bookings.filter((b: any) => b.status === "confirmed").length,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    pending: user.bookings.filter((b: any) => b.status === "pending").length,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    totalSpent: user.bookings.reduce((sum: number, b: any) => sum + b.totalPrice, 0),
-  };
+  const upcomingBookings = user.bookings.filter(
+    (b) => b.status === "confirmed" || b.status === "pending"
+  );
+  const pastBookings = user.bookings.filter(
+    (b) => b.status === "completed" || b.status === "cancelled"
+  );
+  const nextTrip = upcomingBookings[0];
 
-  const getStatusBadge = (status: string) => {
-    const styles: Record<string, string> = {
-      confirmed: "bg-green-100 text-green-800",
-      pending: "bg-yellow-100 text-yellow-800",
-      cancelled: "bg-red-100 text-red-800",
-      completed: "bg-blue-100 text-blue-800",
-    };
-    return (
-      <span className={`px-3 py-1 text-xs rounded-full ${styles[status] || "bg-gray-100 text-gray-800"}`}>
-        {status}
-      </span>
-    );
-  };
+  const quickActions = [
+    {
+      href: `/${locale}/hotels`,
+      icon: Hotel,
+      label: t("hotels") || "Отели",
+      desc: "Найти жильё",
+      hoverBorder: "hover:border-blue-200",
+      hoverIcon: "group-hover:text-blue-600",
+    },
+    {
+      href: `/${locale}/tours`,
+      icon: Compass,
+      label: t("tours") || "Туры",
+      desc: "Выбрать тур",
+      hoverBorder: "hover:border-emerald-200",
+      hoverIcon: "group-hover:text-emerald-600",
+    },
+    {
+      href: `/${locale}/activities`,
+      icon: Zap,
+      label: t("activities") || "Активности",
+      desc: "Найти занятие",
+      hoverBorder: "hover:border-orange-200",
+      hoverIcon: "group-hover:text-orange-600",
+    },
+    {
+      href: `/${locale}/dashboard/chat`,
+      icon: MessageCircle,
+      label: t("support"),
+      desc: "Связаться",
+      hoverBorder: "hover:border-violet-200",
+      hoverIcon: "group-hover:text-violet-600",
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] pt-24 pb-8">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* Unified Sidebar */}
-          <DashboardSidebarClient>
-          <aside className="bg-white rounded-xl shadow-lg p-6 h-full">
-            <div className="text-center mb-6 pb-6 border-b border-gray-100">
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-sky-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg shadow-blue-200">
-                <span className="text-2xl text-white font-bold">
-                  {user.name?.[0] || "U"}
-                </span>
-              </div>
-              <h3 className="font-semibold text-lg">{user.name || "User"}</h3>
-              <p className="text-sm text-[#1A2B48]">{user.phone || user.email}</p>
-              <span className={`inline-block mt-2 px-3 py-1 text-xs rounded-full font-medium ${
-                isAdminUser ? "bg-purple-100 text-purple-800" : "bg-blue-100 text-blue-800"
-              }`}>
-                {user.role}
-              </span>
-            </div>
-
-            <nav className="space-y-1">
-              <p className="text-xs font-semibold text-[#1A2B48] uppercase tracking-wider px-4 mb-2">
-                Личное
+    <div className="space-y-6">
+      {/* Profile Header */}
+      <div className="bg-gradient-to-br from-sky-900 via-sky-800 to-blue-900 rounded-2xl p-6 md:p-8 text-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
+          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-sky-300 to-blue-400 flex items-center justify-center shadow-xl shrink-0 ring-4 ring-white/20">
+            <span className="text-2xl md:text-3xl font-bold text-sky-900">
+              {user.name?.[0] || "U"}
+            </span>
+          </div>
+          <div className="flex-1 min-w-0">
+            <h1 className="text-xl md:text-2xl font-bold truncate">
+              {t("welcome", { name: user.name || "Guest" })}
+            </h1>
+            <p className="text-sky-200 text-sm mt-1">
+              {user.phone || user.email || ""}
+            </p>
+          </div>
+          <div className="flex items-center gap-4 md:gap-6">
+            <div className="text-center">
+              <p className="text-2xl font-bold">
+                {user.bookings.length}
               </p>
-              <Link
-                href={`/${locale}/dashboard`}
-                className="flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-50 text-blue-600 font-medium transition-all duration-200"
-              >
-                <span className="text-lg">📊</span>
-                <span>{t("title")}</span>
-              </Link>
-              {!isAdminUser && (
-                <Link
-                  href={`/${locale}/dashboard/bookings`}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-all duration-200"
-                >
-                  <span className="text-lg">📋</span>
-                  <span>{t("myBookings")}</span>
-                </Link>
-              )}
-              <Link
-                href={`/${locale}/dashboard/wishlist`}
-                className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-all duration-200"
-              >
-                <span className="text-lg">❤️</span>
-                <span>{t("wishlist")}</span>
-              </Link>
-              <Link
-                href={`/${locale}/dashboard/profile`}
-                className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-all duration-200"
-              >
-                <span className="text-lg">👤</span>
-                <span>{t("profile")}</span>
-              </Link>
-              <Link
-                href={`/${locale}/dashboard/chat`}
-                className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-all duration-200"
-              >
-                <span className="text-lg">💬</span>
-                <span>{t("support")}</span>
-              </Link>
-
-              {isAdminUser && (
-                <>
-                  <div className="pt-4 mt-4 border-t border-gray-100">
-                    <p className="text-xs font-semibold text-[#1A2B48] uppercase tracking-wider px-4 mb-2">
-                      Управление
-                    </p>
-                    <Link
-                      href={`/${locale}/admin`}
-                      className="flex items-center gap-3 px-4 py-3 rounded-lg bg-purple-50 text-purple-700 font-medium transition-all duration-200"
-                    >
-                      <span className="text-lg">📊</span>
-                      <span>{t("adminPanel")}</span>
-                    </Link>
-                    <Link
-                      href={`/${locale}/admin/users`}
-                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-all duration-200"
-                    >
-                      <span className="text-lg">👥</span>
-                      <span>Пользователи</span>
-                    </Link>
-                    <Link
-                      href={`/${locale}/admin/settings/meta`}
-                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-all duration-200"
-                    >
-                      <span className="text-lg">⚙️</span>
-                      <span>{t("settings")}</span>
-                    </Link>
-                  </div>
-                </>
-              )}
-            </nav>
-
-            <div className="pt-4 mt-4 border-t border-gray-100">
-              <Link
-                href={`/${locale}`}
-                className="flex items-center gap-3 px-4 py-3 rounded-lg text-[#1A2B48] hover:bg-gray-50 font-medium transition-all duration-200"
-              >
-                <span className="text-lg">←</span>
-                <span>{tc("back") || "На сайт"}</span>
-              </Link>
-            </div>
-          </aside>
-          </DashboardSidebarClient>
-
-          {/* Main Content */}
-          <main className="flex-1 space-y-6">
-            {/* Welcome Header */}
-            <div className="bg-gradient-to-br from-blue-600 to-sky-700 rounded-2xl shadow-lg p-8 text-white">
-              <h1 className="text-2xl md:text-3xl font-bold mb-2">
-                {t("welcome", { name: user.name || "Guest" })}
-              </h1>
-              <p className="text-blue-100">
-                {t("description")}
+              <p className="text-xs text-sky-200 mt-0.5">
+                {t("myBookings")}
               </p>
             </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold">
+                {upcomingBookings.length}
+              </p>
+              <p className="text-xs text-sky-200 mt-0.5">
+                Предстоит
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            {/* Personal Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-2xl">📋</span>
-                  <span className="text-3xl font-bold text-blue-600">{stats.totalBookings}</span>
-                </div>
-                <h3 className="text-[#1A2B48] text-sm font-medium">{t("stats.total")}</h3>
-              </div>
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-2xl">✅</span>
-                  <span className="text-3xl font-bold text-green-600">{stats.confirmed}</span>
-                </div>
-                <h3 className="text-[#1A2B48] text-sm font-medium">{t("stats.confirmed")}</h3>
-              </div>
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-2xl">⏳</span>
-                  <span className="text-3xl font-bold text-yellow-600">{stats.pending}</span>
-                </div>
-                <h3 className="text-[#1A2B48] text-sm font-medium">{t("stats.pending")}</h3>
-              </div>
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-2xl">₽</span>
-                  <span className="text-3xl font-bold text-purple-600">{stats.totalSpent.toLocaleString()}</span>
-                </div>
-                <h3 className="text-[#1A2B48] text-sm font-medium">{t("stats.spent")}</h3>
+      {/* User Stats Cards */}
+      <UserStatsCards />
+
+      {/* Next Trip Highlight */}
+      {nextTrip && (
+        <Link
+          href={`/${locale}/dashboard/bookings/${nextTrip.id}`}
+          className="block bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-blue-200 transition-all duration-300 overflow-hidden group"
+        >
+          <div className="flex flex-col md:flex-row">
+            <div className="bg-gradient-to-br from-blue-600 to-sky-700 p-5 md:p-6 md:w-56 shrink-0 flex items-center gap-3 md:gap-4">
+              <Calendar size={28} className="text-white/90 shrink-0" />
+              <div className="text-white">
+                <p className="text-xs font-medium text-blue-200 uppercase tracking-wider">
+                  Следующая поездка
+                </p>
+                <p className="text-lg font-bold mt-0.5">
+                  {differenceInDays(new Date(nextTrip.checkIn), new Date()) > 0
+                    ? `Через ${differenceInDays(new Date(nextTrip.checkIn), new Date())} дн.`
+                    : "Сегодня"}
+                </p>
               </div>
             </div>
-
-            {/* Admin Section */}
-            {isAdminUser && (
-              <>
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t-2 border-purple-200 border-dashed" />
-                  </div>
-                  <div className="relative flex justify-center">
-                    <span className="bg-[#f8fafc] px-4 text-xs font-semibold text-purple-700 uppercase tracking-widest">
-                      Администрирование
+            <div className="flex-1 p-5 md:p-6 flex flex-col md:flex-row md:items-center gap-3 md:gap-6">
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-gray-900 text-lg truncate">
+                  {nextTrip.post.title}
+                </h3>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500 mt-1">
+                  <span className="flex items-center gap-1">
+                    <Calendar size={14} />
+                    {format(new Date(nextTrip.checkIn), "dd MMM", { locale: dateLocale })}
+                    {nextTrip.checkOut && (
+                      <> — {format(new Date(nextTrip.checkOut), "dd MMM yyyy", { locale: dateLocale })}</>
+                    )}
+                  </span>
+                  {nextTrip.room && (
+                    <span className="flex items-center gap-1">
+                      <MapPin size={14} /> {nextTrip.room.title}
                     </span>
-                  </div>
+                  )}
                 </div>
-
-                {/* Admin System Stats */}
-                <div className="bg-white rounded-xl shadow-sm border border-purple-100 p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-semibold text-purple-900">Система управления</h2>
-                    <Link
-                      href={`/${locale}/admin`}
-                      className="text-sm text-purple-600 hover:text-purple-700 font-medium"
-                    >
-                      {t("adminPanel")} →
-                    </Link>
-                  </div>
-                  <StatsCards />
+              </div>
+              <div className="flex items-center gap-3 md:text-right shrink-0">
+                <div>
+                  <p className="font-bold text-lg text-gray-900">
+                    {nextTrip.totalPrice.toLocaleString()} ₽
+                  </p>
+                  {getStatusBadge(nextTrip.status)}
                 </div>
+                <ChevronRight
+                  size={20}
+                  className="text-gray-300 group-hover:text-blue-500 transition-colors"
+                />
+              </div>
+            </div>
+          </div>
+        </Link>
+      )}
 
-                {/* Admin Charts */}
-                <DashboardCharts />
+      {/* Quick Actions */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {quickActions.map((action) => (
+          <Link
+            key={action.label}
+            href={action.href}
+            className={`bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-5 ${action.hoverBorder} transition-all duration-200 group`}
+          >
+            <action.icon
+              size={24}
+              className={`text-gray-400 ${action.hoverIcon} transition-colors mb-2`}
+            />
+            <h3 className="font-semibold text-gray-900 text-sm">{action.label}</h3>
+            <p className="text-xs text-gray-500 mt-0.5">{action.desc}</p>
+          </Link>
+        ))}
+      </div>
 
-                {/* Admin Recent Bookings */}
-                <RecentBookings />
-              </>
-            )}
+      {/* Recent Bookings */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 md:p-6">
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900">
+              {t("myBookings")}
+            </h2>
+            <p className="text-sm text-gray-500 mt-0.5">
+              {t("recent")}
+            </p>
+          </div>
+          <Link
+            href={`/${locale}/dashboard/bookings`}
+            className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors flex items-center gap-1"
+          >
+            Все бронирования
+            <ChevronRight size={16} />
+          </Link>
+        </div>
 
-            {/* Quick Actions */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {user.bookings.length === 0 ? (
+          <div className="text-center py-10">
+            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Calendar size={28} className="text-gray-300" />
+            </div>
+            <p className="text-gray-900 font-medium mb-1">
+              {t("noBookings")}
+            </p>
+            <p className="text-sm text-gray-500 mb-5">
+              Начните путешествие с Онгудай
+            </p>
+            <div className="flex gap-3 justify-center">
               <Link
                 href={`/${locale}/hotels`}
-                className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md hover:border-blue-200 transition-all group"
+                className="px-5 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors text-sm"
               >
-                <span className="text-3xl block mb-3 group-hover:scale-110 transition-transform">🏨</span>
-                <h3 className="font-semibold text-gray-900 text-sm">Отели</h3>
-                <p className="text-xs text-[#1A2B48] mt-1">Найти жильё</p>
+                {t("findHotel")}
               </Link>
               <Link
                 href={`/${locale}/tours`}
-                className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md hover:border-emerald-200 transition-all group"
+                className="px-5 py-2.5 bg-emerald-600 text-white rounded-xl font-medium hover:bg-emerald-700 transition-colors text-sm"
               >
-                <span className="text-3xl block mb-3 group-hover:scale-110 transition-transform">🗺️</span>
-                <h3 className="font-semibold text-gray-900 text-sm">Туры</h3>
-                <p className="text-xs text-[#1A2B48] mt-1">Выбрать тур</p>
-              </Link>
-              <Link
-                href={`/${locale}/activities`}
-                className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md hover:border-orange-200 transition-all group"
-              >
-                <span className="text-3xl block mb-3 group-hover:scale-110 transition-transform">🎯</span>
-                <h3 className="font-semibold text-gray-900 text-sm">Активности</h3>
-                <p className="text-xs text-[#1A2B48] mt-1">Найти занятие</p>
-              </Link>
-              <Link
-                href={`/${locale}/dashboard/chat`}
-                className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md hover:border-green-200 transition-all group"
-              >
-                <span className="text-3xl block mb-3 group-hover:scale-110 transition-transform">💬</span>
-                <h3 className="font-semibold text-gray-900 text-sm">{t("support")}</h3>
-                <p className="text-xs text-[#1A2B48] mt-1">Связаться</p>
+                {t("findTour")}
               </Link>
             </div>
-
-            {/* Recent Bookings */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-gray-900">{t("recent")}</h2>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {user.bookings.map((booking, idx) => {
+              const isUpcoming =
+                booking.status === "confirmed" || booking.status === "pending";
+              return (
                 <Link
-                  href={`/${locale}/dashboard/bookings`}
-                  className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                  key={booking.id}
+                  href={`/${locale}/dashboard/bookings/${booking.id}`}
+                  className={`block border rounded-xl p-4 transition-all duration-200 ${
+                    idx === 0 && isUpcoming
+                      ? "border-blue-200 bg-blue-50/50 hover:bg-blue-50"
+                      : "border-gray-100 hover:bg-gray-50"
+                  } hover:shadow-sm`}
                 >
-                  {t("myBookings")} →
-                </Link>
-              </div>
+                  <div className="flex items-center gap-4">
+                    {/* Timeline dot */}
+                    <div className="hidden sm:flex flex-col items-center gap-1 shrink-0">
+                      <div
+                        className={`w-2.5 h-2.5 rounded-full ${
+                          isUpcoming
+                            ? "bg-blue-500"
+                            : booking.status === "completed"
+                            ? "bg-emerald-500"
+                            : booking.status === "cancelled"
+                            ? "bg-gray-300"
+                            : "bg-amber-500"
+                        }`}
+                      />
+                      {idx < user.bookings.length - 1 && (
+                        <div className="w-px h-8 bg-gray-200" />
+                      )}
+                    </div>
 
-              {user.bookings.length === 0 ? (
-                <div className="text-center py-8 text-[#1A2B48]">
-                  <p>{t("noBookings")}</p>
-                  <div className="flex gap-3 justify-center mt-4">
-                    <Link
-                      href={`/${locale}/hotels`}
-                      className="px-5 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors"
-                    >
-                      {t("findHotel")}
-                    </Link>
-                    <Link
-                      href={`/${locale}/tours`}
-                      className="px-5 py-2.5 bg-emerald-600 text-white rounded-xl font-medium hover:bg-emerald-700 transition-colors"
-                    >
-                      {t("findTour")}
-                    </Link>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                  {user.bookings.map((booking: any) => (
-                    <div
-                      key={booking.id}
-                      className="border border-gray-100 rounded-xl p-4 hover:bg-gray-50 hover:border-gray-200 cursor-pointer transition-all duration-200"
-                    >
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <h3 className="font-semibold text-gray-900">{booking.post.title}</h3>
-                          {booking.room && (
-                            <p className="text-sm text-[#1A2B48]">{booking.room.title}</p>
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-semibold text-gray-900 truncate text-sm">
+                          {booking.post.title}
+                        </h3>
+                        {booking.room && (
+                          <span className="text-xs text-gray-500 hidden md:inline">
+                            {booking.room.title}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-3 text-xs text-gray-500 mt-1">
+                        <span className="flex items-center gap-1">
+                          <Calendar size={12} />
+                          {format(new Date(booking.checkIn), "dd MMM", { locale: dateLocale })}
+                          {booking.checkOut && (
+                            <> — {format(new Date(booking.checkOut), "dd MMM", { locale: dateLocale })}</>
                           )}
-                          <p className="text-sm text-[#1A2B48]">
-                            {format(new Date(booking.checkIn), "dd MMM yyyy", { locale: dateLocale })}
-                            {booking.checkOut && (
-                              <> — {format(new Date(booking.checkOut), "dd MMM yyyy", { locale: dateLocale })}</>
-                            )}
-                          </p>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-bold text-lg text-gray-900">{booking.totalPrice.toLocaleString()} ₽</p>
-                          {getStatusBadge(booking.status)}
-                          <p className="text-xs text-[#1A2B48] mt-1">{booking.bookingId}</p>
-                        </div>
+                        </span>
+                        <span className="text-gray-300">·</span>
+                        <span>{booking.totalPrice.toLocaleString()} ₽</span>
                       </div>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
 
-
-          </main>
-        </div>
+                    {/* Status & Arrow */}
+                    <div className="flex items-center gap-3 shrink-0">
+                      {getStatusBadge(booking.status)}
+                      <ChevronRight
+                        size={18}
+                        className="text-gray-300 group-hover:text-blue-500 transition-colors"
+                      />
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
+
+      {/* Admin Section */}
+      {isAdminUser && (
+        <>
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t-2 border-purple-200 border-dashed" />
+            </div>
+            <div className="relative flex justify-center">
+              <span className="bg-[#f8fafc] px-4 text-xs font-semibold text-purple-700 uppercase tracking-widest">
+                {t("managementSection") || "Администрирование"}
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-sm border border-purple-100 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-purple-900">
+                {t("adminPanel")}
+              </h2>
+              <Link
+                href={`/${locale}/admin`}
+                className="text-sm text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
+              >
+                {t("adminPanel")} →
+              </Link>
+            </div>
+            <StatsCards />
+          </div>
+
+          <DashboardCharts />
+          <RecentBookings />
+        </>
+      )}
     </div>
   );
 }

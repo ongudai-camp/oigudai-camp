@@ -103,9 +103,14 @@ async function main() {
 
   for (const hotelData of hotels) {
     const hotel = await prisma.post.upsert({
-      where: { slug: hotelData.slug },
+      where: { 
+        slug_locale: { 
+          slug: hotelData.slug, 
+          locale: hotelData.locale || 'ru' 
+        } 
+      },
       update: hotelData,
-      create: hotelData,
+      create: { ...hotelData, locale: hotelData.locale || 'ru' },
     });
 
     // Add rooms for each hotel
@@ -195,9 +200,14 @@ async function main() {
 
   for (const tourData of tours) {
     const tour = await prisma.post.upsert({
-      where: { slug: tourData.slug },
+      where: { 
+        slug_locale: { 
+          slug: tourData.slug, 
+          locale: tourData.locale || 'ru' 
+        } 
+      },
       update: tourData,
-      create: tourData,
+      create: { ...tourData, locale: tourData.locale || 'ru' },
     });
 
     // Add tour details as meta
@@ -265,9 +275,14 @@ async function main() {
 
   for (const activityData of activities) {
     await prisma.post.upsert({
-      where: { slug: activityData.slug },
+      where: { 
+        slug_locale: { 
+          slug: activityData.slug, 
+          locale: activityData.locale || 'ru' 
+        } 
+      },
       update: activityData,
-      create: activityData,
+      create: { ...activityData, locale: activityData.locale || 'ru' },
     });
   }
   console.log("Created activities");

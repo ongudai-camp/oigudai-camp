@@ -44,7 +44,7 @@ export default function LocaleSwitcher() {
           className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all duration-300 cursor-pointer ${
             currentLocale === locale
               ? "bg-white text-sky-600 shadow-sm"
-              : "text-sky-400 hover:text-sky-600"
+              : "text-sky-700 hover:text-sky-600"
           }`}
         >
           {locale.toUpperCase()}

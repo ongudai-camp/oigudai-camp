@@ -88,22 +88,22 @@ export default async function AdminUsersPage({
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                  {t('admin.users.columns.name')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                  {t('admin.users.columns.email')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                  {t('admin.users.columns.role')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                  {t('admin.users.columns.bookings')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                  {t('admin.users.columns.registered')}
               </th>
-              <th className="px-6 py-4 text-right text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-900 uppercase tracking-wider">
                  {t('admin.users.columns.actions')}
               </th>
             </tr>
@@ -115,16 +115,16 @@ export default async function AdminUsersPage({
                 <td className="px-6 py-4">
                    <div className="font-medium text-gray-900">{user.name || t('admin.users.noName')}</div>
                 </td>
-                <td className="px-6 py-4 text-sm text-[#1A2B48]">
+                <td className="px-6 py-4 text-sm text-gray-900">
                   {user.email}
                 </td>
                 <td className="px-6 py-4">
                   {getRoleBadge(user.role)}
                 </td>
-                <td className="px-6 py-4 text-sm text-[#1A2B48]">
+                <td className="px-6 py-4 text-sm text-gray-900">
                   {user._count.bookings}
                 </td>
-                <td className="px-6 py-4 text-sm text-[#1A2B48]">
+                <td className="px-6 py-4 text-sm text-gray-900">
                   {new Date(user.createdAt).toLocaleDateString("ru-RU")}
                 </td>
                 <td className="px-6 py-4 text-right text-sm font-medium">
@@ -138,7 +138,7 @@ export default async function AdminUsersPage({
         </table>
 
         {users.length === 0 && (
-          <div className="text-center py-8 text-[#1A2B48]">
+          <div className="text-center py-8 text-gray-900">
              {t('admin.users.notFound')}
           </div>
         )}

@@ -109,7 +109,7 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
           required
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-[#5000FF]"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-indigo-700"
         />
       </div>
 
@@ -121,7 +121,7 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
           rows={6}
           value={formData.content}
           onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-[#5000FF]"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-indigo-700"
         />
       </div>
 
@@ -153,7 +153,7 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
             <select
               value={formData.authorId}
               onChange={(e) => setFormData({ ...formData, authorId: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-[#5000FF]"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-indigo-700"
             >
               <option value="">Выберите автора</option>
               {users.map((user) => (
@@ -175,7 +175,7 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
               step="0.01"
               value={formData.price}
               onChange={(e) => setFormData({ ...formData, price: e.target.value as unknown as string })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-[#5000FF]"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-indigo-700"
             />
           </div>
 
@@ -189,7 +189,7 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
               step="0.01"
               value={formData.salePrice}
               onChange={(e) => setFormData({ ...formData, salePrice: e.target.value as unknown as string })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-[#5000FF]"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-indigo-700"
             />
           </div>
         </div>
@@ -199,7 +199,7 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Галерея изображений
         </label>
-        <p className="text-sm text-[#1A2B48]">Первое изображение будет главным.</p>
+        <p className="text-sm text-gray-900">Первое изображение будет главным.</p>
         <ImageUploader images={images} onChange={setImages} />
       </div>
 
@@ -210,7 +210,7 @@ export default function HotelForm({ users, hotel }: HotelFormProps) {
         <select
           value={formData.status}
           onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-[#5000FF]"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-indigo-700"
         >
           <option value="publish">Опубликовано</option>
           <option value="draft">Черновик</option>

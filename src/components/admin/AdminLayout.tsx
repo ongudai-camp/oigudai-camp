@@ -12,6 +12,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
 
   const menuItems = [
     { href: "/admin", label: t("admin.menu.dashboard"), icon: "📊" },
+    { href: "/admin/calendar", label: "Calendar", icon: "📅" },
     { href: "/admin/hotels", label: t("admin.menu.hotels"), icon: "🏨" },
     { href: "/admin/tours", label: t("admin.menu.tours"), icon: "🗺️" },
     { href: "/admin/activities", label: t("admin.menu.activities"), icon: "🎯" },
@@ -21,6 +22,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     { href: "/admin/users", label: t("admin.menu.users"), icon: "👥" },
     { href: "/admin/packages", label: t("admin.menu.packages"), icon: "📦" },
     { href: "/admin/settings/meta", label: t("admin.menu.settings"), icon: "⚙️" },
+    { href: "/admin/settings/chat", label: "AI Chat", icon: "🤖" },
   ];
 
   return (

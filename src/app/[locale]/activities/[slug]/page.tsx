@@ -1,8 +1,12 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { parseGalleryImages } from "@/lib/gallery";
+import ImageGallery from "@/components/gallery/ImageGallery";
 import { getTranslations } from "next-intl/server";
 import MapSection from "@/components/common/MapSection";
+import ReviewSection from "@/components/reviews/ReviewSection";
+import type { Review } from "@/components/reviews/ReviewsList";
 
 interface ActivityPageProps {
   params: Promise<{ slug: string; locale: string }>;
@@ -29,47 +33,38 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
 
   if (!activity) notFound();
 
+  const galleryImages = parseGalleryImages(activity.gallery, activity.featuredImage);
+
   return (
     <div className="min-h-screen bg-gray-50 pt-24 pb-8">
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row gap-8">
-          <main className="lg:w-2/3">
-            {/* Image */}
-            <div className="bg-white rounded-[2.5rem] shadow-xl border border-white/50 overflow-hidden mb-6">
-              <div className="h-56 sm:h-72 lg:h-96 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
-                  {activity.featuredImage ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={activity.featuredImage}
-                    alt={activity.title}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <span className="text-white text-6xl">🏔️</span>
-                )}
-              </div>
+          <main className="lg:w-2/3 min-w-0">
+            {/* Gallery */}
+            <div className="mb-6">
+              <ImageGallery images={galleryImages} title={activity.title} />
             </div>
 
             {/* Info */}
             <div className="bg-white rounded-[2.5rem] shadow-xl border border-white/50 p-6 md:p-8 mb-6">
               <h1 className="text-3xl font-bold mb-4">{activity.title}</h1>
               {activity.address && (
-                <p className="text-[#1A2B48] flex items-center mb-4">
+                <p className="text-gray-900 flex items-center mb-4">
                   <span className="mr-2">📍</span> {activity.address}
                 </p>
               )}
-              <p className="text-[#1A2B48] mb-6 whitespace-pre-wrap">
+              <p className="text-gray-900 mb-6 whitespace-pre-wrap">
                 {activity.content || t("noDescription")}
               </p>
 
               {/* Details from Meta */}
               {activity.meta.length > 0 && (
                 <div className="border-t pt-6">
-                  <h2 className="text-xl font-semibold text-[#5000FF] mb-4">{t("tourDetails")}</h2>
+                  <h2 className="text-xl font-semibold text-indigo-700 mb-4">{t("tourDetails")}</h2>
                   <div className="grid grid-cols-2 gap-4">
                     {activity.meta.filter((m) => m.value !== null).map((m) => (
                       <div key={m.id} className="flex items-center">
-                        <span className="text-[#1A2B48]">{m.key}:</span>
+                        <span className="text-gray-900">{m.key}:</span>
                         <span className="ml-2 font-medium">{m.value}</span>
                       </div>
                     ))}
@@ -79,7 +74,7 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
 
               {activity.latitude && activity.longitude && (
                 <div className="border-t pt-6 mt-6">
-                  <h2 className="text-xl font-semibold text-[#5000FF] mb-4">{t("location")}</h2>
+                  <h2 className="text-xl font-semibold text-indigo-700 mb-4">{t("location")}</h2>
                   <MapSection
                     latitude={activity.latitude}
                     longitude={activity.longitude}
@@ -89,10 +84,12 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
                 </div>
               )}
             </div>
+
+            <ReviewSection postId={activity.id} reviews={activity.reviews as unknown as Review[]} />
           </main>
 
           {/* Sidebar */}
-          <aside className="lg:w-1/3">
+          <aside className="lg:w-1/3 min-w-0">
             <div className="sticky top-8 space-y-6">
               {/* Price Card */}
               <div className="bg-white rounded-2xl shadow-xl border border-white/50 p-6">
@@ -117,7 +114,7 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
               {/* Meta Details */}
               {activity.meta.length > 0 && (
                 <div className="bg-white rounded-2xl shadow-xl border border-white/50 p-6">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-sky-300 block mb-4">{t("details")}</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-sky-600 block mb-4">{t("details")}</span>
                   <div className="space-y-3">
                     {activity.meta.filter(function(m) { return m.value !== null; }).map(function(m) {
                       return (

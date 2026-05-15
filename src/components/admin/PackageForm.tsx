@@ -75,7 +75,7 @@ export default function PackageForm({ initialData }: PackageFormProps) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-[#1A2B48]"
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-900"
             placeholder="Базовый"
           />
         </div>
@@ -90,7 +90,7 @@ export default function PackageForm({ initialData }: PackageFormProps) {
             onChange={(e) => setPrice(e.target.value)}
             required
             min="0"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-[#1A2B48]"
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-900"
             placeholder="10000"
           />
         </div>
@@ -105,7 +105,7 @@ export default function PackageForm({ initialData }: PackageFormProps) {
             onChange={(e) => setDuration(e.target.value)}
             required
             min="1"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-[#1A2B48]"
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-900"
             placeholder="30"
           />
         </div>
@@ -119,7 +119,7 @@ export default function PackageForm({ initialData }: PackageFormProps) {
             value={postsLimit}
             onChange={(e) => setPostsLimit(e.target.value)}
             min="0"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-[#1A2B48]"
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-900"
           />
         </div>
 

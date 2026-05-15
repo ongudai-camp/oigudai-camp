@@ -8,7 +8,8 @@
     "login": "Login",
     "register": "Register",
     "dashboard": "Dashboard",
-    "admin": "Admin Panel"
+    "admin": "Admin Panel",
+    "calendar": "Calendar"
   },
   "mega": {
     "accommodation": {
@@ -50,9 +51,10 @@
     "title": "Discover",
     "subtitle": "The Magic of Altai",
     "description": "The best hotels, unforgettable tours, and active leisure in the heart of the Altai mountains — Ongudai district.",
-    "cta_hotels": "Find Hotel",
-    "cta_tours": "View Tours",
-    "rating": "guest rating"
+    "rating": "guest rating",
+    "search_hotels": "Hotels",
+    "search_tours": "Tours",
+    "search_activities": "Activities"
   },
   "featured": {
     "hotels": "Best Hotels",
@@ -105,6 +107,7 @@
     "description": "Description",
     "amenities": "Amenities",
     "rooms": "Rooms",
+    "roomTypes": "Room Types",
     "reviews": "Reviews",
     "noReviews": "No reviews yet. Be the first one!",
     "guests": "guests",
@@ -167,6 +170,9 @@
     "backHome": "Back to Home"
   },
   "dashboard": {
+    "personal": "Personal",
+    "management": "Management",
+    "users": "Users",
     "title": "Dashboard",
     "welcome": "Welcome, {name}!",
     "description": "Manage your bookings and view your travel history here.",
@@ -466,6 +472,7 @@
       "hotels": "Hotels",
       "tours": "Tours",
       "activities": "Activities",
+      "calendar": "Calendar",
       "bookings": "Bookings",
       "showcase": "Showcase",
       "users": "Users",
@@ -669,6 +676,28 @@
       "rfLabel": "Citizen of the Russian Federation"
     }
   },
+  "reviews": {
+    "title": "Reviews",
+    "writeReview": "Write a review",
+    "cancelReview": "Cancel",
+    "overallRating": "Overall rating",
+    "categories": {
+      "cleanliness": "Cleanliness",
+      "location": "Location",
+      "staff": "Staff",
+      "value": "Value for money",
+      "facilities": "Facilities"
+    },
+    "titlePlaceholder": "Review title (optional)",
+    "contentPlaceholder": "Share your experience...",
+    "submitReview": "Submit review",
+    "signInToReview": "Sign in to leave a review",
+    "noReviews": "No reviews yet",
+    "anonymous": "Anonymous",
+    "reviewCount": "{count} {count, plural, one {review} other {reviews}}",
+    "pleaseSelectRating": "Please select a rating",
+    "submitting": "Submitting..."
+  },
   "imageUploader": {
     "uploadCount": "Uploaded: {count} {count, plural, one {image} other {images}}",
     "noneUploaded": "No images uploaded",
@@ -686,6 +715,37 @@
     "deleteConfirmation": "Yes, delete",
     "deleteDialogTitle": "Confirm deletion",
     "cancel": "Cancel"
+  },
+  "calendar": {
+    "title": "Availability Calendar",
+    "description": "Check availability across all properties at Ongudai Camp",
+    "adminTitle": "Calendar",
+    "adminDescription": "Manage availability across all property types",
+    "showPrices": "Show prices",
+    "showAvailability": "Show availability",
+    "loading": "Loading calendar...",
+    "error": "Failed to load calendar",
+    "available": "Available",
+    "limited": "Limited",
+    "booked": "Booked",
+    "past": "Past",
+    "free": "free",
+    "fromPrice": "from ₽{price}",
+    "selectProperty": "Select property...",
+    "allRooms": "All rooms",
+    "allTypes": "All types",
+    "bulkUpdate": "Bulk update",
+    "daysSelected": "{count} day(s) selected",
+    "status": "Status",
+    "priceOptional": "Price (₽, optional)",
+    "keepCurrent": "Keep current",
+    "apply": "Apply",
+    "filters": "Filters",
+    "propertyType": "Property type",
+    "property": "Property",
+    "room": "Room",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month"
   },
   "adminStats": {
     "title": "System Overview",

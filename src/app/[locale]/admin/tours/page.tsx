@@ -35,22 +35,22 @@ export default async function AdminToursPage({
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                 {t('tours.columns.title')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                 {t('tours.columns.author')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                 {t('tours.columns.price')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                 {t('tours.columns.bookings')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">
                 {t('tours.columns.status')}
               </th>
-              <th className="px-6 py-4 text-right text-xs font-semibold text-[#1A2B48] uppercase tracking-wider">
+              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-900 uppercase tracking-wider">
                 {t('tours.columns.actions')}
               </th>
             </tr>
@@ -61,15 +61,15 @@ export default async function AdminToursPage({
               <tr key={tour.id} className="hover:bg-gray-50 cursor-pointer transition-colors duration-200">
                 <td className="px-6 py-4">
                   <div className="font-medium text-gray-900">{tour.title}</div>
-                  <div className="text-sm text-[#1A2B48]">{tour.address}</div>
+                  <div className="text-sm text-gray-900">{tour.address}</div>
                 </td>
-                <td className="px-6 py-4 text-sm text-[#1A2B48]">
+                <td className="px-6 py-4 text-sm text-gray-900">
                   {tour.author?.name || '—'}
                 </td>
                 <td className="px-6 py-4 text-sm font-medium text-gray-900 tabular-nums">
                   {tour.price} ₽
                 </td>
-                <td className="px-6 py-4 text-sm text-[#1A2B48] tabular-nums">
+                <td className="px-6 py-4 text-sm text-gray-900 tabular-nums">
                   {tour._count.bookings}
                 </td>
                 <td className="px-6 py-4">
@@ -98,7 +98,7 @@ export default async function AdminToursPage({
         </table>
 
         {tours.length === 0 && (
-            <div className="text-center py-8 text-[#1A2B48]">
+            <div className="text-center py-8 text-gray-900">
               {t('tours.empty.noTours')}
               <Link href={`/${locale}/admin/tours/new`} className="text-blue-600 hover:underline">
                 {t('tours.empty.addFirst')}

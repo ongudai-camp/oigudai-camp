@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import SideSearchPanel from "@/components/common/SideSearchPanel";
-import InteractiveMap from "@/components/common/InteractiveMap";
+import DynamicMap from "@/components/common/DynamicMap";
 import CategoryFilter from "@/components/listing/CategoryFilter";
 import { Star, MapPin, ArrowRight, List, Map as MapIcon, Search } from "lucide-react";
 
@@ -73,7 +73,7 @@ export default async function HotelsPage({ params, searchParams }: HotelsPagePro
                 <h1 className="text-3xl md:text-5xl font-black text-sky-950 tracking-tighter leading-none">
                   {t("hotelsTitle")}
                 </h1>
-                <p className="text-sky-400 font-bold mt-3 flex items-center gap-2">
+                <p className="text-sky-700 font-bold mt-3 flex items-center gap-2">
                   <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
                   {t("foundCount", { count: hotels.length })}
                 </p>
@@ -89,7 +89,7 @@ export default async function HotelsPage({ params, searchParams }: HotelsPagePro
             </div>
 
             <div className="w-full overflow-hidden rounded-[2rem] md:rounded-[3rem] shadow-2xl border border-white/50 ring-1 ring-sky-900/5">
-              <InteractiveMap posts={mapPosts} />
+              <DynamicMap posts={mapPosts} />
             </div>
           </div>
 
@@ -112,7 +112,7 @@ export default async function HotelsPage({ params, searchParams }: HotelsPagePro
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10">
                 {hotels.length === 0 ? (
                   <div className="col-span-full py-24 md:py-32 text-center bg-white/80 backdrop-blur-md rounded-[2.5rem] border border-sky-50 shadow-xl flex flex-col items-center justify-center space-y-4">
-                    <div className="w-20 h-20 bg-sky-50 rounded-full flex items-center justify-center text-sky-200">
+                    <div className="w-20 h-20 bg-sky-50 rounded-full flex items-center justify-center text-sky-500">
                       <Search size={40} />
                     </div>
                     <p className="text-sky-950 font-black text-xl tracking-tight">{t("noResults")}</p>
@@ -135,7 +135,7 @@ export default async function HotelsPage({ params, searchParams }: HotelsPagePro
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
                           />
                         ) : (
-                          <div className="w-full h-full bg-sky-100 flex items-center justify-center text-sky-200">
+                          <div className="w-full h-full bg-sky-100 flex items-center justify-center text-sky-500">
                             <MapPin size={48} strokeWidth={1} />
                           </div>
                         )}
@@ -162,10 +162,10 @@ export default async function HotelsPage({ params, searchParams }: HotelsPagePro
                         
                         <div className="pt-6 border-t border-sky-50 flex justify-between items-center">
                           <div>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-sky-300 mb-1 block">{t("startingFrom")}</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-sky-600 mb-1 block">{t("startingFrom")}</span>
                             <div className="text-3xl font-black text-sky-950">
                               {hotel.salePrice || hotel.price} ₽
-                              <span className="text-sm font-bold text-sky-300 ml-1">{t("perNight")}</span>
+                              <span className="text-sm font-bold text-sky-600 ml-1">{t("perNight")}</span>
                             </div>
                           </div>
                           <div className="w-14 h-14 bg-sky-50 rounded-3xl flex items-center justify-center text-sky-600 group-hover:bg-orange-500 group-hover:text-white group-hover:rotate-[-45deg] transition-all duration-500 ease-out shadow-inner">

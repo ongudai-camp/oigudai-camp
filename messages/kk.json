@@ -8,7 +8,8 @@
     "login": "Кіру",
     "register": "Тіркелу",
     "dashboard": "Панель",
-    "admin": "Әкімші панелі"
+    "admin": "Әкімші панелі",
+    "calendar": "Күнтізбе"
   },
   "mega": {
     "accommodation": {
@@ -50,9 +51,10 @@
     "title": "Ашыңыз",
     "subtitle": "Алтайдың Сиқыры",
     "description": "Алтай тауларының жүрегінде — Онгудай ауданында үздік қонақ үйлер, ұмытылмас турлар және белсенді демалыс.",
-    "cta_hotels": "Қонақ үй іздеу",
-    "cta_tours": "Турларды көру",
-    "rating": "қонақ бағасы"
+    "rating": "қонақ бағасы",
+    "search_hotels": "Қонақ үйлер",
+    "search_tours": "Турлар",
+    "search_activities": "Белсенділіктер"
   },
   "featured": {
     "hotels": "Үздік қонақ үйлер",
@@ -105,6 +107,7 @@
     "description": "Сипаттама",
     "amenities": "Жайлылықтар",
     "rooms": "Бөлмелер",
+    "roomTypes": "Орналастыру түрлері",
     "reviews": "Пікірлер",
     "noReviews": "Әлі пікір жоқ. Бірінші болыңыз!",
     "guests": "қонақ",
@@ -167,6 +170,9 @@
     "backHome": "Басты бетке оралу"
   },
   "dashboard": {
+    "personal": "Жеке",
+    "management": "Басқару",
+    "users": "Пайдаланушылар",
     "title": "Пайдаланушы панелі",
     "welcome": "Қош келдіңіз, {name}!",
     "description": "Мұнда броньдауларыңызды басқарып, саяхат тарихыңызды көре аласыз.",
@@ -231,6 +237,18 @@
     "profileUpdated": "Профиль сәтті жаңартылды",
     "enterCurrentPassword": "Ағымдағы құпия сөзді енгізіңіз",
     "or": "немесе",
+    "personalSection": "Жеке",
+    "managementSection": "Басқару",
+    "bookingDetail": "Брондау мәліметтері",
+    "property": "Нысан",
+    "room": "Бөлме",
+    "checkIn": "Кіру",
+    "checkOut": "Шығу",
+    "totalPrice": "Барлығы",
+    "hotels": "Қонақ үйлер",
+    "tours": "Турлар",
+    "activities": "Белсенділіктер",
+    "contactUs": "Бізбен хабарласыңыз",
     "backToDashboard": "← Сайтқа оралу"
   },
   "listing": {
@@ -475,6 +493,28 @@
       "mn": "Моңғолия"
     }
   },
+  "reviews": {
+    "title": "Пікірлер",
+    "writeReview": "Пікір қалдыру",
+    "cancelReview": "Болдырмау",
+    "overallRating": "Жалпы баға",
+    "categories": {
+      "cleanliness": "Тазалық",
+      "location": "Орналасуы",
+      "staff": "Қызметкерлер",
+      "value": "Баға/сапа",
+      "facilities": "Жайлылықтар"
+    },
+    "titlePlaceholder": "Пікір тақырыбы (міндетті емес)",
+    "contentPlaceholder": "Әсерлеріңізбен бөлісіңіз...",
+    "submitReview": "Пікір жіберу",
+    "signInToReview": "Пікір қалдыру үшін кіріңіз",
+    "noReviews": "Әлі пікір жоқ",
+    "anonymous": "Аноним",
+    "reviewCount": "{count} пікір",
+    "pleaseSelectRating": "Бағаны таңдаңыз",
+    "submitting": "Жіберілуде..."
+  },
   "imageUploader": {
     "uploadCount": "Жүктелді: {count} {count, plural, one {сурет} other {суреттер}}",
     "noneUploaded": "Суреттер жүктелмеді",
@@ -494,6 +534,7 @@
       "hotels": "Қонақ үйлер",
       "tours": "Турлар",
       "activities": "Белсенділіктер",
+      "calendar": "Күнтізбе",
       "bookings": "Брондаулар",
       "showcase": "Витрина",
       "users": "Пайдаланушылар",
@@ -673,6 +714,37 @@
     "deleteConfirmation": "Иә, жою",
     "deleteDialogTitle": "Жоюды растау",
     "cancel": "Болдырмау"
+  },
+  "calendar": {
+    "title": "Қолжетімділік күнтізбесі",
+    "description": "Ongudai Camp-тың барлық нысандарының қолжетімділігін тексеріңіз",
+    "adminTitle": "Күнтізбе",
+    "adminDescription": "Барлық нысан түрлерінің қолжетімділігін басқару",
+    "showPrices": "Бағаларды көрсету",
+    "showAvailability": "Қолжетімділікті көрсету",
+    "loading": "Күнтізбе жүктелуде...",
+    "error": "Күнтізбені жүктеу мүмкін болмады",
+    "available": "Қолжетімді",
+    "limited": "Шектеулі",
+    "booked": "Брондалған",
+    "past": "Өткен",
+    "free": "бос",
+    "fromPrice": "₽{price} бастап",
+    "selectProperty": "Нысанды таңдаңыз...",
+    "allRooms": "Барлық бөлмелер",
+    "allTypes": "Барлық түрлер",
+    "bulkUpdate": "Жаппай жаңарту",
+    "daysSelected": "{count} күн таңдалды",
+    "status": "Мәртебе",
+    "priceOptional": "Бағасы (₽, қосымша)",
+    "keepCurrent": "Ағымдағысын қалдыру",
+    "apply": "Қолдану",
+    "filters": "Сүзгілер",
+    "propertyType": "Нысан түрі",
+    "property": "Нысан",
+    "room": "Бөлме",
+    "previousMonth": "Алдыңғы ай",
+    "nextMonth": "Келесі ай"
   },
   "adminStats": {
     "title": "Жүйелік шолу",

@@ -69,12 +69,11 @@ export default function UserBookingsPage() {
   const bookings = data ?? [];
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] pt-24 pb-8">
-      <div className="container mx-auto px-4 max-w-6xl">
+    <>
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{t("dashboard.myBookings")}</h1>
-            <p className="text-sm text-[#1A2B48] mt-1">{t("dashboard.bookingsDescription")}</p>
+            <p className="text-sm text-gray-500 mt-1">{t("dashboard.bookingsDescription")}</p>
           </div>
           <Link
             href={`/${locale}/dashboard`}
@@ -120,8 +119,8 @@ export default function UserBookingsPage() {
 
         {!isLoading && !error && bookings.length === 0 && (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">
-            <SearchX size={48} className="mx-auto text-gray-300 mb-4" />
-            <p className="text-[#1A2B48] text-lg">{t("dashboard.noBookings")}</p>
+            <SearchX size={48} className="mx-auto text-gray-500 mb-4" />
+            <p className="text-gray-900 text-lg">{t("dashboard.noBookings")}</p>
             <Link
               href={`/${locale}/hotels`}
               className="inline-block mt-4 px-6 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors"
@@ -144,10 +143,10 @@ export default function UserBookingsPage() {
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className="font-semibold text-gray-900 truncate">{booking.post.title}</h3>
                       {booking.room && (
-                        <span className="text-sm text-[#1A2B48] hidden md:inline">· {booking.room.title}</span>
+                        <span className="text-sm text-gray-900 hidden md:inline">· {booking.room.title}</span>
                       )}
                     </div>
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-[#1A2B48]">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-900">
                       <span className="flex items-center gap-1">
                         <CalendarDays size={14} />
                         {format(new Date(booking.checkIn), "dd MMM yyyy", { locale: dateLocales[locale] || enUS })}
@@ -159,7 +158,7 @@ export default function UserBookingsPage() {
                         <Users size={14} /> {booking.guests} {t("common.guests")}
                       </span>
                     </div>
-                    <p className="text-xs text-[#1A2B48] font-mono mt-1">{booking.bookingId}</p>
+                    <p className="text-xs text-gray-900 font-mono mt-1">{booking.bookingId}</p>
                   </div>
 
                   <div className="flex items-center gap-4 md:text-right">
@@ -174,14 +173,13 @@ export default function UserBookingsPage() {
                         </span>
                       </div>
                     </div>
-                    <ChevronRight size={20} className="text-gray-300 group-hover:text-blue-500 transition-colors shrink-0" />
+                    <ChevronRight size={20} className="text-gray-500 group-hover:text-blue-500 transition-colors shrink-0" />
                   </div>
                 </div>
               </Link>
             ))}
           </div>
         )}
-      </div>
-    </div>
+    </>
   );
 }

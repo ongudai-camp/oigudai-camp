@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { isAdmin } from "@/lib/adminAccess";
+import { notifyBookingStatusChanged } from "@/lib/notifications";
 
 export async function GET(request: NextRequest) {
   const session = await auth();
@@ -64,10 +65,27 @@ export async function PATCH(request: NextRequest) {
     if (status) updateData.status = status;
     if (paymentStatus) updateData.paymentStatus = paymentStatus;
 
+    const existing = await prisma.booking.findUnique({
+      where: { id: parseInt(id) },
+      include: { post: true, user: true },
+    });
+
     const booking = await prisma.booking.update({
       where: { id: parseInt(id) },
       data: updateData,
     });
+
+    if (existing && status && existing.status !== status) {
+      notifyBookingStatusChanged({
+        id: existing.id,
+        bookingId: existing.bookingId,
+        userId: existing.userId,
+        status,
+        totalPrice: existing.totalPrice,
+        post: existing.post,
+        user: existing.user,
+      }, existing.status);
+    }
 
     return NextResponse.json(booking);
   } catch (error: unknown) {

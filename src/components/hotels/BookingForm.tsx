@@ -4,7 +4,12 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import { CalendarDays, Users, Minus, Plus, ChevronRight, LogIn } from "lucide-react";
+import { CalendarDays, Users, Minus, Plus, ChevronRight, LogIn, AlertCircle } from "lucide-react";
+import UnifiedCalendar from "@/components/calendar/UnifiedCalendar";
+import GuestDetailsForm from "@/components/booking/GuestDetailsForm";
+import AddonSelector from "@/components/booking/AddonSelector";
+import PromoCodeInput from "@/components/booking/PromoCodeInput";
+import PriceBreakdown from "@/components/booking/PriceBreakdown";
 
 interface Room {
   id: number;
@@ -30,7 +35,15 @@ export default function BookingForm({ hotelId, rooms }: BookingFormProps) {
     checkOut: "",
     guests: 1,
     roomId: rooms.length > 0 ? rooms[0].id : 0,
+    guestName: "",
+    guestEmail: "",
+    guestPhone: "",
+    specialRequests: "",
   });
+  const [selectedAddons, setSelectedAddons] = useState<number[]>([]);
+  const [addonPrices, setAddonPrices] = useState<number[]>([]);
+  const [promoCode, setPromoCode] = useState<string | null>(null);
+  const [promoDiscount, setPromoDiscount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -45,7 +58,39 @@ export default function BookingForm({ hotelId, rooms }: BookingFormProps) {
   };
 
   const nights = calculateNights();
-  const total = nights * pricePerNight;
+  const baseTotal = nights * pricePerNight;
+  const addonsTotal = addonPrices.reduce((sum, p) => sum + p, 0);
+  const grandTotal = baseTotal + addonsTotal - promoDiscount;
+
+  const handleRangeSelect = (start: string, end: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      checkIn: start,
+      checkOut: start === end ? "" : end,
+    }));
+    setError("");
+  };
+
+  const handleAddonToggle = (id: number, addonPrice: number) => {
+    setSelectedAddons((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+    );
+    setAddonPrices((prev) =>
+      prev.includes(addonPrice)
+        ? prev.filter((p) => p !== addonPrice)
+        : [...prev, addonPrice]
+    );
+  };
+
+  const handlePromoApply = (_code: string, discount: number) => {
+    setPromoCode(_code);
+    setPromoDiscount(discount);
+  };
+
+  const handlePromoRemove = () => {
+    setPromoCode(null);
+    setPromoDiscount(0);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,8 +100,29 @@ export default function BookingForm({ hotelId, rooms }: BookingFormProps) {
       return;
     }
 
+    if (!formData.checkIn || !formData.checkOut) {
+      setError("Please select both check-in and check-out dates");
+      return;
+    }
+
     setLoading(true);
     setError("");
+
+    try {
+      const checkRes = await fetch(
+        `/api/availability/check?postId=${hotelId}&roomId=${formData.roomId}&checkIn=${formData.checkIn}&checkOut=${formData.checkOut}`
+      );
+      const checkData = await checkRes.json();
+      if (!checkData.available) {
+        throw new Error(checkData.conflict || "Selected dates are not fully available");
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+        setLoading(false);
+        return;
+      }
+    }
 
     try {
       const res = await fetch("/api/bookings", {
@@ -68,7 +134,14 @@ export default function BookingForm({ hotelId, rooms }: BookingFormProps) {
           checkIn: formData.checkIn,
           checkOut: formData.checkOut,
           guests: formData.guests,
-          totalPrice: total,
+          totalPrice: baseTotal,
+          guestName: formData.guestName,
+          guestEmail: formData.guestEmail,
+          guestPhone: formData.guestPhone,
+          specialRequests: formData.specialRequests,
+          promoCode,
+          discountAmount: promoDiscount,
+          addonIds: selectedAddons,
         }),
       });
 
@@ -92,14 +165,14 @@ export default function BookingForm({ hotelId, rooms }: BookingFormProps) {
     <div className="bg-white rounded-[2rem] shadow-xl border border-sky-100/50 overflow-hidden backdrop-blur-sm">
       <div className="bg-gradient-to-r from-sky-950 to-sky-900 px-6 py-5">
         <h3 className="text-white text-lg font-black tracking-tight flex items-center gap-3">
-          <CalendarDays size={20} className="text-sky-400" />
+          <CalendarDays size={20} className="text-sky-700" />
           {t("title")}
         </h3>
       </div>
 
       {error && (
         <div className="mx-6 mt-5 bg-red-50 border border-red-200 text-red-700 px-5 py-3.5 rounded-2xl text-sm font-medium flex items-center gap-3">
-          <div className="w-2 h-2 bg-red-500 rounded-full shrink-0" />
+          <AlertCircle size={16} className="shrink-0" />
           {error}
         </div>
       )}
@@ -108,7 +181,7 @@ export default function BookingForm({ hotelId, rooms }: BookingFormProps) {
         {/* Room Selection */}
         {rooms.length > 0 && (
           <div className="space-y-3">
-            <label className="text-[10px] font-black uppercase tracking-widest text-sky-300">
+            <label className="text-[10px] font-black uppercase tracking-widest text-sky-600">
               {t("room")}
             </label>
             <div className="space-y-2">
@@ -130,7 +203,7 @@ export default function BookingForm({ hotelId, rooms }: BookingFormProps) {
                       <span className={`font-bold text-sm ${isSelected ? "text-sky-950" : "text-sky-700"}`}>
                         {room.title}
                       </span>
-                      <span className={`font-black text-sm ${isSelected ? "text-orange-500" : "text-sky-500"}`}>
+                      <span className={`font-black text-sm ${isSelected ? "text-orange-500" : "text-sky-700"}`}>
                         {roomPrice.toLocaleString()} ₽
                       </span>
                     </div>
@@ -141,48 +214,31 @@ export default function BookingForm({ hotelId, rooms }: BookingFormProps) {
           </div>
         )}
 
-        {/* Date Range */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase tracking-widest text-sky-300 flex items-center gap-2">
-              <CalendarDays size={12} /> {t("checkIn")}
-            </label>
-            <div className="relative">
-              <input
-                type="date"
-                required
-                min={today}
-                value={formData.checkIn}
-                onChange={(e) => {
-                  setFormData({ ...formData, checkIn: e.target.value });
-                  if (formData.checkOut && e.target.value > formData.checkOut) {
-                    setFormData((prev) => ({ ...prev, checkIn: e.target.value, checkOut: "" }));
-                  }
-                }}
-                className="w-full bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-sky-950 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-500/5 transition-all [color-scheme:light]"
-              />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase tracking-widest text-sky-300 flex items-center gap-2">
-              <CalendarDays size={12} /> {t("checkOut")}
-            </label>
-            <div className="relative">
-              <input
-                type="date"
-                required
-                min={formData.checkIn || today}
-                value={formData.checkOut}
-                onChange={(e) => setFormData({ ...formData, checkOut: e.target.value })}
-                className="w-full bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-sky-950 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-500/5 transition-all [color-scheme:light]"
-              />
-            </div>
+        {/* Calendar - Date Range */}
+        <div className="space-y-2">
+          <label className="text-[10px] font-black uppercase tracking-widest text-sky-600 flex items-center gap-2">
+            <CalendarDays size={12} /> {t("checkIn")} / {t("checkOut")}
+          </label>
+          <UnifiedCalendar
+            type="customer"
+            postId={hotelId}
+            propertyType="hotel"
+            selectionMode="range"
+            rangeStart={formData.checkIn || undefined}
+            rangeEnd={formData.checkOut || undefined}
+            onRangeSelect={handleRangeSelect}
+            locale="ru"
+            compact
+          />
+          <div className="hidden">
+            <input type="date" required min={today} value={formData.checkIn} onChange={() => {}} />
+            <input type="date" required min={formData.checkIn || today} value={formData.checkOut} onChange={() => {}} />
           </div>
         </div>
 
         {/* Guests */}
         <div className="space-y-2">
-          <label className="text-[10px] font-black uppercase tracking-widest text-sky-300 flex items-center gap-2">
+          <label className="text-[10px] font-black uppercase tracking-widest text-sky-600 flex items-center gap-2">
             <Users size={12} /> {t("guests")}
           </label>
           <div className="flex items-center justify-between bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-3">
@@ -206,21 +262,38 @@ export default function BookingForm({ hotelId, rooms }: BookingFormProps) {
           </div>
         </div>
 
+        {/* Add-ons */}
+        <AddonSelector postId={hotelId} selectedIds={selectedAddons} onToggle={handleAddonToggle} />
+
+        {/* Guest Details */}
+        <GuestDetailsForm
+          guestName={formData.guestName}
+          guestEmail={formData.guestEmail}
+          guestPhone={formData.guestPhone}
+          specialRequests={formData.specialRequests}
+          onChange={(field, value) => setFormData({ ...formData, [field]: value })}
+        />
+
+        {/* Promo Code */}
+        <PromoCodeInput
+          total={baseTotal}
+          onApply={handlePromoApply}
+          onRemove={handlePromoRemove}
+          appliedCode={promoCode}
+          discount={promoDiscount}
+        />
+
         {/* Price Summary */}
-        <div className="bg-sky-50/50 rounded-2xl p-5 space-y-3 border border-sky-100/50">
-          <div className="flex justify-between text-sm">
-            <span className="text-sky-600 font-medium">
-              {pricePerNight.toLocaleString()} ₽ × {nights} {t("nights") || "ночей"}
-            </span>
-            <span className="font-bold text-sky-950">{(pricePerNight * nights).toLocaleString()} ₽</span>
-          </div>
-          <div className="border-t border-sky-200/50 pt-3 flex justify-between items-center">
-            <span className="font-black text-sky-950">{t("total")}</span>
-            <span className="font-black text-2xl text-orange-500">
-              {total.toLocaleString()} ₽
-            </span>
-          </div>
-        </div>
+        <PriceBreakdown
+          label="Hotel"
+          unitPrice={pricePerNight}
+          quantity={nights}
+          quantityLabel={t("nights") || "nights"}
+          total={baseTotal}
+          serviceFee={0}
+          discount={promoDiscount}
+          grandTotal={grandTotal}
+        />
 
         {/* Submit */}
         {!session ? (
@@ -235,7 +308,7 @@ export default function BookingForm({ hotelId, rooms }: BookingFormProps) {
         ) : (
           <button
             type="submit"
-            disabled={loading || total === 0}
+            disabled={loading || grandTotal <= 0 || !formData.checkIn || !formData.checkOut}
             className="w-full bg-sky-950 hover:bg-sky-900 text-white py-5 rounded-[1.25rem] font-black text-sm uppercase tracking-[0.15em] shadow-xl shadow-sky-950/20 transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-3"
           >
             {loading ? (

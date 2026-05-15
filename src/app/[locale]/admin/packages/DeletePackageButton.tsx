@@ -34,7 +34,7 @@ export default function DeletePackageButton({ id }: { id: number }) {
         </button>
         <button
           onClick={() => setConfirming(false)}
-          className="flex-1 text-center bg-gray-50 text-[#1A2B48] py-2 rounded-lg hover:bg-gray-100 font-medium transition-colors cursor-pointer"
+          className="flex-1 text-center bg-gray-50 text-gray-900 py-2 rounded-lg hover:bg-gray-100 font-medium transition-colors cursor-pointer"
         >
           Отмена
         </button>

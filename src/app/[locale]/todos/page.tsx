@@ -51,7 +51,7 @@ export default function TodosPage() {
     <div className="min-h-screen bg-[#F0F9FF] py-16">
       <div className="container mx-auto px-4 max-w-2xl">
         <h1 className="text-3xl font-bold text-[#0C4A6E] mb-2">Todo List</h1>
-        <p className="text-[#5E6D77] mb-8">
+        <p className="text-gray-700 mb-8">
           {activeTodos.length} task{activeTodos.length !== 1 ? "s" : ""} remaining
         </p>
 
@@ -61,7 +61,7 @@ export default function TodosPage() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addTodo()}
             placeholder="Add a new task..."
-            className="flex-1 px-4 py-3 rounded-lg border border-[#EAEEF3] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9] bg-white text-[#0C4A6E] placeholder:text-[#5E6D77]/50"
+            className="flex-1 px-4 py-3 rounded-lg border border-[#EAEEF3] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9] bg-white text-[#0C4A6E] placeholder:text-gray-700/50"
           />
           <button
             onClick={addTodo}
@@ -72,14 +72,14 @@ export default function TodosPage() {
         </div>
 
         {todos.length === 0 && (
-          <div className="text-center py-16 text-[#5E6D77]">
+          <div className="text-center py-16 text-gray-700">
             <p className="text-lg">No tasks yet. Add one above!</p>
           </div>
         )}
 
         {activeTodos.length > 0 && (
           <div className="space-y-2 mb-8">
-            <h2 className="text-sm font-semibold text-[#5E6D77] uppercase tracking-wider mb-3">
+            <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-3">
               Active
             </h2>
             {activeTodos.map((todo) => (
@@ -90,7 +90,7 @@ export default function TodosPage() {
 
         {completedTodos.length > 0 && (
           <div className="space-y-2">
-            <h2 className="text-sm font-semibold text-[#5E6D77] uppercase tracking-wider mb-3 flex items-center gap-2">
+            <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-3 flex items-center gap-2">
               <RotateCcw size={14} /> Completed ({completedTodos.length})
             </h2>
             {completedTodos.map((todo) => (
@@ -129,13 +129,13 @@ function TodoItem({
         {todo.completed && <Check size={12} strokeWidth={3} />}
       </button>
       <span
-        className={`flex-1 text-[#0C4A6E] ${todo.completed ? "line-through text-[#5E6D77]" : ""}`}
+        className={`flex-1 text-[#0C4A6E] ${todo.completed ? "line-through text-gray-700" : ""}`}
       >
         {todo.text}
       </span>
       <button
         onClick={() => onDelete(todo.id)}
-        className="text-[#5E6D77] hover:text-red-500 transition-colors p-1"
+        className="text-gray-700 hover:text-red-500 transition-colors p-1"
       >
         <Trash2 size={16} />
       </button>

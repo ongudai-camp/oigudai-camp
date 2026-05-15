@@ -102,7 +102,7 @@ export default function ClientNav({ locale, session, logoutButton, localeSwitche
                             <div className="font-bold text-sky-950 text-[15px] group-hover/item:text-orange-500 transition-colors">
                               {t(`mega.${section.title}.${item.title}`)}
                             </div>
-                            <div className="text-[12px] text-sky-400 font-medium leading-relaxed mt-1">{t(`mega.${section.title}.${item.title}_desc`)}</div>
+                            <div className="text-[12px] text-sky-700 font-medium leading-relaxed mt-1">{t(`mega.${section.title}.${item.title}_desc`)}</div>
                           </div>
                         </Link>
                       ))}
@@ -118,7 +118,7 @@ export default function ClientNav({ locale, session, logoutButton, localeSwitche
                         <h3 className="text-2xl font-black mt-2 leading-tight text-white tracking-tight">
                           {t(`mega.${section.title}.${section.featured.description}`)}
                         </h3>
-                        <p className="text-sky-200/60 text-sm mt-4 leading-relaxed line-clamp-2 font-medium">
+                        <p className="text-sky-500/60 text-sm mt-4 leading-relaxed line-clamp-2 font-medium">
                            Откройте для себя новый уровень комфорта и сервиса в нашем комплексе.
                         </p>
                       </div>
@@ -246,7 +246,7 @@ export default function ClientNav({ locale, session, logoutButton, localeSwitche
                       </div>
                       <div className="flex flex-col">
                         <span className="font-bold text-sky-900">{t(`mega.${section.title}.${item.title}`)}</span>
-                        <span className="text-[11px] text-sky-400 font-medium">{t(`mega.${section.title}.${item.title}_desc`)}</span>
+                        <span className="text-[11px] text-sky-700 font-medium">{t(`mega.${section.title}.${item.title}_desc`)}</span>
                       </div>
                     </Link>
                   ))}
@@ -265,7 +265,7 @@ export default function ClientNav({ locale, session, logoutButton, localeSwitche
 
           <div className="pt-10 border-t border-sky-100 space-y-8">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-black uppercase tracking-widest text-sky-300">Language</span>
+              <span className="text-sm font-black uppercase tracking-widest text-sky-600">Language</span>
               {localeSwitcher}
             </div>
             

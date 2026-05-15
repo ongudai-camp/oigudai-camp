@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { notifyBookingCreated, notifyBookingStatusChanged } from "@/lib/notifications";
 
 // POST - Create new booking
 export async function POST(request: Request) {
@@ -19,10 +20,30 @@ export async function POST(request: Request) {
       checkOut,
       guests,
       totalPrice,
+      specialRequests,
+      guestName,
+      guestEmail,
+      guestPhone,
+      promoCode,
+      discountAmount,
+      addonIds,
     } = body;
+
+    // Calculate addon total
+    let addonsTotal = 0;
+    let addonData: { id: number; title: string; price: number }[] = [];
+    if (addonIds && Array.isArray(addonIds) && addonIds.length > 0) {
+      const addons = await prisma.addon.findMany({
+        where: { id: { in: addonIds }, active: true },
+      });
+      addonsTotal = addons.reduce((sum, a) => sum + a.price, 0);
+      addonData = addons.map((a) => ({ id: a.id, title: a.title, price: a.price }));
+    }
 
     // Generate unique booking ID
     const bookingId = `BK-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+    const finalPrice = parseFloat(totalPrice) + addonsTotal - (parseFloat(discountAmount) || 0);
 
     const booking = await prisma.booking.create({
       data: {
@@ -33,14 +54,31 @@ export async function POST(request: Request) {
         checkIn: new Date(checkIn),
         checkOut: checkOut ? new Date(checkOut) : null,
         guests: parseInt(guests) || 1,
-        totalPrice: parseFloat(totalPrice),
+        totalPrice: Math.max(0, finalPrice),
+        specialRequests: specialRequests || null,
+        guestEmail: guestEmail || null,
+        guestPhone: guestPhone || null,
+        promoCode: promoCode || null,
+        discountAmount: parseFloat(discountAmount) || 0,
+        addons: addonData.length > 0 ? JSON.stringify(addonData) : null,
         status: "pending",
         paymentStatus: "unpaid",
       },
       include: {
         post: true,
         room: true,
+        user: true,
       },
+    });
+
+    notifyBookingCreated({
+      id: booking.id,
+      bookingId: booking.bookingId,
+      userId: booking.userId,
+      status: booking.status,
+      totalPrice: booking.totalPrice,
+      post: booking.post,
+      user: booking.user,
     });
 
     return NextResponse.json(booking, { status: 201 });
@@ -71,6 +109,7 @@ export async function PATCH(request: Request) {
     // Verify ownership
     const existing = await prisma.booking.findUnique({
       where: { id: parseInt(bookingId) },
+      include: { post: true },
     });
 
     if (!existing) {
@@ -87,8 +126,20 @@ export async function PATCH(request: Request) {
         ...(status && { status }),
         ...(paymentStatus && { paymentStatus }),
       },
-      include: { post: true, room: true },
+      include: { post: true, room: true, user: true },
     });
+
+    if (status && existing.status !== status) {
+      notifyBookingStatusChanged({
+        id: existing.id,
+        bookingId: existing.bookingId,
+        userId: existing.userId,
+        status,
+        totalPrice: existing.totalPrice,
+        post: existing.post,
+        user: booking.user,
+      }, existing.status);
+    }
 
     return NextResponse.json(booking);
   } catch (error) {

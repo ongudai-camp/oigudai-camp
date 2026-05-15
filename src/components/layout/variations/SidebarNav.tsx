@@ -90,7 +90,7 @@ export default function SidebarNav({ locale, session, logoutButton, localeSwitch
               {navConfig.map((section) => {
                 return (
                   <div key={section.title} className="pt-4">
-                     <div className="px-4 text-xs font-black uppercase tracking-widest text-[#1A2B48] mb-2">
+                     <div className="px-4 text-xs font-black uppercase tracking-widest text-gray-900 mb-2">
                         {t(`nav.${section.title}`)}
                      </div>
                      <div className="space-y-1">
@@ -114,7 +114,7 @@ export default function SidebarNav({ locale, session, logoutButton, localeSwitch
 
         <div className="p-6 sm:p-8 border-t border-gray-100 space-y-6">
            <div className="flex items-center gap-4">
-              <Globe className="w-5 h-5 text-[#1A2B48]" />
+              <Globe className="w-5 h-5 text-gray-900" />
               <div className="scale-90 origin-left">{localeSwitcher}</div>
            </div>
            

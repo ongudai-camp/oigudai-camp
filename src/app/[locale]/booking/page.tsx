@@ -37,7 +37,7 @@ export default async function BookingPage({
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         <Link
           href={"/" + locale + "/" + typePath + "/" + post.slug}
-          className="inline-flex items-center gap-2 text-sky-500 hover:text-orange-500 font-bold text-sm transition-colors mb-6 group"
+          className="inline-flex items-center gap-2 text-sky-700 hover:text-orange-500 font-bold text-sm transition-colors mb-6 group"
         >
           <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
           Вернуться к {type === "hotel" ? "отелю" : type === "tour" ? "туру" : "активности"}
@@ -72,7 +72,7 @@ export default async function BookingPage({
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-sky-100 to-sky-50 flex items-center justify-center">
-                    <MapPin size={48} className="text-sky-200" />
+                    <MapPin size={48} className="text-sky-500" />
                   </div>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
@@ -89,14 +89,14 @@ export default async function BookingPage({
 
               <div className="p-6 space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-sky-300">Тип</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-sky-600">Тип</span>
                   <span className="font-bold text-sm text-sky-950">
                     {type === "hotel" ? "Отель" : type === "tour" ? "Тур" : "Активность"}
                   </span>
                 </div>
                 {post.rating > 0 && (
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-sky-300">Рейтинг</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-sky-600">Рейтинг</span>
                     <span className="font-bold text-sm text-orange-500 flex items-center gap-1">
                       <Star size={14} className="fill-orange-500" /> {post.rating}
                     </span>
@@ -104,8 +104,8 @@ export default async function BookingPage({
                 )}
                 {post.content && (
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-sky-300 block mb-2">Описание</span>
-                    <p className="text-sm text-sky-700/70 line-clamp-3 leading-relaxed">{post.content}</p>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-sky-600 block mb-2">Описание</span>
+                    <p className="text-sm text-sky-700 line-clamp-3 leading-relaxed">{post.content}</p>
                   </div>
                 )}
               </div>

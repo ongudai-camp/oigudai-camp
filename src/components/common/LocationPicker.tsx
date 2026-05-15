@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 
 interface LocationPickerProps {
   address: string;
@@ -11,27 +9,18 @@ interface LocationPickerProps {
   onChange: (data: { address: string; latitude: number | null; longitude: number | null }) => void;
 }
 
-const defaultIcon = L.icon({
-  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-
-L.Marker.prototype.options.icon = defaultIcon;
-
 export default function LocationPicker({ address, latitude, longitude, onChange }: LocationPickerProps) {
-  const mapRef = useRef<L.Map | null>(null);
-  const markerRef = useRef<L.Marker | null>(null);
+  const mapRef = useRef<any>(null);
+  const markerRef = useRef<any>(null);
+  const LRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [searchQuery, setSearchQuery] = useState(address || "");
   const [searching, setSearching] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
   const updateMarker = useCallback((lat: number, lng: number) => {
+    const L = LRef.current;
+    if (!L) return;
     if (markerRef.current) {
       markerRef.current.setLatLng([lat, lng]);
     } else if (mapRef.current) {
@@ -108,34 +97,64 @@ export default function LocationPicker({ address, latitude, longitude, onChange 
   }
 
   useEffect(() => {
-    if (!containerRef.current || mapRef.current) return;
+    if (!containerRef.current) return;
+    let cancelled = false;
 
-    const map = L.map(containerRef.current, {
-      center: [50.75, 86.0],
-      zoom: 9,
-      zoomControl: true,
-    });
+    async function initMap() {
+      const L = await import("leaflet");
+      await import("leaflet/dist/leaflet.css");
+      if (cancelled || mapRef.current) return;
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      maxZoom: 19,
-    }).addTo(map);
+      LRef.current = L;
 
-    map.on("click", (e: L.LeafletMouseEvent) => {
-      reverseGeocode(e.latlng.lat, e.latlng.lng);
-      updateMarker(e.latlng.lat, e.latlng.lng);
-    });
+      const defaultIcon = L.icon({
+        iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+        iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+        shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41],
+      });
 
-    mapRef.current = map;
+      L.Marker.prototype.options.icon = defaultIcon;
 
-    if (latitude && longitude) {
-      updateMarker(latitude, longitude);
+      const container = containerRef.current!;
+      delete (container as any)._leaflet_id;
+
+      const map = L.map(container, {
+        center: [50.75, 86.0],
+        zoom: 9,
+        zoomControl: true,
+      });
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        maxZoom: 19,
+      }).addTo(map);
+
+      map.on("click", (e: any) => {
+        reverseGeocode(e.latlng.lat, e.latlng.lng);
+        updateMarker(e.latlng.lat, e.latlng.lng);
+      });
+
+      mapRef.current = map;
+
+      if (latitude && longitude) {
+        updateMarker(latitude, longitude);
+      }
     }
 
+    initMap();
+
     return () => {
-      map.remove();
+      cancelled = true;
+      if (mapRef.current) {
+        (mapRef.current as any).remove();
+      }
       mapRef.current = null;
       markerRef.current = null;
+      LRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -184,7 +203,7 @@ export default function LocationPicker({ address, latitude, longitude, onChange 
         {suggestions.length > 0 && (
           <ul className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-xl shadow-lg mt-1 z-[1000] max-h-48 overflow-y-auto">
             {suggestions.map((s, i) => (
-              <li key={i}>
+              <li key={s}>
                 <button
                   type="button"
                   onClick={() => handleSuggestionClick(s)}
@@ -201,7 +220,7 @@ export default function LocationPicker({ address, latitude, longitude, onChange 
       <div ref={containerRef} className="w-full h-[350px] rounded-xl border border-gray-300 overflow-hidden z-0" />
 
       {latitude && longitude && (
-        <div className="flex gap-4 text-sm text-[#1A2B48]">
+        <div className="flex gap-4 text-sm text-gray-900">
           <span>Широта: {latitude.toFixed(6)}</span>
           <span>Долгота: {longitude.toFixed(6)}</span>
         </div>

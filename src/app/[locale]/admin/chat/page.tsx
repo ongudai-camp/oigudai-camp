@@ -110,7 +110,7 @@ export default function AdminChatPage() {
               <h2 className="font-semibold">{t('chat.users')}</h2>
             </div>
             {usersWithChats.length === 0 ? (
-              <div className="p-4 text-center text-[#1A2B48]">
+              <div className="p-4 text-center text-gray-900">
                 {t('chat.noActiveChats')}
               </div>
             ) : (
@@ -132,7 +132,7 @@ export default function AdminChatPage() {
                       <p className="font-medium text-gray-900 truncate">
                         {chat.name || t('chat.noName')}
                       </p>
-                      <p className="text-sm text-[#1A2B48] truncate">
+                      <p className="text-sm text-gray-900 truncate">
                         {chat.lastMessage || t('chat.noMessages')}
                       </p>
                     </div>
@@ -150,7 +150,7 @@ export default function AdminChatPage() {
                   <h3 className="font-semibold">
                     {usersWithChats.find((u) => u.userId === selectedUserId)?.name || t('chat.userLabel')}
                   </h3>
-                  <p className="text-sm text-[#1A2B48]">
+                  <p className="text-sm text-gray-900">
                     ID: {selectedUserId}
                   </p>
                 </div>
@@ -171,7 +171,7 @@ export default function AdminChatPage() {
                         <p className="text-sm">{msg.content}</p>
                         <p
                           className={`text-xs mt-1 flex items-center gap-1 ${
-                            msg.isFromUser ? "text-blue-600" : "text-[#1A2B48]"
+                            msg.isFromUser ? "text-blue-600" : "text-gray-900"
                           }`}
                         >
                           {new Date(msg.createdAt).toLocaleTimeString(locale === "kk" ? "kk-KZ" : locale, {
@@ -179,7 +179,7 @@ export default function AdminChatPage() {
                             minute: "2-digit",
                           })}
                           {msg.isAiGenerated && (
-                            <span className="inline-flex items-center gap-0.5 text-[10px] font-medium text-purple-400">
+                            <span className="inline-flex items-center gap-0.5 text-[10px] font-medium text-purple-600">
                               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
                                 <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
@@ -201,7 +201,7 @@ export default function AdminChatPage() {
                       onKeyDown={handleKeyPress}
                       placeholder={t('chat.messagePlaceholder')}
                       rows={2}
-                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-[#1A2B48]"
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-gray-900"
                     />
                     <button
                       onClick={sendMessage}
@@ -214,7 +214,7 @@ export default function AdminChatPage() {
                 </div>
               </>
             ) : (
-              <div className="flex-1 flex items-center justify-center text-[#1A2B48]">
+              <div className="flex-1 flex items-center justify-center text-gray-900">
                 <p>{t('chat.selectUser')}</p>
               </div>
             )}

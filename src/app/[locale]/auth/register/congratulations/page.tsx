@@ -25,7 +25,7 @@ export default function CongratulationsPage() {
             <p className="text-lg text-green-600 font-bold">
               {t("congratulations.subtitle")}
             </p>
-            <p className="text-[#1A2B48] leading-relaxed max-w-sm mx-auto">
+            <p className="text-gray-900 leading-relaxed max-w-sm mx-auto">
               {t("congratulations.description")}
             </p>
           </div>

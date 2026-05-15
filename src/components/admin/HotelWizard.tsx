@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createHotelAction } from "@/app/actions/hotel";
 import { getRoomTypesAction, getFacilitiesAction } from "@/app/actions/room-meta";
@@ -48,6 +48,7 @@ export default function HotelWizard() {
 
   // Rooms
   interface RoomData {
+    _key: number;
     title: string;
     description: string;
     price: string;
@@ -59,12 +60,13 @@ export default function HotelWizard() {
     facilityIds: number[];
   }
 
+  const roomKeyRef = useRef(0);
   const [rooms, setRooms] = useState<RoomData[]>([
-    { title: "", description: "", price: "", guests: 1, beds: 1, bathrooms: 1, floor: null, roomTypeId: null, facilityIds: [] },
+    { _key: ++roomKeyRef.current, title: "", description: "", price: "", guests: 1, beds: 1, bathrooms: 1, floor: null, roomTypeId: null, facilityIds: [] },
   ]);
 
   const addRoom = () => {
-    setRooms([...rooms, { title: "", description: "", price: "", guests: 1, beds: 1, bathrooms: 1, floor: null, roomTypeId: null, facilityIds: [] }]);
+    setRooms([...rooms, { _key: ++roomKeyRef.current, title: "", description: "", price: "", guests: 1, beds: 1, bathrooms: 1, floor: null, roomTypeId: null, facilityIds: [] }]);
   };
 
   const updateRoom = (index: number, field: keyof RoomData, value: string | number | null | number[]) => {
@@ -128,7 +130,7 @@ export default function HotelWizard() {
       case Step.HOTEL_INFO:
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-[#5000FF]">Информация об отеле</h2>
+            <h2 className="text-xl font-semibold text-indigo-700">Информация об отеле</h2>
 
             <div>
               <label htmlFor="hotel-title" className="block text-sm font-medium text-gray-700 mb-2">
@@ -142,7 +144,7 @@ export default function HotelWizard() {
                 autoComplete="off"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                 placeholder="Например: Grand Hotel Ongudai"
               />
             </div>
@@ -157,7 +159,7 @@ export default function HotelWizard() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                 placeholder="Описание отеля..."
               />
             </div>
@@ -192,7 +194,7 @@ export default function HotelWizard() {
                   autoComplete="off"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                   placeholder="3000"
                 />
               </div>
@@ -209,7 +211,7 @@ export default function HotelWizard() {
                   autoComplete="off"
                   value={salePrice}
                   onChange={(e) => setSalePrice(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                   placeholder="2500"
                 />
               </div>
@@ -223,7 +225,7 @@ export default function HotelWizard() {
         return (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-[#5000FF]">Номера отеля</h2>
+              <h2 className="text-xl font-semibold text-indigo-700">Номера отеля</h2>
               <button
                 type="button"
                 onClick={addRoom}
@@ -234,7 +236,7 @@ export default function HotelWizard() {
             </div>
 
             {rooms.map((room, index) => (
-              <div key={index} className="bg-gray-50 rounded-lg p-6 space-y-4 border border-gray-200">
+              <div key={room._key} className="bg-gray-50 rounded-lg p-6 space-y-4 border border-gray-200">
                 <div className="flex justify-between items-center">
                   <h3 className="font-medium text-lg">Номер {index + 1}</h3>
                   {rooms.length > 1 && (
@@ -258,7 +260,7 @@ export default function HotelWizard() {
                       name="roomTypeId"
                       value={room.roomTypeId || ""}
                       onChange={(e) => updateRoom(index, "roomTypeId", e.target.value ? parseInt(e.target.value) : null)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                     >
                       <option value="">Выберите тип</option>
                       {roomTypes.map((type) => (
@@ -281,7 +283,7 @@ export default function HotelWizard() {
                       autoComplete="off"
                       value={room.title}
                       onChange={(e) => updateRoom(index, "title", e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                       placeholder="Напр: Коттедж двухместный"
                     />
                   </div>
@@ -297,7 +299,7 @@ export default function HotelWizard() {
                     value={room.description}
                     onChange={(e) => updateRoom(index, "description", e.target.value)}
                     rows={2}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                     placeholder="Описание номера..."
                   />
                 </div>
@@ -316,7 +318,7 @@ export default function HotelWizard() {
                       autoComplete="off"
                       value={room.price}
                       onChange={(e) => updateRoom(index, "price", e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                     />
                   </div>
 
@@ -333,7 +335,7 @@ export default function HotelWizard() {
                       autoComplete="off"
                       value={room.guests}
                       onChange={(e) => updateRoom(index, "guests", parseInt(e.target.value))}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                     />
                   </div>
 
@@ -350,7 +352,7 @@ export default function HotelWizard() {
                       autoComplete="off"
                       value={room.floor || ""}
                       onChange={(e) => updateRoom(index, "floor", e.target.value ? parseInt(e.target.value) : null)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                       placeholder="Любой"
                     />
                   </div>
@@ -368,7 +370,7 @@ export default function HotelWizard() {
                       autoComplete="off"
                       value={room.beds}
                       onChange={(e) => updateRoom(index, "beds", parseInt(e.target.value))}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-[#5000FF]"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-indigo-700"
                     />
                   </div>
                 </div>
@@ -399,8 +401,8 @@ export default function HotelWizard() {
       case Step.GALLERY:
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-[#5000FF]">Галерея изображений</h2>
-            <p className="text-[#1A2B48]">
+            <h2 className="text-xl font-semibold text-indigo-700">Галерея изображений</h2>
+            <p className="text-gray-900">
               Загрузите изображения отеля. Первое изображение будет главным.
             </p>
             <ImageUploader images={images} onChange={setImages} />
@@ -410,13 +412,13 @@ export default function HotelWizard() {
       case Step.REVIEW:
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-[#5000FF]">Проверка и сохранение</h2>
+            <h2 className="text-xl font-semibold text-indigo-700">Проверка и сохранение</h2>
             <div className="bg-gray-50 rounded-lg p-6 space-y-4">
               <div>
                 <h3 className="font-medium text-gray-900">Информация об отеле</h3>
-                <p className="text-[#1A2B48]">Название: {title}</p>
-                <p className="text-[#1A2B48]">Адрес: {address}</p>
-                <p className="text-[#1A2B48]">Цена: {price} ₽</p>
+                <p className="text-gray-900">Название: {title}</p>
+                <p className="text-gray-900">Адрес: {address}</p>
+                <p className="text-gray-900">Цена: {price} ₽</p>
               </div>
               {images.length > 0 && (
                 <div>
@@ -426,7 +428,7 @@ export default function HotelWizard() {
               <div>
                 <h3 className="font-medium text-gray-900">Номера ({rooms.length})</h3>
                 {rooms.map((room, index) => (
-                  <div key={index} className="ml-4 text-[#1A2B48] border-l-2 border-gray-200 pl-4 py-1 mb-2">
+                  <div key={room._key} className="ml-4 text-gray-900 border-l-2 border-gray-200 pl-4 py-1 mb-2">
                     <p className="font-medium">{room.title} - {room.price} ₽</p>
                     <p className="text-sm">
                       Тип: {roomTypes.find(t => t.id === room.roomTypeId)?.name || "Не указан"} | 
@@ -461,7 +463,7 @@ export default function HotelWizard() {
                 className={`w-10 h-10 rounded-full flex items-center justify-center font-medium ${
                   currentStep >= step
                     ? "bg-blue-600 text-white"
-                    : "bg-gray-200 text-[#1A2B48]"
+                    : "bg-gray-200 text-gray-900"
                 }`}
               >
                 {step}
@@ -477,10 +479,10 @@ export default function HotelWizard() {
           ))}
         </div>
         <div className="flex justify-between mt-2">
-          <span className="text-xs text-[#1A2B48]">Инфо</span>
-          <span className="text-xs text-[#1A2B48]">Номера</span>
-          <span className="text-xs text-[#1A2B48]">Фото</span>
-          <span className="text-xs text-[#1A2B48]">Готово</span>
+          <span className="text-xs text-gray-900">Инфо</span>
+          <span className="text-xs text-gray-900">Номера</span>
+          <span className="text-xs text-gray-900">Фото</span>
+          <span className="text-xs text-gray-900">Готово</span>
         </div>
       </div>
 

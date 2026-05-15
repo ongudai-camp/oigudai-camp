@@ -8,7 +8,8 @@
     "login": "Войти",
     "register": "Регистрация",
     "dashboard": "Кабинет",
-    "admin": "Админ панель"
+    "admin": "Админ панель",
+    "calendar": "Календарь"
   },
   "mega": {
     "accommodation": {
@@ -50,9 +51,10 @@
     "title": "Открой для себя",
     "subtitle": "Магию Алтая",
     "description": "Лучшие отели, незабываемые туры и активный отдых в самом сердце горного Алтая — Онгудайском районе.",
-    "cta_hotels": "Найти отель",
-    "cta_tours": "Смотреть туры",
-    "rating": "рейтинг гостей"
+    "rating": "рейтинг гостей",
+    "search_hotels": "Отели",
+    "search_tours": "Туры",
+    "search_activities": "Активности"
   },
   "featured": {
     "hotels": "Лучшие отели",
@@ -105,6 +107,7 @@
     "description": "Описание",
     "amenities": "Удобства",
     "rooms": "Номера",
+    "roomTypes": "Типы размещения",
     "reviews": "Отзывы",
     "noReviews": "Пока нет отзывов. Будьте первым!",
     "guests": "гостей",
@@ -167,6 +170,9 @@
     "backHome": "Вернуться на главную"
   },
   "dashboard": {
+    "personal": "Личное",
+    "management": "Управление",
+    "users": "Пользователи",
     "title": "Личный кабинет",
     "welcome": "Добро пожаловать, {name}!",
     "description": "Здесь вы можете управлять своими бронированиями и просматривать историю поездок.",
@@ -231,6 +237,18 @@
     "profileUpdated": "Профиль успешно обновлён",
     "enterCurrentPassword": "Введите текущий пароль",
     "or": "или",
+    "personalSection": "Личное",
+    "managementSection": "Управление",
+    "bookingDetail": "Детали бронирования",
+    "property": "Объект",
+    "room": "Номер",
+    "checkIn": "Заезд",
+    "checkOut": "Выезд",
+    "totalPrice": "Итого",
+    "hotels": "Отели",
+    "tours": "Туры",
+    "activities": "Активности",
+    "contactUs": "Связаться с нами",
     "backToDashboard": "← На сайт"
   },
   "listing": {
@@ -454,6 +472,7 @@
       "hotels": "Отели",
       "tours": "Туры",
       "activities": "Активности",
+      "calendar": "Календарь",
       "bookings": "Бронирования",
       "showcase": "Шоукес",
       "users": "Пользователи",
@@ -656,6 +675,28 @@
       "mn": "Монголия"
     }
   },
+  "reviews": {
+    "title": "Отзывы",
+    "writeReview": "Написать отзыв",
+    "cancelReview": "Отмена",
+    "overallRating": "Общая оценка",
+    "categories": {
+      "cleanliness": "Чистота",
+      "location": "Расположение",
+      "staff": "Персонал",
+      "value": "Цена/качество",
+      "facilities": "Удобства"
+    },
+    "titlePlaceholder": "Заголовок отзыва (необязательно)",
+    "contentPlaceholder": "Поделитесь своими впечатлениями...",
+    "submitReview": "Отправить отзыв",
+    "signInToReview": "Войдите, чтобы оставить отзыв",
+    "noReviews": "Пока нет отзывов",
+    "anonymous": "Аноним",
+    "reviewCount": "{count} {count, plural, one {отзыв} few {отзыва} many {отзывов} other {отзыва}}",
+    "pleaseSelectRating": "Пожалуйста, выберите оценку",
+    "submitting": "Отправка..."
+  },
   "imageUploader": {
     "uploadCount": "Загружено: {count} {count, plural, one {изображение} other {изображений}}",
     "noneUploaded": "Изображения не загружены",
@@ -673,6 +714,37 @@
     "deleteConfirmation": "Да, удалить",
     "deleteDialogTitle": "Подтвердите удаление",
     "cancel": "Отмена"
+  },
+  "calendar": {
+    "title": "Календарь доступности",
+    "description": "Проверьте доступность всех объектов Ongudai Camp",
+    "adminTitle": "Календарь",
+    "adminDescription": "Управление доступностью всех типов объектов",
+    "showPrices": "Показать цены",
+    "showAvailability": "Показать доступность",
+    "loading": "Загрузка календаря...",
+    "error": "Не удалось загрузить календарь",
+    "available": "Доступно",
+    "limited": "Ограничено",
+    "booked": "Занято",
+    "past": "Прошлое",
+    "free": "свободно",
+    "fromPrice": "от ₽{price}",
+    "selectProperty": "Выберите объект...",
+    "allRooms": "Все номера",
+    "allTypes": "Все типы",
+    "bulkUpdate": "Массовое обновление",
+    "daysSelected": "Выбрано {count} дн.",
+    "status": "Статус",
+    "priceOptional": "Цена (₽, опционально)",
+    "keepCurrent": "Оставить текущую",
+    "apply": "Применить",
+    "filters": "Фильтры",
+    "propertyType": "Тип объекта",
+    "property": "Объект",
+    "room": "Номер",
+    "previousMonth": "Предыдущий месяц",
+    "nextMonth": "Следующий месяц"
   },
   "adminStats": {
     "title": "Обзор системы",

@@ -48,7 +48,7 @@ export default function ShowcasePage() {
               }`}
             >
               <div className='font-bold truncate'>{hotel.title}</div>
-              <div className={`text-xs ${selectedHotelIndex === index ? 'text-sky-100' : 'text-sky-500'}`}>
+              <div className={`text-xs ${selectedHotelIndex === index ? 'text-sky-600' : 'text-sky-700'}`}>
                 {hotel.price} ₽ {t('showcase.perNight')}
               </div>
             </button>
