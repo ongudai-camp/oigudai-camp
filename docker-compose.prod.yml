@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/ongudai-camp/oigudai-camp:${TAG:-latest}
+    image: ghcr.io/ongudai-camp/oigudai-camp:latest
     restart: unless-stopped
     ports:
       - "127.0.0.1:3000:3000"
