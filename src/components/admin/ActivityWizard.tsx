@@ -66,9 +66,8 @@ export default function ActivityWizard() {
       } else {
         router.push("/admin/activities");
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      setError(err.message || "Произошла ошибка");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Произошла ошибка");
     } finally {
       setLoading(false);
     }

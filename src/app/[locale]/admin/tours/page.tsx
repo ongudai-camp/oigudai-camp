@@ -3,6 +3,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import DeleteButton from "@/components/admin/DeleteButton";
 import { getTranslations } from "next-intl/server";
+import type { Prisma } from "@prisma/client";
 
 export default async function AdminToursPage({
   params,
@@ -57,8 +58,7 @@ export default async function AdminToursPage({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            {tours.map((tour: any) => (
+            {tours.map((tour: Prisma.PostGetPayload<{ include: { author: true; _count: { select: { bookings: true } } } }>) => (
               <tr key={tour.id} className="hover:bg-gray-50 cursor-pointer transition-colors duration-200">
                 <td className="px-6 py-4">
                   <div className="font-medium text-gray-900">{tour.title}</div>

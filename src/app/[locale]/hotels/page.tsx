@@ -4,6 +4,7 @@ import Link from "next/link";
 import SideSearchPanel from "@/components/common/SideSearchPanel";
 import DynamicMap from "@/components/common/DynamicMap";
 import CategoryFilter from "@/components/listing/CategoryFilter";
+import type { Prisma } from "@prisma/client";
 import { Star, MapPin, ArrowRight, List, Map as MapIcon, Search } from "lucide-react";
 
 interface HotelsPageProps {
@@ -17,35 +18,24 @@ export default async function HotelsPage({ params, searchParams }: HotelsPagePro
   const t = await getTranslations({ locale, namespace: "listing" });
   const tc = await getTranslations({ locale, namespace: "common" });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const where: any = {
-    type: "hotel",
+  const priceFilter: Record<string, number> = {};
+  if (minPrice) priceFilter.gte = parseFloat(minPrice);
+  if (maxPrice) priceFilter.lte = parseFloat(maxPrice);
+
+  const where: Prisma.PostWhereInput = {
+    type: type ?? "hotel",
     status: "publish",
     locale,
+    ...(q && {
+      OR: [
+        { title: { contains: q, mode: "insensitive" } },
+        { address: { contains: q, mode: "insensitive" } },
+      ],
+    }),
+    ...(Object.keys(priceFilter).length && { price: priceFilter }),
+    ...(type && { rooms: { some: { roomType: { slug: type } } } }),
+    ...(category && { meta: { some: { key: "category", value: category } } }),
   };
-
-  if (q) {
-    where.OR = [
-      { title: { contains: q, mode: "insensitive" } },
-      { address: { contains: q, mode: "insensitive" } },
-    ];
-  }
-
-  if (minPrice) {
-    where.price = { gte: parseFloat(minPrice) };
-  }
-
-  if (maxPrice) {
-    where.price = { ...where.price, lte: parseFloat(maxPrice) };
-  }
-
-  if (type) {
-    where.rooms = { some: { roomType: { slug: type } } };
-  }
-
-  if (category) {
-    where.meta = { some: { key: "category", value: category } };
-  }
 
   const hotels = await prisma.post.findMany({
     where,

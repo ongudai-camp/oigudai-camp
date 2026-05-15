@@ -195,6 +195,9 @@
     "settingsDescription": "Manage your account information and preferences.",
     "guests": "Guests",
     "personalInfo": "Personal Information",
+    "photo": "Photo",
+    "changePhoto": "Change photo",
+    "clickToChange": "Click to change",
     "accountInfo": "Account Info",
     "email": "Email",
     "phone": "Phone",
@@ -209,6 +212,7 @@
     "wishlistType_tour": "Tour",
     "wishlistType_activity": "Activity",
     "findTour": "Browse Tours",
+    "bookingTimeline": "Booking Status",
     "bookingsDescription": "Browse all your bookings, filter by status, and manage reservations.",
     "filters": {
       "all": "All",

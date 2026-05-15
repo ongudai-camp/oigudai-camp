@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { getTranslations } from "next-intl/server";
 import CategoryFilter from "@/components/listing/CategoryFilter";
+import type { Prisma } from "@prisma/client";
 import { Star, MapPin, ArrowRight, Search } from "lucide-react";
 
 export default async function ActivitiesPage({
@@ -16,23 +17,18 @@ export default async function ActivitiesPage({
   const t = await getTranslations({ locale, namespace: "listing" });
   const tc = await getTranslations({ locale, namespace: "common" });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const where: any = {
+  const where: Prisma.PostWhereInput = {
     type: "activity",
     status: "publish",
     locale,
+    ...(q && {
+      OR: [
+        { title: { contains: q, mode: "insensitive" } },
+        { address: { contains: q, mode: "insensitive" } },
+      ],
+    }),
+    ...(category && { meta: { some: { key: "category", value: category } } }),
   };
-
-  if (q) {
-    where.OR = [
-      { title: { contains: q, mode: "insensitive" } },
-      { address: { contains: q, mode: "insensitive" } },
-    ];
-  }
-
-  if (category) {
-    where.meta = { some: { key: "category", value: category } };
-  }
 
   const activities = await prisma.post.findMany({
     where,

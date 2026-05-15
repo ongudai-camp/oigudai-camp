@@ -195,6 +195,9 @@
     "settingsDescription": "Аккаунт ақпараты мен баптауларын басқару.",
     "guests": "Қонақтар",
     "personalInfo": "Жеке ақпарат",
+    "photo": "Фото",
+    "changePhoto": "Фотоны өзгерту",
+    "clickToChange": "Өзгерту үшін басыңыз",
     "accountInfo": "Аккаунт ақпараты",
     "email": "Email",
     "phone": "Телефон",
@@ -209,6 +212,7 @@
     "wishlistType_tour": "Тур",
     "wishlistType_activity": "Белсенділік",
     "findTour": "Турларды қарау",
+    "bookingTimeline": "Броньдау мәртебесі",
     "bookingsDescription": "Барлық броньдауларыңызды қараңыз, мәртебесі бойынша сүзгіден өткізіңіз және басқарыңыз.",
     "filters": {
       "all": "Барлығы",

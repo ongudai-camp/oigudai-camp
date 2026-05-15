@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import { getFacilitiesAction } from "@/app/actions/room-meta";
 import LucideIcon from "@/components/common/LucideIcon";
+import type { Facility } from "@prisma/client";
 
 export default function FacilitiesManagement() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [facilities, setFacilities] = useState<any[]>([]);
+  const [facilities, setFacilities] = useState<Facility[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

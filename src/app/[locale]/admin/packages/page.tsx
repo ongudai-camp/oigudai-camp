@@ -3,6 +3,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import DeletePackageButton from "./DeletePackageButton";
 import { getTranslations } from "next-intl/server";
+import type { Prisma } from "@prisma/client";
 
 export default async function AdminPackagesPage({
   params,
@@ -31,8 +32,7 @@ export default async function AdminPackagesPage({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        {packages.map((pkg: any) => (
+        {packages.map((pkg: Prisma.PackageGetPayload<{ include: { _count: { select: { userPackages: true } } } }>) => (
           <div key={pkg.id} className="bg-white rounded-xl shadow-sm border border-sky-100 p-6 relative hover:shadow-md transition-shadow">
             {pkg.featured && (
               <span className="absolute top-4 right-4 bg-yellow-400 text-yellow-900 px-2 py-1 text-xs rounded-full font-medium">

@@ -12,34 +12,34 @@ export default async function AdminLayout({ children, params }: { children: Reac
   const t = await getTranslations({ locale, namespace: 'admin' });
 
   const menuItems = [
-    { href: "/admin", label: t("admin.menu.dashboard"), icon: "📊" },
+    { href: "/admin", label: t("menu.dashboard"), icon: "📊" },
     { href: "/admin/calendar", label: "Calendar", icon: "📅" },
-    { href: "/admin/hotels", label: t("admin.menu.hotels"), icon: "🏨" },
-    { href: "/admin/tours", label: t("admin.menu.tours"), icon: "🗺️" },
-    { href: "/admin/activities", label: t("admin.menu.activities"), icon: "🎯" },
-    { href: "/admin/bookings", label: t("admin.menu.bookings"), icon: "📋" },
+    { href: "/admin/hotels", label: t("menu.hotels"), icon: "🏨" },
+    { href: "/admin/tours", label: t("menu.tours"), icon: "🗺️" },
+    { href: "/admin/activities", label: t("menu.activities"), icon: "🎯" },
+    { href: "/admin/bookings", label: t("menu.bookings"), icon: "📋" },
     { href: "/admin/addons", label: "Add-ons", icon: "➕" },
     { href: "/admin/promocodes", label: "PromoCodes", icon: "🏷️" },
     { href: "/admin/reviews", label: "Reviews", icon: "⭐" },
     { href: "/admin/categories", label: "Categories", icon: "📁" },
-    { href: "/admin/pages", label: t("admin.menu.pages"), icon: "📄" },
-    { href: "/admin/media", label: t("admin.menu.media"), icon: "🖼️" },
-    { href: "/admin/showcase", label: t("admin.menu.showcase"), icon: "🎬" },
-    { href: "/admin/chat", label: t("admin.menu.chat"), icon: "💬" },
-    { href: "/admin/users", label: t("admin.menu.users"), icon: "👥" },
-    { href: "/admin/packages", label: t("admin.menu.packages"), icon: "📦" },
-    { href: "/admin/settings/general", label: t("admin.menu.settings"), icon: "⚙️" },
+    { href: "/admin/pages", label: t("menu.pages"), icon: "📄" },
+    { href: "/admin/media", label: t("menu.media"), icon: "🖼️" },
+    { href: "/admin/showcase", label: t("menu.showcase"), icon: "🎬" },
+    { href: "/admin/chat", label: t("menu.chat"), icon: "💬" },
+    { href: "/admin/users", label: t("menu.users"), icon: "👥" },
+    { href: "/admin/packages", label: t("menu.packages"), icon: "📦" },
+    { href: "/admin/settings/general", label: t("menu.settings"), icon: "⚙️" },
     { href: "/admin/settings/meta", label: "Meta", icon: "🏷️" },
     { href: "/admin/settings/chat", label: "AI Chat", icon: "🤖" },
-    { href: "/admin/audit-log", label: t("admin.menu.auditLog"), icon: "📝" },
+    { href: "/admin/audit-log", label: t("menu.auditLog"), icon: "📝" },
   ];
 
   return (
     <div className="min-h-screen bg-[#f8fafc] flex">
       <AdminSidebarClient
         menuItems={menuItems}
-        title={t("admin.dashboard.title")}
-        backLabel={t("admin.menu.backToDashboard")}
+        title={t("dashboard.title")}
+        backLabel={t("menu.backToDashboard")}
         showSuperAdmin={isSuper}
       />
 

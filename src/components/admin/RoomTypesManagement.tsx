@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { getRoomTypesAction } from "@/app/actions/room-meta";
+import type { RoomType } from "@prisma/client";
 
 export default function RoomTypesManagement() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [types, setTypes] = useState<any[]>([]);
+  const [types, setTypes] = useState<RoomType[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

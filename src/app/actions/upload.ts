@@ -2,9 +2,17 @@
 
 import { auth } from "@/lib/auth";
 import { isAdmin } from "@/lib/adminAccess";
-import { prisma } from "@/lib/prisma";
 import { writeFile, mkdir, unlink } from "fs/promises";
 import path from "path";
+import {
+  optimizeImage,
+  generateFilename,
+  validateMagicBytes,
+  ALLOWED_IMAGE_TYPES,
+  GALLERY_MAX_SIZE,
+  GALLERY_MAX_FILES,
+} from "@/lib/upload";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function uploadImagesAction(formData: FormData) {
   const session = await auth();
@@ -13,9 +21,18 @@ export async function uploadImagesAction(formData: FormData) {
     return { error: "Не авторизован" };
   }
 
+  const rl = rateLimit({ key: `upload-${session.user.id}`, limit: 20, windowMs: 60000 });
+  if (!rl.allowed) {
+    return { error: "Слишком много загрузок. Попробуйте позже." };
+  }
+
   const files = formData.getAll("files") as File[];
   if (!files.length) {
     return { error: "Нет файлов" };
+  }
+
+  if (files.length > GALLERY_MAX_FILES) {
+    return { error: `Максимум ${GALLERY_MAX_FILES} файлов за раз` };
   }
 
   const urls: string[] = [];
@@ -25,17 +42,36 @@ export async function uploadImagesAction(formData: FormData) {
     await mkdir(uploadDir, { recursive: true });
 
     for (const file of files) {
+      if (!ALLOWED_IMAGE_TYPES.includes(file.type as typeof ALLOWED_IMAGE_TYPES[number])) {
+        return { error: `Неподдерживаемый тип файла: ${file.type}. Разрешены: ${ALLOWED_IMAGE_TYPES.join(", ")}` };
+      }
+
+      if (file.size > GALLERY_MAX_SIZE) {
+        return { error: `Файл слишком большой. Максимум 20MB` };
+      }
+
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
-      const ext = file.name.split(".").pop() || "jpg";
-      const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+      if (!validateMagicBytes(buffer, file.type)) {
+        return { error: `Содержимое файла не соответствует заявленному типу` };
+      }
+
+      const optimized = await optimizeImage(buffer, "gallery");
+      const filename = generateFilename();
       const filepath = path.join(uploadDir, filename);
-      await writeFile(filepath, buffer);
+      await writeFile(filepath, optimized);
       urls.push(`/uploads/${filename}`);
     }
 
     return { urls };
   } catch (error: unknown) {
+    for (const url of urls) {
+      try {
+        const fname = url.replace("/uploads/", "");
+        await unlink(path.join(uploadDir, fname));
+      } catch {}
+    }
     return { error: error instanceof Error ? error.message : "Ошибка загрузки" };
   }
 }
@@ -50,7 +86,6 @@ export async function deleteImageAction(url: string) {
   const filepath = path.join(process.cwd(), "public", "uploads", filename);
 
   try {
-    const { unlink } = await import("fs/promises");
     await unlink(filepath);
     return { success: true };
   } catch (error: unknown) {

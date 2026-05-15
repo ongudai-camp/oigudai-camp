@@ -1,5 +1,6 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import type { Prisma } from '@prisma/client';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -7,8 +8,7 @@ export async function GET(request: NextRequest) {
   const locale = searchParams.get('locale') || 'ru';
   const limit = parseInt(searchParams.get('limit') || '10');
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const where: any = {
+  const where: Prisma.PostWhereInput = {
     status: 'publish',
     locale,
   };

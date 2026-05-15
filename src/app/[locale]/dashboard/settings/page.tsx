@@ -41,14 +41,14 @@ export default async function SettingsPage({
     <>
           <div className="space-y-6">
             {/* Welcome Card */}
-            <div className="bg-white rounded-xl shadow-lg p-8">
+            <div className="bg-white rounded-xl shadow-lg p-8 text-sky-950">
               <h1 className="text-2xl font-bold mb-2">{t("settingsTitle")}</h1>
               <p className="text-gray-900">{t("settingsDescription")}</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Personal Info */}
-              <div className="bg-white rounded-xl shadow-lg p-6">
+              <div className="bg-white rounded-xl shadow-lg p-6 text-sky-950">
                 <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
                   <span>👤</span>
                   {t("personalInfo")}
@@ -70,7 +70,7 @@ export default async function SettingsPage({
               </div>
 
               {/* Account Info */}
-              <div className="bg-white rounded-xl shadow-lg p-6">
+              <div className="bg-white rounded-xl shadow-lg p-6 text-sky-950">
                 <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
                   <span>🔐</span>
                   {t("accountInfo")}

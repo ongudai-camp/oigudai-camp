@@ -197,7 +197,7 @@ export default function ProfilePage() {
   return (
     <>
           <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-8">
+            <div className="bg-white rounded-xl shadow-lg p-8 text-sky-950">
               <h1 className="text-2xl font-bold mb-2">{t("profile")}</h1>
               <p className="text-gray-900">{t("settingsDescription")}</p>
             </div>
@@ -214,7 +214,54 @@ export default function ProfilePage() {
               </div>
             )}
 
-            <form onSubmit={handleSave} className="bg-white rounded-xl shadow-lg p-6">
+            <div className="bg-white rounded-xl shadow-lg p-6 text-sky-950">
+              <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <span>📸</span>
+                {t("photo")}
+              </h2>
+              <div className="flex items-center gap-6">
+                <div className="relative w-24 h-24 rounded-full overflow-hidden bg-sky-100 flex-shrink-0">
+                  {image ? (
+                    <img
+                      src={image}
+                      alt="Avatar"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-3xl text-sky-400 font-bold">
+                      {name?.[0]?.toUpperCase() || "U"}
+                    </div>
+                  )}
+                  {avatarUploading && (
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                      <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    </div>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
+                    className="hidden"
+                    onChange={handleAvatarUpload}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={avatarUploading}
+                    className="px-4 py-2 bg-sky-50 text-sky-700 font-medium rounded-xl hover:bg-sky-100 disabled:opacity-50 transition-all cursor-pointer text-sm"
+                  >
+                    {t("changePhoto")}
+                  </button>
+                  {image && (
+                    <p className="text-xs text-gray-500">{t("clickToChange")}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <form onSubmit={handleSave} className="bg-white rounded-xl shadow-lg p-6 text-sky-950">
               <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
                 <span>👤</span>
                 {t("personalInfo")}
@@ -328,7 +375,7 @@ export default function ProfilePage() {
               </div>
             </form>
 
-            <div className="bg-white rounded-xl shadow-lg p-6">
+            <div className="bg-white rounded-xl shadow-lg p-6 text-sky-950">
               <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <span>ℹ️</span>
                 Информация об аккаунте

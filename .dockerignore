@@ -4,5 +4,15 @@ node_modules/
 *.log
 .env
 .env.local
+.env.example
 .dev.db
+*.db
+*.db-journal
 .gitignore
+.storybook/
+__tests__/
+coverage/
+*.tsbuildinfo
+Dockerfile
+.dockerignore
+.github/

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { notifyBookingCreated, notifyBookingStatusChanged, notifyAdminNewBooking } from "@/lib/notifications";
+import type { Prisma } from "@prisma/client";
 
 // POST - Create new booking
 export async function POST(request: Request) {
@@ -173,11 +174,11 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const isAdmin = session.user.role === "admin";
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const where: any = isAdmin ? {} : { userId };
+  const where: Prisma.BookingWhereInput = isAdmin ? {} : { userId };
 
-  if (searchParams.get("status")) {
-    where.status = searchParams.get("status");
+  const statusFilter = searchParams.get("status");
+  if (statusFilter) {
+    where.status = statusFilter;
   }
 
   const bookings = await prisma.booking.findMany({

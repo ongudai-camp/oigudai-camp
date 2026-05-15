@@ -10,12 +10,14 @@ declare module "next-auth" {
       id: string;
       role: string;
       phone?: string | null;
+      image?: string | null;
     } & DefaultSession["user"];
   }
 
   interface User {
     role?: string;
     phone?: string | null;
+    image?: string | null;
   }
 }
 
@@ -70,6 +72,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 name: user.name,
                 role: user.role,
                 phone: user.phone,
+                image: user.image,
               };
             }
           }
@@ -88,6 +91,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 name: user.name,
                 role: user.role,
                 phone: user.phone,
+                image: user.image,
               };
             }
           }
@@ -116,6 +120,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           name: user.name,
           role: user.role,
           phone: user.phone,
+          image: user.image,
         };
       },
     }),
@@ -126,6 +131,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         (token as Record<string, unknown>).id = user.id;
         (token as Record<string, unknown>).role = user.role;
         (token as Record<string, unknown>).phone = user.phone;
+        (token as Record<string, unknown>).image = user.image;
       }
       return token;
     },
@@ -134,6 +140,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.id = (token as Record<string, string>).id;
         session.user.role = (token as Record<string, string>).role;
         session.user.phone = (token as Record<string, string | null>).phone;
+        session.user.image = (token as Record<string, string | null>).image;
       }
       return session;
     },

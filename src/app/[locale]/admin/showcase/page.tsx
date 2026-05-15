@@ -36,8 +36,7 @@ export default function ShowcasePage() {
         {/* Hotel List */}
         <div className='space-y-4'>
           <h2 className='font-bold text-sky-900 uppercase text-xs tracking-wider'>{t('showcase.yourObjects')}</h2>
-          {// eslint-disable-next-line @typescript-eslint/no-explicit-any
-          hotels.map((hotel: any, index: number) => (
+          {hotels.map((hotel: { id: number; title: string; price: number }, index: number) => (
             <button
               key={hotel.id}
               onClick={() => setSelectedHotelIndex(index)}

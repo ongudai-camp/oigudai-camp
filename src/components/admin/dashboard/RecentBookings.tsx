@@ -5,6 +5,16 @@ import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useTranslations } from 'next-intl';
 
+interface BookingRow {
+  id: number;
+  bookingId: string;
+  post: { title: string };
+  user: { name: string | null; email: string | null };
+  checkIn: string;
+  totalPrice: number;
+  status: string;
+}
+
 export default function RecentBookings() {
   const t = useTranslations('admin');
 
@@ -55,8 +65,7 @@ export default function RecentBookings() {
               </tr>
             </thead>
             <tbody className='divide-y divide-sky-50'>
-              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              {bookings.map((booking: any) => (
+              {bookings.map((booking: BookingRow) => (
                 <tr key={booking.id} className='hover:bg-sky-50/50 cursor-pointer transition-colors duration-200 group'>
                   <td className='py-4 px-4 text-sm text-sky-800 font-mono'>{booking.bookingId}</td>
                   <td className='py-4 px-4 font-medium text-sky-950'>{booking.post.title}</td>

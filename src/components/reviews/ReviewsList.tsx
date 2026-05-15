@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { Star, User, BadgeCheck } from "lucide-react";
 
 export interface ReviewUser {
@@ -89,9 +90,9 @@ export default function ReviewsList({ reviews }: ReviewsListProps) {
           <div key={review.id} className="bg-white rounded-2xl p-5 border border-gray-100">
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+                <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden relative">
                   {review.user.image ? (
-                    <img src={review.user.image} alt="" className="w-full h-full object-cover" />
+                    <Image src={review.user.image} alt="" fill className="object-cover" />
                   ) : (
                     <User size={18} className="text-gray-400" />
                   )}

@@ -195,6 +195,9 @@
     "settingsDescription": "Управляйте информацией и настройками аккаунта.",
     "guests": "Гостей",
     "personalInfo": "Личная информация",
+    "photo": "Фотография",
+    "changePhoto": "Сменить фото",
+    "clickToChange": "Нажмите, чтобы изменить",
     "accountInfo": "Информация об аккаунте",
     "email": "Email",
     "phone": "Телефон",
@@ -209,6 +212,7 @@
     "wishlistType_tour": "Тур",
     "wishlistType_activity": "Активность",
     "findTour": "Смотреть туры",
+    "bookingTimeline": "Статус бронирования",
     "bookingsDescription": "Просматривайте все бронирования, фильтруйте по статусу и управляйте заказами.",
     "filters": {
       "all": "Все",

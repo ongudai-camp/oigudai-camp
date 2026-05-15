@@ -37,10 +37,14 @@ export default async function DashboardLayout({
   const sidebarContent = (
     <>
       <div className="text-center mb-6 pb-6 border-b border-gray-100">
-        <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-sky-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg shadow-blue-200">
-          <span className="text-2xl text-white font-bold">
-            {user.name?.[0] || "U"}
-          </span>
+        <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg shadow-blue-200 overflow-hidden">
+          {user.image ? (
+            <img src={user.image} alt="" className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-blue-500 to-sky-600 flex items-center justify-center">
+              <span className="text-2xl text-white font-bold">{user.name?.[0] || "U"}</span>
+            </div>
+          )}
         </div>
         <h3 className="font-semibold text-lg">{user.name || "User"}</h3>
         <p className="text-sm text-gray-500">{user.phone || user.email}</p>

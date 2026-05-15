@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { getTranslations } from "next-intl/server";
 import CategoryFilter from "@/components/listing/CategoryFilter";
+import type { Prisma } from "@prisma/client";
 import { Star, MapPin, ArrowRight, Search } from "lucide-react";
 
 export default async function ToursPage({
@@ -16,31 +17,23 @@ export default async function ToursPage({
   const t = await getTranslations({ locale, namespace: "listing" });
   const tc = await getTranslations({ locale, namespace: "common" });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const where: any = {
+  const priceFilter: Record<string, number> = {};
+  if (minPrice) priceFilter.gte = parseFloat(minPrice);
+  if (maxPrice) priceFilter.lte = parseFloat(maxPrice);
+
+  const where: Prisma.PostWhereInput = {
     type: "tour",
     status: "publish",
     locale,
+    ...(q && {
+      OR: [
+        { title: { contains: q, mode: "insensitive" } },
+        { address: { contains: q, mode: "insensitive" } },
+      ],
+    }),
+    ...(Object.keys(priceFilter).length && { price: priceFilter }),
+    ...(category && { meta: { some: { key: "category", value: category } } }),
   };
-
-  if (q) {
-    where.OR = [
-      { title: { contains: q, mode: "insensitive" } },
-      { address: { contains: q, mode: "insensitive" } },
-    ];
-  }
-
-  if (minPrice) {
-    where.price = { gte: parseFloat(minPrice) };
-  }
-
-  if (maxPrice) {
-    where.price = { ...where.price, lte: parseFloat(maxPrice) };
-  }
-
-  if (category) {
-    where.meta = { some: { key: "category", value: category } };
-  }
 
   const tours = await prisma.post.findMany({
     where,

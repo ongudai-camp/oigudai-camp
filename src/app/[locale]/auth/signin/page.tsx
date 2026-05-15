@@ -55,9 +55,8 @@ export default function SignInPage() {
       
       setSmsSent(true);
       setError("");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Ошибка");
     } finally {
       setLoading(false);
     }
@@ -99,9 +98,8 @@ export default function SignInPage() {
       } else {
         router.push(`/${locale}/dashboard`);
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Ошибка");
     } finally {
       setLoading(false);
     }

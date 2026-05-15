@@ -26,7 +26,6 @@ export async function GET(request: Request) {
         orderBy: { id: 'desc' },
         skip: (page - 1) * limit,
         take: limit,
-        include: { user: { select: { name: true, email: true } } },
       }),
       prisma.auditLog.count({ where }),
     ]);

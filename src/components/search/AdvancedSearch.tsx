@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useLocale } from "next-intl";
+import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { Search, SlidersHorizontal, Star, MapPin, Loader2, X } from "lucide-react";
 
@@ -153,7 +154,7 @@ export default function AdvancedSearch() {
               >
                 <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
                   {result.featuredImage ? (
-                    <img src={result.featuredImage} alt={result.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <Image src={result.featuredImage} alt={result.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-gray-300 text-sm font-bold">No image</div>
                   )}

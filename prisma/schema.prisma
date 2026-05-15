@@ -78,6 +78,7 @@ model Booking {
   BookingNote        BookingNote[]
   BookingPayment     BookingPayment[]
   BookingTimeline    BookingTimeline[]
+  contract           Contract?
 
   @@index([status])
   @@index([postId])
@@ -291,26 +292,33 @@ model Session {
 }
 
 model User {
-  id              Int               @id @default(autoincrement())
-  name            String?
-  email           String?           @unique
-  emailVerified   DateTime?
-  phone           String?           @unique
-  phoneVerified   Boolean           @default(false)
-  image           String?
-  password        String?
-  role            String            @default("subscriber")
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  accounts        Account[]
-  bookings        Booking[]
-  BookingNote     BookingNote[]
-  BookingTimeline BookingTimeline[]
-  chatMessages    ChatMessage[]
-  posts           Post[]
-  reviews         Review[]
-  sessions        Session[]
-  userPackages    UserPackage[]
+  id                Int               @id @default(autoincrement())
+  name              String?
+  email             String?           @unique
+  emailVerified     DateTime?
+  phone             String?           @unique
+  phoneVerified     Boolean           @default(false)
+  image             String?
+  password          String?
+  role              String            @default("subscriber")
+  citizenship       String?
+  identityVerified  Boolean           @default(false)
+  identityVerifiedAt DateTime?
+  identityNotes     String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  accounts          Account[]
+  bookings          Booking[]
+  BookingNote       BookingNote[]
+  BookingTimeline   BookingTimeline[]
+  chatMessages      ChatMessage[]
+  posts             Post[]
+  reviews           Review[]
+  sessions          Session[]
+  userPackages      UserPackage[]
+  identityDocuments IdentityDocument[]
+  contracts         Contract[]
+  reviewedDocs      IdentityDocument[] @relation("reviewer")
 }
 
 model UserPackage {
@@ -371,6 +379,39 @@ model BookingPayment {
   createdAt     DateTime @default(now())
   Booking       Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 
+  @@index([bookingId])
+}
+
+model IdentityDocument {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  docType       String
+  encryptedData String
+  fileUrl       String?
+  fileType      String?
+  status        String   @default("pending")
+  statusNote    String?
+  uploadedAt    DateTime @default(now())
+  reviewedAt    DateTime?
+  reviewedBy    Int?
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reviewer      User?    @relation("reviewer", fields: [reviewedBy], references: [id])
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Contract {
+  id        Int      @id @default(autoincrement())
+  bookingId Int      @unique
+  userId    Int
+  content   String
+  signedAt  DateTime @default(now())
+  ipAddress String?
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
   @@index([bookingId])
 }
 

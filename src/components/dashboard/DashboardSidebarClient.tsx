@@ -71,7 +71,7 @@ export default function DashboardSidebarClient({ children }: { children: ReactNo
 
           <div
             className={`
-              bg-white rounded-xl shadow-lg p-6 h-fit overflow-hidden
+              bg-white rounded-xl shadow-lg p-6 h-fit overflow-hidden text-sky-950
               transition-all duration-300 ease-out
               ${desktopCollapsed ? "p-3" : "p-6"}
             `}

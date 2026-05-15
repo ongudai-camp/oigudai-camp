@@ -49,6 +49,9 @@ next-env.d.ts
 # logs
 *.log
 
+# uploads
+/public/uploads/
+
 # supabase temp
 /supabase/.temp/
 

@@ -63,9 +63,8 @@ export default function RegisterPage() {
       }
       
       setStep(2);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Ошибка");
     } finally {
       setLoading(false);
     }
@@ -96,9 +95,8 @@ export default function RegisterPage() {
       }
       
       setStep(3);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Ошибка");
     } finally {
       setLoading(false);
     }
@@ -152,9 +150,8 @@ export default function RegisterPage() {
       }
       
       router.push(`/${locale}/auth/register/congratulations`);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Ошибка");
     } finally {
       setLoading(false);
     }

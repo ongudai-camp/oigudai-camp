@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { ru, enUS, kk } from "date-fns/locale";
 import DeleteButton from "@/components/admin/DeleteButton";
 import { getTranslations } from "next-intl/server";
+import type { Prisma } from "@prisma/client";
 
 export default async function AdminHotelsPage({
   params,
@@ -67,8 +68,7 @@ export default async function AdminHotelsPage({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            {hotels.map((hotel: any) => (
+            {hotels.map((hotel: Prisma.PostGetPayload<{ include: { author: true; _count: { select: { bookings: true; rooms: true } } } }>) => (
               <tr key={hotel.id} className="hover:bg-gray-50 cursor-pointer transition-colors duration-200">
                 <td className="px-6 py-4">
                   <div className="font-medium text-gray-900">{hotel.title}</div>

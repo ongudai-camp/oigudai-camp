@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { isAdmin } from "@/lib/adminAccess";
 import { notifyBookingStatusChanged } from "@/lib/notifications";
+import type { Prisma } from "@prisma/client";
 
 export async function GET(request: NextRequest) {
   const session = await auth();
@@ -17,8 +18,7 @@ export async function GET(request: NextRequest) {
   const limit = parseInt(searchParams.get("limit") || "10");
   const skip = (page - 1) * limit;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const where: any = {};
+  const where: Prisma.BookingWhereInput = {};
   if (status && status !== "all") {
     where.status = status;
   }
@@ -106,8 +106,7 @@ export async function PATCH(request: NextRequest) {
     const body = await request.json();
     const { id, status, paymentStatus } = body;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const updateData: any = {};
+    const updateData: Prisma.BookingUpdateInput = {};
     if (status) updateData.status = status;
     if (paymentStatus) updateData.paymentStatus = paymentStatus;
 
