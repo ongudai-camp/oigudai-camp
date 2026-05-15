@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 
 interface Category {
   id: number;
@@ -11,6 +12,7 @@ interface Category {
 }
 
 export default function AdminCategoriesPage() {
+  const t = useTranslations('admin');
   const queryClient = useQueryClient();
   const [form, setForm] = useState({ key: "", value: "", postId: "" });
 
@@ -40,17 +42,17 @@ export default function AdminCategoriesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Категории</h1>
+      <h1 className="text-2xl font-bold mb-6">{t('categories.title')}</h1>
 
       <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-        <h2 className="text-lg font-bold mb-4">Добавить категорию</h2>
+        <h2 className="text-lg font-bold mb-4">{t('categories.addNew')}</h2>
         <form onSubmit={handleSubmit} className="flex gap-4 items-end">
           <select value={form.postId} onChange={e => setForm({...form, postId: e.target.value})} className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm cursor-pointer" required>
-            <option value="">Выберите объект</option>
+            <option value="">{t('categories.form.selectObject')}</option>
             {posts?.map((p: {id: number; title: string}) => <option key={p.id} value={p.id}>{p.title}</option>)}
           </select>
-          <input placeholder="Ключ (category)" value={form.key} onChange={e => setForm({...form, key: e.target.value})} className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm" required />
-          <input placeholder="Значение" value={form.value} onChange={e => setForm({...form, value: e.target.value})} className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm" />
+          <input placeholder={t('categories.form.key')} value={form.key} onChange={e => setForm({...form, key: e.target.value})} className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm" required />
+          <input placeholder={t('categories.form.value')} value={form.value} onChange={e => setForm({...form, value: e.target.value})} className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm" />
           <button type="submit" className="bg-blue-600 text-white px-6 py-3 rounded-xl text-sm font-medium cursor-pointer hover:bg-blue-700">+</button>
         </form>
       </div>
@@ -59,10 +61,10 @@ export default function AdminCategoriesPage() {
         {isLoading ? <div className="animate-pulse p-8 space-y-4">{[...Array(5)].map((_, i) => <div key={i} className="h-12 bg-gray-100 rounded" />)}</div> : (
           <table className="w-full">
             <thead className="bg-gray-50"><tr>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">ID</th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">Объект</th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">Ключ</th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">Значение</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">{t('categories.columns.id')}</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">{t('categories.columns.object')}</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">{t('categories.columns.key')}</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">{t('categories.columns.value')}</th>
             </tr></thead>
             <tbody className="divide-y divide-gray-100">
               {categories?.map((c) => (
@@ -76,7 +78,7 @@ export default function AdminCategoriesPage() {
             </tbody>
           </table>
         )}
-        {categories?.length === 0 && <div className="text-center py-8 text-gray-500">Нет категорий</div>}
+        {categories?.length === 0 && <div className="text-center py-8 text-gray-500">{t('categories.empty')}</div>}
       </div>
     </div>
   );

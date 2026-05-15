@@ -21,12 +21,16 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     { href: "/admin/promocodes", label: "PromoCodes", icon: "🏷️" },
     { href: "/admin/reviews", label: "Reviews", icon: "⭐" },
     { href: "/admin/categories", label: "Categories", icon: "📁" },
+    { href: "/admin/pages", label: t("admin.menu.pages"), icon: "📄" },
+    { href: "/admin/media", label: t("admin.menu.media"), icon: "🖼️" },
     { href: "/admin/showcase", label: t("admin.menu.showcase"), icon: "🎬" },
     { href: "/admin/chat", label: t("admin.menu.chat"), icon: "💬" },
     { href: "/admin/users", label: t("admin.menu.users"), icon: "👥" },
     { href: "/admin/packages", label: t("admin.menu.packages"), icon: "📦" },
-    { href: "/admin/settings/meta", label: t("admin.menu.settings"), icon: "⚙️" },
+    { href: "/admin/settings/general", label: t("admin.menu.settings"), icon: "⚙️" },
+    { href: "/admin/settings/meta", label: "Meta", icon: "🏷️" },
     { href: "/admin/settings/chat", label: "AI Chat", icon: "🤖" },
+    { href: "/admin/audit-log", label: t("admin.menu.auditLog"), icon: "📝" },
   ];
 
   return (

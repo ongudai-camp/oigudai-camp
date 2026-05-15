@@ -1,6 +1,8 @@
 import { requireAdmin } from "@/lib/adminAccess";
 import StatsCards from "@/components/admin/dashboard/StatsCards";
+import BookingStatsCards from "@/components/admin/dashboard/BookingStatsCards";
 import RecentBookings from "@/components/admin/dashboard/RecentBookings";
+import DashboardCharts from "@/components/admin/dashboard/DashboardCharts";
 import { getTranslations } from "next-intl/server";
 
 export default async function AdminDashboard({
@@ -19,7 +21,9 @@ export default async function AdminDashboard({
         <p className="text-sky-600 font-medium">{t('dashboard.welcome')}</p>
       </div>
 
+      <BookingStatsCards />
       <StatsCards />
+      <DashboardCharts />
       <RecentBookings />
     </div>
   );

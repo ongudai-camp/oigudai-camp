@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 
 interface Addon {
   id: number;
@@ -14,6 +15,7 @@ interface Addon {
 }
 
 export default function AdminAddonsPage() {
+  const t = useTranslations('admin');
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
   const [editItem, setEditItem] = useState<Addon | null>(null);
@@ -65,32 +67,32 @@ export default function AdminAddonsPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Доп. услуги (Addons)</h1>
-        <button onClick={() => { setShowForm(true); setEditItem(null); resetForm(); }} className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer hover:bg-blue-700 transition-colors">+ Добавить</button>
+        <h1 className="text-2xl font-bold">{t('addons.title')}</h1>
+        <button onClick={() => { setShowForm(true); setEditItem(null); resetForm(); }} className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer hover:bg-blue-700 transition-colors">{t('addons.addNew')}</button>
       </div>
 
       {showForm && (
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-          <h2 className="text-lg font-bold mb-4">{editItem ? "Редактировать" : "Создать"}</h2>
+          <h2 className="text-lg font-bold mb-4">{editItem ? t('addons.editTitle') : t('addons.newTitle')}</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <select value={form.postId} onChange={e => setForm({...form, postId: e.target.value})} className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm cursor-pointer" required>
-              <option value="">Выберите объект</option>
+              <option value="">{t('addons.form.selectObject')}</option>
               {posts?.map((p: {id: number; title: string}) => <option key={p.id} value={p.id}>{p.title}</option>)}
             </select>
-            <input placeholder="Название" value={form.title} onChange={e => setForm({...form, title: e.target.value})} className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm" required />
-            <input placeholder="Описание" value={form.description} onChange={e => setForm({...form, description: e.target.value})} className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm" />
+            <input placeholder={t('addons.form.title')} value={form.title} onChange={e => setForm({...form, title: e.target.value})} className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm" required />
+            <input placeholder={t('addons.form.description')} value={form.description} onChange={e => setForm({...form, description: e.target.value})} className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm" />
             <div className="flex gap-4">
-              <input type="number" placeholder="Цена" value={form.price} onChange={e => setForm({...form, price: e.target.value})} className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm" required />
+              <input type="number" placeholder={t('addons.form.price')} value={form.price} onChange={e => setForm({...form, price: e.target.value})} className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm" required />
               <select value={form.type} onChange={e => setForm({...form, type: e.target.value})} className="px-4 py-3 border border-gray-200 rounded-xl text-sm cursor-pointer">
-                <option value="extra">Дополнительно</option>
-                <option value="service">Услуга</option>
-                <option value="meal">Питание</option>
+                <option value="extra">{t('addons.typeValues.extra')}</option>
+                <option value="service">{t('addons.typeValues.service')}</option>
+                <option value="meal">{t('addons.typeValues.meal')}</option>
               </select>
             </div>
-            <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.active} onChange={e => setForm({...form, active: e.target.checked})} className="cursor-pointer" /> Активен</label>
+            <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.active} onChange={e => setForm({...form, active: e.target.checked})} className="cursor-pointer" /> {t('addons.form.active')}</label>
             <div className="flex gap-2">
-              <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-medium cursor-pointer hover:bg-blue-700">{editItem ? "Сохранить" : "Создать"}</button>
-              <button type="button" onClick={() => { setShowForm(false); setEditItem(null); resetForm(); }} className="bg-gray-100 text-gray-700 px-6 py-2 rounded-lg text-sm font-medium cursor-pointer">Отмена</button>
+              <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-medium cursor-pointer hover:bg-blue-700">{editItem ? t('addons.form.save') : t('addons.form.create')}</button>
+              <button type="button" onClick={() => { setShowForm(false); setEditItem(null); resetForm(); }} className="bg-gray-100 text-gray-700 px-6 py-2 rounded-lg text-sm font-medium cursor-pointer">{t('addons.form.cancel')}</button>
             </div>
           </form>
         </div>
@@ -100,12 +102,12 @@ export default function AdminAddonsPage() {
         {isLoading ? <div className="animate-pulse p-8 space-y-4">{[...Array(5)].map((_, i) => <div key={i} className="h-12 bg-gray-100 rounded" />)}</div> : (
           <table className="w-full">
             <thead className="bg-gray-50"><tr>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">ID</th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">Название</th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">Тип</th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">Цена</th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">Активен</th>
-              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-900 uppercase">Действия</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">{t('addons.columns.id')}</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">{t('addons.columns.title')}</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">{t('addons.columns.type')}</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">{t('addons.columns.price')}</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">{t('addons.columns.active')}</th>
+              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-900 uppercase">{t('addons.columns.actions')}</th>
             </tr></thead>
             <tbody className="divide-y divide-gray-100">
               {addons?.map((a) => (
@@ -114,17 +116,17 @@ export default function AdminAddonsPage() {
                   <td className="px-6 py-4"><div className="font-medium text-gray-900">{a.title}</div>{a.description && <div className="text-xs text-gray-500">{a.description}</div>}</td>
                   <td className="px-6 py-4 text-sm text-gray-900">{a.type}</td>
                   <td className="px-6 py-4 text-sm font-semibold text-gray-900">{a.price} ₽</td>
-                  <td className="px-6 py-4"><span className={`px-2 py-1 text-xs rounded-full ${a.active ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>{a.active ? "Да" : "Нет"}</span></td>
+                  <td className="px-6 py-4"><span className={`px-2 py-1 text-xs rounded-full ${a.active ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>{a.active ? t('addons.active') : t('addons.inactive')}</span></td>
                   <td className="px-6 py-4 text-right">
                     <button onClick={() => openEdit(a)} className="text-blue-600 hover:text-blue-900 text-sm mr-3 cursor-pointer">✎</button>
-                    <button onClick={() => { if (confirm("Удалить?")) deleteMutation.mutate(a.id); }} className="text-red-500 hover:text-red-700 text-sm cursor-pointer">✕</button>
+                    <button onClick={() => { if (confirm(t('addons.deleteConfirm'))) deleteMutation.mutate(a.id); }} className="text-red-500 hover:text-red-700 text-sm cursor-pointer">✕</button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         )}
-        {addons?.length === 0 && <div className="text-center py-8 text-gray-500">Нет доп. услуг</div>}
+        {addons?.length === 0 && <div className="text-center py-8 text-gray-500">{t('addons.empty')}</div>}
       </div>
     </div>
   );

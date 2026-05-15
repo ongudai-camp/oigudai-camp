@@ -222,35 +222,35 @@
       "unpaid": "Unpaid",
       "refunded": "Refunded"
     },
-"save": "Save",
-     "cancel": "Cancel",
-     "saved": "Changes saved",
-     "editingDisabled": "Editing disabled",
-     "editingDisabledHint": "Sign in with email or phone to edit your profile.",
-     "changePassword": "Change Password",
-     "currentPassword": "Current Password",
-     "newPassword": "New Password",
-     "confirmPassword": "Confirm Password",
-     "passwordUpdated": "Password updated successfully",
-     "passwordMismatch": "Passwords do not match",
-     "passwordShort": "Password must be at least 6 characters",
-     "passwordWrong": "Current password is incorrect",
-     "profileUpdated": "Profile updated successfully",
-     "enterCurrentPassword": "Enter current password",
-     "or": "or",
-     "personalSection": "Personal",
-     "managementSection": "Management",
-     "bookingDetail": "Booking Details",
-     "property": "Property",
-     "room": "Room",
-     "checkIn": "Check-in",
-     "checkOut": "Check-out",
-     "totalPrice": "Total",
-     "hotels": "Hotels",
-     "tours": "Tours",
-     "activities": "Activities",
-     "contactUs": "Contact Us",
-     "backToDashboard": "← Back to site"
+    "save": "Save",
+    "cancel": "Cancel",
+    "saved": "Changes saved",
+    "editingDisabled": "Editing disabled",
+    "editingDisabledHint": "Sign in with email or phone to edit your profile.",
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "passwordUpdated": "Password updated successfully",
+    "passwordMismatch": "Passwords do not match",
+    "passwordShort": "Password must be at least 6 characters",
+    "passwordWrong": "Current password is incorrect",
+    "profileUpdated": "Profile updated successfully",
+    "enterCurrentPassword": "Enter current password",
+    "or": "or",
+    "personalSection": "Personal",
+    "managementSection": "Management",
+    "bookingDetail": "Booking Details",
+    "property": "Property",
+    "room": "Room",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "totalPrice": "Total",
+    "hotels": "Hotels",
+    "tours": "Tours",
+    "activities": "Activities",
+    "contactUs": "Contact Us",
+    "backToDashboard": "← Back to site"
   },
   "listing": {
     "hotelsTitle": "Ongudai Hotels",
@@ -480,11 +480,31 @@
       "packages": "Packages",
       "chat": "Support Chat",
       "settings": "Settings",
-      "backToDashboard": "← Back to site"
+      "backToDashboard": "← Back to site",
+      "pages": "Pages",
+      "media": "Media",
+      "auditLog": "Audit Log"
     },
     "dashboard": {
       "title": "Admin Panel",
-      "welcome": "Welcome to the Ongudai Camp control panel"
+      "welcome": "Welcome to the Ongudai Camp control panel",
+      "recentBookings": "Recent Bookings",
+      "bookingsEmpty": "No bookings",
+      "columns": {
+        "id": "ID",
+        "object": "Object",
+        "user": "User",
+        "date": "Date",
+        "amount": "Amount",
+        "status": "Status"
+      },
+      "bookingStats": {
+        "total": "Total Bookings",
+        "confirmed": "Confirmed",
+        "pending": "Pending",
+        "revenue": "Revenue"
+      },
+      "errorLoad": "Error loading bookings"
     },
     "bookings": {
       "title": "Booking Management",
@@ -636,7 +656,31 @@
     },
     "settings": {
       "facilities": "Facilities",
-      "roomTypes": "Room Types"
+      "roomTypes": "Room Types",
+      "general": "General Settings",
+      "siteSection": "Site",
+      "contactsSection": "Contacts",
+      "socialSection": "Social Networks",
+      "seoSection": "SEO",
+      "footerSection": "Footer",
+      "mapSection": "Map",
+      "siteName": "Site Name",
+      "siteDescription": "Site Description",
+      "siteKeywords": "Keywords",
+      "contactEmail": "Email",
+      "contactPhone": "Phone",
+      "contactAddress": "Address",
+      "socialVk": "VK",
+      "socialTelegram": "Telegram",
+      "socialYoutube": "YouTube",
+      "ogTitle": "OG Title",
+      "ogDescription": "OG Description",
+      "ogImage": "OG Image URL",
+      "footerTagline": "Footer Tagline",
+      "footerCopyright": "Copyright",
+      "mapCenterLat": "Map Center (Lat)",
+      "mapCenterLng": "Map Center (Lng)",
+      "mapZoom": "Map Zoom"
     },
     "general": {
       "edit": "Edit",
@@ -648,10 +692,141 @@
       "unknown": "Unknown",
       "errorDelete": "Delete error",
       "errorAlert": "Error during deletion",
-      "backToList": "← Back to list"
+      "backToList": "← Back to list",
+      "save": "Save",
+      "saved": "Saved"
+    },
+    "addons": {
+      "title": "Add-ons",
+      "addNew": "+ Add",
+      "newTitle": "Create",
+      "editTitle": "Edit",
+      "columns": {
+        "id": "ID",
+        "title": "Title",
+        "type": "Type",
+        "price": "Price",
+        "active": "Active",
+        "actions": "Actions"
+      },
+      "form": {
+        "selectObject": "Select object",
+        "title": "Title",
+        "description": "Description",
+        "price": "Price",
+        "type": "Type",
+        "active": "Active",
+        "save": "Save",
+        "create": "Create",
+        "cancel": "Cancel"
+      },
+      "typeValues": {
+        "extra": "Extra",
+        "service": "Service",
+        "meal": "Meal"
+      },
+      "active": "Yes",
+      "inactive": "No",
+      "empty": "No add-ons",
+      "deleteConfirm": "Delete?"
+    },
+    "promocodes": {
+      "title": "Promo Codes",
+      "addNew": "+ Add",
+      "newTitle": "Create",
+      "editTitle": "Edit",
+      "columns": {
+        "code": "Code",
+        "type": "Type",
+        "value": "Value",
+        "used": "Used",
+        "status": "Status",
+        "expires": "Expires",
+        "actions": "Actions"
+      },
+      "form": {
+        "code": "Code",
+        "discountType": "Discount type",
+        "discountValue": "Value",
+        "minAmount": "Min. amount",
+        "maxUses": "Max uses",
+        "expiresAt": "Expiry date",
+        "active": "Active",
+        "save": "Save",
+        "create": "Create",
+        "cancel": "Cancel"
+      },
+      "discountTypes": {
+        "percent": "Percent",
+        "fixed": "Fixed amount"
+      },
+      "statusActive": "Active",
+      "statusDisabled": "Disabled",
+      "statusExpired": "Expired",
+      "empty": "No promo codes",
+      "deleteConfirm": "Delete promo code?"
+    },
+    "reviews": {
+      "title": "Reviews",
+      "filters": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "all": "All"
+      },
+      "approve": "Approve",
+      "reject": "Reject",
+      "verified": "Verified",
+      "delete": "Delete",
+      "empty": "No reviews",
+      "deleteConfirm": "Delete review?"
+    },
+    "categories": {
+      "title": "Categories",
+      "addNew": "+ Add category",
+      "columns": {
+        "id": "ID",
+        "object": "Object",
+        "key": "Key",
+        "value": "Value"
+      },
+      "form": {
+        "selectObject": "Select object",
+        "key": "Key (category)",
+        "value": "Value"
+      },
+      "empty": "No categories"
+    },
+    "pages": {
+      "title": "Page Management",
+      "pages": "Pages",
+      "editor": "Content Editor",
+      "save": "Save",
+      "saved": "Saved"
+    },
+    "media": {
+      "title": "Media Library",
+      "files": "files",
+      "empty": "No uploaded files",
+      "copyUrl": "Copy URL",
+      "delete": "Delete",
+      "closePreview": "Close",
+      "deleteConfirm": "Delete file?"
+    },
+    "auditLog": {
+      "title": "Audit Log",
+      "action": "Action",
+      "entity": "Entity",
+      "entityId": "ID",
+      "user": "User",
+      "date": "Date",
+      "allEntities": "All entities",
+      "allActions": "All actions",
+      "entries": "entries",
+      "empty": "No entries"
     }
   },
-   "phone": {
+  "phone": {
     "country": {
       "rf": "Russian Federation",
       "kz": "Kazakhstan",

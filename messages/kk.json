@@ -542,11 +542,31 @@
       "packages": "Пакеттер",
       "chat": "Қолдау чаты",
       "settings": "Параметрлер",
-      "backToDashboard": "← Сайтқа оралу"
+      "backToDashboard": "← Сайтқа оралу",
+      "pages": "Беттер",
+      "media": "Медиатека",
+      "auditLog": "Әрекеттер журналы"
     },
     "dashboard": {
       "title": "Басқару панелі",
-      "welcome": "Ongudai Camp басқару панеліне қош келдіңіз"
+      "welcome": "Ongudai Camp басқару панеліне қош келдіңіз",
+      "recentBookings": "Соңғы брондаулар",
+      "bookingsEmpty": "Брондаулар жоқ",
+      "columns": {
+        "id": "ID",
+        "object": "Нысан",
+        "user": "Пайдаланушы",
+        "date": "Күні",
+        "amount": "Сома",
+        "status": "Мәртебе"
+      },
+      "bookingStats": {
+        "total": "Барлық брондаулар",
+        "confirmed": "Расталған",
+        "pending": "Күтуде",
+        "revenue": "Кіріс"
+      },
+      "errorLoad": "Брондауларды жүктеу қатесі"
     },
     "bookings": {
       "title": "Брондауларды басқару",
@@ -698,7 +718,31 @@
     },
     "settings": {
       "facilities": "Ыңғайлылықтар",
-      "roomTypes": "Орналастыру түрлері"
+      "roomTypes": "Орналастыру түрлері",
+      "general": "Негізгі баптаулар",
+      "siteSection": "Сайт",
+      "contactsSection": "Байланыс",
+      "socialSection": "Әлеуметтік желілер",
+      "seoSection": "SEO",
+      "footerSection": "Footer",
+      "mapSection": "Карта",
+      "siteName": "Сайт атауы",
+      "siteDescription": "Сайт сипаттамасы",
+      "siteKeywords": "Кілт сөздер",
+      "contactEmail": "Email",
+      "contactPhone": "Телефон",
+      "contactAddress": "Мекенжай",
+      "socialVk": "VK",
+      "socialTelegram": "Telegram",
+      "socialYoutube": "YouTube",
+      "ogTitle": "OG Title",
+      "ogDescription": "OG Description",
+      "ogImage": "OG Image URL",
+      "footerTagline": "Footer слоганы",
+      "footerCopyright": "Copyright",
+      "mapCenterLat": "Карта орталығы (ендік)",
+      "mapCenterLng": "Карта орталығы (бойлық)",
+      "mapZoom": "Карта масштабы"
     },
     "general": {
       "edit": "Өңдеу",
@@ -710,7 +754,138 @@
       "unknown": "Белгісіз",
       "errorDelete": "Жою қатесі",
       "errorAlert": "Жою кезінде қате",
-      "backToList": "← Тізімге оралу"
+      "backToList": "← Тізімге оралу",
+      "save": "Сақтау",
+      "saved": "Сақталды"
+    },
+    "addons": {
+      "title": "Қосымша қызметтер",
+      "addNew": "+ Қосу",
+      "newTitle": "Жасау",
+      "editTitle": "Өңдеу",
+      "columns": {
+        "id": "ID",
+        "title": "Атауы",
+        "type": "Түрі",
+        "price": "Бағасы",
+        "active": "Белсенді",
+        "actions": "Әрекеттер"
+      },
+      "form": {
+        "selectObject": "Нысанды таңдаңыз",
+        "title": "Атауы",
+        "description": "Сипаттама",
+        "price": "Бағасы",
+        "type": "Түрі",
+        "active": "Белсенді",
+        "save": "Сақтау",
+        "create": "Жасау",
+        "cancel": "Бас тарту"
+      },
+      "typeValues": {
+        "extra": "Қосымша",
+        "service": "Қызмет",
+        "meal": "Тамақтану"
+      },
+      "active": "Иә",
+      "inactive": "Жоқ",
+      "empty": "Қосымша қызметтер жоқ",
+      "deleteConfirm": "Жою?"
+    },
+    "promocodes": {
+      "title": "Промокодтар",
+      "addNew": "+ Қосу",
+      "newTitle": "Жасау",
+      "editTitle": "Өңдеу",
+      "columns": {
+        "code": "Код",
+        "type": "Түрі",
+        "value": "Мәні",
+        "used": "Қолданылды",
+        "status": "Мәртебе",
+        "expires": "Мерзімі",
+        "actions": "Әрекеттер"
+      },
+      "form": {
+        "code": "Код",
+        "discountType": "Жеңілдік түрі",
+        "discountValue": "Мәні",
+        "minAmount": "Мин. сома",
+        "maxUses": "Макс. қолдану",
+        "expiresAt": "Қолдану мерзімі",
+        "active": "Белсенді",
+        "save": "Сақтау",
+        "create": "Жасау",
+        "cancel": "Бас тарту"
+      },
+      "discountTypes": {
+        "percent": "Пайыз",
+        "fixed": "Бекітілген сома"
+      },
+      "statusActive": "Белсенді",
+      "statusDisabled": "Өшірілген",
+      "statusExpired": "Мерзімі өткен",
+      "empty": "Промокодтар жоқ",
+      "deleteConfirm": "Промокодты жою?"
+    },
+    "reviews": {
+      "title": "Пікірлер",
+      "filters": {
+        "pending": "Модерацияда",
+        "approved": "Мақұлданған",
+        "rejected": "Қабылданбаған",
+        "all": "Барлығы"
+      },
+      "approve": "Мақұлдау",
+      "reject": "Қабылдамау",
+      "verified": "Расталған",
+      "delete": "Жою",
+      "empty": "Пікірлер жоқ",
+      "deleteConfirm": "Пікірді жою?"
+    },
+    "categories": {
+      "title": "Санаттар",
+      "addNew": "+ Санат қосу",
+      "columns": {
+        "id": "ID",
+        "object": "Нысан",
+        "key": "Кілт",
+        "value": "Мәні"
+      },
+      "form": {
+        "selectObject": "Нысанды таңдаңыз",
+        "key": "Кілт (category)",
+        "value": "Мәні"
+      },
+      "empty": "Санаттар жоқ"
+    },
+    "pages": {
+      "title": "Беттерді басқару",
+      "pages": "Беттер",
+      "editor": "Мазмұн редакторы",
+      "save": "Сақтау",
+      "saved": "Сақталды"
+    },
+    "media": {
+      "title": "Медиатека",
+      "files": "файл",
+      "empty": "Жүктелген файлдар жоқ",
+      "copyUrl": "URL көшіру",
+      "delete": "Жою",
+      "closePreview": "Жабу",
+      "deleteConfirm": "Файлды жою?"
+    },
+    "auditLog": {
+      "title": "Әрекеттер журналы",
+      "action": "Әрекет",
+      "entity": "Нысан",
+      "entityId": "ID",
+      "user": "Пайдаланушы",
+      "date": "Күні",
+      "allEntities": "Барлық нысандар",
+      "allActions": "Барлық әрекеттер",
+      "entries": "жазба",
+      "empty": "Жазбалар жоқ"
     }
   },
   "dialogs": {

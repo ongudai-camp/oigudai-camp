@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 
 interface PromoCode {
   id: number;
@@ -16,6 +17,7 @@ interface PromoCode {
 }
 
 export default function AdminPromocodesPage() {
+  const t = useTranslations('admin');
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
   const [editItem, setEditItem] = useState<PromoCode | null>(null);
@@ -69,31 +71,31 @@ export default function AdminPromocodesPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Промокоды</h1>
-        <button onClick={() => { setShowForm(true); setEditItem(null); resetForm(); }} className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer hover:bg-blue-700">+ Добавить</button>
+        <h1 className="text-2xl font-bold">{t('promocodes.title')}</h1>
+        <button onClick={() => { setShowForm(true); setEditItem(null); resetForm(); }} className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer hover:bg-blue-700">{t('promocodes.addNew')}</button>
       </div>
 
       {showForm && (
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-          <h2 className="text-lg font-bold mb-4">{editItem ? "Редактировать" : "Создать"}</h2>
+          <h2 className="text-lg font-bold mb-4">{editItem ? t('promocodes.editTitle') : t('promocodes.newTitle')}</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <input placeholder="Код" value={form.code} onChange={e => setForm({...form, code: e.target.value})} className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm" required />
+            <input placeholder={t('promocodes.form.code')} value={form.code} onChange={e => setForm({...form, code: e.target.value})} className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm" required />
             <div className="flex gap-4">
               <select value={form.discountType} onChange={e => setForm({...form, discountType: e.target.value})} className="px-4 py-3 border border-gray-200 rounded-xl text-sm cursor-pointer">
-                <option value="percent">Процент</option>
-                <option value="fixed">Фикс. сумма</option>
+                <option value="percent">{t('promocodes.discountTypes.percent')}</option>
+                <option value="fixed">{t('promocodes.discountTypes.fixed')}</option>
               </select>
-              <input type="number" placeholder="Значение" value={form.discountValue} onChange={e => setForm({...form, discountValue: e.target.value})} className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm" required />
+              <input type="number" placeholder={t('promocodes.form.discountValue')} value={form.discountValue} onChange={e => setForm({...form, discountValue: e.target.value})} className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm" required />
             </div>
             <div className="flex gap-4">
-              <input type="number" placeholder="Мин. сумма" value={form.minAmount} onChange={e => setForm({...form, minAmount: e.target.value})} className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm" />
-              <input type="number" placeholder="Макс. использований" value={form.maxUses} onChange={e => setForm({...form, maxUses: e.target.value})} className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm" />
+              <input type="number" placeholder={t('promocodes.form.minAmount')} value={form.minAmount} onChange={e => setForm({...form, minAmount: e.target.value})} className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm" />
+              <input type="number" placeholder={t('promocodes.form.maxUses')} value={form.maxUses} onChange={e => setForm({...form, maxUses: e.target.value})} className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm" />
             </div>
-            <input type="date" placeholder="Срок действия" value={form.expiresAt} onChange={e => setForm({...form, expiresAt: e.target.value})} className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm" />
-            <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.active} onChange={e => setForm({...form, active: e.target.checked})} className="cursor-pointer" /> Активен</label>
+            <input type="date" placeholder={t('promocodes.form.expiresAt')} value={form.expiresAt} onChange={e => setForm({...form, expiresAt: e.target.value})} className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm" />
+            <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.active} onChange={e => setForm({...form, active: e.target.checked})} className="cursor-pointer" /> {t('promocodes.form.active')}</label>
             <div className="flex gap-2">
-              <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-medium cursor-pointer hover:bg-blue-700">{editItem ? "Сохранить" : "Создать"}</button>
-              <button type="button" onClick={() => { setShowForm(false); setEditItem(null); resetForm(); }} className="bg-gray-100 text-gray-700 px-6 py-2 rounded-lg text-sm font-medium cursor-pointer">Отмена</button>
+              <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-medium cursor-pointer hover:bg-blue-700">{editItem ? t('promocodes.form.save') : t('promocodes.form.create')}</button>
+              <button type="button" onClick={() => { setShowForm(false); setEditItem(null); resetForm(); }} className="bg-gray-100 text-gray-700 px-6 py-2 rounded-lg text-sm font-medium cursor-pointer">{t('promocodes.form.cancel')}</button>
             </div>
           </form>
         </div>
@@ -103,13 +105,13 @@ export default function AdminPromocodesPage() {
         {isLoading ? <div className="animate-pulse p-8 space-y-4">{[...Array(5)].map((_, i) => <div key={i} className="h-12 bg-gray-100 rounded" />)}</div> : (
           <table className="w-full">
             <thead className="bg-gray-50"><tr>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">Код</th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">Тип</th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">Значение</th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">Использовано</th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">Статус</th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">Срок</th>
-              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-900 uppercase">Действия</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">{t('promocodes.columns.code')}</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">{t('promocodes.columns.type')}</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">{t('promocodes.columns.value')}</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">{t('promocodes.columns.used')}</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">{t('promocodes.columns.status')}</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase">{t('promocodes.columns.expires')}</th>
+              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-900 uppercase">{t('promocodes.columns.actions')}</th>
             </tr></thead>
             <tbody className="divide-y divide-gray-100">
               {promocodes?.map((p) => (
@@ -120,20 +122,20 @@ export default function AdminPromocodesPage() {
                   <td className="px-6 py-4 text-sm text-gray-900">{p.usedCount}{p.maxUses ? ` / ${p.maxUses}` : ""}</td>
                   <td className="px-6 py-4">
                     <span className={`px-2 py-1 text-xs rounded-full ${!p.active ? "bg-red-100 text-red-800" : isExpired(p) ? "bg-yellow-100 text-yellow-800" : "bg-green-100 text-green-800"}`}>
-                      {!p.active ? "Отключен" : isExpired(p) ? "Просрочен" : "Активен"}
+                      {!p.active ? t('promocodes.statusDisabled') : isExpired(p) ? t('promocodes.statusExpired') : t('promocodes.statusActive')}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-900">{p.expiresAt ? new Date(p.expiresAt).toLocaleDateString("ru-RU") : "—"}</td>
                   <td className="px-6 py-4 text-right">
                     <button onClick={() => openEdit(p)} className="text-blue-600 hover:text-blue-900 text-sm mr-3 cursor-pointer">✎</button>
-                    <button onClick={() => { if (confirm("Удалить промокод?")) deleteMutation.mutate(p.id); }} className="text-red-500 hover:text-red-700 text-sm cursor-pointer">✕</button>
+                    <button onClick={() => { if (confirm(t('promocodes.deleteConfirm'))) deleteMutation.mutate(p.id); }} className="text-red-500 hover:text-red-700 text-sm cursor-pointer">✕</button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         )}
-        {promocodes?.length === 0 && <div className="text-center py-8 text-gray-500">Нет промокодов</div>}
+        {promocodes?.length === 0 && <div className="text-center py-8 text-gray-500">{t('promocodes.empty')}</div>}
       </div>
     </div>
   );

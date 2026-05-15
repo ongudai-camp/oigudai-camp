@@ -309,9 +309,9 @@
       "perPerson": "/ чел",
       "date": "Дата",
       "submit": "Забронировать",
-        "error": "Ошибка бронирования",
-        "loginToBook": "Войдите для бронирования",
-        "nights": "ночей"
+      "error": "Ошибка бронирования",
+      "loginToBook": "Войдите для бронирования",
+      "nights": "ночей"
     },
     "admin": {
       "hotel": {
@@ -480,11 +480,31 @@
       "packages": "Пакеты",
       "chat": "Чат поддержки",
       "settings": "Настройки",
-      "backToDashboard": "← На сайт"
+      "backToDashboard": "← На сайт",
+      "pages": "Страницы",
+      "media": "Медиатека",
+      "auditLog": "Журнал действий"
     },
     "dashboard": {
       "title": "Обзор системы",
-      "welcome": "Добро пожаловать в панель управления Ongudai Camp"
+      "welcome": "Добро пожаловать в панель управления Ongudai Camp",
+      "recentBookings": "Последние бронирования",
+      "bookingsEmpty": "Нет бронирований",
+      "columns": {
+        "id": "ID",
+        "object": "Объект",
+        "user": "Пользователь",
+        "date": "Дата",
+        "amount": "Сумма",
+        "status": "Статус"
+      },
+      "bookingStats": {
+        "total": "Всего бронирований",
+        "confirmed": "Подтверждено",
+        "pending": "Ожидают",
+        "revenue": "Выручка"
+      },
+      "errorLoad": "Error loading bookings"
     },
     "hotels": {
       "title": "Управление отелями",
@@ -636,7 +656,31 @@
     },
     "settings": {
       "facilities": "Удобства",
-      "roomTypes": "Типы размещения"
+      "roomTypes": "Типы размещения",
+      "general": "Основные настройки",
+      "siteSection": "Сайт",
+      "contactsSection": "Контакты",
+      "socialSection": "Соц. сети",
+      "seoSection": "SEO",
+      "footerSection": "Подвал",
+      "mapSection": "Карта",
+      "siteName": "Название сайта",
+      "siteDescription": "Описание сайта",
+      "siteKeywords": "Ключевые слова",
+      "contactEmail": "Email",
+      "contactPhone": "Телефон",
+      "contactAddress": "Адрес",
+      "socialVk": "VK",
+      "socialTelegram": "Telegram",
+      "socialYoutube": "YouTube",
+      "ogTitle": "OG Title",
+      "ogDescription": "OG Description",
+      "ogImage": "OG Image URL",
+      "footerTagline": "Слоган в подвале",
+      "footerCopyright": "Копирайт",
+      "mapCenterLat": "Центр карты (широта)",
+      "mapCenterLng": "Центр карты (долгота)",
+      "mapZoom": "Масштаб карты"
     },
     "general": {
       "edit": "Редактировать",
@@ -648,7 +692,138 @@
       "unknown": "Неизвестно",
       "errorDelete": "Ошибка удаления",
       "errorAlert": "Ошибка при удалении",
-      "backToList": "← Назад к списку"
+      "backToList": "← Назад к списку",
+      "save": "Сохранить",
+      "saved": "Сохранено"
+    },
+    "addons": {
+      "title": "Доп. услуги",
+      "addNew": "+ Добавить",
+      "newTitle": "Создать",
+      "editTitle": "Редактировать",
+      "columns": {
+        "id": "ID",
+        "title": "Название",
+        "type": "Тип",
+        "price": "Цена",
+        "active": "Активен",
+        "actions": "Действия"
+      },
+      "form": {
+        "selectObject": "Выберите объект",
+        "title": "Название",
+        "description": "Описание",
+        "price": "Цена",
+        "type": "Тип",
+        "active": "Активен",
+        "save": "Сохранить",
+        "create": "Создать",
+        "cancel": "Отмена"
+      },
+      "typeValues": {
+        "extra": "Дополнительно",
+        "service": "Услуга",
+        "meal": "Питание"
+      },
+      "active": "Да",
+      "inactive": "Нет",
+      "empty": "Нет доп. услуг",
+      "deleteConfirm": "Удалить?"
+    },
+    "promocodes": {
+      "title": "Промокоды",
+      "addNew": "+ Добавить",
+      "newTitle": "Создать",
+      "editTitle": "Редактировать",
+      "columns": {
+        "code": "Код",
+        "type": "Тип",
+        "value": "Значение",
+        "used": "Использовано",
+        "status": "Статус",
+        "expires": "Срок",
+        "actions": "Действия"
+      },
+      "form": {
+        "code": "Код",
+        "discountType": "Тип скидки",
+        "discountValue": "Значение",
+        "minAmount": "Мин. сумма",
+        "maxUses": "Макс. использований",
+        "expiresAt": "Срок действия",
+        "active": "Активен",
+        "save": "Сохранить",
+        "create": "Создать",
+        "cancel": "Отмена"
+      },
+      "discountTypes": {
+        "percent": "Процент",
+        "fixed": "Фикс. сумма"
+      },
+      "statusActive": "Активен",
+      "statusDisabled": "Отключен",
+      "statusExpired": "Просрочен",
+      "empty": "Нет промокодов",
+      "deleteConfirm": "Удалить промокод?"
+    },
+    "reviews": {
+      "title": "Отзывы",
+      "filters": {
+        "pending": "На модерации",
+        "approved": "Одобрено",
+        "rejected": "Отклонено",
+        "all": "Все"
+      },
+      "approve": "Одобрить",
+      "reject": "Отклонить",
+      "verified": "Verified",
+      "delete": "Удалить",
+      "empty": "Нет отзывов",
+      "deleteConfirm": "Удалить отзыв?"
+    },
+    "categories": {
+      "title": "Категории",
+      "addNew": "+ Добавить категорию",
+      "columns": {
+        "id": "ID",
+        "object": "Объект",
+        "key": "Ключ",
+        "value": "Значение"
+      },
+      "form": {
+        "selectObject": "Выберите объект",
+        "key": "Ключ (category)",
+        "value": "Значение"
+      },
+      "empty": "Нет категорий"
+    },
+    "pages": {
+      "title": "Управление страницами",
+      "pages": "Страницы",
+      "editor": "Редактор контента",
+      "save": "Сохранить",
+      "saved": "Сохранено"
+    },
+    "media": {
+      "title": "Медиатека",
+      "files": "файлов",
+      "empty": "Нет загруженных файлов",
+      "copyUrl": "Копировать URL",
+      "delete": "Удалить",
+      "closePreview": "Закрыть",
+      "deleteConfirm": "Удалить файл?"
+    },
+    "auditLog": {
+      "title": "Журнал действий",
+      "action": "Действие",
+      "entity": "Объект",
+      "entityId": "ID",
+      "user": "Пользователь",
+      "date": "Дата",
+      "allEntities": "Все объекты",
+      "allActions": "Все действия",
+      "entries": "записей",
+      "empty": "Нет записей"
     }
   },
   "phone": {

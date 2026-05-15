@@ -3,8 +3,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import { useTranslations } from 'next-intl';
 
 export default function RecentBookings() {
+  const t = useTranslations('admin');
+
   const { data, isLoading, error } = useQuery({
     queryKey: ['recent-bookings'],
     queryFn: async () => {
@@ -28,27 +31,27 @@ export default function RecentBookings() {
     );
   }
 
-  if (error) return <div className='p-4 text-red-500'>Error loading bookings</div>;
+  if (error) return <div className='p-4 text-red-500'>{t('dashboard.errorLoad')}</div>;
 
   const bookings = data?.bookings || [];
 
   return (
     <div className='bg-white rounded-xl shadow-sm border border-sky-100 hover:shadow-md transition-shadow duration-300 p-6'>
-      <h2 className='text-xl font-semibold mb-4 text-sky-950'>Последние бронирования</h2>
+      <h2 className='text-xl font-semibold mb-4 text-sky-950'>{t('dashboard.recentBookings')}</h2>
 
       {bookings.length === 0 ? (
-        <p className='text-gray-900 text-center py-8'>Нет бронирований</p>
+        <p className='text-gray-900 text-center py-8'>{t('dashboard.bookingsEmpty')}</p>
       ) : (
         <div className='overflow-x-auto'>
           <table className='w-full'>
             <thead>
               <tr className='border-b border-sky-50'>
-                <th className='text-left py-3 px-4 text-xs font-medium text-sky-600 uppercase tracking-wider'>ID</th>
-                <th className='text-left py-3 px-4 text-xs font-medium text-sky-600 uppercase tracking-wider'>Объект</th>
-                <th className='text-left py-3 px-4 text-xs font-medium text-sky-600 uppercase tracking-wider'>Пользователь</th>
-                <th className='text-left py-3 px-4 text-xs font-medium text-sky-600 uppercase tracking-wider'>Дата</th>
-                <th className='text-left py-3 px-4 text-xs font-medium text-sky-600 uppercase tracking-wider'>Сумма</th>
-                <th className='text-left py-3 px-4 text-xs font-medium text-sky-600 uppercase tracking-wider'>Статус</th>
+                <th className='text-left py-3 px-4 text-xs font-medium text-sky-600 uppercase tracking-wider'>{t('dashboard.columns.id')}</th>
+                <th className='text-left py-3 px-4 text-xs font-medium text-sky-600 uppercase tracking-wider'>{t('dashboard.columns.object')}</th>
+                <th className='text-left py-3 px-4 text-xs font-medium text-sky-600 uppercase tracking-wider'>{t('dashboard.columns.user')}</th>
+                <th className='text-left py-3 px-4 text-xs font-medium text-sky-600 uppercase tracking-wider'>{t('dashboard.columns.date')}</th>
+                <th className='text-left py-3 px-4 text-xs font-medium text-sky-600 uppercase tracking-wider'>{t('dashboard.columns.amount')}</th>
+                <th className='text-left py-3 px-4 text-xs font-medium text-sky-600 uppercase tracking-wider'>{t('dashboard.columns.status')}</th>
               </tr>
             </thead>
             <tbody className='divide-y divide-sky-50'>
@@ -65,8 +68,8 @@ export default function RecentBookings() {
                   <td className='py-4 px-4'>
                     <span
                       className={`px-3 py-1 text-xs font-medium rounded-full ${
-                        booking.status === 'confirmed' ? 'bg-green-100 text-green-700' : 
-                        booking.status === 'pending' ? 'bg-yellow-100 text-yellow-700' : 
+                        booking.status === 'confirmed' ? 'bg-green-100 text-green-700' :
+                        booking.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
                         'bg-gray-100 text-gray-700'
                       }`}
                     >

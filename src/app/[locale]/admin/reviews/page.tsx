@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 
 interface Review {
   id: number;
@@ -16,6 +17,7 @@ interface Review {
 }
 
 export default function AdminReviewsPage() {
+  const t = useTranslations('admin');
   const queryClient = useQueryClient();
   const [filter, setFilter] = useState("pending");
 
@@ -43,14 +45,14 @@ export default function AdminReviewsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Отзывы</h1>
+      <h1 className="text-2xl font-bold mb-6">{t('reviews.title')}</h1>
 
       <div className="bg-white rounded-xl shadow-lg p-4 mb-6">
         <div className="flex gap-2">
           {["pending", "approved", "rejected", "all"].map((s) => (
             <button key={s} onClick={() => setFilter(s)}
               className={`px-4 py-2 rounded-lg text-sm font-medium cursor-pointer transition-all ${filter === s ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
-            >{s === "pending" ? "На модерации" : s === "approved" ? "Одобрено" : s === "rejected" ? "Отклонено" : "Все"}</button>
+            >{t(`reviews.filters.${s}`)}</button>
           ))}
         </div>
       </div>
@@ -74,19 +76,19 @@ export default function AdminReviewsPage() {
             <div className="flex items-center gap-3">
               {filter === "pending" && (
                 <>
-                  <button onClick={() => updateMutation.mutate({ id: review.id, status: "approved" })} className="bg-green-500 text-white px-4 py-1.5 rounded-lg text-xs font-medium cursor-pointer hover:bg-green-600">Одобрить</button>
-                  <button onClick={() => updateMutation.mutate({ id: review.id, status: "rejected" })} className="bg-red-500 text-white px-4 py-1.5 rounded-lg text-xs font-medium cursor-pointer hover:bg-red-600">Отклонить</button>
+                  <button onClick={() => updateMutation.mutate({ id: review.id, status: "approved" })} className="bg-green-500 text-white px-4 py-1.5 rounded-lg text-xs font-medium cursor-pointer hover:bg-green-600">{t('reviews.approve')}</button>
+                  <button onClick={() => updateMutation.mutate({ id: review.id, status: "rejected" })} className="bg-red-500 text-white px-4 py-1.5 rounded-lg text-xs font-medium cursor-pointer hover:bg-red-600">{t('reviews.reject')}</button>
                 </>
               )}
               <label className="flex items-center gap-1.5 text-xs text-gray-600 cursor-pointer">
                 <input type="checkbox" checked={review.verified} onChange={(e) => updateMutation.mutate({ id: review.id, verified: e.target.checked })} className="cursor-pointer" />
-                Verified
+                {t('reviews.verified')}
               </label>
-              <button onClick={() => { if (confirm("Удалить отзыв?")) deleteMutation.mutate(review.id); }} className="text-red-500 hover:text-red-700 text-xs ml-auto cursor-pointer">Удалить</button>
+              <button onClick={() => { if (confirm(t('reviews.deleteConfirm'))) deleteMutation.mutate(review.id); }} className="text-red-500 hover:text-red-700 text-xs ml-auto cursor-pointer">{t('reviews.delete')}</button>
             </div>
           </div>
         ))}
-        {reviews?.length === 0 && <div className="text-center py-8 text-gray-500 bg-white rounded-xl shadow-lg">Нет отзывов</div>}
+        {reviews?.length === 0 && <div className="text-center py-8 text-gray-500 bg-white rounded-xl shadow-lg">{t('reviews.empty')}</div>}
       </div>
     </div>
   );
