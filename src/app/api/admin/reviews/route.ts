@@ -5,34 +5,20 @@ import { isAdmin } from "@/lib/adminAccess";
 
 export async function GET(request: NextRequest) {
   const session = await auth();
-
   if (!session?.user || !isAdmin(session.user.role)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-
   const { searchParams } = new URL(request.url);
-  const query = searchParams.get("q") || "";
+  const status = searchParams.get("status") || "pending";
+  const where: { status?: string } = {};
+  if (status !== "all") where.status = status;
 
-  const users = await prisma.user.findMany({
-    where: {
-      OR: query ? [
-        { name: { contains: query } },
-        { email: { contains: query } },
-        { phone: { contains: query } },
-      ] : undefined,
-    },
+  const reviews = await prisma.review.findMany({
+    where,
     orderBy: { createdAt: "desc" },
-    take: 20,
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      phone: true,
-      role: true,
-    },
+    include: { user: { select: { name: true, email: true } }, post: { select: { title: true, type: true } } },
   });
-
-  return NextResponse.json(users);
+  return NextResponse.json(reviews);
 }
 
 export async function PATCH(request: NextRequest) {
@@ -42,15 +28,12 @@ export async function PATCH(request: NextRequest) {
   }
   try {
     const body = await request.json();
-    const { id, role } = body;
-    if (!id || !role) {
-      return NextResponse.json({ error: "Missing id or role" }, { status: 400 });
-    }
-    const user = await prisma.user.update({
-      where: { id: parseInt(id) },
-      data: { role },
-    });
-    return NextResponse.json(user);
+    const { id, status, verified } = body;
+    const data: { status?: string; verified?: boolean } = {};
+    if (status) data.status = status;
+    if (verified !== undefined) data.verified = verified;
+    const review = await prisma.review.update({ where: { id: parseInt(id) }, data });
+    return NextResponse.json(review);
   } catch (error: unknown) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Update error" }, { status: 500 });
   }
@@ -65,7 +48,7 @@ export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
-    await prisma.user.delete({ where: { id: parseInt(id) } });
+    await prisma.review.delete({ where: { id: parseInt(id) } });
     return NextResponse.json({ success: true });
   } catch (error: unknown) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Delete error" }, { status: 500 });

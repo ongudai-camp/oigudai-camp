@@ -84,6 +84,16 @@ export default function AdminBookingsPage() {
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const res = await fetch(`/api/admin/bookings?id=${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Failed to delete");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-bookings"] });
+    },
+  });
+
   const handleStatusChange = (id: number, newStatus: string) => {
     setUpdatingId(id);
     updateMutation.mutate({ id, status: newStatus });
@@ -199,7 +209,7 @@ export default function AdminBookingsPage() {
                         {updatingId === booking.id ? (
                           <span className="text-sm text-gray-900">…</span>
                         ) : (
-                          <div className="flex gap-1 justify-end">
+                          <div className="flex gap-1 justify-end items-center">
                             <select
                               value={booking.status}
                               onChange={(e) => handleStatusChange(booking.id, e.target.value)}
@@ -210,14 +220,18 @@ export default function AdminBookingsPage() {
                               ))}
                             </select>
                              <select
-                               value={booking.paymentStatus}
-                               onChange={(e) => handlePaymentChange(booking.id, e.target.value)}
-                               className="text-xs border border-gray-200 rounded px-2 py-1 cursor-pointer text-indigo-700"
-                             >
-                               {["paid", "unpaid", "refunded"].map((p) => (
-                                 <option key={p} value={p}>{t(`admin.bookings.paymentStatus.${p}`)}</option>
-                               ))}
-                             </select>
+                                value={booking.paymentStatus}
+                                onChange={(e) => handlePaymentChange(booking.id, e.target.value)}
+                                className="text-xs border border-gray-200 rounded px-2 py-1 cursor-pointer text-indigo-700"
+                              >
+                                {["paid", "unpaid", "refunded"].map((p) => (
+                                  <option key={p} value={p}>{t(`admin.bookings.paymentStatus.${p}`)}</option>
+                                ))}
+                              </select>
+                            <button
+                              onClick={() => { if (confirm("Удалить бронь?")) deleteMutation.mutate(booking.id); }}
+                              className="text-red-500 hover:text-red-700 text-xs font-medium px-2 py-1 cursor-pointer"
+                            >{t('admin.bookings.delete') || "✕"}</button>
                           </div>
                         )}
                       </td>

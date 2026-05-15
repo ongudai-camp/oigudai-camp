@@ -193,6 +193,7 @@
     "settings": "Баптаулар",
     "settingsTitle": "Аккаунт баптаулары",
     "settingsDescription": "Аккаунт ақпараты мен баптауларын басқару.",
+    "guests": "Қонақтар",
     "personalInfo": "Жеке ақпарат",
     "accountInfo": "Аккаунт ақпараты",
     "email": "Email",
@@ -576,6 +577,7 @@
         "unpaid": "Төленбеді",
         "refunded": "Қайтарылды"
       },
+      "delete": "Жою",
       "empty": "Брондаулар табылмады",
       "error": "Жүктеу қатесі:",
       "guestUnknown": "Қонақ"
@@ -654,6 +656,7 @@
       },
       "noName": "Аты жоқ",
       "changeRole": "Рөлін өзгерту",
+      "delete": "Жою",
       "notFound": "Пайдаланушылар табылмады"
     },
     "chat": {

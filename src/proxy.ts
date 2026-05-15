@@ -79,14 +79,16 @@ export default async function proxy(request: NextRequest) {
     return response;
   }
 
+  // Normalize pathname - remove trailing slash to prevent redirect loops
+  const redirectPath = pathname.replace(/\/+$/, "") || "/";
+  
   // Try to detect locale from geolocation cookie
   const localeCookie = request.cookies.get("preferred-locale");
   if (localeCookie) {
     const locale = localeCookie.value;
     if (["ru", "en", "kk"].includes(locale)) {
-      response = NextResponse.redirect(
-        new URL(`/${locale}${pathname}`, request.url)
-      );
+      const targetUrl = redirectPath === "/" ? `/${locale}` : `/${locale}${redirectPath}`;
+      response = NextResponse.redirect(new URL(targetUrl, request.url));
       addCorsHeaders(response);
       return response;
     }
@@ -97,9 +99,8 @@ export default async function proxy(request: NextRequest) {
   const detectedLocale = detectLocaleFromHeader(acceptLanguage);
 
   // Set cookie and redirect
-  response = NextResponse.redirect(
-    new URL(`/${detectedLocale}${pathname}`, request.url)
-  );
+  const targetUrl = redirectPath === "/" ? `/${detectedLocale}` : `/${detectedLocale}${redirectPath}`;
+  response = NextResponse.redirect(new URL(targetUrl, request.url));
   response.cookies.set("preferred-locale", detectedLocale, {
     maxAge: 60 * 60 * 24 * 365, // 1 year
     path: "/",

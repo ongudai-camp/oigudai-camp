@@ -193,6 +193,7 @@
     "settings": "Settings",
     "settingsTitle": "Account Settings",
     "settingsDescription": "Manage your account information and preferences.",
+    "guests": "Guests",
     "personalInfo": "Personal Information",
     "accountInfo": "Account Info",
     "email": "Email",
@@ -514,6 +515,7 @@
         "unpaid": "Unpaid",
         "refunded": "Refunded"
       },
+      "delete": "Delete",
       "empty": "No bookings found",
       "error": "Error loading:",
       "guestUnknown": "Guest"
@@ -592,6 +594,7 @@
       },
       "noName": "No name",
       "changeRole": "Change role",
+      "delete": "Delete",
       "notFound": "No users found"
     },
     "chat": {

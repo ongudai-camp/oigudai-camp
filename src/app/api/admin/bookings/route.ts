@@ -49,6 +49,52 @@ export async function GET(request: NextRequest) {
   });
 }
 
+export async function POST(request: NextRequest) {
+  const session = await auth();
+  if (!session?.user || !isAdmin(session.user.role)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  try {
+    const body = await request.json();
+    const { userId, postId, roomId, checkIn, checkOut, guests, totalPrice, status, paymentStatus } = body;
+    const bookingId = "ADM-" + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substring(2, 6).toUpperCase();
+
+    const booking = await prisma.booking.create({
+      data: {
+        bookingId,
+        userId: parseInt(userId),
+        postId: parseInt(postId),
+        roomId: roomId ? parseInt(roomId) : null,
+        checkIn: new Date(checkIn),
+        checkOut: checkOut ? new Date(checkOut) : null,
+        guests: parseInt(guests) || 1,
+        totalPrice: parseFloat(totalPrice),
+        status: status || "pending",
+        paymentStatus: paymentStatus || "unpaid",
+      },
+    });
+    return NextResponse.json(booking, { status: 201 });
+  } catch (error: unknown) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Create error" }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  const session = await auth();
+  if (!session?.user || !isAdmin(session.user.role)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+    if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
+    await prisma.booking.delete({ where: { id: parseInt(id) } });
+    return NextResponse.json({ success: true });
+  } catch (error: unknown) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Delete error" }, { status: 500 });
+  }
+}
+
 export async function PATCH(request: NextRequest) {
   const session = await auth();
 
