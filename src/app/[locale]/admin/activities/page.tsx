@@ -10,7 +10,7 @@ export default async function AdminActivitiesPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const t = await getTranslations();
+  const t = await getTranslations({ locale, namespace: 'admin' });
   await requireAdmin(locale);
 
   const activities = await prisma.post.findMany({

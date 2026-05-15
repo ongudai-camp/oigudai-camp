@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { Check, Phone, ShieldCheck, UserCircle } from "lucide-react";
 import clsx from "clsx";
@@ -135,6 +136,19 @@ export default function RegisterPage() {
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.message || "Ошибка регистрации");
+      }
+      
+      // Auto-sign-in after successful registration
+      const signInResult = await signIn("credentials", {
+        phone: phoneRaw,
+        password: formData.password,
+        redirect: false,
+      });
+
+      if (signInResult?.error) {
+        setError("Аккаунт создан. Пожалуйста, войдите вручную.");
+        setLoading(false);
+        return;
       }
       
       router.push(`/${locale}/auth/register/congratulations`);

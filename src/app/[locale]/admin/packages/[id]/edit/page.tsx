@@ -11,7 +11,7 @@ interface EditPackagePageProps {
 
 export default async function EditPackagePage({ params }: EditPackagePageProps) {
   const { id, locale } = await params;
-  const t = await getTranslations('admin');
+  const t = await getTranslations({ locale, namespace: 'admin' });
   await requireAdmin(locale);
 
   const packageId = parseInt(id);

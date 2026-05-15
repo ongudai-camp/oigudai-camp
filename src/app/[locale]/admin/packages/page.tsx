@@ -10,7 +10,7 @@ export default async function AdminPackagesPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const t = await getTranslations('admin');
+  const t = await getTranslations({ locale, namespace: 'admin' });
   await requireAdmin(locale);
 
   const packages = await prisma.package.findMany({

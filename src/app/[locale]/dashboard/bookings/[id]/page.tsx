@@ -14,7 +14,7 @@ export default async function BookingDetailPage({
 }) {
   const { locale, id } = await params;
   const session = await auth();
-  const t = await getTranslations("dashboard");
+  const t = await getTranslations({ locale, namespace: "dashboard" });
 
   if (!session?.user) {
     redirect("/" + locale + "/auth/signin");

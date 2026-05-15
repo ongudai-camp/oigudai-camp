@@ -14,8 +14,8 @@ interface HotelsPageProps {
 export default async function HotelsPage({ params, searchParams }: HotelsPageProps) {
   const { locale } = await params;
   const { q, minPrice, maxPrice, type, category } = await searchParams;
-  const t = await getTranslations("listing");
-  const tc = await getTranslations("common");
+  const t = await getTranslations({ locale, namespace: "listing" });
+  const tc = await getTranslations({ locale, namespace: "common" });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {

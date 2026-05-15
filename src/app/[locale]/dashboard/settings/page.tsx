@@ -13,7 +13,7 @@ export default async function SettingsPage({
 }) {
   const { locale } = await params;
   const session = await auth();
-  const t = await getTranslations("dashboard");
+  const t = await getTranslations({ locale, namespace: "dashboard" });
 
   if (!session?.user) {
     redirect(`/${locale}/auth/signin`);

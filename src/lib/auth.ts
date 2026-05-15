@@ -43,37 +43,56 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         phone: { label: "Phone", type: "text" },
       },
       async authorize(credentials) {
-        // Phone-based auth (SMS verified — one-time sign-in token)
+        // Phone-based auth: try SMS code/sign-in token first, then bcrypt password
         if (credentials?.phone) {
           const formattedPhone = formatPhone(credentials.phone as string);
+          const password = credentials.password as string;
 
           const smsRecord = await prisma.smsCode.findUnique({
             where: { phone: formattedPhone },
           });
 
-          if (!smsRecord || smsRecord.code !== credentials.password) return null;
+          const smsValid = smsRecord && smsRecord.code === password && smsRecord.createdAt >= new Date(Date.now() - 5 * 60 * 1000);
 
-          if (smsRecord.createdAt < new Date(Date.now() - 5 * 60 * 1000)) {
-            return null;
+          if (smsValid) {
+            await prisma.smsCode.delete({
+              where: { phone: formattedPhone },
+            });
+
+            const user = await prisma.user.findFirst({
+              where: { phone: formattedPhone },
+            });
+
+            if (user) {
+              return {
+                id: user.id.toString(),
+                email: user.email,
+                name: user.name,
+                role: user.role,
+                phone: user.phone,
+              };
+            }
           }
 
-          await prisma.smsCode.delete({
-            where: { phone: formattedPhone },
-          });
-
+          // Fallback: try actual password (for auto-sign-in after registration)
           const user = await prisma.user.findFirst({
             where: { phone: formattedPhone },
           });
 
-          if (!user) return null;
+          if (user && user.password) {
+            const isValid = await bcrypt.compare(password, user.password);
+            if (isValid) {
+              return {
+                id: user.id.toString(),
+                email: user.email,
+                name: user.name,
+                role: user.role,
+                phone: user.phone,
+              };
+            }
+          }
 
-          return {
-            id: user.id.toString(),
-            email: user.email,
-            name: user.name,
-            role: user.role,
-            phone: user.phone,
-          };
+          return null;
         }
 
         if (!credentials?.email || !credentials?.password) return null;

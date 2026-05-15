@@ -14,7 +14,7 @@ interface TourPageProps {
 
 export default async function TourPage({ params }: TourPageProps) {
   const { slug, locale } = await params;
-  const t = await getTranslations("common");
+  const t = await getTranslations({ locale, namespace: "common" });
 
   const tour = await prisma.post.findUnique({
     where: { 

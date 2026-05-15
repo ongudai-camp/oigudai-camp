@@ -4,11 +4,12 @@ import { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import AdminSidebarClient from "./AdminSidebarClient";
 
-export default async function AdminLayout({ children }: { children: ReactNode }) {
+export default async function AdminLayout({ children, params }: { children: ReactNode; params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const session = await requireAdmin();
   const isSuper = isSuperAdmin(session.user.role);
 
-  const t = await getTranslations();
+  const t = await getTranslations({ locale, namespace: 'admin' });
 
   const menuItems = [
     { href: "/admin", label: t("admin.menu.dashboard"), icon: "📊" },

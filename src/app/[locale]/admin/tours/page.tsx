@@ -10,7 +10,7 @@ export default async function AdminToursPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const t = await getTranslations('admin');
+  const t = await getTranslations({ locale, namespace: 'admin' });
   await requireAdmin(locale);
 
   const tours = await prisma.post.findMany({

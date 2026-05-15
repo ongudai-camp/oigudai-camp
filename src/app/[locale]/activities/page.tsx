@@ -13,8 +13,8 @@ export default async function ActivitiesPage({
 }) {
   const { locale } = await params;
   const { q, category } = await searchParams;
-  const t = await getTranslations("listing");
-  const tc = await getTranslations("common");
+  const t = await getTranslations({ locale, namespace: "listing" });
+  const tc = await getTranslations({ locale, namespace: "common" });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {

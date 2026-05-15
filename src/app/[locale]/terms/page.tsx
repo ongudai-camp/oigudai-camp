@@ -8,7 +8,7 @@ export default async function TermsPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("terms");
+  const t = await getTranslations({ locale, namespace: "terms" });
 
   return (
     <div className="min-h-screen bg-[#f8fafc] pt-24 pb-12 px-4">

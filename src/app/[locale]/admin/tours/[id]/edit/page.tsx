@@ -11,7 +11,7 @@ interface EditTourPageProps {
 
 export default async function EditTourPage({ params }: EditTourPageProps) {
   const { id, locale } = await params;
-  const t = await getTranslations('admin');
+  const t = await getTranslations({ locale, namespace: 'admin' });
   await requireAdmin(locale);
 
   const tourId = parseInt(id);

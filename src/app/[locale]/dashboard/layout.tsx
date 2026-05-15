@@ -31,8 +31,8 @@ export default async function DashboardLayout({
     redirect(`/${locale}/auth/signin`);
   }
 
-  const t = await getTranslations("dashboard");
-  const tc = await getTranslations("common");
+  const t = await getTranslations({ locale, namespace: "dashboard" });
+  const tc = await getTranslations({ locale, namespace: "common" });
 
   const sidebarContent = (
     <>

@@ -50,7 +50,7 @@ function getStatusBadge(status: string) {
 export default async function DashboardPage({ params }: DashboardPageProps) {
   const { locale } = await params;
   const session = await auth();
-  const t = await getTranslations("dashboard");
+  const t = await getTranslations({ locale, namespace: "dashboard" });
 
   if (!session?.user) {
     redirect(`/${locale}/auth/signin`);

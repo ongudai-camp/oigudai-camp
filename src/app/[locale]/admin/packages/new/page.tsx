@@ -10,7 +10,7 @@ export default async function NewPackagePage({
 }) {
   const { locale } = await params;
   await requireAdmin(locale);
-  const t = await getTranslations('admin');
+  const t = await getTranslations({ locale, namespace: 'admin' });
   return (
     <div>
       <div className="flex items-center justify-between mb-6">

@@ -16,7 +16,7 @@ interface HotelPageProps {
 
 export default async function HotelPage({ params }: HotelPageProps) {
   const { slug, locale } = await params;
-  const t = await getTranslations("common");
+  const t = await getTranslations({ locale, namespace: "common" });
 
   const hotel = await prisma.post.findUnique({
     where: { 

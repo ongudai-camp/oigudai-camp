@@ -8,7 +8,7 @@ export default async function PrivacyPolicyPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("privacy");
+  const t = await getTranslations({ locale, namespace: "privacy" });
 
   return (
     <div className="min-h-screen bg-[#f8fafc] pt-24 pb-12 px-4">
