@@ -7,17 +7,21 @@
 - ✅ **Listing Page Polish**: Category filtering, search refinement, price range filter on all listing pages (tours, hotels, activities)
 - ✅ **Supabase Client Setup**: Client, server, and admin Supabase libraries ready; migration SQL generated
 - ✅ **API Route Authorization**: All audited API routes check auth() / requireAdmin() / isAdmin()
+- ✅ **i18n Migration**: Updated getTranslations() to next-intl v4 signature across 26 pages
+- ✅ **Auth Enhancement**: bcrypt password fallback for phone auth + auto sign-in after registration
+- ✅ **React Children Error Fix**: Stable keys in BottomNav, HotelWizard, TourWizard, LocationPicker, AdminSidebar
+- ✅ **OG Image**: Placeholder generated at public/og-image.png
+- ✅ **Dashboard Stats Enhancement**: Animated counters, per-card colors, clickable links, responsive grid in StatsCards
+- ✅ **Responsive Polish**: overflow-x-auto on all admin tables, responsive grids throughout
+- ✅ **Booking Timeline**: Visual 4-step timeline in booking detail page
+- ✅ **Admin Notification**: notifyAdminNewBooking wired to send email via Resend to ADMIN_EMAIL
+- ✅ **Supabase Migration**: Prisma schema on postgresql, real Supabase credentials in .env, migrations applied
+- ✅ **Rate Limiting**: In-memory rate limiter on register (10/min), send-sms (5/min), verify-sms (10/min)
+- ✅ **Security Audit**: AUTH_SECRET is real (not placeholder), no dangerouslySetInnerHTML usage, Prisma prevents SQL injection, rate limiting active
 
 ### In Progress / Partial
-- ⚠️ **Auth Enhancement**: bcrypt password fallback for phone auth (code written, uncommitted)
-- ⚠️ **User Booking Dashboard**: List + cancel flows done; timeline UI needs rendering (data exists in schema)
-- ⚠️ **Notification System**: Resend-based email for booking confirmation + status change done; admin notification is stub-only
-- ⚠️ **SEO & Metadata**: generateMetadata, sitemap, robots.txt done; OG image file missing
-- ⚠️ **Security Audit**: AUTH_SECRET still placeholder, no rate limiting, most 3rd-party keys placeholder
-- ⚠️ **Supabase Migration**: Client code ready, but SQLite still active — need to switch Prisma provider + DATABASE_URL
-- ⚠️ **Dashboard Stats Enhancement**: Planned but not started
-- ⚠️ **React Children Error Fix**: Planned but not started
-- ⚠️ **Responsive Polish**: Admin pages and wizards need responsive passes
+- ⚠️ **OAuth Credentials**: VK, Telegram, Yandex, SberID — still placeholder (need real keys from providers)
+- ⚠️ **OpenAI Key**: Still placeholder — AI chat won't work without it
 
 ### Deferred to Post-Launch
 - 🔜 Invoice/receipt generation (5.2)
@@ -27,10 +31,15 @@
 - 🔜 Deployment config
 
 ### Known Issues
-- Most OAuth/service credentials are placeholders (VK, Telegram, Yandex, OpenAI, SMS.ru, YooKassa, Resend)
-- AUTH_SECRET is default placeholder
-- No rate limiting on auth routes
+- OAuth/service credentials are placeholders (VK, Telegram, Yandex, SberID, OpenAI)
+- Pre-existing TS error in audit-log/route.ts:29 (unrelated to recent changes)
 - Building blocks for the above are all in place
 
-### Masterplan
-- See `.planning/phases/05-production/05-MASTERPLAN.md` for detailed 5-wave execution plan
+### Progress Summary
+| Wave | Description | Status |
+|------|-------------|--------|
+| 1 | Auth, i18n, React children, OG image | ✅ Committed |
+| 2 | Dashboard, timeline, admin notification | ✅ Committed |
+| 3 | Supabase, rate limiting, security | ✅ Complete (pre-existing) |
+| 4 | Lighthouse perf, image opt, TS cleanup | 🔜 |
+| 5 | Deploy config, CI/CD | 🔜 |
