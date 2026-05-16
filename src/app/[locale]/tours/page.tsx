@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
 import { getTranslations } from "next-intl/server";
 import CategoryFilter from "@/components/listing/CategoryFilter";
@@ -107,12 +108,20 @@ export default async function ToursPage({
               </div>
             </form>
 
-            <CategoryFilter
-              translations={{
-                all: t("all"),
-                categories: t("categories"),
-              }}
-            />
+            <Suspense fallback={
+              <div className="flex gap-2">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="h-10 w-24 bg-sky-50 rounded-xl animate-pulse" />
+                ))}
+              </div>
+            }>
+              <CategoryFilter
+                translations={{
+                  all: t("all"),
+                  categories: t("categories"),
+                }}
+              />
+            </Suspense>
           </div>
 
           {/* Tours Grid */}

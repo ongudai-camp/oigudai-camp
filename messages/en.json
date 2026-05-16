@@ -254,7 +254,26 @@
     "tours": "Tours",
     "activities": "Activities",
     "contactUs": "Contact Us",
-    "backToDashboard": "← Back to site"
+    "backToDashboard": "← Back to site",
+    "identity": {
+      "title": "Identity Verification",
+      "description": "Upload documents to verify your identity. This is required for secure bookings.",
+      "status": "Verification Status",
+      "unverified": "Unverified",
+      "pending": "Pending",
+      "verified": "Verified",
+      "rejected": "Rejected",
+      "uploadBtn": "Upload Document",
+      "docType": "Document Type",
+      "passport": "Passport",
+      "idCard": "ID Card",
+      "driverLicense": "Driver License",
+      "fileSelected": "File selected",
+      "noDocs": "No documents uploaded",
+      "uploadedDocs": "Uploaded Documents",
+      "deleteConfirm": "Delete document?",
+      "success": "Document uploaded successfully"
+    }
   },
   "listing": {
     "hotelsTitle": "Ongudai Hotels",

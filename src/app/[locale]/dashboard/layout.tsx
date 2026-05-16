@@ -88,6 +88,13 @@ export default async function DashboardLayout({
           <span>{t("profile")}</span>
         </Link>
         <Link
+          href={`/${locale}/dashboard/documents`}
+          className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-all duration-200"
+        >
+          <span className="text-lg">📄</span>
+          <span>{t("documents") || "Документы"}</span>
+        </Link>
+        <Link
           href={`/${locale}/dashboard/chat`}
           className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-all duration-200"
         >

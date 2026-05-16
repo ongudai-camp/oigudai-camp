@@ -17,24 +17,33 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { name, phone, email, password } = body;
 
-    if (!phone || !password) {
+    if (!password) {
       return NextResponse.json(
-        { error: "Phone and password are required" },
+        { error: "Password is required" },
         { status: 400 }
       );
     }
 
-    const digits = phone.replace(/\D/g, "");
-    const formattedPhone = "+" + digits;
+    if (!phone && !email) {
+      return NextResponse.json(
+        { error: "Phone or email is required" },
+        { status: 400 }
+      );
+    }
+
+    let formattedPhone: string | null = null;
+    if (phone) {
+      const digits = phone.replace(/\D/g, "");
+      formattedPhone = "+" + digits;
+    }
 
     // Check if user exists
+    const orConditions: { phone?: string; email?: string }[] = [];
+    if (formattedPhone) orConditions.push({ phone: formattedPhone });
+    if (email) orConditions.push({ email });
+
     const existingUser = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { phone: formattedPhone },
-          ...(email ? [{ email }] : []),
-        ],
-      },
+      where: { OR: orConditions },
     });
 
     if (existingUser) {
@@ -52,7 +61,7 @@ export async function POST(request: NextRequest) {
       data: {
         name,
         phone: formattedPhone,
-        phoneVerified: true, // Already verified via SMS
+        phoneVerified: !!formattedPhone, // true only if phone was provided
         email: email || null,
         password: hashedPassword,
         role: "subscriber",

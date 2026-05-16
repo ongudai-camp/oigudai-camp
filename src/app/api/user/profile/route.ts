@@ -13,7 +13,18 @@ export async function GET() {
     const userId = parseInt(session.user.id);
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { id: true, name: true, email: true, phone: true, image: true, role: true, createdAt: true, password: true },
+      select: { 
+        id: true, 
+        name: true, 
+        email: true, 
+        phone: true, 
+        image: true, 
+        role: true, 
+        createdAt: true, 
+        password: true,
+        identityVerified: true,
+        citizenship: true
+      },
     });
 
     if (!user) {
@@ -44,7 +55,7 @@ export async function PATCH(request: NextRequest) {
 
     const userId = parseInt(session.user.id);
     const body = await request.json();
-    const { name, email, phone, currentPassword, newPassword } = body;
+    const { name, email, phone, image, currentPassword, newPassword } = body;
 
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user) {
@@ -52,6 +63,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const updates: Record<string, unknown> = {};
+    if (image !== undefined) updates.image = image;
     const errors: string[] = [];
 
     if (name !== undefined) {

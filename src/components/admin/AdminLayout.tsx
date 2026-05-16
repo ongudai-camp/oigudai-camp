@@ -43,7 +43,7 @@ export default async function AdminLayout({ children, params }: { children: Reac
         showSuperAdmin={isSuper}
       />
 
-      <main className="flex-1 p-4 md:p-8 pt-24 lg:pt-8">
+      <main className="flex-1 p-4 md:p-8 pt-32 lg:pt-8">
         {children}
       </main>
     </div>

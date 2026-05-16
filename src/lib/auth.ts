@@ -2,6 +2,9 @@ import NextAuth, { type DefaultSession } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import YandexProvider from "next-auth/providers/yandex";
+import VKProvider from "next-auth/providers/vk";
 import bcrypt from "bcryptjs";
 
 declare module "next-auth" {
@@ -37,6 +40,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     newUser: "/auth/register",
   },
   providers: [
+    GoogleProvider({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    }),
+    YandexProvider({
+      clientId: process.env.AUTH_YANDEX_ID,
+      clientSecret: process.env.AUTH_YANDEX_SECRET,
+    }),
+    VKProvider({
+      clientId: process.env.AUTH_VK_ID,
+      clientSecret: process.env.AUTH_VK_SECRET,
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {

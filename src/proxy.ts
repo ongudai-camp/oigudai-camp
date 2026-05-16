@@ -62,6 +62,14 @@ export default async function proxy(request: NextRequest) {
     const pathAfterLocale = getPathAfterLocale(pathname);
     const locale = getLocaleFromPath(pathname);
 
+    // Redirect authenticated users away from auth pages
+    if (pathAfterLocale === "/auth/signin" || pathAfterLocale === "/auth/register") {
+      const session = await auth();
+      if (session?.user) {
+        return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url));
+      }
+    }
+
     if (isProtected(pathAfterLocale) || isAdminRoute(pathAfterLocale)) {
       const session = await auth();
       

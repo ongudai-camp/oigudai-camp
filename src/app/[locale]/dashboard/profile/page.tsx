@@ -7,6 +7,8 @@ import { useTranslations, useLocale } from "next-intl";
 import { format } from "date-fns";
 import { ru, enUS, kk } from "date-fns/locale";
 import { useEffect, useState, useRef } from "react";
+import IdentityVerification from "@/components/dashboard/IdentityVerification";
+import VerifyPhoneModal from "@/components/dashboard/VerifyPhoneModal";
 
 export default function ProfilePage() {
   const { data: session, update: updateSession } = useSession();
@@ -21,8 +23,11 @@ export default function ProfilePage() {
   const [image, setImage] = useState("");
   const [role, setRole] = useState("");
   const [createdAt, setCreatedAt] = useState("");
+  const [identityVerified, setIdentityVerified] = useState(false);
+  const [phoneVerified, setPhoneVerified] = useState(false);
   const [hasPassword, setHasPassword] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -50,6 +55,8 @@ export default function ProfilePage() {
         setImage(user.image || "");
         setRole(user.role || "");
         setCreatedAt(user.createdAt || "");
+        setIdentityVerified(!!user.identityVerified);
+        setPhoneVerified(!!user.phoneVerified);
         setHasPassword(!!user.hasPassword);
         setLoading(false);
       })
@@ -383,7 +390,14 @@ export default function ProfilePage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="p-4 bg-gray-50 rounded-xl">
                   <p className="text-xs font-medium text-gray-900 uppercase tracking-wider mb-1">Роль</p>
-                  <p className="font-semibold text-gray-900 capitalize">{role}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-semibold text-gray-900 capitalize">{role}</p>
+                    {identityVerified && (
+                      <span className="text-[10px] px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full font-bold uppercase">
+                        Verified 🛡️
+                      </span>
+                    )}
+                  </div>
                   <p className="text-sm text-gray-900 mt-0.5">
                     {roleDescriptions[role] || "Пользователь"}
                   </p>
@@ -405,8 +419,25 @@ export default function ProfilePage() {
                 </div>
                 <div className="p-4 bg-gray-50 rounded-xl">
                   <p className="text-xs font-medium text-gray-900 uppercase tracking-wider mb-1">Телефон</p>
-                  <p className="font-semibold text-gray-900">{phone || "—"}</p>
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="font-semibold text-gray-900">{phone || "тАФ"}</p>
+                    {phone && (
+                      phoneVerified ? (
+                        <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full font-medium">
+                          подтверждён
+                        </span>
+                      ) : (
+                        <button
+                          onClick={() => setIsVerifyModalOpen(true)}
+                          className="text-xs px-3 py-1 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all cursor-pointer shadow-sm active:scale-95"
+                        >
+                          Подтвердить
+                        </button>
+                      )
+                    )}
+                  </div>
                 </div>
+
                 <div className="p-4 bg-gray-50 rounded-xl">
                   <p className="text-xs font-medium text-gray-900 uppercase tracking-wider mb-1">
                     На сайте с
@@ -419,7 +450,21 @@ export default function ProfilePage() {
                 </div>
               </div>
             </div>
+
+            <IdentityVerification />
           </div>
+
+          {isVerifyModalOpen && (
+            <VerifyPhoneModal 
+              onClose={() => setIsVerifyModalOpen(false)}
+              onSuccess={() => {
+                setPhoneVerified(true);
+                setIsVerifyModalOpen(false);
+                setMessage({ type: "success", text: "Телефон успешно подтвержден" });
+                setTimeout(() => setMessage(null), 4000);
+              }}
+            />
+          )}
     </>
   );
 }

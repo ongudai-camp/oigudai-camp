@@ -133,22 +133,7 @@ export default function SignInPage() {
       setError(t("privacy.required"));
       return;
     }
-    if (provider === "vk") {
-      const clientId = process.env.NEXT_PUBLIC_VK_CLIENT_ID || "your-vk-client-id";
-      const redirectUri = encodeURIComponent(`${window.location.origin}/api/auth/callback/vk`);
-      window.location.href = `https://oauth.vk.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email`;
-    } else if (provider === "telegram") {
-      const botId = process.env.NEXT_PUBLIC_TELEGRAM_BOT_ID || "your-telegram-bot-id";
-      window.location.href = `https://oauth.telegram.org/auth?bot_id=${botId}&origin=${window.location.origin}&return_to=/api/auth/callback/telegram`;
-    } else if (provider === "yandex") {
-      const clientId = process.env.NEXT_PUBLIC_YANDEX_CLIENT_ID || "your-yandex-client-id";
-      const redirectUri = encodeURIComponent(`${window.location.origin}/api/auth/callback/yandex`);
-      window.location.href = `https://oauth.yandex.ru/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=login:info login:email`;
-    } else if (provider === "sber") {
-      const clientId = process.env.NEXT_PUBLIC_SBER_CLIENT_ID || "your-sber-client-id";
-      const redirectUri = encodeURIComponent(`${window.location.origin}/api/auth/callback/sber`);
-      window.location.href = `https://api.sberbank.ru/auth/oauth/v2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid name email phone`;
-    }
+    signIn(provider, { callbackUrl: `/${locale}/dashboard` });
   };
 
   return (
@@ -279,22 +264,25 @@ export default function SignInPage() {
             <div className="space-y-6 animate-in fade-in duration-500">
               <div className="grid grid-cols-4 gap-2">
                 <button
+                  onClick={() => handleSocialSignIn("google")}
+                  className="flex items-center justify-center py-3 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all cursor-pointer group"
+                  title="Google"
+                >
+                  <svg className="w-6 h-6 grayscale group-hover:grayscale-0 transition-all" viewBox="0 0 48 48">
+                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                  </svg>
+                </button>
+
+                <button
                   onClick={() => handleSocialSignIn("vk")}
                   className="flex items-center justify-center py-3 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all cursor-pointer group"
                   title="VK ID"
                 >
                   <svg className="w-6 h-6 grayscale group-hover:grayscale-0 transition-all" viewBox="0 0 48 48" fill="#0077FF">
                     <path d="M24 4C12.96 4 4 12.96 4 24s8.96 20 20 20 20-8.96 20-20S35.04 4 24 4zm10.6 30.6h-4.2c-1.6 0-2.2-.8-3.6-2.4-1.2-1.2-2.4-2.6-3.6-2.6-.6 0-1.2.2-1.8.6-.6.4-.8 1.2-.8 2.2v2.2c0 .8-.2 1.2-1 1.4-2.4.6-5.2 0-7.8-2.4-3.6-3.6-6.6-8.4-6.8-8.8-.4-.8-.2-1.2.6-1.2h4.2c.8 0 1.2.2 1.6 1 .4.8 1.8 3.8 3.2 5.2 1.2 1.2 2 1.6 2.8 1.6.6 0 1-.4 1-1.4v-4.6c-.2-1.2-.8-1.6-.8-2.2-.2-.4 0-.8.4-1h.2c.6-.2 1.6-.4 2.8-.4 1.6 0 2.4.4 2.8.8.4.4.4 1.2.4 2.2v4c0 .6.2 1 .8 1 .4 0 1-.2 1.8-1 1.6-2 2.6-5 2.8-5.2.2-.6.6-.8 1.2-.8h4.2c.8 0 1.2.4 1 1.2-.6 2.8-3.6 7.2-4.6 8.6-1 1.4-1 1.8 0 3.2.8 1.2 2.6 2.8 3.2 3.8.4.6.2 1.2-.6 1.2z"/>
-                  </svg>
-                </button>
-
-                <button
-                  onClick={() => handleSocialSignIn("telegram")}
-                  className="flex items-center justify-center py-3 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all cursor-pointer group"
-                  title="Telegram"
-                >
-                  <svg className="w-6 h-6 grayscale group-hover:grayscale-0 transition-all" viewBox="0 0 48 48" fill="#0088cc">
-                    <path d="M24 4C12.96 4 4 12.96 4 24s8.96 20 20 20 20-8.96 20-20S35.04 4 24 4zm9.4 15.2c-.2 1-3 12.4-4.2 16.4-.6 2-1.8 2.6-3 2.8-.8 0-2-.6-3-1.2-1.8-1.2-3.4-2.6-5-4-.6-.6-.2-1.2.4-1.8.2-.2 3.4-3 6.8-6.2.8-.8 1.6-2.4-.2-2-.2 0-5.4 3.4-7.6 4.8-.8.6-2.2.6-3.2.4l-5.2-1.6c-1.2-.4-1.2-1.2.2-1.8 5.8-2.6 13.4-5.6 19.2-7.6 2.4-.8 4.6-1.6 6.6-2.2 1.2-.4 2.2-.2 2.6 1 .2.6 0 1.6-.4 3z"/>
                   </svg>
                 </button>
 

@@ -18,6 +18,7 @@
 - ✅ **Supabase Migration**: Prisma schema on postgresql, real Supabase credentials in .env, migrations applied
 - ✅ **Rate Limiting**: In-memory rate limiter on register (10/min), send-sms (5/min), verify-sms (10/min)
 - ✅ **Security Audit**: AUTH_SECRET is real (not placeholder), no dangerouslySetInnerHTML usage, Prisma prevents SQL injection, rate limiting active
+- ✅ **Identity Verification**: Secure document upload with AES-256-GCM metadata encryption, verification status UI in profile dashboard, and dedicated API routes
 
 ### In Progress / Partial
 - ⚠️ **OAuth Credentials**: VK, Telegram, Yandex, SberID — still placeholder (need real keys from providers)
