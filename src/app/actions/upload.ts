@@ -39,9 +39,11 @@ export async function uploadImagesAction(formData: FormData) {
   const uploadDir = path.join(process.cwd(), "public", "uploads");
 
   try {
+    console.log(`Starting upload to ${uploadDir} for user ${session.user.id}`);
     await mkdir(uploadDir, { recursive: true });
 
     for (const file of files) {
+      console.log(`Processing file: ${file.name}, type: ${file.type}, size: ${file.size}`);
       if (!ALLOWED_IMAGE_TYPES.includes(file.type as typeof ALLOWED_IMAGE_TYPES[number])) {
         return { error: `Неподдерживаемый тип файла: ${file.type}. Разрешены: ${ALLOWED_IMAGE_TYPES.join(", ")}` };
       }
@@ -57,22 +59,29 @@ export async function uploadImagesAction(formData: FormData) {
         return { error: `Содержимое файла не соответствует заявленному типу` };
       }
 
-      const optimized = await optimizeImage(buffer, "gallery");
-      const filename = generateFilename();
-      const filepath = path.join(uploadDir, filename);
-      await writeFile(filepath, optimized);
-      urls.push(`/uploads/${filename}`);
+      try {
+        const optimized = await optimizeImage(buffer, "gallery");
+        const filename = generateFilename();
+        const filepath = path.join(uploadDir, filename);
+        console.log(`Saving optimized image to ${filepath}`);
+        await writeFile(filepath, optimized);
+        urls.push(`/uploads/${filename}`);
+      } catch (sharpError: any) {
+        console.error("Sharp optimization/write error:", sharpError);
+        return { error: `Ошибка при обработке изображения: ${sharpError.message || "Unknown error"}` };
+      }
     }
 
     return { urls };
-  } catch (error: unknown) {
+  } catch (error: any) {
+    console.error("Global upload error:", error);
     for (const url of urls) {
       try {
         const fname = url.replace("/uploads/", "");
         await unlink(path.join(uploadDir, fname));
       } catch {}
     }
-    return { error: error instanceof Error ? error.message : "Ошибка загрузки" };
+    return { error: error instanceof Error ? `Ошибка системы: ${error.message}` : "Ошибка загрузки" };
   }
 }
 
