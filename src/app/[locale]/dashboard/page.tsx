@@ -125,8 +125,8 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
       <div className="bg-gradient-to-br from-sky-900 via-sky-800 to-blue-900 rounded-2xl p-6 md:p-8 text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
-          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-sky-300 to-blue-400 flex items-center justify-center shadow-xl shrink-0 ring-4 ring-white/20">
+        <div className="relative z-10 flex flex-col items-center text-center md:text-left md:flex-row md:items-center gap-4 md:gap-6">
+          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-sky-300 to-blue-400 flex items-center justify-center shadow-xl shrink-0 ring-4 ring-white/20 mx-auto md:mx-0">
             <span className="text-2xl md:text-3xl font-bold text-sky-900">
               {user.name?.[0] || "U"}
             </span>

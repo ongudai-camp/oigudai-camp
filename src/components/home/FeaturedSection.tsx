@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { Star, MapPin } from "lucide-react";
+import WishlistButton from "@/components/common/WishlistButton";
 
 interface Post {
   id: number;
@@ -78,27 +79,31 @@ export default function FeaturedSection({ type, titleKey }: { type: string; titl
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, 33vw"
               />
-              <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full text-sm font-bold text-gray-900 shadow-sm">
-                {t("from")} {(post.salePrice || post.price).toLocaleString()} ₽
+              <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
+                {post.salePrice && post.salePrice < post.price && (
+                  <div className="bg-red-500 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm">
+                    -{Math.round((1 - post.salePrice / post.price) * 100)}%
+                  </div>
+                )}
+                <WishlistButton postId={post.id} />
               </div>
-              {post.salePrice && post.salePrice < post.price && (
-                <div className="absolute top-3 left-3 bg-red-500 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm">
-                  -{Math.round((1 - post.salePrice / post.price) * 100)}%
-                </div>
-              )}
+              <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full text-sm font-bold text-gray-900 shadow-sm flex items-center gap-1">
+                <Star size={14} className="text-yellow-500 fill-yellow-500" />
+                {post.rating || 5.0}
+              </div>
             </div>
             <div className="p-5 space-y-2">
               <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1">
                 {post.title}
               </h3>
               {post.address && (
-                <p className="text-sm text-gray-500 flex items-center gap-1">
+                <p className="text-sm text-gray-700 flex items-center gap-1">
                   <MapPin size={14} className="shrink-0" />
                   <span className="truncate">{post.address}</span>
                 </p>
               )}
               {post.excerpt && (
-                <p className="text-sm text-gray-500 line-clamp-2">{post.excerpt}</p>
+                <p className="text-sm text-gray-700 line-clamp-2">{post.excerpt}</p>
               )}
               {post.rating && (
                 <div className="flex items-center gap-1 pt-2 text-sm">

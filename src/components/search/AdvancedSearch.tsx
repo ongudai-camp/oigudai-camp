@@ -6,6 +6,7 @@ import { useLocale } from "next-intl";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { Search, SlidersHorizontal, Star, MapPin, Loader2, X } from "lucide-react";
+import WishlistButton from "@/components/common/WishlistButton";
 
 interface SearchResult {
   id: number;
@@ -161,8 +162,11 @@ export default function AdvancedSearch() {
                   <span className={`absolute top-3 left-3 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${typeColors[result.type] || "bg-gray-100 text-gray-700"}`}>
                     {result.type}
                   </span>
+                  <div className="absolute top-3 right-3 z-10">
+                    <WishlistButton postId={result.id} />
+                  </div>
                   {result.available && (
-                    <span className="absolute top-3 right-3 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-500 text-white">Available</span>
+                    <span className="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-500 text-white">Available</span>
                   )}
                 </div>
                 <div className="p-4">

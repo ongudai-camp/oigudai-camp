@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { getTranslations } from "next-intl/server";
 import CategoryFilter from "@/components/listing/CategoryFilter";
+import WishlistButton from "@/components/common/WishlistButton";
 import type { Prisma } from "@prisma/client";
 import { Star, MapPin, ArrowRight, Search } from "lucide-react";
 
@@ -117,6 +118,10 @@ export default async function ActivitiesPage({
                       </div>
                     )}
 
+                    <div className="absolute top-5 left-5 z-10">
+                      <WishlistButton postId={activity.id} />
+                    </div>
+
                     <div className="absolute top-5 right-5 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl text-xs font-black text-sky-950 shadow-lg border border-white flex items-center gap-1.5 transition-transform group-hover:scale-105">
                       <Star size={14} className="text-orange-500 fill-orange-500" />
                       {activity.rating || tc("noRating")}
@@ -128,7 +133,7 @@ export default async function ActivitiesPage({
                         {activity.title}
                       </h2>
                       {activity.address && (
-                        <p className="text-sky-900/50 text-sm md:text-base font-medium flex items-center gap-1">
+                        <p className="text-sky-900 text-sm md:text-base font-medium flex items-center gap-1">
                           <MapPin size={14} className="text-sky-700 shrink-0" />
                           {activity.address}
                         </p>
@@ -137,13 +142,13 @@ export default async function ActivitiesPage({
 
                     <div className="pt-6 border-t border-sky-50 flex justify-between items-center">
                       <div>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-sky-600 mb-1 block">{t("priceFrom")}</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-sky-800 mb-1 block">{t("priceFrom")}</span>
                         <div className="text-3xl font-black text-sky-950">
                           {activity.salePrice || activity.price} ₽
-                          <span className="text-sm font-bold text-sky-600 ml-1">/ {tc("perPerson")}</span>
+                          <span className="text-sm font-bold text-sky-800 ml-1">/ {tc("perPerson")}</span>
                         </div>
                       </div>
-                      <div className="w-14 h-14 bg-sky-50 rounded-3xl flex items-center justify-center text-sky-600 group-hover:bg-orange-500 group-hover:text-white group-hover:rotate-[-45deg] transition-all duration-500 ease-out shadow-inner">
+                      <div className="w-14 h-14 bg-sky-50 rounded-3xl flex items-center justify-center text-sky-800 group-hover:bg-orange-500 group-hover:text-white group-hover:rotate-[-45deg] transition-all duration-500 ease-out shadow-inner">
                         <ArrowRight size={24} />
                       </div>
                     </div>

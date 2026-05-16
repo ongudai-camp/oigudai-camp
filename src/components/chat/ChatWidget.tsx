@@ -16,7 +16,7 @@ export default function ChatWidget({ userId, locale }: ChatWidgetProps) {
 
   if (!isOpen) {
     return (
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+      <div className="fixed bottom-24 lg:bottom-6 right-6 z-50 flex flex-col items-end gap-3">
         <button
           onClick={() => setIsOpen(true)}
           className="w-14 h-14 bg-gradient-to-br from-blue-500 to-sky-600 text-white rounded-full shadow-xl hover:shadow-2xl hover:scale-110 transition-all duration-300 flex items-center justify-center cursor-pointer"
@@ -36,7 +36,7 @@ export default function ChatWidget({ userId, locale }: ChatWidgetProps) {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+    <div className="fixed bottom-24 lg:bottom-6 right-6 z-50 flex flex-col items-end gap-3">
       <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 w-[380px] max-w-[calc(100vw-2rem)] h-[580px] max-h-[calc(100vh-6rem)] flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-8 duration-300">
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 bg-gradient-to-r from-blue-600 to-sky-600 text-white">
           <div className="flex items-center gap-3">

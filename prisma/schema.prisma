@@ -149,6 +149,7 @@ model Post {
   meta           PostMeta[]
   reviews        Review[]
   rooms          Room[]
+  wishlistedBy   Wishlist[]
 
   @@unique([slug, locale])
 }
@@ -320,6 +321,20 @@ model User {
   identityDocuments IdentityDocument[]
   contracts         Contract[]
   reviewedDocs      IdentityDocument[] @relation("reviewer")
+  wishlist          Wishlist[]
+}
+
+model Wishlist {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  postId    Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@index([userId])
+  @@index([postId])
 }
 
 model UserPackage {

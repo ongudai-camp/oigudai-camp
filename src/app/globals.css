@@ -79,6 +79,16 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
+/* Ensure form elements have dark text on light backgrounds */
+select, input, textarea {
+  color: #111827; /* gray-900 */
+}
+/* Force dark text for options in case of system dark mode */
+option {
+  color: #111827;
+  background-color: #ffffff;
+}
+
 /* Safe-area-aware padding helpers */
 .pb-safe-bottom {
   padding-bottom: constant(safe-area-inset-bottom);

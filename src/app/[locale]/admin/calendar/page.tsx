@@ -163,7 +163,7 @@ export default function AdminCalendarPage() {
                   setSelectedProperty(e.target.value ? parseInt(e.target.value) : null);
                   setSelectedRoom(null);
                 }}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm cursor-pointer bg-white"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm cursor-pointer bg-white text-gray-900"
               >
                 <option value="">Select property...</option>
                 {(properties || []).map((p: { id: number; title: string }) => (
@@ -178,7 +178,7 @@ export default function AdminCalendarPage() {
               <select
                 value={selectedRoom ?? ""}
                 onChange={(e) => setSelectedRoom(e.target.value ? parseInt(e.target.value) : null)}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm cursor-pointer bg-white"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm cursor-pointer bg-white text-gray-900"
                 disabled={!selectedProperty}
               >
                 <option value="">All rooms</option>

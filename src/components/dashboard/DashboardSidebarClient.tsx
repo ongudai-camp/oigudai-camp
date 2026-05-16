@@ -30,13 +30,13 @@ export default function DashboardSidebarClient({ children }: { children: ReactNo
       {/* Mobile: bottom sheet */}
       <aside
         className={`
-          md:hidden fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-3xl shadow-2xl
+          md:hidden fixed inset-x-0 bottom-0 z-[60] bg-white rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.1)]
           transition-transform duration-300 ease-out
-          max-h-[75vh] overflow-y-auto
+          max-h-[85vh] overflow-y-auto pb-10
           ${mobileOpen ? "translate-y-0" : "translate-y-full"}
         `}
       >
-        <div className="sticky top-0 bg-white pt-3 pb-2 flex justify-center border-b border-gray-100 rounded-t-3xl">
+        <div className="sticky top-0 bg-white pt-3 pb-2 flex justify-center border-b border-gray-100 rounded-t-3xl z-10">
           <div className="w-10 h-1 bg-gray-300 rounded-full" />
           <button
             onClick={() => setMobileOpen(false)}

@@ -106,17 +106,17 @@ export default async function HotelPage({ params }: HotelPageProps) {
                       </span>
                     )}
                   </div>
-                  <p className="text-gray-500 flex items-center gap-1.5">
+                  <p className="text-gray-700 flex items-center gap-1.5">
                     <span>📍</span> {hotel.address}
                   </p>
                 </div>
                 <div className="text-right shrink-0 ml-4">
-                  <div className="text-sm text-gray-500 mb-0.5">{t("perNight")}</div>
+                  <div className="text-sm text-gray-700 mb-0.5">{t("perNight")}</div>
                   <div className="text-3xl font-bold text-blue-600">
                     {(hotel.salePrice || hotel.price).toLocaleString()} ₽
                   </div>
                   {hotel.salePrice && (
-                    <div className="text-gray-400 line-through text-sm">
+                    <div className="text-gray-600 line-through text-sm">
                       {hotel.price.toLocaleString()} ₽
                     </div>
                   )}
@@ -131,7 +131,7 @@ export default async function HotelPage({ params }: HotelPageProps) {
                   </span>
                 )}
                 {hotel.minNights > 1 && (
-                  <span className="bg-gray-50 text-gray-600 px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5">
+                  <span className="bg-gray-50 text-gray-800 px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5">
                     📅 от {hotel.minNights} {t("nights") || "ночей"}
                   </span>
                 )}
@@ -144,7 +144,7 @@ export default async function HotelPage({ params }: HotelPageProps) {
 
               <div className="border-t pt-6">
                 <h2 className="text-xl font-semibold mb-4">{t("description")}</h2>
-                <div className="text-gray-600 whitespace-pre-wrap leading-relaxed">
+                <div className="text-gray-800 whitespace-pre-wrap leading-relaxed">
                   {hotel.content || t("noDescription")}
                 </div>
               </div>
@@ -163,7 +163,7 @@ export default async function HotelPage({ params }: HotelPageProps) {
               <div className="bg-white rounded-[2.5rem] shadow-xl border border-white/50 p-6 md:p-8 mb-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl font-semibold">{t("rooms")}</h2>
-                  <span className="text-sm text-gray-500">{hotel.rooms.length} {t("roomTypes") || "вариантов"}</span>
+                  <span className="text-sm text-gray-700">{hotel.rooms.length} {t("roomTypes") || "вариантов"}</span>
                 </div>
                 <div className="space-y-4">
                   {hotel.rooms.map((room: { id: number; title: string; description: string | null; price: number; salePrice: number | null; guests: number; beds: number; bathrooms: number; floor: number | null; roomType: { name: string; icon: string | null } | null; facilities: Array<{ id: number; name: string; icon: string | null }> }) => (
@@ -181,13 +181,13 @@ export default async function HotelPage({ params }: HotelPageProps) {
                               </span>
                             )}
                             {room.floor && (
-                              <span className="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-1 rounded-md">
+                              <span className="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded-md">
                                 {room.floor} {t("floor")}
                               </span>
                             )}
                           </div>
                           <h3 className="font-semibold text-lg text-gray-900">{room.title}</h3>
-                          <div className="flex items-center gap-3 text-sm text-gray-500 mt-1">
+                          <div className="flex items-center gap-3 text-sm text-gray-700 mt-1">
                             <span>👤 {room.guests} {t("guests")}</span>
                             <span>🛏️ {room.beds}</span>
                             <span>🚿 {room.bathrooms}</span>
@@ -197,8 +197,8 @@ export default async function HotelPage({ params }: HotelPageProps) {
                           {room.facilities && room.facilities.length > 0 && (
                             <div className="flex flex-wrap gap-1.5 mt-3">
                               {room.facilities.map((f: { id: number; name: string; icon: string | null }) => (
-                                <span key={f.id} className="text-xs text-gray-500 bg-gray-50 px-2.5 py-1 rounded-md border border-gray-100 flex items-center gap-1">
-                                  {f.icon && <LucideIcon name={f.icon} size={12} className="text-gray-400" />}
+                                <span key={f.id} className="text-xs text-gray-700 bg-gray-50 px-2.5 py-1 rounded-md border border-gray-100 flex items-center gap-1">
+                                  {f.icon && <LucideIcon name={f.icon} size={12} className="text-gray-600" />}
                                   {f.name}
                                 </span>
                               ))}
@@ -206,16 +206,16 @@ export default async function HotelPage({ params }: HotelPageProps) {
                           )}
 
                           {room.description && (
-                            <p className="text-gray-500 mt-3 text-sm">{room.description}</p>
+                            <p className="text-gray-700 mt-3 text-sm">{room.description}</p>
                           )}
                         </div>
                         <div className="text-right shrink-0 md:pl-6 md:border-l md:border-gray-100 md:min-w-[160px]">
-                          <div className="text-sm text-gray-500">{t("perNight")}</div>
+                          <div className="text-sm text-gray-700">{t("perNight")}</div>
                           <div className="font-bold text-2xl text-gray-900 mt-0.5">
                             {(room.salePrice || room.price).toLocaleString()} ₽
                           </div>
                           {room.salePrice && (
-                            <div className="text-gray-400 line-through text-sm">
+                            <div className="text-gray-600 line-through text-sm">
                               {room.price.toLocaleString()} ₽
                             </div>
                           )}

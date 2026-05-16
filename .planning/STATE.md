@@ -20,8 +20,10 @@
 - ✅ **Security Audit**: AUTH_SECRET is real (not placeholder), no dangerouslySetInnerHTML usage, Prisma prevents SQL injection, rate limiting active
 - ✅ **Identity Verification**: Secure document upload with AES-256-GCM metadata encryption, verification status UI in profile dashboard, and dedicated API routes
 - ✅ **Wave 4 - Performance & Optimization**: Refactored major components to use `next/image`, optimized Hero LCP, fixed middleware filename to `proxy.ts` according to Next.js 16 rules, and implemented JSON-LD structured data for Hotels and Tours.
+- ✅ **Wave 5 - Fixes**: Fixed missing `WishlistButton` imports in 5 files, resolved TypeScript errors, and verified production build success.
 
 ### In Progress / Partial
+- 🔄 **Wave 5 - Production Launch**: CI/CD automation and final deployment.
 - ⚠️ **OAuth Credentials**: VK, Telegram, Yandex, SberID — still placeholder (need real keys from providers)
 - ⚠️ **OpenAI Key**: Still placeholder — AI chat won't work without it
 

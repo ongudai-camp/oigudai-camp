@@ -75,8 +75,8 @@
 - [ ] Server response time optimization
 - [ ] Core Web Vitals targeting
 
-### 5.9 Build & Deploy 🔜 (deferred)
-- [ ] Fix all TypeScript errors
-- [ ] Production build test
+### 5.9 Build & Deploy 🔄 In Progress
+- ✅ Fix all TypeScript errors (missing WishlistButton imports)
+- ✅ Production build test (verified locally with 2GB heap)
 - [ ] Deployment configuration
-- [ ] CI/CD setup
+- [ ] CI/CD setup (SSH deployment step)

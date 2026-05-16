@@ -147,7 +147,7 @@ export default async function DashboardLayout({
   );
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] pt-24 pb-8">
+    <div className="min-h-screen bg-[#f8fafc] pt-24 pb-24 md:pb-8">
       <div className="mx-auto w-full max-w-7xl px-4">
         <div className="flex flex-col md:flex-row gap-6 lg:gap-8">
           <DashboardSidebarClient>

@@ -7,6 +7,8 @@ RUN npm ci
 FROM node:20-alpine AS builder
 ARG DATABASE_URL
 ENV DATABASE_URL=$DATABASE_URL
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV SKIP_PRERENDER_ENV=true
 RUN apk add --no-cache openssl
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
