@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { uploadImagesAction, deleteImageAction } from "@/app/actions/upload";
+import Image from "next/image";
 
 interface ImageUploaderProps {
   images: string[];
@@ -72,17 +73,19 @@ export default function ImageUploader({ images, onChange, maxFiles = 10 }: Image
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {images.map((url, idx) => (
             <div key={url} className="relative group aspect-[4/3] rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
-              <img
+              <Image
                 src={url}
                 alt={`Image ${idx + 1}`}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 50vw, 25vw"
               />
               {idx === 0 && (
-                <span className="absolute top-2 left-2 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">
+                <span className="absolute top-2 left-2 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded z-10">
                   Главная
                 </span>
               )}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 z-10">
                 {idx > 0 && (
                   <button
                     type="button"

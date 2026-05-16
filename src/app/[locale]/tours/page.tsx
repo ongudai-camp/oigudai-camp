@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import CategoryFilter from "@/components/listing/CategoryFilter";
 import type { Prisma } from "@prisma/client";
 import { Star, MapPin, ArrowRight, Search } from "lucide-react";
+import Image from "next/image";
 
 export default async function ToursPage({
   params,
@@ -143,11 +144,12 @@ export default async function ToursPage({
                 >
                   <div className="relative h-64 md:h-72 overflow-hidden">
                     {tour.featuredImage ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
                         src={tour.featuredImage}
                         alt={tour.title}
+                        fill
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                     ) : (
                       <div className="w-full h-full bg-sky-100 flex items-center justify-center text-sky-500">

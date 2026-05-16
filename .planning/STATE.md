@@ -19,6 +19,7 @@
 - ✅ **Rate Limiting**: In-memory rate limiter on register (10/min), send-sms (5/min), verify-sms (10/min)
 - ✅ **Security Audit**: AUTH_SECRET is real (not placeholder), no dangerouslySetInnerHTML usage, Prisma prevents SQL injection, rate limiting active
 - ✅ **Identity Verification**: Secure document upload with AES-256-GCM metadata encryption, verification status UI in profile dashboard, and dedicated API routes
+- ✅ **Wave 4 - Performance & Optimization**: Refactored major components to use `next/image`, optimized Hero LCP, fixed middleware filename to `proxy.ts` according to Next.js 16 rules.
 
 ### In Progress / Partial
 - ⚠️ **OAuth Credentials**: VK, Telegram, Yandex, SberID — still placeholder (need real keys from providers)
@@ -33,7 +34,6 @@
 
 ### Known Issues
 - OAuth/service credentials are placeholders (VK, Telegram, Yandex, SberID, OpenAI)
-- Pre-existing TS error in audit-log/route.ts:29 (unrelated to recent changes)
 - Building blocks for the above are all in place
 
 ### Progress Summary
@@ -42,5 +42,5 @@
 | 1 | Auth, i18n, React children, OG image | ✅ Committed |
 | 2 | Dashboard, timeline, admin notification | ✅ Committed |
 | 3 | Supabase, rate limiting, security | ✅ Complete (pre-existing) |
-| 4 | Lighthouse perf, image opt, TS cleanup | 🔜 |
+| 4 | Lighthouse perf, image opt, TS cleanup | ✅ Complete |
 | 5 | Deploy config, CI/CD | 🔜 |

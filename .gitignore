@@ -49,6 +49,9 @@ next-env.d.ts
 # logs
 *.log
 
+# large files
+*.tar.gz
+
 # uploads
 /public/uploads/
 

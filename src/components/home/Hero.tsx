@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import HeroSearchBar from './HeroSearchBar';
+import Image from 'next/image';
 
 export default function Hero() {
   const t = useTranslations('hero');
@@ -9,14 +10,15 @@ export default function Hero() {
   return (
     <section className='relative min-h-[90vh] flex items-center justify-center overflow-hidden'>
       {/* Background Image with Overlay */}
-      <div 
-        className='absolute inset-0 z-0'
-        style={{
-          backgroundImage: 'url(/hero-bg.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
+      <div className='absolute inset-0 z-0'>
+        <Image
+          src="/hero-bg.jpg"
+          alt="Altai Mountains"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
         <div className='absolute inset-0 bg-gradient-to-b from-sky-950/60 via-sky-950/40 to-sky-950/70'></div>
       </div>
 

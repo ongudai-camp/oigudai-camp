@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { ChevronLeft, ChevronRight, X, Download } from "lucide-react";
+import Image from "next/image";
 
 interface ImageGalleryProps {
   images: string[];
@@ -79,13 +80,16 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
     if (count === 1) {
       return (
         <div
-          className="col-span-4 row-span-2 cursor-pointer overflow-hidden rounded-2xl"
+          className="col-span-4 row-span-2 cursor-pointer overflow-hidden rounded-2xl relative"
           onClick={() => openLightbox(0)}
         >
-          <img
+          <Image
             src={images[0]}
             alt={title ? `${title} - Image 1` : "Gallery image 1"}
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+            fill
+            className="object-cover hover:scale-105 transition-transform duration-700"
+            sizes="(max-width: 768px) 100vw, 80vw"
+            priority
           />
         </div>
       );
@@ -97,13 +101,16 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
           {images.slice(0, 2).map((img, i) => (
             <div
               key={i}
-              className="col-span-2 row-span-2 cursor-pointer overflow-hidden rounded-2xl"
+              className="col-span-2 row-span-2 cursor-pointer overflow-hidden rounded-2xl relative"
               onClick={() => openLightbox(i)}
             >
-              <img
+              <Image
                 src={img}
                 alt={title ? `${title} - Image ${i + 1}` : `Gallery image ${i + 1}`}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                fill
+                className="object-cover hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 768px) 50vw, 40vw"
+                priority={i === 0}
               />
             </div>
           ))}
@@ -117,33 +124,40 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
     return (
       <>
         <div
-          className="col-span-2 row-span-2 cursor-pointer overflow-hidden rounded-2xl"
+          className="col-span-2 row-span-2 cursor-pointer overflow-hidden rounded-2xl relative"
           onClick={() => openLightbox(0)}
         >
-          <img
+          <Image
             src={mainImages[0]}
             alt={title ? `${title} - Image 1` : "Gallery image 1"}
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+            fill
+            className="object-cover hover:scale-105 transition-transform duration-700"
+            sizes="(max-width: 768px) 50vw, 40vw"
+            priority
           />
         </div>
         <div
           className="cursor-pointer overflow-hidden relative rounded-2xl"
           onClick={() => openLightbox(1)}
         >
-          <img
+          <Image
             src={mainImages[1]}
             alt={title ? `${title} - Image 2` : "Gallery image 2"}
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+            fill
+            className="object-cover hover:scale-105 transition-transform duration-700"
+            sizes="(max-width: 768px) 25vw, 20vw"
           />
         </div>
         <div
           className="cursor-pointer overflow-hidden relative rounded-2xl"
           onClick={() => openLightbox(2)}
         >
-          <img
+          <Image
             src={mainImages[2]}
             alt={title ? `${title} - Image 3` : "Gallery image 3"}
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+            fill
+            className="object-cover hover:scale-105 transition-transform duration-700"
+            sizes="(max-width: 768px) 25vw, 20vw"
           />
         </div>
         {mainImages[3] && (
@@ -151,13 +165,15 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
             className="cursor-pointer overflow-hidden relative rounded-2xl"
             onClick={() => openLightbox(3)}
           >
-            <img
+            <Image
               src={mainImages[3]}
               alt={title ? `${title} - Image 4` : "Gallery image 4"}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+              fill
+              className="object-cover hover:scale-105 transition-transform duration-700"
+              sizes="(max-width: 768px) 25vw, 20vw"
             />
             {remaining > 0 && (
-              <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-2xl">
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-2xl z-10">
                 <span className="text-white font-bold text-xl">+{remaining}</span>
               </div>
             )}
@@ -232,13 +248,17 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
               <ChevronLeft size={24} className="text-white" />
             </button>
 
-            <img
-              src={images[currentIndex]}
-              alt={title ? `${title} - Image ${currentIndex + 1}` : `Gallery image ${currentIndex + 1}`}
-              className="max-w-[95vw] max-h-[60vh] sm:max-h-[70vh] object-contain px-12 sm:px-16 select-none"
-              onClick={(e) => e.stopPropagation()}
-              draggable={false}
-            />
+            <div className="relative w-full h-full max-w-[95vw] max-h-[60vh] sm:max-h-[70vh] px-12 sm:px-16" onClick={(e) => e.stopPropagation()}>
+              <Image
+                src={images[currentIndex]}
+                alt={title ? `${title} - Image ${currentIndex + 1}` : `Gallery image ${currentIndex + 1}`}
+                fill
+                className="object-contain select-none"
+                draggable={false}
+                sizes="95vw"
+                priority
+              />
+            </div>
 
             <button
               onClick={(e) => { e.stopPropagation(); goNext(); }}
@@ -259,17 +279,19 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                 <button
                   key={i}
                   onClick={(e) => { e.stopPropagation(); setCurrentIndex(i); }}
-                  className={`shrink-0 w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden border-2 transition-all duration-200 cursor-pointer ${
+                  className={`shrink-0 w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden border-2 transition-all duration-200 cursor-pointer relative ${
                     i === currentIndex
                       ? "border-white opacity-100"
                       : "border-transparent opacity-50 hover:opacity-80"
                   }`}
                 >
-                  <img
+                  <Image
                     src={img}
                     alt=""
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
                     draggable={false}
+                    sizes="(max-width: 768px) 64px, 80px"
                   />
                 </button>
               ))}

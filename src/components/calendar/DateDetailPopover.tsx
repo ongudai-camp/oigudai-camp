@@ -1,4 +1,7 @@
+"use client";
+
 import { X } from "lucide-react";
+import Image from "next/image";
 import AvailabilityBadge from "./AvailabilityBadge";
 
 interface PropertyInfo {
@@ -99,11 +102,15 @@ function PropertyRow({ prop }: { prop: PropertyInfo }) {
     <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
       <div className="flex items-center gap-3 min-w-0">
         {prop.image ? (
-          <img
-            src={prop.image}
-            alt={prop.title}
-            className="w-8 h-8 rounded-lg object-cover shrink-0"
-          />
+          <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0">
+            <Image
+              src={prop.image}
+              alt={prop.title}
+              fill
+              className="object-cover"
+              sizes="32px"
+            />
+          </div>
         ) : (
           <div className="w-8 h-8 rounded-lg bg-gray-200 shrink-0" />
         )}
