@@ -7,6 +7,7 @@ import { getTranslations } from "next-intl/server";
 import MapSection from "@/components/common/MapSection";
 import ReviewSection from "@/components/reviews/ReviewSection";
 import type { Review } from "@/components/reviews/ReviewsList";
+import JsonLd from "@/components/common/JsonLd";
 
 interface TourPageProps {
   params: Promise<{ slug: string; locale: string }>;
@@ -38,8 +39,32 @@ export default async function TourPage({ params }: TourPageProps) {
   const getMeta = (key: string) => tour.meta.find((m: { key: string; value: string | null }) => m.key === key)?.value;
   const groupSize = getMeta("groupSize");
 
+  const tourJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Trip",
+    "name": tour.title,
+    "description": tour.excerpt || tour.content?.substring(0, 160),
+    "image": galleryImages,
+    "itinerary": {
+      "@type": "ItemList",
+      "numberOfItems": 1
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": tour.salePrice || tour.price,
+      "priceCurrency": "RUB",
+      "availability": "https://schema.org/InStock"
+    },
+    "provider": {
+      "@type": "Organization",
+      "name": "Ongudai Camp",
+      "url": "https://ongudaicamp.ru"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 pt-24 pb-8">
+      <JsonLd data={tourJsonLd} />
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Main Content */}

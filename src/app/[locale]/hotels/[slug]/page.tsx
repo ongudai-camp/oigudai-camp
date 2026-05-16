@@ -9,6 +9,7 @@ import { getTranslations } from "next-intl/server";
 import MapSection from "@/components/common/MapSection";
 import ReviewSection from "@/components/reviews/ReviewSection";
 import type { Review } from "@/components/reviews/ReviewsList";
+import JsonLd from "@/components/common/JsonLd";
 
 interface HotelPageProps {
   params: Promise<{ slug: string; locale: string }>;
@@ -44,6 +45,32 @@ export default async function HotelPage({ params }: HotelPageProps) {
 
   const galleryImages = parseGalleryImages(hotel.gallery, hotel.featuredImage);
 
+  const hotelJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Hotel",
+    "name": hotel.title,
+    "description": hotel.excerpt || hotel.content?.substring(0, 160),
+    "image": galleryImages,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": hotel.address,
+      "addressLocality": "Ongudai",
+      "addressRegion": "Altai Republic",
+      "addressCountry": "RU"
+    },
+    "geo": hotel.latitude && hotel.longitude ? {
+      "@type": "GeoCoordinates",
+      "latitude": hotel.latitude,
+      "longitude": hotel.longitude
+    } : undefined,
+    "aggregateRating": hotel.rating ? {
+      "@type": "AggregateRating",
+      "ratingValue": hotel.rating,
+      "reviewCount": hotel.reviewCount || 1
+    } : undefined,
+    "priceRange": `RUB ${hotel.price} - ${hotel.price * 2}`
+  };
+
   let amenities: string[] = [];
   try {
     const amenitiesMeta = hotel.meta.find((m: { key: string; value: string | null }) => m.key === "amenities")?.value;
@@ -56,6 +83,7 @@ export default async function HotelPage({ params }: HotelPageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-24 pb-8">
+      <JsonLd data={hotelJsonLd} />
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Main Content */}

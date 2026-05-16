@@ -19,7 +19,7 @@
 - ✅ **Rate Limiting**: In-memory rate limiter on register (10/min), send-sms (5/min), verify-sms (10/min)
 - ✅ **Security Audit**: AUTH_SECRET is real (not placeholder), no dangerouslySetInnerHTML usage, Prisma prevents SQL injection, rate limiting active
 - ✅ **Identity Verification**: Secure document upload with AES-256-GCM metadata encryption, verification status UI in profile dashboard, and dedicated API routes
-- ✅ **Wave 4 - Performance & Optimization**: Refactored major components to use `next/image`, optimized Hero LCP, fixed middleware filename to `proxy.ts` according to Next.js 16 rules.
+- ✅ **Wave 4 - Performance & Optimization**: Refactored major components to use `next/image`, optimized Hero LCP, fixed middleware filename to `proxy.ts` according to Next.js 16 rules, and implemented JSON-LD structured data for Hotels and Tours.
 
 ### In Progress / Partial
 - ⚠️ **OAuth Credentials**: VK, Telegram, Yandex, SberID — still placeholder (need real keys from providers)
@@ -27,10 +27,10 @@
 
 ### Deferred to Post-Launch
 - 🔜 Invoice/receipt generation (5.2)
-- 🔜 JSON-LD structured data (5.5)
-- 🔜 Performance / Lighthouse audit (5.8)
-- 🔜 CI/CD setup (5.9)
-- 🔜 Deployment config
+- 🔜 JSON-LD structured data (5.5) - ✅ Complete
+- 🔜 Performance / Lighthouse audit (5.8) - ✅ Partial (Image Opt & LCP done)
+- 🔜 CI/CD setup (5.9) - ✅ Complete (GH Actions ready)
+- 🔜 Deployment config - ✅ Complete (Dockerfile & Beget scripts ready)
 
 ### Known Issues
 - OAuth/service credentials are placeholders (VK, Telegram, Yandex, SberID, OpenAI)
