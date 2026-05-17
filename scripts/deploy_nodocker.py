@@ -57,7 +57,7 @@ run("cd /opt/ongudai-camp && npx prisma generate", 30)
 
 # Build
 print("\n[6/9] Building Next.js (this takes 2-5 min)...", flush=True)
-run('cd /opt/ongudai-camp && NODE_OPTIONS="--max-old-space-size=512" npm run build', 900)
+run('cd /opt/ongudai-camp && NODE_OPTIONS="--max-old-space-size=768" npm run build', 900)
 
 # Migrations
 print("\n[7/9] DB migrations...", flush=True)

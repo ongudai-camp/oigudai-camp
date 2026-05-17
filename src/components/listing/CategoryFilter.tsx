@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface CategoryFilterProps {
   translations: {
@@ -11,6 +12,7 @@ interface CategoryFilterProps {
 }
 
 export default function CategoryFilter({ translations }: CategoryFilterProps) {
+  const t = useTranslations("categories");
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentCategory = searchParams.get("category");
@@ -69,7 +71,7 @@ export default function CategoryFilter({ translations }: CategoryFilterProps) {
                 : "bg-white text-sky-950 hover:bg-sky-50 border border-sky-200"
             }`}
           >
-            {cat}
+            {t.has(cat as any) ? t(cat as any) : cat}
           </button>
         ))}
       </div>

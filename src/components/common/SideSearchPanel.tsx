@@ -12,9 +12,11 @@ import {
   ArrowRight
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import clsx from "clsx";
 
 export default function SideSearchPanel() {
+  const t = useTranslations("searchPanel");
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentType = searchParams.get("type");
@@ -32,38 +34,44 @@ export default function SideSearchPanel() {
 
   const filterSections = [
     {
-      label: "Удобства",
+      label: t("labels.amenities"),
       options: [
-        { label: "Можно с питомцами", id: "pets" },
-        { label: "Шкафы купе", id: "wardrobes" },
-        { label: "Газ", id: "gas" },
-        { label: "Отопление", id: "heating" },
-        { label: "Балкон", id: "balcony" },
-        { label: "Кондиционер", id: "ac" },
-        { label: "Кабинет", id: "study" },
-        { label: "Прачечная", id: "laundry" },
-        { label: "Посудомойка", id: "dishwasher" },
-        { label: "Сад", id: "garden" },
+        { label: t("amenities.pets"), id: "pets" },
+        { label: t("amenities.wardrobes"), id: "wardrobes" },
+        { label: t("amenities.gas"), id: "gas" },
+        { label: t("amenities.heating"), id: "heating" },
+        { label: t("amenities.balcony"), id: "balcony" },
+        { label: t("amenities.ac"), id: "ac" },
+        { label: t("amenities.study"), id: "study" },
+        { label: t("amenities.laundry"), id: "laundry" },
+        { label: t("amenities.dishwasher"), id: "dishwasher" },
+        { label: t("amenities.garden"), id: "garden" },
       ]
     }
+  ];
+
+  const tabs = [
+    { id: "buy", label: t("tabs.buy") },
+    { id: "rent", label: t("tabs.rent") },
+    { id: "sold", label: t("tabs.sold") }
   ];
 
   return (
     <div className="w-full max-w-[320px] bg-white rounded-[2rem] shadow-xl border border-sky-100/50 overflow-hidden flex flex-col h-fit animate-in fade-in slide-in-from-left-4 duration-1000">
       {/* Tabs */}
       <div className="flex bg-sky-50/50 p-1.5 rounded-[1.5rem] m-3">
-        {["Купить", "Аренда", "Продано"].map((tab) => (
+        {tabs.map((tab) => (
           <button
-            key={tab}
-            onClick={() => setActiveTab(tab.toLowerCase())}
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
             className={clsx(
               "flex-1 py-3 text-[10px] font-black uppercase tracking-widest transition-all duration-300 rounded-2xl",
-              activeTab === tab.toLowerCase() 
+              activeTab === tab.id 
                 ? "text-white bg-sky-950 shadow-lg shadow-sky-950/20" 
                 : "text-indigo-700/40 hover:text-indigo-700 hover:bg-white"
             )}
           >
-            {tab}
+            {tab.label}
           </button>
         ))}
       </div>
@@ -72,13 +80,13 @@ export default function SideSearchPanel() {
         {/* Location */}
         <div className="space-y-4">
           <label className="text-[10px] font-black uppercase tracking-widest text-sky-600 flex items-center justify-between">
-            <span className="flex items-center gap-2"><MapPin size={12} className="text-orange-500" /> Местоположение</span>
-            <button className="hover:text-orange-500 transition-colors">Очистить</button>
+            <span className="flex items-center gap-2"><MapPin size={12} className="text-orange-500" /> {t("labels.location")}</span>
+            <button className="hover:text-orange-500 transition-colors">{t("labels.clear")}</button>
           </label>
           <div className="relative group">
             <input 
               type="text" 
-              placeholder="Поиск по району..."
+              placeholder={t("labels.locationPlaceholder")}
               value={query}
               onChange={(e) => setQ(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -95,24 +103,24 @@ export default function SideSearchPanel() {
             >
               {includeSurrounding && <Check className="w-3.5 h-3.5 text-white stroke-[4px] animate-in zoom-in-50 duration-300" />}
             </div>
-            <span className="text-xs font-bold text-indigo-700/60 group-hover:text-indigo-700 transition-colors">Включая окрестности</span>
+            <span className="text-xs font-bold text-indigo-700/60 group-hover:text-indigo-700 transition-colors">{t("labels.includeSurrounding")}</span>
           </label>
         </div>
 
         {/* Price Range */}
         <div className="space-y-4">
-          <label className="text-[10px] font-black uppercase tracking-widest text-sky-600">Ценовой диапазон (₽)</label>
+          <label className="text-[10px] font-black uppercase tracking-widest text-sky-600">{t("labels.priceRange")}</label>
           <div className="grid grid-cols-2 gap-3">
             <div className="relative group">
               <select className="w-full appearance-none bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-indigo-700 outline-none cursor-pointer focus:border-sky-500 transition-all">
-                <option>Любая</option>
+                <option>{t("labels.any")}</option>
                 <option>2000</option>
               </select>
               <ChevronDown className="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-sky-500 pointer-events-none group-hover:text-sky-700 transition-colors" />
             </div>
             <div className="relative group">
               <select className="w-full appearance-none bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-indigo-700 outline-none cursor-pointer focus:border-sky-500 transition-all">
-                <option>Любая</option>
+                <option>{t("labels.any")}</option>
                 <option>15000</option>
               </select>
               <ChevronDown className="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-sky-500 pointer-events-none group-hover:text-sky-700 transition-colors" />
@@ -123,7 +131,7 @@ export default function SideSearchPanel() {
         {/* Beds & Bathrooms */}
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-4">
-            <label className="text-[10px] font-black uppercase tracking-widest text-sky-600 whitespace-nowrap">Мин. спален</label>
+            <label className="text-[10px] font-black uppercase tracking-widest text-sky-600 whitespace-nowrap">{t("labels.minBedrooms")}</label>
             <div className="relative group">
               <select className="w-full appearance-none bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-indigo-700 outline-none cursor-pointer focus:border-sky-500 transition-all">
                 <option>1</option>
@@ -133,10 +141,10 @@ export default function SideSearchPanel() {
             </div>
           </div>
           <div className="space-y-4">
-            <label className="text-[10px] font-black uppercase tracking-widest text-sky-600 whitespace-nowrap">Макс. спален</label>
+            <label className="text-[10px] font-black uppercase tracking-widest text-sky-600 whitespace-nowrap">{t("labels.maxBedrooms")}</label>
             <div className="relative group">
               <select className="w-full appearance-none bg-sky-50/50 border border-sky-100 rounded-2xl px-5 py-4 text-sm font-bold text-indigo-700 outline-none cursor-pointer focus:border-sky-500 transition-all">
-                <option>Любое</option>
+                <option>{t("labels.any")}</option>
                 <option>3</option>
               </select>
               <ChevronDown className="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-sky-500 pointer-events-none" />
@@ -146,7 +154,7 @@ export default function SideSearchPanel() {
 
         {/* Property Type */}
         <div className="space-y-4">
-          <label className="text-[10px] font-black uppercase tracking-widest text-sky-600">Тип проживания</label>
+          <label className="text-[10px] font-black uppercase tracking-widest text-sky-600">{t("labels.propertyType")}</label>
           <div className="space-y-3">
             {(currentType ? [currentType] : ["cottage", "hotel-room"]).map((type) => (
               <div key={type} className="flex items-center justify-between bg-white border-2 border-sky-50 rounded-2xl px-5 py-3.5 group hover:border-sky-500 hover:shadow-md transition-all duration-300 cursor-pointer">
@@ -155,7 +163,7 @@ export default function SideSearchPanel() {
                     <Check className="w-3 h-3 text-white" />
                   </div>
                   <span className="text-sm font-black text-indigo-700 tracking-tight">
-                    {type === "cottage" ? "Коттедж" : type === "hotel-room" ? "Отельный номер" : type?.replace("-", " ")}
+                    {t(`types.${type as "cottage" | "hotel-room"}`)}
                   </span>
                 </div>
                 <button 
@@ -172,7 +180,7 @@ export default function SideSearchPanel() {
               </div>
             ))}
             <button className="w-full py-4 text-[10px] font-black uppercase tracking-widest text-sky-700 hover:text-indigo-700 transition-all flex items-center justify-center gap-2 border-2 border-dashed border-sky-100 rounded-2xl hover:border-sky-300">
-              <Plus size={14} /> Добавить тип
+              <Plus size={14} /> {t("labels.addType")}
             </button>
           </div>
         </div>
@@ -201,10 +209,10 @@ export default function SideSearchPanel() {
           onClick={handleSearch}
           className="w-full bg-sky-950 hover:bg-sky-900 text-white py-5 rounded-[1.25rem] text-[11px] font-black uppercase tracking-[0.2em] shadow-xl shadow-sky-950/20 transition-all active:scale-95 flex items-center justify-center gap-3"
         >
-          Обновить поиск <ArrowRight size={16} className="text-sky-700" />
+          {t("labels.updateSearch")} <ArrowRight size={16} className="text-sky-700" />
         </button>
         <button className="w-full bg-white border-2 border-sky-100 text-indigo-700 hover:border-sky-200 py-4 rounded-[1.25rem] text-[10px] font-black uppercase tracking-widest transition-all active:scale-95">
-          Сохранить параметры
+          {t("labels.saveParams")}
         </button>
       </div>
     </div>

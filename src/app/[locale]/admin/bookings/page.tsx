@@ -5,9 +5,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { useTranslations } from "next-intl";
+import UserProfileModal from "@/components/admin/users/UserProfileModal";
 
 interface Booking {
   id: number;
+  userId: number;
   bookingId: string;
   checkIn: string;
   checkOut: string | null;
@@ -18,7 +20,7 @@ interface Booking {
   createdAt: string;
   post: { title: string };
   room: { title: string } | null;
-  user: { name: string | null; email: string | null };
+  user: { id: number; name: string | null; email: string | null };
 }
 
 interface Pagination {
@@ -49,6 +51,7 @@ export default function AdminBookingsPage() {
   const [status, setStatus] = useState("all");
   const [page, setPage] = useState(1);
   const [updatingId, setUpdatingId] = useState<number | null>(null);
+  const [viewingProfileId, setViewingProfileId] = useState<number | null>(null);
 
   const STATUS_LABELS: Record<string, string> = {
     all: t('admin.bookings.filters.all'),
@@ -181,10 +184,13 @@ export default function AdminBookingsPage() {
                         )}
                       </td>
                        <td className="px-6 py-4">
-                         <div className="text-sm font-medium text-gray-900">
+                         <div 
+                           className="text-sm font-bold text-sky-900 cursor-pointer hover:text-blue-600 transition-colors"
+                           onClick={() => setViewingProfileId(booking.userId)}
+                         >
                            {booking.user.name || t('admin.bookings.guestUnknown')}
                          </div>
-                         <div className="text-sm text-gray-900">{booking.user.email}</div>
+                         <div className="text-xs text-gray-500">{booking.user.email}</div>
                        </td>
                       <td className="px-6 py-4 text-sm text-gray-900">
                         {format(new Date(booking.checkIn), "dd MMM", { locale: ru })}
@@ -261,6 +267,13 @@ export default function AdminBookingsPage() {
             </button>
           ))}
         </div>
+      )}
+
+      {viewingProfileId && (
+        <UserProfileModal 
+          userId={viewingProfileId} 
+          onClose={() => setViewingProfileId(null)} 
+        />
       )}
     </div>
   );

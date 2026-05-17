@@ -292,10 +292,58 @@
     "map": "Карта",
     "resetFilters": "Сүзгілерді тазалау",
     "startingFrom": "Бастапқы баға",
-    "perNight": "/ түн",
+    "perNight": "түнге",
     "foundCount": "Табылды: {count}"
-  },
-  "footer": {
+    },
+    "searchPanel": {
+    "tabs": {
+      "buy": "Сатып алу",
+      "rent": "Жалға алу",
+      "sold": "Сатылды"
+    },
+    "labels": {
+      "amenities": "Қолайлылықтар",
+      "location": "Орналасқан жері",
+      "locationPlaceholder": "Аудан бойынша іздеу...",
+      "includeSurrounding": "Айналаны қоса алғанда",
+      "clear": "Тазалау",
+      "priceRange": "Баға диапазоны (₽)",
+      "any": "Кез келген",
+      "minBedrooms": "Мин. жатын бөлме",
+      "maxBedrooms": "Макс. жатын бөлме",
+      "propertyType": "Тұру түрі",
+      "addType": "Түрді қосу",
+      "updateSearch": "Іздеуді жаңарту",
+      "saveParams": "Параметрлерді сақтау"
+    },
+    "amenities": {
+      "pets": "Үй жануарларымен болады",
+      "wardrobes": "Киім шкафтары",
+      "gas": "Газ",
+      "heating": "Жылыту",
+      "balcony": "Балкон",
+      "ac": "Кондиционер",
+      "study": "Кабинет",
+      "laundry": "Кір жуатын орын",
+      "dishwasher": "Ыдыс жуғыш машина",
+      "garden": "Бақша"
+    },
+    "types": {
+      "cottage": "Коттедж",
+      "hotel-room": "Қонақ үй бөлмесі"
+    }
+    },
+    "categories": {
+    "winter": "Қысқы сиқыр",
+    "horse": "Атты турлар",
+    "ring": "Алтай Сақинасы",
+    "custom": "Өз маршрутың",
+    "rafting": "Рафтинг",
+    "trekking": "Треккинг",
+    "shaman": "Шаман рәсімдері",
+    "photo": "Фото экспедициялар"
+    },
+    "footer": {
     "tagline": "Алтай тауларының жүрегіндегі туристік кешен. Біз әрбір қонақ үшін ұмытылмас әсерлер жасаймыз.",
     "navigation": "Навигация",
     "navigation_home": "Басты бет",

@@ -3,6 +3,8 @@
 import React, { createContext, useContext } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
+import { toast } from "sonner";
 
 interface WishlistContextType {
   wishlistIds: number[];
@@ -16,6 +18,8 @@ const WishlistContext = createContext<WishlistContextType | undefined>(undefined
 export function WishlistProvider({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
+  const locale = useLocale();
+  const t = useTranslations("common");
 
   const { data: wishlistData, isLoading } = useQuery({
     queryKey: ["wishlist"],
@@ -48,8 +52,12 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       }));
       return { previousWishlist };
     },
+    onSuccess: () => {
+      toast.success(t("wishlistAdded") || "Добавлено в избранное");
+    },
     onError: (err, postId, context: any) => {
       queryClient.setQueryData(["wishlist"], context.previousWishlist);
+      toast.error(t("error") || "Ошибка");
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["wishlist"] });
@@ -73,8 +81,12 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       }));
       return { previousWishlist };
     },
+    onSuccess: () => {
+      toast.success(t("wishlistRemoved") || "Удалено из избранного");
+    },
     onError: (err, postId, context: any) => {
       queryClient.setQueryData(["wishlist"], context.previousWishlist);
+      toast.error(t("error") || "Ошибка");
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["wishlist"] });
@@ -83,7 +95,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
 
   const toggleWishlist = (postId: number) => {
     if (!session?.user) {
-      window.location.href = "/auth/signin";
+      window.location.href = `/${locale}/auth/signin`;
       return;
     }
 

@@ -1,13 +1,16 @@
 'use client';
 
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useTranslations } from 'next-intl';
+import UserProfileModal from '@/components/admin/users/UserProfileModal';
 
 interface BookingRow {
   id: number;
   bookingId: string;
+  userId: number;
   post: { title: string };
   user: { name: string | null; email: string | null };
   checkIn: string;
@@ -17,6 +20,7 @@ interface BookingRow {
 
 export default function RecentBookings() {
   const t = useTranslations('admin');
+  const [viewingProfileId, setViewingProfileId] = useState<number | null>(null);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['recent-bookings'],
@@ -66,10 +70,14 @@ export default function RecentBookings() {
             </thead>
             <tbody className='divide-y divide-sky-50'>
               {bookings.map((booking: BookingRow) => (
-                <tr key={booking.id} className='hover:bg-sky-50/50 cursor-pointer transition-colors duration-200 group'>
+                <tr 
+                  key={booking.id} 
+                  className='hover:bg-sky-50/50 cursor-pointer transition-colors duration-200 group'
+                  onClick={() => setViewingProfileId(booking.userId)}
+                >
                   <td className='py-4 px-4 text-sm text-sky-800 font-mono'>{booking.bookingId}</td>
                   <td className='py-4 px-4 font-medium text-sky-950'>{booking.post.title}</td>
-                  <td className='py-4 px-4 text-sm text-sky-700'>{booking.user.name || booking.user.email}</td>
+                  <td className='py-4 px-4 text-sm text-sky-700 font-bold group-hover:text-blue-600 transition-colors'>{booking.user.name || booking.user.email}</td>
                   <td className='py-4 px-4 text-sm text-sky-600'>
                     {format(new Date(booking.checkIn), 'dd MMM yyyy', { locale: ru })}
                   </td>
@@ -78,7 +86,7 @@ export default function RecentBookings() {
                     <span
                       className={`px-3 py-1 text-xs font-medium rounded-full ${
                         booking.status === 'confirmed' ? 'bg-green-100 text-green-700' :
-                        booking.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
+                        booking.status === 'pending' ? "bg-yellow-100 text-yellow-700" :
                         'bg-gray-100 text-gray-700'
                       }`}
                     >
@@ -90,6 +98,13 @@ export default function RecentBookings() {
             </tbody>
           </table>
         </div>
+      )}
+
+      {viewingProfileId && (
+        <UserProfileModal 
+          userId={viewingProfileId} 
+          onClose={() => setViewingProfileId(null)} 
+        />
       )}
     </div>
   );

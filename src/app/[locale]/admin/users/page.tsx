@@ -16,9 +16,11 @@ import {
   FileText,
   X,
   Check,
-  MoreVertical
+  MoreVertical,
+  ExternalLink
 } from "lucide-react";
 import clsx from "clsx";
+import UserProfileModal from "@/components/admin/users/UserProfileModal";
 
 interface User {
   id: number;
@@ -44,6 +46,7 @@ export default function AdminUsersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [editingUser, setEditUser] = useState<User | null>(null);
   const [viewingDocsUser, setViewingDocsUser] = useState<User | null>(null);
+  const [viewingProfileId, setViewingProfileId] = useState<number | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const { data: users, isLoading } = useQuery({
@@ -194,16 +197,19 @@ export default function AdminUsersPage() {
                 {users?.map((user) => (
                   <tr key={user.id} className="hover:bg-blue-50/30 transition-colors duration-200">
                     <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
+                      <div 
+                        className="flex items-center gap-3 cursor-pointer group"
+                        onClick={() => setViewingProfileId(user.id)}
+                      >
+                        <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold group-hover:bg-blue-600 group-hover:text-white transition-all">
                           {user.name?.[0]?.toUpperCase() || "U"}
                         </div>
                         <div>
-                          <div className="font-bold text-gray-900 leading-none mb-1">
+                          <div className="font-bold text-gray-900 leading-none mb-1 group-hover:text-blue-600 transition-colors">
                             {user.name || t('admin.users.noName')}
                           </div>
                           <div className="text-[11px] text-gray-400">
-                            ID: {user.id} тАв с {new Date(user.createdAt).toLocaleDateString("ru-RU")}
+                            ID: {user.id} • с {new Date(user.createdAt).toLocaleDateString("ru-RU")}
                           </div>
                         </div>
                       </div>
@@ -313,6 +319,14 @@ export default function AdminUsersPage() {
         <UserDocumentsModal 
           user={viewingDocsUser} 
           onClose={() => setViewingDocsUser(null)} 
+        />
+      )}
+
+      {/* User Profile Detail Modal */}
+      {viewingProfileId && (
+        <UserProfileModal 
+          userId={viewingProfileId} 
+          onClose={() => setViewingProfileId(null)} 
         />
       )}
     </div>

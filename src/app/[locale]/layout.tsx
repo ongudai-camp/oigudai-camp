@@ -10,6 +10,7 @@ import { getTranslations, getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import Providers from "@/providers/TanstackProvider";
 import { auth } from "@/lib/auth";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -81,6 +82,7 @@ export default async function LocaleLayout({
             <Footer />
             <BottomNav />
             <ChatWidget userId={userId} locale={locale} />
+            <Toaster position="top-center" richColors />
           </Providers>
         </NextIntlClientProvider>
       </body>

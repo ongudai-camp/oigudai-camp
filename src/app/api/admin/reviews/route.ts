@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { isAdmin } from "@/lib/adminAccess";
+import { updatePostRating } from "@/lib/reviews";
 
 export async function GET(request: NextRequest) {
   const session = await auth();
@@ -32,7 +33,16 @@ export async function PATCH(request: NextRequest) {
     const data: { status?: string; verified?: boolean } = {};
     if (status) data.status = status;
     if (verified !== undefined) data.verified = verified;
-    const review = await prisma.review.update({ where: { id: parseInt(id) }, data });
+    
+    const review = await prisma.review.update({ 
+      where: { id: parseInt(id) }, 
+      data 
+    });
+
+    if (status) {
+      await updatePostRating(review.postId);
+    }
+
     return NextResponse.json(review);
   } catch (error: unknown) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Update error" }, { status: 500 });
@@ -48,7 +58,18 @@ export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
+    
+    const review = await prisma.review.findUnique({
+      where: { id: parseInt(id) },
+      select: { postId: true }
+    });
+
     await prisma.review.delete({ where: { id: parseInt(id) } });
+    
+    if (review) {
+      await updatePostRating(review.postId);
+    }
+
     return NextResponse.json({ success: true });
   } catch (error: unknown) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Delete error" }, { status: 500 });

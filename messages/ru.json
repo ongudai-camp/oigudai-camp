@@ -292,10 +292,58 @@
     "map": "Карта",
     "resetFilters": "Сбросить все фильтры",
     "startingFrom": "Начиная от",
-    "perNight": "/ ночь",
+    "perNight": "за ночь",
     "foundCount": "Найдено: {count}"
-  },
-  "footer": {
+    },
+    "searchPanel": {
+    "tabs": {
+      "buy": "Купить",
+      "rent": "Аренда",
+      "sold": "Продано"
+    },
+    "labels": {
+      "amenities": "Удобства",
+      "location": "Местоположение",
+      "locationPlaceholder": "Поиск по району...",
+      "includeSurrounding": "Включая окрестности",
+      "clear": "Очистить",
+      "priceRange": "Ценовой диапазон (₽)",
+      "any": "Любая",
+      "minBedrooms": "Мин. спален",
+      "maxBedrooms": "Макс. спален",
+      "propertyType": "Тип проживания",
+      "addType": "Добавить тип",
+      "updateSearch": "Обновить поиск",
+      "saveParams": "Сохранить параметры"
+    },
+    "amenities": {
+      "pets": "Можно с питомцами",
+      "wardrobes": "Шкафы купе",
+      "gas": "Газ",
+      "heating": "Отопление",
+      "balcony": "Балкон",
+      "ac": "Кондиционер",
+      "study": "Кабинет",
+      "laundry": "Прачечная",
+      "dishwasher": "Посудомойка",
+      "garden": "Сад"
+    },
+    "types": {
+      "cottage": "Коттедж",
+      "hotel-room": "Отельный номер"
+    }
+    },
+    "categories": {
+    "winter": "Зимняя сказка",
+    "horse": "Конные туры",
+    "ring": "Кольцо Алтая",
+    "custom": "Свой маршрут",
+    "rafting": "Рафтинг",
+    "trekking": "Треккинг",
+    "shaman": "Ритуалы шаманов",
+    "photo": "Фото-экспедиции"
+    },
+    "footer": {
     "tagline": "Туристический комплекс в самом сердце горного Алтая. Мы создаем незабываемые впечатления для каждого гостя.",
     "navigation": "Навигация",
     "navigation_home": "Главная",

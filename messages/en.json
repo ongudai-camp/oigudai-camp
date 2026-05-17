@@ -295,6 +295,54 @@
     "perNight": "/ night",
     "foundCount": "Found: {count}"
   },
+  "searchPanel": {
+    "tabs": {
+      "buy": "Buy",
+      "rent": "Rent",
+      "sold": "Sold"
+    },
+    "labels": {
+      "amenities": "Amenities",
+      "location": "Location",
+      "locationPlaceholder": "Search by district...",
+      "includeSurrounding": "Include surrounding",
+      "clear": "Clear",
+      "priceRange": "Price Range (₽)",
+      "any": "Any",
+      "minBedrooms": "Min. Bedrooms",
+      "maxBedrooms": "Max. Bedrooms",
+      "propertyType": "Property Type",
+      "addType": "Add Type",
+      "updateSearch": "Update Search",
+      "saveParams": "Save Parameters"
+    },
+    "amenities": {
+      "pets": "Pets allowed",
+      "wardrobes": "Wardrobes",
+      "gas": "Gas",
+      "heating": "Heating",
+      "balcony": "Balcony",
+      "ac": "AC",
+      "study": "Study",
+      "laundry": "Laundry",
+      "dishwasher": "Dishwasher",
+      "garden": "Garden"
+    },
+    "types": {
+      "cottage": "Cottage",
+      "hotel-room": "Hotel Room"
+    }
+  },
+  "categories": {
+    "winter": "Winter Magic",
+    "horse": "Horse Tours",
+    "ring": "Altai Ring",
+    "custom": "Custom Routes",
+    "rafting": "Rafting",
+    "trekking": "Trekking",
+    "shaman": "Shaman Rituals",
+    "photo": "Photo Expeditions"
+  },
   "footer": {
     "tagline": "Tourist complex in the heart of the Altai mountains. We create unforgettable experiences for every guest.",
     "navigation": "Navigation",

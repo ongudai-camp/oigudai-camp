@@ -25,11 +25,23 @@ export default async function DashboardLayout({
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
+    include: {
+      _count: {
+        select: {
+          identityDocuments: {
+            where: { status: "pending" }
+          }
+        }
+      }
+    }
   });
 
   if (!user) {
     redirect(`/${locale}/auth/signin`);
   }
+
+  const isPending = user._count.identityDocuments > 0;
+  const isVerified = user.identityVerified && user.phoneVerified;
 
   const t = await getTranslations({ locale, namespace: "dashboard" });
   const tc = await getTranslations({ locale, namespace: "common" });
@@ -48,11 +60,33 @@ export default async function DashboardLayout({
         </div>
         <h3 className="font-semibold text-lg">{user.name || "User"}</h3>
         <p className="text-sm text-gray-500">{user.phone || user.email}</p>
-        <span className={`inline-block mt-2 px-3 py-1 text-xs rounded-full font-medium ${
-          isAdminUser ? "bg-purple-100 text-purple-800" : "bg-blue-100 text-blue-800"
-        }`}>
-          {user.role}
-        </span>
+        
+        <div className="mt-3 space-y-1.5">
+          <span className={`inline-block px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-full ${
+            isAdminUser ? "bg-purple-100 text-purple-800" : "bg-blue-100 text-blue-800"
+          }`}>
+            {user.role}
+          </span>
+          
+          <div className="flex justify-center">
+            {isVerified ? (
+              <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-green-100 text-green-700 rounded-full border border-green-200 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+                {t("status.verified") || "Подтверждён"}
+              </span>
+            ) : isPending ? (
+              <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-amber-100 text-amber-700 rounded-full border border-amber-200 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse" />
+                {t("status.pending") || "На рассмотрении"}
+              </span>
+            ) : (
+              <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-gray-100 text-gray-500 rounded-full border border-gray-200 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
+                {t("status.unverified") || "Не подтверждён"}
+              </span>
+            )}
+          </div>
+        </div>
       </div>
 
       <nav className="space-y-1">
