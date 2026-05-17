@@ -73,12 +73,15 @@ model Booking {
   guestEmail         String?
   promoCode          String?
   discountAmount     Float?
+  vehicleId          Int?
   user               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   post               Post              @relation(fields: [postId], references: [id], onDelete: Cascade)
   room               Room?             @relation(fields: [roomId], references: [id])
+  vehicle            Vehicle?          @relation(fields: [vehicleId], references: [id])
   BookingNote        BookingNote[]
   BookingPayment     BookingPayment[]
   BookingTimeline    BookingTimeline[]
+  serviceBookings    ServiceBooking[]
   contract           Contract?
 
   @@index([status])
@@ -150,6 +153,9 @@ model Post {
   reviews        Review[]
   rooms          Room[]
   wishlistedBy   Wishlist[]
+  tourStops      TourStop[]
+  vehicles       Vehicle[]
+  serviceSchedule ServiceSchedule?
 
   @@unique([slug, locale])
 }
@@ -165,6 +171,7 @@ model Addon {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   post        Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  consumables Consumable[]
 
   @@index([postId])
 }
@@ -450,4 +457,75 @@ model BookingTimeline {
 
   @@index([createdAt])
   @@index([bookingId])
+}
+
+model ServiceSchedule {
+  id              Int      @id @default(autoincrement())
+  postId          Int      @unique
+  slotDuration    Int      @default(30)
+  bufferMinutes   Int      @default(15)
+  startHour       Int      @default(9)
+  endHour         Int      @default(21)
+  daysOfWeek      String   @default("1,2,3,4,5,6,0")
+  post            Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model ServiceBooking {
+  id              Int      @id @default(autoincrement())
+  bookingId       Int
+  startTime       DateTime
+  endTime         DateTime
+  quantity        Int      @default(1)
+  totalPrice      Float
+  status          String   @default("pending")
+  createdAt       DateTime @default(now())
+  booking         Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  consumables     ServiceBookingConsumable[]
+}
+
+model Consumable {
+  id              Int      @id @default(autoincrement())
+  addonId         Int
+  title           String
+  price           Float
+  active          Boolean  @default(true)
+  addon           Addon    @relation(fields: [addonId], references: [id], onDelete: Cascade)
+  serviceBookings ServiceBookingConsumable[]
+}
+
+model ServiceBookingConsumable {
+  id                Int            @id @default(autoincrement())
+  serviceBookingId  Int
+  consumableId      Int
+  quantity          Int            @default(1)
+  price             Float
+  serviceBooking    ServiceBooking @relation(fields: [serviceBookingId], references: [id], onDelete: Cascade)
+  consumable        Consumable     @relation(fields: [consumableId], references: [id], onDelete: Cascade)
+}
+
+model TourStop {
+  id              Int      @id @default(autoincrement())
+  postId          Int
+  title           String
+  description     String?
+  latitude        Float
+  longitude       Float
+  order           Int
+  durationMinutes Int      @default(30)
+  post            Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+}
+
+model Vehicle {
+  id              Int       @id @default(autoincrement())
+  postId          Int
+  name            String
+  type            String    @default("Jeep")
+  capacity        Int       @default(4)
+  priceOffset     Float     @default(0)
+  post            Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  bookings        Booking[]
+
+  @@index([postId])
 }
