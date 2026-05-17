@@ -7,16 +7,43 @@ export async function GET(request: NextRequest) {
   const month = parseInt(searchParams.get("month") || String(new Date().getMonth() + 1));
   const type = searchParams.get("type") || null;
   const postId = searchParams.get("postId") ? parseInt(searchParams.get("postId")!) : null;
+  
+  // New filters
+  const q = searchParams.get("q") || "";
+  const minPrice = searchParams.get("minPrice") ? parseInt(searchParams.get("minPrice")!) : null;
+  const maxPrice = searchParams.get("maxPrice") ? parseInt(searchParams.get("maxPrice")!) : null;
+  const guests = searchParams.get("guests") ? parseInt(searchParams.get("guests")!) : 1;
 
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0, 23, 59, 59);
 
-  const postWhere: Record<string, unknown> = { status: "publish" };
+  const postWhere: any = { status: "publish" };
   if (type) postWhere.type = type;
   if (postId) postWhere.id = postId;
+  
+  if (q) {
+    postWhere.OR = [
+      { title: { contains: q, mode: "insensitive" } },
+      { description: { contains: q, mode: "insensitive" } },
+    ];
+  }
+
+  if (minPrice !== null || maxPrice !== null) {
+    postWhere.price = {};
+    if (minPrice !== null) postWhere.price.gte = minPrice;
+    if (maxPrice !== null) postWhere.price.lte = maxPrice;
+  }
+
+  if (type === "hotel" && guests > 1) {
+    postWhere.rooms = {
+      some: {
+        guests: { gte: guests }
+      }
+    };
+  }
 
   const posts = await prisma.post.findMany({
-    where: postWhere as any,
+    where: postWhere,
     select: {
       id: true,
       title: true,
@@ -24,6 +51,8 @@ export async function GET(request: NextRequest) {
       slug: true,
       price: true,
       featuredImage: true,
+      rating: true,
+      reviewCount: true,
       rooms: {
         select: { id: true, title: true, price: true, guests: true },
       },

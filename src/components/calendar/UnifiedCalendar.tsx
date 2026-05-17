@@ -3,6 +3,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight, Loader2, AlertCircle } from "lucide-react";
+import clsx from "clsx";
 import CalendarLegend from "./CalendarLegend";
 import DateDetailPopover from "./DateDetailPopover";
 import type { CalendarResponse } from "./types";
@@ -11,6 +12,10 @@ interface UnifiedCalendarProps {
   type?: "admin" | "customer";
   postId?: number;
   propertyType?: string;
+  guests?: number;
+  q?: string;
+  minPrice?: number;
+  maxPrice?: number;
   onDateSelect?: (dateStr: string) => void;
   selectedDate?: string;
   selectedDates?: Set<string>;
@@ -58,6 +63,10 @@ export default function UnifiedCalendar({
   rangeEnd: externalRangeEnd,
   onRangeSelect,
   compact = false,
+  guests,
+  q,
+  minPrice,
+  maxPrice,
 }: UnifiedCalendarProps) {
   const today = useMemo(() => new Date(), []);
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
@@ -83,9 +92,13 @@ export default function UnifiedCalendar({
   });
   if (postId) params.set("postId", String(postId));
   if (propertyType) params.set("type", propertyType);
+  if (guests && guests > 1) params.set("guests", String(guests));
+  if (q) params.set("q", q);
+  if (minPrice) params.set("minPrice", String(minPrice));
+  if (maxPrice) params.set("maxPrice", String(maxPrice));
 
   const { data, isLoading, error } = useQuery<CalendarResponse>({
-    queryKey: ["calendar", currentYear, currentMonth, postId, propertyType],
+    queryKey: ["calendar", currentYear, currentMonth, postId, propertyType, guests, q, minPrice, maxPrice],
     queryFn: async () => {
       const res = await fetch(`/api/calendar?${params}`);
       if (!res.ok) throw new Error("Failed to fetch calendar data");
@@ -294,23 +307,44 @@ export default function UnifiedCalendar({
               onClick={() => handleDateClick(dateStr, status)}
               onDoubleClick={() => handleCellDoubleClick(dateStr, status)}
               disabled={isPast && !isAdmin}
-              className={`${compact ? "aspect-[3/2] text-xs" : "aspect-square text-sm"} rounded-xl font-medium flex flex-col items-center justify-center transition-all cursor-pointer relative ${
-                isPast && !isAdmin ? "opacity-40" : ""
-              } ${!isPast && !isEdge && !inRange ? "hover:shadow-md hover:-translate-y-0.5" : ""} ${cellClass}`}
+              className={clsx(
+                "relative flex flex-col items-center justify-center transition-all duration-300 rounded-[1rem]",
+                compact ? "h-14" : "h-20 sm:h-24",
+                isPast && !isAdmin ? "opacity-30 cursor-not-allowed" : "cursor-pointer hover:shadow-lg hover:-translate-y-0.5",
+                cellClass
+              )}
               title={dateInfo ? `${dateStr}: ${dateInfo.totalAvailable} available, ${dateInfo.totalBooked} booked` : dateStr}
             >
-              <span className={isCurrentDay && !isEdge ? "ring-2 ring-inset ring-blue-400 rounded-full w-6 h-6 flex items-center justify-center" : ""}>
+              <span className={clsx(
+                "text-sm font-black",
+                isCurrentDay && !isEdge && "bg-blue-100 text-blue-600 w-7 h-7 rounded-full flex items-center justify-center",
+                isEdge && "text-white"
+              )}>
                 {day}
               </span>
-              {showPrices && !isPast && dateInfo !== undefined && dateInfo.minPrice !== null && (
-                <span className={`text-[9px] font-mono mt-0.5 ${isEdge ? "text-blue-200" : "opacity-60"}`}>
-                  ₽{dateInfo.minPrice.toLocaleString()}
-                </span>
-              )}
-              {!isPast && dateInfo && dateInfo.totalBooked > 0 && !showPrices && (
-                <span className={`text-[9px] font-mono mt-0.5 ${isEdge ? "text-blue-200" : "opacity-60"}`}>
-                  {dateInfo.totalBooked}/{dateInfo.totalAvailable + dateInfo.totalBooked}
-                </span>
+              
+              {/* Price or Info */}
+              {!isPast && dateInfo && (
+                <div className="mt-1 flex flex-col items-center gap-0.5">
+                  {dateInfo.minPrice !== null ? (
+                    <span className={clsx(
+                      "text-[10px] font-black tracking-tight",
+                      isEdge ? "text-blue-100" : "text-blue-600"
+                    )}>
+                      ₽{dateInfo.minPrice.toLocaleString()}
+                    </span>
+                  ) : !isAdmin && (
+                    <span className="text-[8px] uppercase tracking-tighter opacity-40 font-bold">N/A</span>
+                  )}
+                  
+                  {/* Status Dots */}
+                  <div className="flex gap-0.5 mt-1">
+                     <span className={clsx(
+                       "w-1 h-1 rounded-full",
+                       status === 'available' ? "bg-emerald-400" : status === 'limited' ? "bg-amber-400" : "bg-red-400"
+                     )} />
+                  </div>
+                </div>
               )}
             </button>
           );

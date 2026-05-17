@@ -86,6 +86,7 @@
     "profile": "Профиль",
     "name": "Аты",
     "codeSent": "Код жіберілді",
+    "getSmsCode": "SMS кодын алу",
     "resendCode": "Кодты қайта жіберу"
   },
   "common": {
@@ -99,6 +100,10 @@
     "back": "Тізімге оралу",
     "loading": "Жүктелуде...",
     "error": "Қате",
+    "errorTitle": "Бірдеңе дұрыс болмады",
+    "errorDescription": "Бетті жүктеу кезінде қате орын алды. Жаңартып көріңіз немесе кейінірек оралыңыз.",
+    "retry": "Қайталап көру",
+    "goHome": "Басты бетке",
     "success": "Сәтті",
     "noImage": "Сурет жоқ",
     "discount": "Жеңілдік",
@@ -124,13 +129,16 @@
     "select": "Таңдау",
     "persons": "адам",
     "upTo": "{count} адамға дейін",
-    "location": "Орналасуы"
+    "location": "Орналасуы",
+    "wishlistAdded": "Таңдаулыларға қосылды",
+    "wishlistRemoved": "Таңдаулылардан жойылды",
+    "searchPlaceholder": "Қайда барамыз?"
   },
   "terms": {
     "title": "Қолдану шарттары",
     "content": {
       "p1_title": "Жалпы ережелер",
-      "p1_text": "Ongudai Camp веб-сайты мен қызметтерін пайдалана отырып, сіз осы Қолдану шарттарымен келісесіз. Егер сіз осы шарттардың қандай да бір бөлігімен келіспесеңіз, біздің қызметтерімізді пайдалануды тоқтатуыңыз керек.",
+      "p1_text": "By using the Ongudai Camp website and services, you agree to these Terms of Use. If you do not agree with any part of these terms, you should not use our services.",
       "p2_title": "Брондау және төлем",
       "p2_text": "Барлық брондау өтінімдері бос орындар болған кезде өңделеді. Бағалар ресей рублімен (RUB) көрсетілген және алдын ала ескертусіз өзгертілуі мүмкін. Төлем веб-сайтта көрсетілген әдістермен жүзеге асырылады.",
       "p3_title": "Бас тарту саясаты",
@@ -155,7 +163,7 @@
   "about": {
     "title": "Кешен туралы",
     "subtitle": "Алтайдағы тамаша демалысыңыз",
-    "welcome": "Ongudai Camp-қа қош келдіңіз",
+    "welcome": "Welcome to Ongudai Camp",
     "description1": "Біздің кешен Алтай Республикасының жүрегі — әсем Онгудай ауылында орналасқан.",
     "description2": "2015 жылдан бастап туристерге Алтайдың сұлулығын ашуға көмектесеміз.",
     "stats": {
@@ -173,7 +181,7 @@
     "personal": "Жеке",
     "management": "Басқару",
     "users": "Пайдаланушылар",
-    "title": "Пайдаланушы панелі",
+    "title": "Панель",
     "welcome": "Қош келдіңіз, {name}!",
     "description": "Мұнда броньдауларыңызды басқарып, саяхат тарихыңызды көре аласыз.",
     "myBookings": "Менің броньдауларым",
@@ -202,7 +210,7 @@
     "email": "Email",
     "phone": "Телефон",
     "role": "Рөл",
-    "memberSince": "Қосылған уақыт",
+    "memberSince": "Мүшелік уақыты",
     "language": "Тіл",
     "wishlistCount": "сақталған",
     "wishlistEmpty": "Таңдаулылар тізімі бос",
@@ -214,6 +222,11 @@
     "findTour": "Турларды қарау",
     "bookingTimeline": "Броньдау мәртебесі",
     "bookingsDescription": "Барлық броньдауларыңызды қараңыз, мәртебесі бойынша сүзгіден өткізіңіз және басқарыңыз.",
+    "status": {
+      "verified": "Расталған",
+      "pending": "Тексерілуде",
+      "unverified": "Расталмаған"
+    },
     "filters": {
       "all": "Барлығы",
       "pending": "Күтуде",
@@ -235,7 +248,7 @@
     "currentPassword": "Ағымдағы құпия сөз",
     "newPassword": "Жаңа құпия сөз",
     "confirmPassword": "Құпия сөзді растау",
-    "passwordUpdated": "Құпия сөз сәтті өзгертілді",
+    "passwordUpdated": "Құпия сөз sәтті өзгертілді",
     "passwordMismatch": "Құпия сөздер сәйкес келмейді",
     "passwordShort": "Құпия сөз кемінде 6 таңбадан тұруы керек",
     "passwordWrong": "Ағымдағы құпия сөз дұрыс емес",
@@ -294,8 +307,55 @@
     "startingFrom": "Бастапқы баға",
     "perNight": "түнге",
     "foundCount": "Табылды: {count}"
-    },
-    "searchPanel": {
+  },
+  "calendar": {
+    "title": "Қолжетімділік күнтізбесі",
+    "description": "Алтайдың қақ ортасында саяхатыңыз үшін тамаша уақытты табыңыз",
+    "planning_title": "Демалысты жоспарлау",
+    "results_title": "Қолжетімді нұсқалар",
+    "popular_title": "Қазір танымал",
+    "period_label": "Кезең",
+    "reset": "Тастау",
+    "how_to_use": "Қалай пайдалану керек",
+    "step1": "Тұрғын үй түрін таңдаңыз немесе іздеуге атауын енгізіңіз",
+    "step2": "Күнтізбедегі нақты күндердің бағасын қараңыз",
+    "step3": "Брондау үшін күндер ауқымын таңдаңыз",
+    "step4": "Төмендегі тізімнен өзіңізге ұнайтын нұсқаны брондаңыз",
+    "discount_title": "20% жеңілдік",
+    "discount_desc": "Күнтізбе арқылы 5 түннен артық брондаған кезде",
+    "learn_more": "Толығырақ білу",
+    "loading_results": "Үздік нұсқаларды іздеудеміз...",
+    "no_results": "Өкінішке орай, сіздің сұранысыңыз бойынша ештеңе табылмады.",
+    "no_results_hint": "Сүзгілерді өзгертіп көріңіз немесе басқа күндерді таңдаңыз.",
+    "adminTitle": "Күнтізбе",
+    "adminDescription": "Барлық нысан түрлерінің қолжетімділігін басқару",
+    "showPrices": "Бағаларды көрсету",
+    "showAvailability": "Қолжетімділікті көрсету",
+    "loading": "Күнтізбе жүктелуде...",
+    "error": "Күнтізбені жүктеу мүмкін болмады",
+    "available": "Қолжетімді",
+    "limited": "Шектеулі",
+    "booked": "Брондалған",
+    "past": "Өткен",
+    "free": "бос",
+    "fromPrice": "from ₽{price}",
+    "selectProperty": "Нысанды таңдаңыз...",
+    "allRooms": "Барлық бөлмелер",
+    "allTypes": "Барлық түрлер",
+    "bulkUpdate": "Жаппай жаңарту",
+    "daysSelected": "{count} күн таңдалды",
+    "status": "Мәртебе",
+    "priceOptional": "Бағасы (₽, қосымша)",
+    "keepCurrent": "Ағымдағысын қалдыру",
+    "apply": "Қолдану",
+    "filters": "Сүзгілер",
+    "propertyType": "Нысан түрі",
+    "property": "Нысан",
+    "room": "Бөлме",
+    "previousMonth": "Алдыңғы ай",
+    "nextMonth": "Келесі ай"
+  },
+  "searchPanel": {
     "tabs": {
       "buy": "Сатып алу",
       "rent": "Жалға алу",
@@ -332,8 +392,8 @@
       "cottage": "Коттедж",
       "hotel-room": "Қонақ үй бөлмесі"
     }
-    },
-    "categories": {
+  },
+  "categories": {
     "winter": "Қысқы сиқыр",
     "horse": "Атты турлар",
     "ring": "Алтай Сақинасы",
@@ -342,8 +402,8 @@
     "trekking": "Треккинг",
     "shaman": "Шаман рәсімдері",
     "photo": "Фото экспедициялар"
-    },
-    "footer": {
+  },
+  "footer": {
     "tagline": "Алтай тауларының жүрегіндегі туристік кешен. Біз әрбір қонақ үшін ұмытылмас әсерлер жасаймыз.",
     "navigation": "Навигация",
     "navigation_home": "Басты бет",
@@ -358,7 +418,7 @@
     "contacts_address": "Онгудай а., Алтай Республикасы",
     "contacts_phone": "+7 (388) 123-45-67",
     "contacts_email": "info@ongudaicamp.ru",
-    "copyright": "© 2026 Reg Griffin Ecosystems rgacademy.spave"
+    "copyright": "© 2026 Reg Griffin Ecosystems rgacademy.space"
   },
   "search": {
     "label": "Іздеу",
@@ -383,620 +443,6 @@
       "error": "Брондау қатесі",
       "loginToBook": "Кіру үшін бронь",
       "nights": "түн"
-    },
-    "admin": {
-      "hotel": {
-        "title": "Қонақ үй атауы *",
-        "description": "Сипаттама",
-        "address": "Мекенжай",
-        "price": "Түнге баға (₽) *",
-        "salePrice": "Жеңілдік баға (₽)",
-        "latitude": "Ендік",
-        "longitude": "Бойлық",
-        "author": "Авторы",
-        "gallery": "Суреттер галереясы",
-        "galleryHint": "Бірінші сурет негізгі болады.",
-        "status": "Күйі",
-        "statusValues": {
-          "publish": "Жарияланған",
-          "draft": "Жоба",
-          "pending": "Модерацияда"
-        },
-        "step": {
-          "hotelInfo": "Қонақ үй туралы ақпарат",
-          "rooms": "Қонақ үй бөлмелері",
-          "gallery": "Суреттер галереясы",
-          "review": "Тексеру және сақтау",
-          "back": "Артқа",
-          "next": "Келесі"
-        },
-        "addRoom": "+ Бөлме қосу",
-        "room": {
-          "number": "Бөлме {index + 1}",
-          "title": "Бөлме атауы *",
-          "description": "Сипаттама",
-          "type": "Тұру түрі",
-          "selectPlaceholder": "Түрін таңдаңыз",
-          "price": "Баға (₽) *",
-          "guests": "Қонақтар",
-          "beds": "Кереуеттер",
-          "bathrooms": "Ванна бөлмелері",
-          "floor": "Қабат",
-          "floorAny": "Кез келген",
-          "floorLabel": "Қабат: {room.floor || 'Кез келген'}",
-          "amenities": "Бөлменің жайлылықтары",
-          "amenitiesCount": "Жайлылықтар саны: {room.facilityIds.length}",
-          "delete": "Жою",
-          "summaryTitle": "Бөлме қорытындысы: {room.title} - {room.price} ₽",
-          "typeLabel": "Түрі: {roomTypes.find(t => t.id === room.roomTypeId)?.name || 'Көрсетілмеген'} | Қонақтар: {room.guests} | Қабат: {room.floor || 'Кез келген'}",
-          "guestsLabel": "Қонақтар: {room.guests}"
-        },
-        "review": {
-          "hotelInfo": "Қонақ үй туралы ақпарат",
-          "hotelName": "Атауы: {title}",
-          "hotelAddress": "Мекенжайы: {address}",
-          "hotelPrice": "Бағасы: {price} ₽",
-          "images": "Суреттер ({images.length})",
-          "roomsTitle": "Бөлмелер ({rooms.length})"
-        },
-        "error": "Қате орын алды"
-      },
-      "tour": {
-        "title": "Тур атауы *",
-        "description": "Сипаттама",
-        "address": "Орналасуы/Маршруты",
-        "price": "Баға (₽/адам) *",
-        "salePrice": "Жеңілдік баға (₽)",
-        "author": "Авторы",
-        "latitude": "Ендік",
-        "longitude": "Бойлық",
-        "duration": "Ұзақтығы",
-        "groupSize": "Топ мөлшері",
-        "difficulty": "Қиындығы",
-        "gallery": "Суреттер галереясы",
-        "galleryHint": "Бірінші сурет негізгі болады.",
-        "itinerary": "Бағдарлама",
-        "included": "Қамтылған",
-        "notIncluded": "Қамтылмаған",
-        "status": "Күйі",
-        "statusValues": {
-          "publish": "Жарияланған",
-          "draft": "Жоба",
-          "pending": "Модерацияда"
-        },
-        "step": {
-          "tourInfo": "Тур туралы ақпарат",
-          "details": "Егжей-тегжейлер",
-          "gallery": "Суреттер галереясы",
-          "review": "Тексеру және сақтау",
-          "back": "Артқа",
-          "save": "Сақтау"
-        },
-        "day": {
-          "title": "{index + 1} күні тақырыбы",
-          "description": "Күн бағдарламасының сипаттамасы"
-        },
-        "difficultyValues": {
-          "easy": "Оңай",
-          "medium": "Орташа",
-          "hard": "Қиын"
-        },
-        "review": {
-          "tourInfo": "Тур туралы ақпарат",
-          "tourTitle": "Атауы: {title}",
-          "tourLocation": "Орналасуы: {address}",
-          "tourPrice": "Бағасы: {price} ₽"
-        },
-        "saveButton": "Турды сақтау",
-        "error": "Сақтау қатесі"
-      },
-      "activity": {
-        "title": "Белсенділік атауы *",
-        "description": "Сипаттама",
-        "address": "Орын/Орын",
-        "price": "Баға (₽) *",
-        "salePrice": "Жеңілдік баға (₽)",
-        "author": "Авторы",
-        "latitude": "Ендік",
-        "longitude": "Бойлық",
-        "category": "Санаты",
-        "categories": {
-          "excursion": "Экскурсия",
-          "rafting": "Рафтинг",
-          "hiking": "Жаяу серуендеу",
-          "horseback": "Атпен серуен",
-          "fishing": "Балық аулау",
-          "skiing": "Тау шаңғысы/Сноуборд",
-          "other": "Басқа"
-        },
-        "included": "Қамтылған",
-        "requirements": "Талаптар",
-        "gallery": "Суреттер галереясы",
-        "galleryHint": "Бірінші сурет негізгі болады.",
-        "status": "Күйі",
-        "statusValues": {
-          "publish": "Жарияланған",
-          "draft": "Жоба",
-          "pending": "Модерацияда"
-        },
-        "step": {
-          "activityInfo": "Белсенділік туралы ақпарат",
-          "details": "Егжей-тегжейлер",
-          "gallery": "Суреттер галереясы",
-          "review": "Тексеру және сақтау",
-          "back": "Артқа",
-          "save": "Сақтау"
-        },
-        "review": {
-          "activityInfo": "Белсенділік туралы ақпарат",
-          "activityTitle": "Атауы: {title}",
-          "activityLocation": "Орналасуы: {address}",
-          "activityPrice": "Бағасы: {price} ₽"
-        },
-        "saveButton": "Белсенділікті сақтау",
-        "error": "Сақтау қатесі"
-      }
     }
-  },
-  "phone": {
-    "country": {
-      "rf": "Ресей Федерациясы",
-      "kz": "Қазақстан",
-      "uz": "Өзбекстан",
-      "kg": "Қырғызстан",
-      "tj": "Тәжікстан",
-      "tm": "Түрікменстан",
-      "az": "Әзербайжан",
-      "am": "Армения",
-      "ge": "Грузия",
-      "tr": "Түркия",
-      "cn": "Қытай",
-      "in": "Үндістан",
-      "ae": "БАӘ",
-      "us_ca": "АҚШ/Канада",
-      "uk": "Ұлыбритания",
-      "de": "Германия",
-      "fr": "Франция",
-      "it": "Италия",
-      "es": "Испания",
-      "il": "Израиль",
-      "th": "Тайланд",
-      "vn": "Вьетнам",
-      "mn": "Моңғолия"
-    }
-  },
-  "reviews": {
-    "title": "Пікірлер",
-    "writeReview": "Пікір қалдыру",
-    "cancelReview": "Болдырмау",
-    "overallRating": "Жалпы баға",
-    "categories": {
-      "cleanliness": "Тазалық",
-      "location": "Орналасуы",
-      "staff": "Қызметкерлер",
-      "value": "Баға/сапа",
-      "facilities": "Жайлылықтар"
-    },
-    "titlePlaceholder": "Пікір тақырыбы (міндетті емес)",
-    "contentPlaceholder": "Әсерлеріңізбен бөлісіңіз...",
-    "submitReview": "Пікір жіберу",
-    "signInToReview": "Пікір қалдыру үшін кіріңіз",
-    "noReviews": "Әлі пікір жоқ",
-    "anonymous": "Аноним",
-    "reviewCount": "{count} пікір",
-    "pleaseSelectRating": "Бағаны таңдаңыз",
-    "submitting": "Жіберілуде..."
-  },
-  "imageUploader": {
-    "uploadCount": "Жүктелді: {count} {count, plural, one {сурет} other {суреттер}}",
-    "noneUploaded": "Суреттер жүктелмеді",
-    "moveLeft": "Солға жылжыту",
-    "moveRight": "Оңға жылжыту",
-    "delete": "Жою",
-    "mainPhoto": "Негізгі",
-    "uploading": "Жүктелуде...",
-    "dragOrClick": "Суреттерді осы жерге сүйріңіз немесе таңдау үшін басыңыз",
-    "remaining": "Тағы {remaining} сурет жүктей аласыз",
-    "limitReached": "Шегіне жетті",
-    "uploadError": "Жүктеу кезінде қате"
-  },
-  "admin": {
-    "menu": {
-      "dashboard": "Басқару панелі",
-      "hotels": "Қонақ үйлер",
-      "tours": "Турлар",
-      "activities": "Белсенділіктер",
-      "calendar": "Күнтізбе",
-      "bookings": "Брондаулар",
-      "showcase": "Витрина",
-      "users": "Пайдаланушылар",
-      "packages": "Пакеттер",
-      "chat": "Қолдау чаты",
-      "settings": "Параметрлер",
-      "backToDashboard": "← Сайтқа оралу",
-      "pages": "Беттер",
-      "media": "Медиатека",
-      "auditLog": "Әрекеттер журналы"
-    },
-    "dashboard": {
-      "title": "Басқару панелі",
-      "welcome": "Ongudai Camp басқару панеліне қош келдіңіз",
-      "recentBookings": "Соңғы брондаулар",
-      "bookingsEmpty": "Брондаулар жоқ",
-      "columns": {
-        "id": "ID",
-        "object": "Нысан",
-        "user": "Пайдаланушы",
-        "date": "Күні",
-        "amount": "Сома",
-        "status": "Мәртебе"
-      },
-      "bookingStats": {
-        "total": "Барлық брондаулар",
-        "confirmed": "Расталған",
-        "pending": "Күтуде",
-        "revenue": "Кіріс"
-      },
-      "errorLoad": "Брондауларды жүктеу қатесі"
-    },
-    "bookings": {
-      "title": "Брондауларды басқару",
-      "filters": {
-        "all": "Барлығы",
-        "pending": "Күтуде",
-        "confirmed": "Расталған",
-        "completed": "Аяқталған",
-        "cancelled": "Бас тартылған"
-      },
-      "table": {
-        "id": "ID",
-        "property": "Нысан",
-        "object": "Нысан",
-        "room": "Бөлме",
-        "guest": "Қонақ",
-        "checkIn": "Кіру",
-        "checkOut": "Шығу",
-        "checkInOut": "Кіру / Шығу",
-        "total": "Барлығы",
-        "amount": "Сома",
-        "status": "Мәртебе",
-        "payment": "Төлем",
-        "actions": "Әрекеттер"
-      },
-      "paymentStatus": {
-        "paid": "Төленді",
-        "unpaid": "Төленбеді",
-        "refunded": "Қайтарылды"
-      },
-      "delete": "Жою",
-      "empty": "Брондаулар табылмады",
-      "error": "Жүктеу қатесі:",
-      "guestUnknown": "Қонақ"
-    },
-    "hotels": {
-      "title": "Қонақ үйлерді басқару",
-      "addNew": "+ Қонақ үй қосу",
-      "newTitle": "Жаңа қонақ үй қосу",
-      "editTitle": "Қонақ үйді өңдеу",
-      "columns": {
-        "title": "Атауы",
-        "author": "Автор",
-        "price": "Бағасы",
-        "rooms": "Бөлмелер",
-        "bookings": "Брондаулар",
-        "status": "Мәртебе",
-        "date": "Күні",
-        "actions": "Әрекеттер"
-      },
-      "empty": {
-        "noHotels": "Қонақ үйлер табылмады. ",
-        "addFirst": "Бірінші қонақ үйді қосу"
-      },
-      "statusUnknown": "Көрсетілмеген"
-    },
-    "tours": {
-      "title": "Турларды басқару",
-      "addNew": "+ Тур қосу",
-      "newTitle": "Жаңа тур қосу",
-      "editTitle": "Турды өңдеу",
-      "columns": {
-        "title": "Атауы",
-        "author": "Автор",
-        "price": "Бағасы",
-        "bookings": "Брондаулар",
-        "status": "Мәртебе",
-        "actions": "Әрекеттер"
-      },
-      "location": "Орналасуы",
-      "empty": {
-        "noTours": "Турлар табылмады. ",
-        "addFirst": "Бірінші турды қосу"
-      }
-    },
-    "activities": {
-      "title": "Белсенділіктерді басқару",
-      "addNew": "+ Белсенділік қосу",
-      "newTitle": "Жаңа белсенділік қосу",
-      "editTitle": "Белсенділікті өңдеу",
-      "columns": {
-        "title": "Атауы",
-        "location": "Орналасуы",
-        "price": "Бағасы",
-        "bookings": "Брондаулар",
-        "actions": "Әрекеттер"
-      },
-      "empty": {
-        "noActivities": "Белсенділіктер табылмады. ",
-        "addFirst": "Бірінші белсенділікті қосу"
-      }
-    },
-    "users": {
-      "title": "Пайдаланушыларды басқару",
-      "filters": {
-        "all": "Барлығы",
-        "admin": "Әкімші",
-        "subscriber": "Жазылушы"
-      },
-      "columns": {
-        "name": "Аты",
-        "email": "Email",
-        "role": "Рөлі",
-        "bookings": "Брондаулар",
-        "registered": "Тіркеу күні",
-        "actions": "Әрекеттер"
-      },
-      "noName": "Аты жоқ",
-      "changeRole": "Рөлін өзгерту",
-      "delete": "Жою",
-      "notFound": "Пайдаланушылар табылмады"
-    },
-    "chat": {
-      "title": "Қолдау чаты",
-      "users": "Пайдаланушылар",
-      "noActiveChats": "Белсенді чаттар жоқ",
-      "noName": "Аты жоқ",
-      "noMessages": "Хабарламалар жоқ",
-      "userLabel": "Пайдаланушы",
-      "send": "Жіберу",
-      "messagePlaceholder": "Хабарламаңызды енгізіңіз...",
-      "typing": "...",
-      "selectUser": "Әңгімелесуді бастау үшін пайдаланушыны таңдаңыз"
-    },
-    "showcase": {
-      "title": "Бейне презентация генераторы",
-      "subtitle": "Жарнамалық бейне жасау үшін нысанды таңдаңыз",
-      "loading": "Қонақ үйлер жүктелуде...",
-      "yourObjects": "Сіздің нысандарыңыз",
-      "perNight": "/ түн",
-      "readyToRender": "Рендерге дайын",
-      "videoInfo": "Full HD (1080p) • 30 FPS • 5 секунд",
-      "downloadMp4": "MP4 жүктеу"
-    },
-    "packages": {
-      "title": "Жазылым пакеттері",
-      "addNew": "Пакет қосу",
-      "newTitle": "Жазылым пакетін жасау",
-      "editTitle": "Пакетті өңдеу",
-      "featured": "Танымал",
-      "postsLimit": "Посттар шегі: {postsLimit}",
-      "duration": "Ұзақтығы: {duration} күн",
-      "activeUsers": "Белсенді пайдаланушылар: {count}",
-      "unlimited": "Шексіз",
-      "noPackages": "Пакеттер жасалмаған.",
-      "createFirst": "Бірінші пакетті жасау",
-      "edit": "Өңдеу",
-      "delete": "Жою"
-    },
-    "settings": {
-      "facilities": "Ыңғайлылықтар",
-      "roomTypes": "Орналастыру түрлері",
-      "general": "Негізгі баптаулар",
-      "siteSection": "Сайт",
-      "contactsSection": "Байланыс",
-      "socialSection": "Әлеуметтік желілер",
-      "seoSection": "SEO",
-      "footerSection": "Footer",
-      "mapSection": "Карта",
-      "siteName": "Сайт атауы",
-      "siteDescription": "Сайт сипаттамасы",
-      "siteKeywords": "Кілт сөздер",
-      "contactEmail": "Email",
-      "contactPhone": "Телефон",
-      "contactAddress": "Мекенжай",
-      "socialVk": "VK",
-      "socialTelegram": "Telegram",
-      "socialYoutube": "YouTube",
-      "ogTitle": "OG Title",
-      "ogDescription": "OG Description",
-      "ogImage": "OG Image URL",
-      "footerTagline": "Footer слоганы",
-      "footerCopyright": "Copyright",
-      "mapCenterLat": "Карта орталығы (ендік)",
-      "mapCenterLng": "Карта орталығы (бойлық)",
-      "mapZoom": "Карта масштабы"
-    },
-    "general": {
-      "edit": "Өңдеу",
-      "delete": "Жою",
-      "deleteConfirm": "Иә, жою",
-      "cancel": "Болдырмау",
-      "deleting": "...",
-      "saving": "...",
-      "unknown": "Белгісіз",
-      "errorDelete": "Жою қатесі",
-      "errorAlert": "Жою кезінде қате",
-      "backToList": "← Тізімге оралу",
-      "save": "Сақтау",
-      "saved": "Сақталды"
-    },
-    "addons": {
-      "title": "Қосымша қызметтер",
-      "addNew": "+ Қосу",
-      "newTitle": "Жасау",
-      "editTitle": "Өңдеу",
-      "columns": {
-        "id": "ID",
-        "title": "Атауы",
-        "type": "Түрі",
-        "price": "Бағасы",
-        "active": "Белсенді",
-        "actions": "Әрекеттер"
-      },
-      "form": {
-        "selectObject": "Нысанды таңдаңыз",
-        "title": "Атауы",
-        "description": "Сипаттама",
-        "price": "Бағасы",
-        "type": "Түрі",
-        "active": "Белсенді",
-        "save": "Сақтау",
-        "create": "Жасау",
-        "cancel": "Бас тарту"
-      },
-      "typeValues": {
-        "extra": "Қосымша",
-        "service": "Қызмет",
-        "meal": "Тамақтану"
-      },
-      "active": "Иә",
-      "inactive": "Жоқ",
-      "empty": "Қосымша қызметтер жоқ",
-      "deleteConfirm": "Жою?"
-    },
-    "promocodes": {
-      "title": "Промокодтар",
-      "addNew": "+ Қосу",
-      "newTitle": "Жасау",
-      "editTitle": "Өңдеу",
-      "columns": {
-        "code": "Код",
-        "type": "Түрі",
-        "value": "Мәні",
-        "used": "Қолданылды",
-        "status": "Мәртебе",
-        "expires": "Мерзімі",
-        "actions": "Әрекеттер"
-      },
-      "form": {
-        "code": "Код",
-        "discountType": "Жеңілдік түрі",
-        "discountValue": "Мәні",
-        "minAmount": "Мин. сома",
-        "maxUses": "Макс. қолдану",
-        "expiresAt": "Қолдану мерзімі",
-        "active": "Белсенді",
-        "save": "Сақтау",
-        "create": "Жасау",
-        "cancel": "Бас тарту"
-      },
-      "discountTypes": {
-        "percent": "Пайыз",
-        "fixed": "Бекітілген сома"
-      },
-      "statusActive": "Белсенді",
-      "statusDisabled": "Өшірілген",
-      "statusExpired": "Мерзімі өткен",
-      "empty": "Промокодтар жоқ",
-      "deleteConfirm": "Промокодты жою?"
-    },
-    "reviews": {
-      "title": "Пікірлер",
-      "filters": {
-        "pending": "Модерацияда",
-        "approved": "Мақұлданған",
-        "rejected": "Қабылданбаған",
-        "all": "Барлығы"
-      },
-      "approve": "Мақұлдау",
-      "reject": "Қабылдамау",
-      "verified": "Расталған",
-      "delete": "Жою",
-      "empty": "Пікірлер жоқ",
-      "deleteConfirm": "Пікірді жою?"
-    },
-    "categories": {
-      "title": "Санаттар",
-      "addNew": "+ Санат қосу",
-      "columns": {
-        "id": "ID",
-        "object": "Нысан",
-        "key": "Кілт",
-        "value": "Мәні"
-      },
-      "form": {
-        "selectObject": "Нысанды таңдаңыз",
-        "key": "Кілт (category)",
-        "value": "Мәні"
-      },
-      "empty": "Санаттар жоқ"
-    },
-    "pages": {
-      "title": "Беттерді басқару",
-      "pages": "Беттер",
-      "editor": "Мазмұн редакторы",
-      "save": "Сақтау",
-      "saved": "Сақталды"
-    },
-    "media": {
-      "title": "Медиатека",
-      "files": "файл",
-      "empty": "Жүктелген файлдар жоқ",
-      "copyUrl": "URL көшіру",
-      "delete": "Жою",
-      "closePreview": "Жабу",
-      "deleteConfirm": "Файлды жою?"
-    },
-    "auditLog": {
-      "title": "Әрекеттер журналы",
-      "action": "Әрекет",
-      "entity": "Нысан",
-      "entityId": "ID",
-      "user": "Пайдаланушы",
-      "date": "Күні",
-      "allEntities": "Барлық нысандар",
-      "allActions": "Барлық әрекеттер",
-      "entries": "жазба",
-      "empty": "Жазбалар жоқ"
-    }
-  },
-  "dialogs": {
-    "deleteConfirmation": "Иә, жою",
-    "deleteDialogTitle": "Жоюды растау",
-    "cancel": "Болдырмау"
-  },
-  "calendar": {
-    "title": "Қолжетімділік күнтізбесі",
-    "description": "Ongudai Camp-тың барлық нысандарының қолжетімділігін тексеріңіз",
-    "adminTitle": "Күнтізбе",
-    "adminDescription": "Барлық нысан түрлерінің қолжетімділігін басқару",
-    "showPrices": "Бағаларды көрсету",
-    "showAvailability": "Қолжетімділікті көрсету",
-    "loading": "Күнтізбе жүктелуде...",
-    "error": "Күнтізбені жүктеу мүмкін болмады",
-    "available": "Қолжетімді",
-    "limited": "Шектеулі",
-    "booked": "Брондалған",
-    "past": "Өткен",
-    "free": "бос",
-    "fromPrice": "₽{price} бастап",
-    "selectProperty": "Нысанды таңдаңыз...",
-    "allRooms": "Барлық бөлмелер",
-    "allTypes": "Барлық түрлер",
-    "bulkUpdate": "Жаппай жаңарту",
-    "daysSelected": "{count} күн таңдалды",
-    "status": "Мәртебе",
-    "priceOptional": "Бағасы (₽, қосымша)",
-    "keepCurrent": "Ағымдағысын қалдыру",
-    "apply": "Қолдану",
-    "filters": "Сүзгілер",
-    "propertyType": "Нысан түрі",
-    "property": "Нысан",
-    "room": "Бөлме",
-    "previousMonth": "Алдыңғы ай",
-    "nextMonth": "Келесі ай"
-  },
-  "adminStats": {
-    "title": "Жүйелік шолу",
-    "welcome": "Ongudai Camp басқару панеліне қош келдіңіз"
   }
 }

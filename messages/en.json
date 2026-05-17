@@ -86,6 +86,7 @@
     "profile": "Profile",
     "name": "Name",
     "codeSent": "Code sent to",
+    "getSmsCode": "Get SMS Code",
     "resendCode": "Resend code"
   },
   "common": {
@@ -99,6 +100,10 @@
     "back": "Back to list",
     "loading": "Loading...",
     "error": "Error",
+    "errorTitle": "Something went wrong",
+    "errorDescription": "An error occurred while loading the page. Please try refreshing or come back later.",
+    "retry": "Try again",
+    "goHome": "Go to Home",
     "success": "Success",
     "noImage": "No image",
     "discount": "Discount",
@@ -124,7 +129,10 @@
     "select": "Select",
     "persons": "persons",
     "upTo": "Up to {count} persons",
-    "location": "Location"
+    "location": "Location",
+    "wishlistAdded": "Added to wishlist",
+    "wishlistRemoved": "Removed from wishlist",
+    "searchPlaceholder": "Where are we going?"
   },
   "terms": {
     "title": "Terms of Use",
@@ -214,6 +222,11 @@
     "findTour": "Browse Tours",
     "bookingTimeline": "Booking Status",
     "bookingsDescription": "Browse all your bookings, filter by status, and manage reservations.",
+    "status": {
+      "verified": "Verified",
+      "pending": "Under Review",
+      "unverified": "Not Verified"
+    },
     "filters": {
       "all": "All",
       "pending": "Pending",
@@ -295,6 +308,53 @@
     "perNight": "/ night",
     "foundCount": "Found: {count}"
   },
+  "calendar": {
+    "title": "Availability Calendar",
+    "description": "Find the perfect time for your trip in the heart of Altai",
+    "planning_title": "Trip Planning",
+    "results_title": "Available Options",
+    "popular_title": "Popular Now",
+    "period_label": "Period",
+    "reset": "Reset",
+    "how_to_use": "How to Use",
+    "step1": "Select property type or search by name",
+    "step2": "Check prices for specific days in the calendar",
+    "step3": "Select a date range for booking",
+    "step4": "Book your favorite option in the list below",
+    "discount_title": "20% Discount",
+    "discount_desc": "For bookings over 5 nights via calendar",
+    "learn_more": "Learn More",
+    "loading_results": "Searching for best options...",
+    "no_results": "No results found for your query.",
+    "no_results_hint": "Try changing filters or selecting different dates.",
+    "adminTitle": "Calendar",
+    "adminDescription": "Manage availability across all property types",
+    "showPrices": "Show prices",
+    "showAvailability": "Show availability",
+    "loading": "Loading calendar...",
+    "error": "Failed to load calendar",
+    "available": "Available",
+    "limited": "Limited",
+    "booked": "Booked",
+    "past": "Past",
+    "free": "free",
+    "fromPrice": "from ₽{price}",
+    "selectProperty": "Select property...",
+    "allRooms": "All rooms",
+    "allTypes": "All types",
+    "bulkUpdate": "Bulk update",
+    "daysSelected": "{count} day(s) selected",
+    "status": "Status",
+    "priceOptional": "Price (₽, optional)",
+    "keepCurrent": "Keep current",
+    "apply": "Apply",
+    "filters": "Filters",
+    "propertyType": "Property type",
+    "property": "Property",
+    "room": "Room",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month"
+  },
   "searchPanel": {
     "tabs": {
       "buy": "Buy",
@@ -358,7 +418,7 @@
     "contacts_address": "s. Ongudai, Republic of Altai",
     "contacts_phone": "+7 (388) 123-45-67",
     "contacts_email": "info@ongudaicamp.ru",
-    "copyright": "© 2026 Reg Griffin Ecosystems rgacademy.spave"
+    "copyright": "© 2026 Reg Griffin Ecosystems rgacademy.space"
   },
   "search": {
     "label": "Search",
@@ -383,621 +443,6 @@
       "error": "Booking error",
       "loginToBook": "Sign in to book",
       "nights": "nights"
-    },
-    "admin": {
-      "hotel": {
-        "title": "Hotel Name *",
-        "description": "Description",
-        "address": "Address",
-        "price": "Price per night (₽) *",
-        "salePrice": "Discounted price (₽)",
-        "latitude": "Latitude",
-        "longitude": "Longitude",
-        "author": "Author",
-        "gallery": "Image Gallery",
-        "galleryHint": "First image will be the main one.",
-        "status": "Status",
-        "statusValues": {
-          "publish": "Published",
-          "draft": "Draft",
-          "pending": "Under moderation"
-        },
-        "step": {
-          "hotelInfo": "Hotel Information",
-          "rooms": "Hotel Rooms",
-          "gallery": "Image Gallery",
-          "review": "Review & Save",
-          "back": "Back",
-          "next": "Next"
-        },
-        "addRoom": "+ Add Room",
-        "room": {
-          "number": "Room {index + 1}",
-          "title": "Room Name *",
-          "description": "Description",
-          "type": "Accommodation Type",
-          "selectPlaceholder": "Select type",
-          "price": "Price (₽) *",
-          "guests": "Guests",
-          "beds": "Beds",
-          "bathrooms": "Bathrooms",
-          "floor": "Floor",
-          "floorAny": "Any",
-          "floorLabel": "Floor: {room.floor || 'Any'}",
-          "amenities": "In-room Amenities",
-          "amenitiesCount": "Amenities: {room.facilityIds.length}",
-          "delete": "Delete",
-          "summaryTitle": "Room Summary",
-          "typeLabel": "Type: {roomTypes.find(t => t.id === room.roomTypeId)?.name || 'Not specified'} | Guests: {room.guests} | Floor: {room.floor || 'Any'}",
-          "guestsLabel": "Guests: {room.guests}"
-        },
-        "review": {
-          "hotelInfo": "Hotel Information",
-          "hotelName": "Name: {title}",
-          "hotelAddress": "Address: {address}",
-          "hotelPrice": "Price: {price} ₽",
-          "images": "Images ({images.length})",
-          "roomsTitle": "Rooms ({rooms.length})"
-        },
-        "error": "An error occurred"
-      },
-      "tour": {
-        "title": "Tour Name *",
-        "description": "Description",
-        "address": "Location/Route",
-        "price": "Price (₽/person) *",
-        "salePrice": "Discounted price (₽)",
-        "author": "Author",
-        "latitude": "Latitude",
-        "longitude": "Longitude",
-        "duration": "Duration",
-        "groupSize": "Group size",
-        "difficulty": "Difficulty",
-        "gallery": "Image Gallery",
-        "galleryHint": "First image will be the main one.",
-        "itinerary": "Itinerary",
-        "included": "Included",
-        "notIncluded": "Not included",
-        "status": "Status",
-        "statusValues": {
-          "publish": "Published",
-          "draft": "Draft",
-          "pending": "Under moderation"
-        },
-        "step": {
-          "tourInfo": "Tour Information",
-          "details": "Details",
-          "gallery": "Image Gallery",
-          "review": "Review & Save",
-          "back": "Back",
-          "save": "Save"
-        },
-        "day": {
-          "title": "Day {index + 1} Title",
-          "description": "Day Program Description"
-        },
-        "difficultyValues": {
-          "easy": "Easy",
-          "medium": "Medium",
-          "hard": "Hard"
-        },
-        "review": {
-          "tourInfo": "Tour Information",
-          "tourTitle": "Name: {title}",
-          "tourLocation": "Location: {address}",
-          "tourPrice": "Price: {price} ₽"
-        },
-        "saveButton": "Save Tour",
-        "error": "Error saving"
-      },
-      "activity": {
-        "title": "Activity Name *",
-        "description": "Description",
-        "address": "Location/Venue",
-        "price": "Price (₽) *",
-        "salePrice": "Discounted price (₽)",
-        "author": "Author",
-        "latitude": "Latitude",
-        "longitude": "Longitude",
-        "category": "Category",
-        "categories": {
-          "excursion": "Excursion",
-          "rafting": "Rafting",
-          "hiking": "Hiking",
-          "horseback": "Horseback Riding",
-          "fishing": "Fishing",
-          "skiing": "Skiing/Snowboarding",
-          "other": "Other"
-        },
-        "included": "Included",
-        "requirements": "Requirements",
-        "gallery": "Image Gallery",
-        "galleryHint": "First image will be the main one.",
-        "status": "Status",
-        "statusValues": {
-          "publish": "Published",
-          "draft": "Draft",
-          "pending": "Under moderation"
-        },
-        "step": {
-          "activityInfo": "Activity Information",
-          "details": "Details",
-          "gallery": "Image Gallery",
-          "review": "Review & Save",
-          "back": "Back",
-          "save": "Save"
-        },
-        "review": {
-          "activityInfo": "Activity Information",
-          "activityTitle": "Name: {title}",
-          "activityLocation": "Location: {address}",
-          "activityPrice": "Price: {price} ₽"
-        },
-        "saveButton": "Save Activity",
-        "error": "Error saving"
-      }
     }
-  },
-  "admin": {
-    "menu": {
-      "dashboard": "Dashboard",
-      "hotels": "Hotels",
-      "tours": "Tours",
-      "activities": "Activities",
-      "calendar": "Calendar",
-      "bookings": "Bookings",
-      "showcase": "Showcase",
-      "users": "Users",
-      "packages": "Packages",
-      "chat": "Support Chat",
-      "settings": "Settings",
-      "backToDashboard": "← Back to site",
-      "pages": "Pages",
-      "media": "Media",
-      "auditLog": "Audit Log"
-    },
-    "dashboard": {
-      "title": "Admin Panel",
-      "welcome": "Welcome to the Ongudai Camp control panel",
-      "recentBookings": "Recent Bookings",
-      "bookingsEmpty": "No bookings",
-      "columns": {
-        "id": "ID",
-        "object": "Object",
-        "user": "User",
-        "date": "Date",
-        "amount": "Amount",
-        "status": "Status"
-      },
-      "bookingStats": {
-        "total": "Total Bookings",
-        "confirmed": "Confirmed",
-        "pending": "Pending",
-        "revenue": "Revenue"
-      },
-      "errorLoad": "Error loading bookings"
-    },
-    "bookings": {
-      "title": "Booking Management",
-      "filters": {
-        "all": "All",
-        "pending": "Pending",
-        "confirmed": "Confirmed",
-        "completed": "Completed",
-        "cancelled": "Cancelled"
-      },
-      "table": {
-        "id": "ID",
-        "property": "Property",
-        "object": "Property",
-        "room": "Room",
-        "guest": "Guest",
-        "checkIn": "Check-in",
-        "checkOut": "Check-out",
-        "checkInOut": "Check-in / Check-out",
-        "total": "Total",
-        "amount": "Amount",
-        "status": "Status",
-        "payment": "Payment",
-        "actions": "Actions"
-      },
-      "paymentStatus": {
-        "paid": "Paid",
-        "unpaid": "Unpaid",
-        "refunded": "Refunded"
-      },
-      "delete": "Delete",
-      "empty": "No bookings found",
-      "error": "Error loading:",
-      "guestUnknown": "Guest"
-    },
-    "hotels": {
-      "title": "Hotel Management",
-      "addNew": "+ Add Hotel",
-      "newTitle": "Add New Hotel",
-      "editTitle": "Edit Hotel",
-      "columns": {
-        "title": "Title",
-        "author": "Author",
-        "price": "Price",
-        "rooms": "Rooms",
-        "bookings": "Bookings",
-        "status": "Status",
-        "date": "Date",
-        "actions": "Actions"
-      },
-      "empty": {
-        "noHotels": "No hotels found. ",
-        "addFirst": "Add first hotel"
-      },
-      "statusUnknown": "Not specified"
-    },
-    "tours": {
-      "title": "Tour Management",
-      "addNew": "+ Add Tour",
-      "newTitle": "Add New Tour",
-      "editTitle": "Edit Tour",
-      "columns": {
-        "title": "Title",
-        "author": "Author",
-        "price": "Price",
-        "bookings": "Bookings",
-        "status": "Status",
-        "actions": "Actions"
-      },
-      "location": "Location",
-      "empty": {
-        "noTours": "No tours found. ",
-        "addFirst": "Add first tour"
-      }
-    },
-    "activities": {
-      "title": "Activity Management",
-      "addNew": "+ Add Activity",
-      "newTitle": "Add New Activity",
-      "editTitle": "Edit Activity",
-      "columns": {
-        "title": "Title",
-        "location": "Location",
-        "price": "Price",
-        "bookings": "Bookings",
-        "actions": "Actions"
-      },
-      "empty": {
-        "noActivities": "No activities found. ",
-        "addFirst": "Add first activity"
-      }
-    },
-    "users": {
-      "title": "User Management",
-      "filters": {
-        "all": "All",
-        "admin": "Admin",
-        "subscriber": "Subscriber"
-      },
-      "columns": {
-        "name": "Name",
-        "email": "Email",
-        "role": "Role",
-        "bookings": "Bookings",
-        "registered": "Registration Date",
-        "actions": "Actions"
-      },
-      "noName": "No name",
-      "changeRole": "Change role",
-      "delete": "Delete",
-      "notFound": "No users found"
-    },
-    "chat": {
-      "title": "Support Chat",
-      "users": "Users",
-      "noActiveChats": "No active chats",
-      "noName": "No name",
-      "noMessages": "No messages",
-      "userLabel": "User",
-      "send": "Send",
-      "messagePlaceholder": "Type a message...",
-      "typing": "...",
-      "selectUser": "Select a user to start chatting"
-    },
-    "showcase": {
-      "title": "Video Showcase Generator",
-      "subtitle": "Select a property to create a promotional video",
-      "loading": "Loading hotels...",
-      "yourObjects": "Your Properties",
-      "perNight": "/ night",
-      "readyToRender": "Ready to render",
-      "videoInfo": "Full HD (1080p) • 30 FPS • 5 seconds",
-      "downloadMp4": "Download MP4"
-    },
-    "packages": {
-      "title": "Subscription Packages",
-      "addNew": "Add Package",
-      "newTitle": "Create Subscription Package",
-      "editTitle": "Edit Package",
-      "featured": "Featured",
-      "postsLimit": "Posts limit: {postsLimit}",
-      "duration": "Duration: {duration} days",
-      "activeUsers": "Active users: {count}",
-      "unlimited": "Unlimited",
-      "noPackages": "No packages created.",
-      "createFirst": "Create first package",
-      "edit": "Edit",
-      "delete": "Delete"
-    },
-    "settings": {
-      "facilities": "Facilities",
-      "roomTypes": "Room Types",
-      "general": "General Settings",
-      "siteSection": "Site",
-      "contactsSection": "Contacts",
-      "socialSection": "Social Networks",
-      "seoSection": "SEO",
-      "footerSection": "Footer",
-      "mapSection": "Map",
-      "siteName": "Site Name",
-      "siteDescription": "Site Description",
-      "siteKeywords": "Keywords",
-      "contactEmail": "Email",
-      "contactPhone": "Phone",
-      "contactAddress": "Address",
-      "socialVk": "VK",
-      "socialTelegram": "Telegram",
-      "socialYoutube": "YouTube",
-      "ogTitle": "OG Title",
-      "ogDescription": "OG Description",
-      "ogImage": "OG Image URL",
-      "footerTagline": "Footer Tagline",
-      "footerCopyright": "Copyright",
-      "mapCenterLat": "Map Center (Lat)",
-      "mapCenterLng": "Map Center (Lng)",
-      "mapZoom": "Map Zoom"
-    },
-    "general": {
-      "edit": "Edit",
-      "delete": "Delete",
-      "deleteConfirm": "Yes, delete",
-      "cancel": "Cancel",
-      "deleting": "...",
-      "saving": "...",
-      "unknown": "Unknown",
-      "errorDelete": "Delete error",
-      "errorAlert": "Error during deletion",
-      "backToList": "← Back to list",
-      "save": "Save",
-      "saved": "Saved"
-    },
-    "addons": {
-      "title": "Add-ons",
-      "addNew": "+ Add",
-      "newTitle": "Create",
-      "editTitle": "Edit",
-      "columns": {
-        "id": "ID",
-        "title": "Title",
-        "type": "Type",
-        "price": "Price",
-        "active": "Active",
-        "actions": "Actions"
-      },
-      "form": {
-        "selectObject": "Select object",
-        "title": "Title",
-        "description": "Description",
-        "price": "Price",
-        "type": "Type",
-        "active": "Active",
-        "save": "Save",
-        "create": "Create",
-        "cancel": "Cancel"
-      },
-      "typeValues": {
-        "extra": "Extra",
-        "service": "Service",
-        "meal": "Meal"
-      },
-      "active": "Yes",
-      "inactive": "No",
-      "empty": "No add-ons",
-      "deleteConfirm": "Delete?"
-    },
-    "promocodes": {
-      "title": "Promo Codes",
-      "addNew": "+ Add",
-      "newTitle": "Create",
-      "editTitle": "Edit",
-      "columns": {
-        "code": "Code",
-        "type": "Type",
-        "value": "Value",
-        "used": "Used",
-        "status": "Status",
-        "expires": "Expires",
-        "actions": "Actions"
-      },
-      "form": {
-        "code": "Code",
-        "discountType": "Discount type",
-        "discountValue": "Value",
-        "minAmount": "Min. amount",
-        "maxUses": "Max uses",
-        "expiresAt": "Expiry date",
-        "active": "Active",
-        "save": "Save",
-        "create": "Create",
-        "cancel": "Cancel"
-      },
-      "discountTypes": {
-        "percent": "Percent",
-        "fixed": "Fixed amount"
-      },
-      "statusActive": "Active",
-      "statusDisabled": "Disabled",
-      "statusExpired": "Expired",
-      "empty": "No promo codes",
-      "deleteConfirm": "Delete promo code?"
-    },
-    "reviews": {
-      "title": "Reviews",
-      "filters": {
-        "pending": "Pending",
-        "approved": "Approved",
-        "rejected": "Rejected",
-        "all": "All"
-      },
-      "approve": "Approve",
-      "reject": "Reject",
-      "verified": "Verified",
-      "delete": "Delete",
-      "empty": "No reviews",
-      "deleteConfirm": "Delete review?"
-    },
-    "categories": {
-      "title": "Categories",
-      "addNew": "+ Add category",
-      "columns": {
-        "id": "ID",
-        "object": "Object",
-        "key": "Key",
-        "value": "Value"
-      },
-      "form": {
-        "selectObject": "Select object",
-        "key": "Key (category)",
-        "value": "Value"
-      },
-      "empty": "No categories"
-    },
-    "pages": {
-      "title": "Page Management",
-      "pages": "Pages",
-      "editor": "Content Editor",
-      "save": "Save",
-      "saved": "Saved"
-    },
-    "media": {
-      "title": "Media Library",
-      "files": "files",
-      "empty": "No uploaded files",
-      "copyUrl": "Copy URL",
-      "delete": "Delete",
-      "closePreview": "Close",
-      "deleteConfirm": "Delete file?"
-    },
-    "auditLog": {
-      "title": "Audit Log",
-      "action": "Action",
-      "entity": "Entity",
-      "entityId": "ID",
-      "user": "User",
-      "date": "Date",
-      "allEntities": "All entities",
-      "allActions": "All actions",
-      "entries": "entries",
-      "empty": "No entries"
-    }
-  },
-  "phone": {
-    "country": {
-      "rf": "Russian Federation",
-      "kz": "Kazakhstan",
-      "uz": "Uzbekistan",
-      "kg": "Kyrgyzstan",
-      "tj": "Tajikistan",
-      "tm": "Turkmenistan",
-      "az": "Azerbaijan",
-      "am": "Armenia",
-      "ge": "Georgia",
-      "tr": "Turkey",
-      "cn": "China",
-      "in": "India",
-      "ae": "UAE",
-      "us_ca": "USA/Canada",
-      "uk": "United Kingdom",
-      "de": "Germany",
-      "fr": "France",
-      "it": "Italy",
-      "es": "Spain",
-      "il": "Israel",
-      "th": "Thailand",
-      "vn": "Vietnam",
-      "mn": "Mongolia",
-      "rfLabel": "Citizen of the Russian Federation"
-    }
-  },
-  "reviews": {
-    "title": "Reviews",
-    "writeReview": "Write a review",
-    "cancelReview": "Cancel",
-    "overallRating": "Overall rating",
-    "categories": {
-      "cleanliness": "Cleanliness",
-      "location": "Location",
-      "staff": "Staff",
-      "value": "Value for money",
-      "facilities": "Facilities"
-    },
-    "titlePlaceholder": "Review title (optional)",
-    "contentPlaceholder": "Share your experience...",
-    "submitReview": "Submit review",
-    "signInToReview": "Sign in to leave a review",
-    "noReviews": "No reviews yet",
-    "anonymous": "Anonymous",
-    "reviewCount": "{count} {count, plural, one {review} other {reviews}}",
-    "pleaseSelectRating": "Please select a rating",
-    "submitting": "Submitting..."
-  },
-  "imageUploader": {
-    "uploadCount": "Uploaded: {count} {count, plural, one {image} other {images}}",
-    "noneUploaded": "No images uploaded",
-    "moveLeft": "Move left",
-    "moveRight": "Move right",
-    "delete": "Delete",
-    "mainPhoto": "Main",
-    "uploading": "Uploading...",
-    "dragOrClick": "Drag images here or click to select",
-    "remaining": "Can upload {remaining} more",
-    "limitReached": "Limit reached",
-    "uploadError": "Error uploading"
-  },
-  "dialogs": {
-    "deleteConfirmation": "Yes, delete",
-    "deleteDialogTitle": "Confirm deletion",
-    "cancel": "Cancel"
-  },
-  "calendar": {
-    "title": "Availability Calendar",
-    "description": "Check availability across all properties at Ongudai Camp",
-    "adminTitle": "Calendar",
-    "adminDescription": "Manage availability across all property types",
-    "showPrices": "Show prices",
-    "showAvailability": "Show availability",
-    "loading": "Loading calendar...",
-    "error": "Failed to load calendar",
-    "available": "Available",
-    "limited": "Limited",
-    "booked": "Booked",
-    "past": "Past",
-    "free": "free",
-    "fromPrice": "from ₽{price}",
-    "selectProperty": "Select property...",
-    "allRooms": "All rooms",
-    "allTypes": "All types",
-    "bulkUpdate": "Bulk update",
-    "daysSelected": "{count} day(s) selected",
-    "status": "Status",
-    "priceOptional": "Price (₽, optional)",
-    "keepCurrent": "Keep current",
-    "apply": "Apply",
-    "filters": "Filters",
-    "propertyType": "Property type",
-    "property": "Property",
-    "room": "Room",
-    "previousMonth": "Previous month",
-    "nextMonth": "Next month"
-  },
-  "adminStats": {
-    "title": "System Overview",
-    "welcome": "Welcome to the Ongudai Camp control panel"
   }
 }
